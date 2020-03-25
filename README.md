@@ -1,8 +1,13 @@
-# VCMC v1.0
+# VCMC v1.0.1
 
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/en/VCMC/)
 This code will work in any hardware revision from PCB v1
+
+## Changelog:
+
+- Removed RTC on startup to avoid boot issues.
+- Improved stability on faders.
 
 
 ## Uploading the firmware from hex file
