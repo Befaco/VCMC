@@ -108,11 +108,11 @@ Upload process is the same for CV Thing. But you will need to uncomment two line
 We have been facing inconsistencies with screen providers. Differnet batches had different horizontal lines offset. 
 If you are facing offset problems, there is a setup in Definitions.h lines 61 - 63:
 
-#ifdef CVTHING
-	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...) Possible values 0x00 0xFF 0x01
-#else
-	const uint8_t SCREEN_OFFSET = 0x00; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
-#endif
+>#ifdef CVTHING
+>	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen >manufacturer, lot, ...) Possible values 0x00 0xFF 0x01
+>#else
+>	const uint8_t SCREEN_OFFSET = 0x00; /// Screen offset (Adjust based on screen >manufacturer, lot, ...)
+>#endif
 
 Change the value acordingly.
 
