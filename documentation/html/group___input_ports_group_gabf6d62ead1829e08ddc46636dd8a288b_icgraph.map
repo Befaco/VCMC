@@ -1,4 +1,0 @@
-<map id="InputControl::DataCalc" name="InputControl::DataCalc">
-<area shape="rect" id="node1" title="Provides the calculation in case Sum or Multiplication is selected." alt="" coords="240,5,392,32"/>
-<area shape="rect" id="node2" href="$group___input_ports_group.html#gafbdbfb099e46f2849ef84267ac80ef8b" title="Provides functionality when inputs or gate change." alt="" coords="5,5,192,32"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="InputControl::SetPort" name="InputControl::SetPort">
-<area shape="rect" id="node1" title="Initialization function to set port values." alt="" coords="213,13,356,39"/>
-<area shape="rect" id="node2" href="$group___input_ports_group.html#gad918f49e5276e4ab7e11077e6a0e2338" title="Helper function to initialize the Controller number." alt="" coords="5,5,165,47"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="AnalogPort::TrimValue" name="AnalogPort::TrimValue">
-<area shape="rect" id="node1" title="Return the member InputPortCfg::ClockDivider." alt="" coords="5,5,157,32"/>
-<area shape="rect" id="node2" href="$group___config_group.html#ga9fb2c067887a36506906793e609d5a28" title="Retreive limit values based on analog port configuration." alt="" coords="205,5,391,32"/>
-</map>

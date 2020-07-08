@@ -1,4 +1,0 @@
-<map id="OLEDMenu::displayMenuBankHeader" name="OLEDMenu::displayMenuBankHeader">
-<area shape="rect" id="node1" title="Show Header Info for Bank Selected." alt="" coords="260,5,460,47"/>
-<area shape="rect" id="node2" href="$group___menu_class.html#gadbd5b7204a51608a5d9f2e8641c15f80" title="Show Ports configuration data." alt="" coords="5,13,212,39"/>
-</map>

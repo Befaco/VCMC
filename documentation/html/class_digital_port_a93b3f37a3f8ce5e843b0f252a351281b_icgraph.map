@@ -1,4 +1,0 @@
-<map id="DigitalPort::ReadPort" name="DigitalPort::ReadPort">
-<area shape="rect" id="node1" title="Read digital Port (with debouncing function if selected) and process clock signal." alt="" coords="213,5,357,32"/>
-<area shape="rect" id="node2" href="$class_input_control.html#a0e5850e93dc29fc92b63e4696afc0d78" title="Read selected ports and store data change." alt="" coords="5,5,165,32"/>
-</map>

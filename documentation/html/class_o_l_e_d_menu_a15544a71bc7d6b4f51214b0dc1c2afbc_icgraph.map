@@ -1,4 +1,0 @@
-<map id="OLEDMenu::EncoderPopupMsg" name="OLEDMenu::EncoderPopupMsg">
-<area shape="rect" id="node1" title="Show a message for a number of milliseconds or until encoder pressed. will show a bitmap if it is set..." alt="" coords="224,5,431,32"/>
-<area shape="rect" id="node2" href="$group___menu_class.html#ga451a9b37ad724e7103a6d8656a89ac8b" title="Main Display Menu Functions." alt="" coords="5,5,176,32"/>
-</map>

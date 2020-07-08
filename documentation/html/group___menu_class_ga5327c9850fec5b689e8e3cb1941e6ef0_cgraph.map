@@ -1,4 +1,0 @@
-<map id="OLEDMenu::displayCVConfig" name="OLEDMenu::displayCVConfig">
-<area shape="rect" id="node1" title="Display in OLED the configuration for CV port." alt="" coords="5,5,197,32"/>
-<area shape="rect" id="node2" href="$group___config_group.html#ga3eb762dc5296df21b0a14537f10452f2" title="Returns the name associated to the port." alt="" coords="245,5,399,32"/>
-</map>

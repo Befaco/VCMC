@@ -1,4 +1,0 @@
-<map id="AnalogPort::ReadPort" name="AnalogPort::ReadPort">
-<area shape="rect" id="node1" title="Read analog Port make conversion and check analog clock." alt="" coords="5,5,153,32"/>
-<area shape="rect" id="node2" href="$group___input_ports_group.html#ga5e64a70a93bc7146ba6b52c022b3335a" title="Process MIDI Clock." alt="" coords="201,5,364,32"/>
-</map>
