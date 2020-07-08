@@ -55,7 +55,7 @@ const int TIMERINTSERVICE = 250; /// Microseconds between call to read ports ser
 const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports service function servicePorts()
 #endif
 //#define USEOSC
-#define CVTHING 1
+//#define CVTHING 1
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
@@ -91,8 +91,6 @@ const byte OLED_CS = 10;
 const byte OLED_RESET = 8;
 const byte MOSI_PIN = 11;
 const byte SCK_PIN = 14;
-const byte I2C_SDA = 18;
-const byte I2C_SCL = 19;
 #else
 ///@{
 /// Pin definitions
@@ -114,8 +112,6 @@ const byte OLED_CS = 10;
 const byte OLED_RESET = 8;
 const byte MOSI_PIN = 11;
 const byte SCK_PIN = 14;
-const byte I2C_SDA = 30;
-const byte I2C_SCL = 29;
 ///@}
 #endif
 

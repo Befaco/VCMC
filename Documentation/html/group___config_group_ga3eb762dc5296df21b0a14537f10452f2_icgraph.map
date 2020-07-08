@@ -1,7 +1,0 @@
-<map id="InputPortCfg::getName" name="InputPortCfg::getName">
-<area shape="rect" id="node1" title="Returns the name associated to the port." alt="" coords="755,49,908,75"/>
-<area shape="rect" id="node2" href="$group___menu_class.html#ga5327c9850fec5b689e8e3cb1941e6ef0" title="Display in OLED the configuration for CV port." alt="" coords="515,23,707,50"/>
-<area shape="rect" id="node5" href="$group___menu_class.html#ga2968dc79d00a7a7acc4bce511319cd50" title="Display in OLED the configuration for Gate port." alt="" coords="262,74,465,101"/>
-<area shape="rect" id="node3" href="$group___menu_class.html#gadbd5b7204a51608a5d9f2e8641c15f80" title="Show Ports configuration data." alt="" coords="5,23,212,50"/>
-<area shape="rect" id="node4" href="$group___menu_class.html#ga5e404ee1578428c9e7e0c082773091a0" title="Display in OLED the configuration for Fader port." alt="" coords="260,23,467,50"/>
-</map>

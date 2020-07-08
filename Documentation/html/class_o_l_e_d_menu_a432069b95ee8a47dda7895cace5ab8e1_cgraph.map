@@ -1,5 +1,0 @@
-<map id="OLEDMenu::EncoderChangeStr" name="OLEDMenu::EncoderChangeStr">
-<area shape="rect" id="node1" title="Change input string chars indiviadully and show in screen title and value." alt="" coords="5,31,212,57"/>
-<area shape="rect" id="node2" href="$class_o_l_e_d_menu.html#a1be072ca04eaaacd9475e3c05c0dbb63" title="Erase input area." alt="" coords="260,5,443,32"/>
-<area shape="rect" id="node3" href="$class_o_l_e_d_menu.html#a52b3bbfe971b755192cc07d287b22a32" title="Draw input area." alt="" coords="261,56,442,83"/>
-</map>

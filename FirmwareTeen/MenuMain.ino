@@ -55,7 +55,7 @@ MenuItem GlobalconfigList[] = {
     {"LOAD CONF", gotoListBankLoadSel, 1}, //SelectLoadPage, 1}
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
-    {"User Names", changeUserNames, 0},
+    {"User Names", changeUserNames, 1},
     {" GLOBAL CFG ", NULL, 1}};
 MenuList listGlobal(GlobalconfigList, 10, ListLinesSimple);
 

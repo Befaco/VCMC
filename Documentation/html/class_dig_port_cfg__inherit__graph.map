@@ -1,4 +1,0 @@
-<map id="DigPortCfg" name="DigPortCfg">
-<area shape="rect" id="node1" title="Digital port configuration class." alt="" coords="10,80,94,107"/>
-<area shape="rect" id="node2" href="$class_input_port_cfg.html" title="Base port configuration class." alt="" coords="5,5,99,32"/>
-</map>

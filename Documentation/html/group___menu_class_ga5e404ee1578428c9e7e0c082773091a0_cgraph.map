@@ -1,4 +1,0 @@
-<map id="OLEDMenu::displayFaderConfig" name="OLEDMenu::displayFaderConfig">
-<area shape="rect" id="node1" title="Display in OLED the configuration for Fader port." alt="" coords="5,5,212,32"/>
-<area shape="rect" id="node2" href="$group___menu_class.html#ga5327c9850fec5b689e8e3cb1941e6ef0" title="Display in OLED the configuration for CV port." alt="" coords="260,5,452,32"/>
-</map>

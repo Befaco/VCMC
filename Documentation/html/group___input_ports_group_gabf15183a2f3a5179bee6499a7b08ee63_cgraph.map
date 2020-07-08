@@ -1,4 +1,0 @@
-<map id="DemuxAnalogPort::SetPort" name="DemuxAnalogPort::SetPort">
-<area shape="rect" id="node1" title="Set the port value to Demux and analog input." alt="" coords="5,5,184,32"/>
-<area shape="rect" id="node2" href="$group___input_ports_group.html#gac6f1b245600595cfb3da4921ab341bad" title="Set the port value and analog input." alt="" coords="232,5,371,32"/>
-</map>

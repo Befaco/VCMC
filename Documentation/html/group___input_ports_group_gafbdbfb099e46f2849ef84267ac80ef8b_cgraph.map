@@ -1,7 +1,0 @@
-<map id="InputControl::OnDataChange" name="InputControl::OnDataChange">
-<area shape="rect" id="node1" title="Provides functionality when inputs or gate change." alt="" coords="5,56,192,83"/>
-<area shape="rect" id="node2" href="$group___input_ports_group.html#gabf6d62ead1829e08ddc46636dd8a288b" title="Provides the calculation in case Sum or Multiplication is selected." alt="" coords="253,5,405,32"/>
-<area shape="rect" id="node3" href="$group___input_ports_group.html#ga758bb45eea53dabf378cac7ed0af16dd" title="Return State of the gate/button." alt="" coords="240,56,419,83"/>
-<area shape="rect" id="node4" href="$group___input_ports_group.html#ga3795b5c2de378a3ce6209d78cdd8f197" title="Return the member InputPortCfg::ClockDivider." alt="" coords="253,107,405,133"/>
-<area shape="rect" id="node5" href="$group___config_group.html#ga9fb2c067887a36506906793e609d5a28" title="Retreive limit values based on analog port configuration." alt="" coords="467,107,652,133"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="OLEDMenu::displayMenuBankHeader" name="OLEDMenu::displayMenuBankHeader">
-<area shape="rect" id="node1" title="Show Header Info for Bank Selected." alt="" coords="479,23,679,65"/>
-<area shape="rect" id="node2" href="$class_o_l_e_d_menu.html#a7d5f79d1bff3dd85ebc86b2d86b2e969" title="Performance Display one item at a time." alt="" coords="225,5,429,32"/>
-<area shape="rect" id="node4" href="$class_o_l_e_d_menu.html#adbd5b7204a51608a5d9f2e8641c15f80" title="Show Ports configuration data." alt="" coords="224,56,431,83"/>
-<area shape="rect" id="node3" href="$class_o_l_e_d_menu.html#a451a9b37ad724e7103a6d8656a89ac8b" title="Main Display Menu Functions." alt="" coords="5,31,176,57"/>
-</map>
