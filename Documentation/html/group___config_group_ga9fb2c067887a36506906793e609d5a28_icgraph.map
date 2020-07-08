@@ -1,0 +1,6 @@
+<map id="AnInputPortCfg::LimitValues" name="AnInputPortCfg::LimitValues">
+<area shape="rect" id="node1" title="Retreive limit values based on analog port configuration." alt="" coords="440,31,625,57"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga3795b5c2de378a3ce6209d78cdd8f197" title="Return the member InputPortCfg::ClockDivider." alt="" coords="240,31,392,57"/>
+<area shape="rect" id="node3" href="$group___input_ports_group.html#gafbdbfb099e46f2849ef84267ac80ef8b" title="Provides functionality when inputs or gate change." alt="" coords="5,5,192,32"/>
+<area shape="rect" id="node4" href="$group___input_ports_group.html#ga3c12a3f1268189d93fdb31232e943196" title="Send MIDI Data." alt="" coords="23,56,174,83"/>
+</map>

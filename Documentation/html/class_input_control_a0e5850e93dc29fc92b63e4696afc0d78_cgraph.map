@@ -1,0 +1,8 @@
+<map id="InputControl::ReadPorts" name="InputControl::ReadPorts">
+<area shape="rect" id="node1" title="Read selected ports and store data change." alt="" coords="5,31,165,57"/>
+<area shape="rect" id="node2" href="$class_digital_port.html#a93b3f37a3f8ce5e843b0f252a351281b" title="Read digital Port (with debouncing function if selected) and process clock signal." alt="" coords="236,5,380,32"/>
+<area shape="rect" id="node3" href="$class_demux_analog_port.html#a788844923cb40bf511ff62a92baeffd8" title="Read multiplexed analog input." alt="" coords="213,56,403,83"/>
+<area shape="rect" id="node4" href="$class_demux_analog_port.html#a61d48200118764d5298128f9624353ac" title="Call base AnalogPort::SendMIDI() function." alt="" coords="451,31,647,57"/>
+<area shape="rect" id="node5" href="$class_analog_port.html#a43b704e6546e208117597f9718573ab1" title="Read analog Port make conversion and check analog clock." alt="" coords="475,81,623,108"/>
+<area shape="rect" id="node6" href="$class_input_port.html#a5e64a70a93bc7146ba6b52c022b3335a" title="Process MIDI Clock." alt="" coords="695,81,857,108"/>
+</map>

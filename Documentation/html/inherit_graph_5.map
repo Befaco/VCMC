@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_input_port.html" title="Base class for input ports (digital, analog,...)" alt="" coords="5,31,80,57"/>
+<area shape="rect" id="node2" href="$class_analog_port.html" title="Class for analog ports (CV and Faders)" alt="" coords="128,5,215,32"/>
+<area shape="rect" id="node4" href="$class_digital_port.html" title="Class for digital ports (Gates)" alt="" coords="130,56,213,83"/>
+<area shape="rect" id="node3" href="$class_demux_analog_port.html" title="Class for Muxed analog ports (CV and Faders) Demux will use defines for pins: PINDEMUXA,..." alt="" coords="263,5,389,32"/>
+</map>

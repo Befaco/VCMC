@@ -1,0 +1,6 @@
+<map id="InputPort::ProcessClock" name="InputPort::ProcessClock">
+<area shape="rect" id="node1" title="Process MIDI Clock." alt="" coords="647,5,809,32"/>
+<area shape="rect" id="node2" href="$class_analog_port.html#a43b704e6546e208117597f9718573ab1" title="Read analog Port make conversion and check analog clock." alt="" coords="451,5,599,32"/>
+<area shape="rect" id="node3" href="$class_demux_analog_port.html#a788844923cb40bf511ff62a92baeffd8" title="Read multiplexed analog input." alt="" coords="213,5,403,32"/>
+<area shape="rect" id="node4" href="$class_input_control.html#a0e5850e93dc29fc92b63e4696afc0d78" title="Read selected ports and store data change." alt="" coords="5,5,165,32"/>
+</map>

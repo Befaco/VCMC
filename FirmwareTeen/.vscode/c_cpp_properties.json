@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "VisualTeensy",
+            "includePath": [
+                "D:/apl/Arduino/hardware/teensy/avr/cores/teensy3/**",
+                "D:/apl/Arduino/hardware/teensy/avr/libraries/**",
+                "D:/apl/Arduino/libraries/**",
+                "C:/Users/sergi/Documents/Arduino/libraries/**",
+                "C:/Users/sergi/Documents/Arduino/libraries/Adafruit_GFX_Library"
+            ],
+            "forcedInclude": [
+                "D:/apl/Arduino/hardware/teensy/avr/cores/teensy3/arduino.h"
+            ],
+            "defines": [
+                "__MK20DX256__",
+                "TEENSYDUINO=142",
+                "F_CPU=96000000",
+                "USB_MIDI_SERIAL",
+                "LAYOUT_US_ENGLISH",
+                "ARDUINO"
+            ],
+            "compilerPath": "D:/apl/Arduino/hardware/tools/arm/bin/arm-none-eabi-gcc.exe",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
