@@ -1,0 +1,57 @@
+var _cfg_classes_8h =
+[
+    [ "CtrlFunctions", "group___config_group.html#gae0bbe3d417f8e240fb38510605653f3f", null ],
+    [ "GateFunctions", "group___config_group.html#ga029d2f3c74d33e47e9cc181cfe8051eb", null ],
+    [ "InputFunctions", "group___config_group.html#ga73b143ecc80818fae98719e5462c2195", null ],
+    [ "NOOFFSET", "group___config_group.html#gga06fc87d81c62e9abb8790b6e5713c55ba32cd684656e738bb223947fedd016976", null ],
+    [ "MINUSPLUS5V", "group___config_group.html#gga06fc87d81c62e9abb8790b6e5713c55ba424c8282a9be4ed8e0091c16221518e8", null ],
+    [ "ZEROTO5V", "group___config_group.html#gga06fc87d81c62e9abb8790b6e5713c55ba2ed531bee5560ac132328bd46942fbbd", null ],
+    [ "GFun_e", "group___config_group.html#gac83ae5e95122d334ac88ef3f4f52cd81", [
+      [ "TRIGGER", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a16be61c7643c97ef03953cad704f0345", null ],
+      [ "LATCH", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a31cc6b2b3af2772e223a48dd6421c9af", null ],
+      [ "CCBUT", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a31bb5f8fa88739d7e749511fd5300247", null ],
+      [ "CCLATCH", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a6fa3ac7d770fa6876ec05df13fc82160", null ],
+      [ "GATECLOCK", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81ae6f4af135dcf0112a1c190de18a1d43c", null ],
+      [ "GATESTARTSTOP", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81aaac9cf45500882c014287f7c6ca632e5", null ],
+      [ "GATEPAUSECONT", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a87f944090cde308993919eb3aef06d83", null ],
+      [ "GATETRIGSTARTSTOP", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81ae0cf705bd3dbd67c86a89b4ca7837b25", null ],
+      [ "GATETRIGPAUSECONT", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81aab08736ca65cb51b498bf01e9b409cb0", null ],
+      [ "GATESTART", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81af16a0711ad77c5c0580cc633885f4502", null ],
+      [ "GATESTOP", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81aabaf948753689a7394d457ac5a2c17de", null ],
+      [ "GATECONTINUE", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a663ac2122f1fa57b84dca76c284e7eae", null ],
+      [ "GATEPANIC", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81a51936f2f1eae59a2acca497431fa6679", null ],
+      [ "NODIGFUNC", "group___config_group.html#ggac83ae5e95122d334ac88ef3f4f52cd81aaf3341085b385c5d5078bd77fb17fa67", null ]
+    ] ],
+    [ "ICFun_e", "group___config_group.html#ga4e189223cb948e91a1975ff7c139d51d", [
+      [ "INDEP", "group___config_group.html#gga4e189223cb948e91a1975ff7c139d51da7d683175003f73782b377b8bfb2a6af7", null ],
+      [ "SUM", "group___config_group.html#gga4e189223cb948e91a1975ff7c139d51da82c030bf31e2d975e6a85cf67ba88bb4", null ],
+      [ "MULTIPL", "group___config_group.html#gga4e189223cb948e91a1975ff7c139d51daefc97be3508ca31e74a0a001b73fcbe4", null ],
+      [ "NOTEMODE", "group___config_group.html#gga4e189223cb948e91a1975ff7c139d51da2df65dc7812e8c845bade907def48a4d", null ]
+    ] ],
+    [ "IPFun_e", "group___config_group.html#gab83db4fa5e2e3aa4368e0122a7c016ba", [
+      [ "PITCHTRIG", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baac03a0fff959ab7fd44eeb4f86951a9b0", null ],
+      [ "PITCH", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baaa4ed247aa19723caf868d2b2dd5cf4ff", null ],
+      [ "CONTROLCHANGE", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baae983f39b511f0e6243b0627ae2756576", null ],
+      [ "VELOCITY", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa06e15744a8bd69fceeeb39ab3614b3f6", null ],
+      [ "PROGRAMCHANGE", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baaa011eb0c661bd600e632ec8903077ddc", null ],
+      [ "PITCHBEND", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa6b3ca489c4d5fec7dac565e16eeb18c2", null ],
+      [ "PERCENT", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa322ad1169a1de4a422a8447783954022", null ],
+      [ "ANAGCLOCK", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa8e50df00b547dbd5385e665fb8ab1153", null ],
+      [ "ANAGSTARTSTOP", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baaa809a38d46f0238d5a4960621effad92", null ],
+      [ "ANAGPAUSECONT", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baadb037105443fa4410579e78761bb00d3", null ],
+      [ "ANAGTRIGSTARTSTOP", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa9002a5110c7b7cc87a75b75071f7cf45", null ],
+      [ "ANAGTRIGPAUSECONT", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa404924340d373ff352324d21365e724d", null ],
+      [ "ANAGFREEVALUE", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa698ecabc6a8fb79447c70a96ce31ad0f", null ],
+      [ "ANAGNRPN7bits", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa73954fd5a1f5ff3f7c4fbed7e1d656d8", null ],
+      [ "ANAGNRPN14bits", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baaebf86cc449800825553e08f6a1411a96", null ],
+      [ "NOANFFUNC", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baae9c463d1b8cd0e17a675e721a0a6516f", null ],
+      [ "PITCHLEVEL", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa26815df88cff4b73f1e4dbcc656e4adb", null ],
+      [ "ANAGSTART", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baad583d08e808db04c50cd50c48ac10eed", null ],
+      [ "ANAGSTOP", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa0238f11074485b2c302417e877af07be", null ],
+      [ "ANAGCONTINUE", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baaf0067d65d2662af3af20aec6917dcf81", null ],
+      [ "ANAGCCBUT", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa889a7a285d4716c0bb66c0ff433be3f5", null ],
+      [ "ANAGCCLATCH", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa408e194319623209f32fd94788aa7ad2", null ],
+      [ "ANAGTRIGGER", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa5f93d03fbc4096c0daa62bc3dcc083e0", null ],
+      [ "ANAGLATCH", "group___config_group.html#ggab83db4fa5e2e3aa4368e0122a7c016baa03e7e0db8ca385f42e65636cfb121afd", null ]
+    ] ]
+];

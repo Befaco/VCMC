@@ -1,0 +1,4 @@
+<map id="AnalogPort::ClockReceived" name="AnalogPort::ClockReceived">
+<area shape="rect" id="node1" title="Return true if input is bigger than half the range." alt="" coords="5,5,184,32"/>
+<area shape="rect" id="node2" href="$class_input_port.html#ab76dc2a44203e63d82435de1139896ae" title="Every clock received, recalculate interval for MIDI Clock sent." alt="" coords="232,5,399,32"/>
+</map>

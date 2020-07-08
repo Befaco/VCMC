@@ -1,0 +1,31 @@
+<map id="D:/Prog/Github/Befaco/VCMC/FirmwareTeen/PrjIncludes.h" name="D:/Prog/Github/Befaco/VCMC/FirmwareTeen/PrjIncludes.h">
+<area shape="rect" id="node1" title="Includes for the project come here." alt="" coords="2256,5,2484,47"/>
+<area shape="rect" id="node2" href="$_definitions_8h.html" title="Definitions and configuration flags." alt="" coords="2934,95,3158,136"/>
+<area shape="rect" id="node29" href="$_cfg_classes_8ino.html" title="Defines Configuration classes functions." alt="" coords="3182,95,3422,136"/>
+<area shape="rect" id="node3" href="$_cal_menu_8ino.html" title="Defines Menu functions callbacks response for calibration and clock configuration." alt="" coords="5117,191,5343,233"/>
+<area shape="rect" id="node4" href="$_v_c_m_c_app_8h.html" title="Main App declarations." alt="" coords="5,191,231,233"/>
+<area shape="rect" id="node5" href="$_menu_lists_8h.html" title="Predefine Menu functions callbacks and menu items." alt="" coords="255,191,479,233"/>
+<area shape="rect" id="node6" href="$_firmware_teen_8ino.html" title="Project main loop." alt="" coords="2771,288,2977,344"/>
+<area shape="rect" id="node7" href="$_graf_util_8ino.html" title="Defines Helper functions for OLED screen user interface." alt="" coords="5419,191,5636,233"/>
+<area shape="rect" id="node8" href="$_input_control_8ino.html" title="Functions definition for Input Control class." alt="" coords="5661,191,5903,233"/>
+<area shape="rect" id="node9" href="$_input_port_8ino.html" title="Definition of base class functions related to both Analog and Digital input ports." alt="" coords="5927,191,6154,233"/>
+<area shape="rect" id="node10" href="$_input_port_anag_8ino.html" title="Definition of functions related to Analog (CV and Fader) input ports." alt="" coords="6178,184,6383,240"/>
+<area shape="rect" id="node11" href="$_input_port_dig_8ino.html" title="Definition of functions related to Digital input ports." alt="" coords="503,184,709,240"/>
+<area shape="rect" id="node12" href="$_menu_anag_8ino.html" title="Defines Menu functions callbacks response for Analog Ports configuration." alt="" coords="733,191,969,233"/>
+<area shape="rect" id="node13" href="$_menu_block_8ino.html" title="Defines Menu functions callbacks response for Bank configuration." alt="" coords="993,191,1232,233"/>
+<area shape="rect" id="node14" href="$_menu_gate_8ino.html" title="Defines Menu functions callbacks response for Gate configuration." alt="" coords="1257,191,1491,233"/>
+<area shape="rect" id="node15" href="$_menu_main_8ino.html" title="Defines Menu functions callbacks response for Main/General configuration." alt="" coords="1515,191,1750,233"/>
+<area shape="rect" id="node16" href="$_menu_range_8ino.html" title="Defines Menu functions callbacks response for Input/Output Range configuration." alt="" coords="1774,191,2017,233"/>
+<area shape="rect" id="node17" href="$_m_i_d_imerger_8ino.html" title="MIDI Input/Output support." alt="" coords="2041,191,2281,233"/>
+<area shape="rect" id="node18" href="$_o_l_e_d_menu_8ino.html" title="Defines Menu class functions for OLED screen." alt="" coords="2305,191,2547,233"/>
+<area shape="rect" id="node19" href="$_o_l_e_d_menu_config_8ino.html" title="Defines functions for configuration screen." alt="" coords="2571,184,2791,240"/>
+<area shape="rect" id="node20" href="$_o_s_c_config_port_8ino.html" title="Functions for OSC processing." alt="" coords="2815,184,3032,240"/>
+<area shape="rect" id="node21" href="$_o_s_c_merge_8h.html" title="OSC I/O management." alt="" coords="3056,191,3284,233"/>
+<area shape="rect" id="node22" href="$_o_s_c_merge_8ino.html" title="OSC I/O management functions." alt="" coords="3308,191,3547,233"/>
+<area shape="rect" id="node23" href="$_save_load_8ino.html" title="Configuration for Save/Load support." alt="" coords="3571,191,3801,233"/>
+<area shape="rect" id="node24" href="$set_values_8ino.html" title="Definiton and support for pre defined set of configuration values." alt="" coords="3826,191,4058,233"/>
+<area shape="rect" id="node25" href="$_sys_ex_config_port_8ino.html" title="SysEx Send/Receive support for configuration classes." alt="" coords="4083,184,4311,240"/>
+<area shape="rect" id="node26" href="$_sys_ex_send_rec_8ino.html" title="SysEx Send/Receive support." alt="" coords="4335,184,4557,240"/>
+<area shape="rect" id="node27" href="$_v_c_m_c_app_8ino.html" title="Main App functions and interrupt handling." alt="" coords="4582,191,4817,233"/>
+<area shape="rect" id="node28" href="$_v_c_m_c_app_init_8ino.html" title="Define the functions for App initialisation." alt="" coords="4841,191,5093,233"/>
+</map>
