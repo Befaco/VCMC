@@ -41,16 +41,16 @@
 bool OSCmerger::poll(void)
 {
     // Send OSC
-    sendOSC ();
+    if( OSCOutput) sendOSC ();
     // Receive OSC
-    readOSC ();
+    if( OSCInput) readOSC (); 
 
     #ifdef PRINTDEBUG
-    if( theApp.OSCMerge.received )
+    if( received )
     {
-        Serial.printf("Received %d:",theApp.OSCMerge.received);
-        Serial.println((char*)theApp.OSCMerge.databuf);
-        theApp.OSCMerge.received = 0;
+        Serial.printf("Received %d:",received);
+        Serial.println((char*)databuf);
+        received = 0;
     }
     #endif
 
@@ -205,9 +205,11 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
 }
 
 
-//
-// handle Rx Event (incoming I2C data)
-//
+/**
+ * \brief handle Rx Event (incoming I2C data)
+ * 
+ * \param count bytes received
+ */
 void receiveEvent(int count)
 {
     int i =0;
@@ -220,9 +222,11 @@ void receiveEvent(int count)
 }
 
 
-//
-// handle Tx Event (outgoing I2C data)
-//
+
+/**
+ * \brief handle Tx Event (outgoing I2C data)
+ * 
+ */
 void requestEvent(void)
 {
     if( theApp.OSCMerge.msgOut.size()==0)
@@ -243,8 +247,8 @@ void OSCmerger::begin(void)
     // Begin I2C serial channel
     // Setup for Slave mode, address 0x66, pins 18/19, external pullups, 400kHz
     Wire1.begin(ClientPort);
-    Wire1.setSDA(30);
-    Wire1.setSCL(29);
+    Wire1.setSDA(I2C_SDA);
+    Wire1.setSCL(I2C_SCL);
     // Wire1.begin(I2C_SLAVE, 0x66, I2C_PINS_29_30, I2C_PULLUP_EXT, 400000);
     // register events
     Wire1.onReceive(receiveEvent);

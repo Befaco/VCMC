@@ -186,9 +186,9 @@ boolean SelectCVConfig()
     else
         PortSelected = 2;
 
-    #ifdef CVTHING
-        listAnag.disableItem(4);
-    #endif
+    //#ifdef CVTHING
+    //    listAnag.disableItem(4);
+    //#endif
 
     listAnag.disableItem(6);
     listAnag.disableItem(7);

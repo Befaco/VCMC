@@ -7,14 +7,14 @@
 # Optimize           Faster
 # Keyboard Layout    US English
 #
-# 19/10/2019 18:46
+# 09/07/2020 17:31
 #******************************************************************************
 SHELL            := cmd.exe
 export SHELL
 
 SKETCH_NAME      := FirmwareTeen.ino
 
-BOARD_ID         := TEENSY31
+BOARD_ID         := TEENSY32
 MCU              := mk20dx256
 
 BUILDER_BASE     := D:\apl\Arduino

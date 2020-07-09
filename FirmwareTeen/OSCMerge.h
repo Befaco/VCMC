@@ -44,16 +44,20 @@ private:
     int msgInSize = 0;
     OSCMessage msgIn;
     char charIn[260];
+    bool OSCInput = true;
+    bool OSCOutput = false;
+    bool I2cInput = true;
+    bool I2cOutput = true;
 
 public:
     SLIPEncodedUSBSerial SLIPSerial; ///< OSC Serial
     uint8_t databuf[512];
-    int received;
-    int ClientPort;
+    int received=0;
+    int ClientPort=0x66;
     OSCMessage msgOut;
 
 public:
-    OSCmerger(): SLIPSerial(Serial),received(0),ClientPort(0x66) {};
+    OSCmerger(): SLIPSerial(Serial){};
     bool poll(void);
     void begin(void);
     void sendOSC();

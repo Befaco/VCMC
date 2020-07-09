@@ -149,7 +149,7 @@ MenuItem STSPAnaFnList[] = {
 MenuList listAnaSTSPFn(STSPAnaFnList, 8, ListLines);
 
 MenuItem AutoOffOptionsList[8] = {
-    {"<-BACK", gotoMenuBanks, 1},
+    {"<-BACK", gotoMenuAnag, 1},
     {"NO AUTO OFF", AutoOff0, 1},
     {"0500ms OFF", AutoOff0500, 1}, 
     {"1000ms OFF", AutoOff1000, 1}, 

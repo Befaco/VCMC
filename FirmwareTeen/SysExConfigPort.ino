@@ -53,18 +53,20 @@ void GlobalCfg::SaveCfgSysEx (uint8_t par)
     // Send parameters
     FlashAccess->SaveCfgSingleSysEx((byte *)this, uLengthSource, bSlot, bType);
     // Send user strings. Limit SysEx to 64 bytes:
-    byte offs = uLengthSource;
+    //byte offs = uLengthSource;
+    byte offs = 0;
+    byte *base = (byte *)UserNames[0];
     uint16_t leng = (SIZEPORTNAMES+1)*6;
 
     // Port = 1 send first 6 strings
-    FlashAccess->SaveCfgSingleSysEx(((byte *)this)+offs, leng, bSlot+(1<<4), bType);
+    FlashAccess->SaveCfgSingleSysEx((byte *)(base+offs), leng, bSlot+(1<<4), bType);
     // Port = 2 next  6 strings
     offs = offs+leng;
-    FlashAccess->SaveCfgSingleSysEx(((byte *)this)+offs, leng, bSlot+(2<<4), bType);
+    FlashAccess->SaveCfgSingleSysEx((byte *)(base+offs), leng, bSlot+(2<<4), bType);
     // Port = 3 next  3 strings
     offs = offs+leng;
     leng = (SIZEPORTNAMES+1)*3;
-    FlashAccess->SaveCfgSingleSysEx(((byte *)this)+offs, leng, bSlot+(3<<4), bType);
+    FlashAccess->SaveCfgSingleSysEx((byte *)(base+offs), leng, bSlot+(3<<4), bType);
     
 }
 
