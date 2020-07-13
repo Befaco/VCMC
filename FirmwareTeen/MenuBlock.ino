@@ -24,7 +24,7 @@
 // -----------------------------------------------------------------------------
 //
 
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup MenuClassDefs
 * @{

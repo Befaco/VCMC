@@ -188,9 +188,15 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
 	case PITCHLEVEL:
     case PITCH:
         if (RangeBipolar==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
+        #ifndef CVTHING
             Ranges.SetMIDI (-60, 120);
             ClipLow = -120;//60;
             ClipHigh = 120;//60;
+        #else
+            Ranges.SetMIDI (0, 120);
+            ClipLow = 0;
+            ClipHigh = 120;
+        #endif
         } else if(RangeBipolar==ZEROTO5V){
             Ranges.SetMIDI (0, 60);
             ClipLow = 0;
@@ -215,9 +221,15 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
     case ANAGSTOP:
     case ANAGCONTINUE:
         if (RangeBipolar==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
-            Ranges.SetMIDI (-64, 128);
+        #ifndef CVTHING
+            Ranges.SetMIDI (0, 127);
             ClipLow = -127;//64;
             ClipHigh = 127;//64;
+        #else
+            Ranges.SetMIDI (0, 127);
+            ClipLow = 0;
+            ClipHigh = 127;
+        #endif
         } else { // Set standard MIDI range 0 to 127
             Ranges.SetMIDI (0, 127);
             ClipLow = 0;

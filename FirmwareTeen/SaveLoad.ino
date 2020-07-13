@@ -25,7 +25,7 @@
 // -----------------------------------------------------------------------------
 //
 
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup GeneralUtil Save SysEx
  *  @{

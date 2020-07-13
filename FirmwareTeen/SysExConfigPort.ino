@@ -24,7 +24,7 @@
 //
 // -----------------------------------------------------------------------------
 //
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup SysEx
  *  @{
@@ -165,14 +165,12 @@ void InputCtrlCfg::SaveCfgSysEx (uint8_t par,uint8_t chan)
 
 bool InputCtrlCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen)
 {
-    if( decLen!=sizeof(InputCtrlCfg))
-        return false;
+    if( decLen!=sizeof(InputCtrlCfg)){
+        D(Serial.printf("Incorrect size SysEx %d Rec / %d Target", decLen, sizeof(InputCtrlCfg)));
+        return false;}
     memcpy(this, DecodedData, decLen);
 
-    #ifdef PRINTDEBUG
-    Serial.print("Received Input Control Config: ");
-    Serial.println(decLen);
-    #endif    
+    D(Serial.printf("Received Input Control Config: %d", decLen));
     // TODO Accept data somehow¿?
     return true;
 }
@@ -203,18 +201,12 @@ void AnInputPortCfg::SaveCfgSysEx (uint8_t par, uint8_t chan, uint8_t slot)
 bool AnInputPortCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen)
 {
     if( decLen!=sizeof(AnInputPortCfg)){
-        #ifdef PRINTDEBUG
-        Serial.println("Received incorrect Analog Port Config:");
-        Serial.printf("Expected: %d Received: %d\n", sizeof(AnInputPortCfg), decLen);
-        #endif    
+        D(Serial.printf("Received incorrect Analog Port Config: Expected: %d Received: %d\n", sizeof(AnInputPortCfg), decLen));
         return false;
         }
     memcpy(this, DecodedData, decLen);
 
-    #ifdef PRINTDEBUG
-    Serial.print("Received Analog Port Config: ");
-    Serial.println(decLen);
-    #endif    
+    D(Serial.printf("Received Analog Control Config: %d", decLen));
     // TODO Accept data somehow¿?
     return true;
 }
@@ -240,14 +232,13 @@ void DigPortCfg::SaveCfgSysEx (uint8_t par, uint8_t chan, uint8_t slot)
 
 bool DigPortCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen)
 {
-    if( decLen!=sizeof(DigPortCfg))
+    if( decLen!=sizeof(DigPortCfg)){
+        D(Serial.printf("Received incorrect Digital Port Config: Expected: %d Received: %d\n", sizeof(DigPortCfg), decLen));
         return false;
+        }
     memcpy(this, DecodedData, decLen);
 
-    #ifdef PRINTDEBUG
-    Serial.print("Received Digital Port Config: ");
-    Serial.println(decLen);
-    #endif    
+    D(Serial.printf("Received Digital Control Config: %d", decLen));
     // TODO Accept data somehow¿?
     return true;
 }

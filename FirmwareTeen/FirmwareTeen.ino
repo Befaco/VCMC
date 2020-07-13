@@ -29,7 +29,7 @@
  *  \brief Project main loop
  */
 
-#include "Definitions.h"
+#include "PrjIncludes.h"
 #include "MenuLists.h"
 
 ///////////////////////////////////////

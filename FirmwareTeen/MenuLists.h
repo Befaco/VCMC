@@ -27,7 +27,7 @@
 #ifndef __have__MIDImerger_h__
 #define __have__MIDImerger_h__
 
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup MenuClassDefs
 * @{

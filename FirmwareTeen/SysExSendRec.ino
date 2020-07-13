@@ -25,7 +25,7 @@
 // -----------------------------------------------------------------------------
 //
 
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup SysEx
  *  @{
@@ -406,7 +406,8 @@ bool SaveLoadClass::ReceivedSingleSysEx(unsigned SysExLength, const byte *RecArr
       return false; //Too much data
     unsigned int decLen = midi::decodeSysEx((const byte *)SysExPacket->pData, (byte *)&DecodedData, SysExPacket->Length);
 
-    myMenu.setupPopup("SysEx Received", 1000, 1, 50, 0);
+    if( bChannel== 0) // Show popup only for Global Config
+      myMenu.setupPopup("SysEx Received", 1000, 1, 50, 0);
     //Channhel Dump
     if(bChannel==0)
       return theApp.theGlobalCfg.ReadCfgSysEx(DecodedData, decLen, bPort);

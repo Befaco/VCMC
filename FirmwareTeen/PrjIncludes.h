@@ -36,13 +36,13 @@
  *  \file PrjIncludes.h
  *  \brief Includes for the project come here 
  */
+#include "Definitions.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <SPI.h>
 #include <Wire.h>
 #include <limits.h>
-
 #include <MIDI.h>
 #include <EEPROM.h>
 #include <Bounce2.h>
@@ -50,6 +50,8 @@
 
 #include <ADC.h>
 #include <ResponsiveAnalogRead.h>
+
+#include "DefStrings.h"
 
 // Code abreviations
 //#define INITMINDAC getInitMinDAC()
@@ -88,8 +90,6 @@
 #include <OSCMessage.h>
 #include "OSCMerge.h"
 #endif
-
-
 
 #include "Blinker.h"
 #include "MultiPointConv.h"

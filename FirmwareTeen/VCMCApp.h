@@ -26,7 +26,7 @@
 //
 #ifndef __have__VCMCApp_h__
 #define __have__VCMCApp_h__
-#include "Definitions.h"
+#include "PrjIncludes.h"
 
 /** @addtogroup Maingroup 
  *  @{
