@@ -114,6 +114,8 @@ public:
      }
     InputPortCfg *GetPortConfig(void);
 
+    void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
+
 private:
     void initControls(void);
     void initdisplay(void);

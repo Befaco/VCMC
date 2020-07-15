@@ -385,9 +385,9 @@ bool SaveLoadClass::ReceivedSingleSysEx(unsigned SysExLength, const byte *RecArr
   byte bType = SysExPacket->Type>>4;
   byte bChannel = SysExPacket->Type & 0xf;
   byte bPort = (SysExPacket->Slot>>4);
+  byte bParam = SysExPacket->Slot &0xf;
 
-  #ifdef PRINTDEBUG
-  byte bParam = SysExPacket->Slot & 0xf;
+#ifdef PRINTDEBUG
     Serial.print("Single SysEx Message Receive: ");
     Serial.println(SysExPacket->ID, HEX);
     Serial.print(" Type: ");
@@ -413,6 +413,10 @@ bool SaveLoadClass::ReceivedSingleSysEx(unsigned SysExLength, const byte *RecArr
       return theApp.theGlobalCfg.ReadCfgSysEx(DecodedData, decLen, bPort);
     else if(bChannel<10)
       return theApp.Controls[bChannel-1].ReadCfgSysEx(SysExPacket, DecodedData, decLen);
+  } else if(bType==SYSEXCOMMAND){ // SysEx Command received
+    if(bChannel==0){ // Global command
+      theApp.ProcessSysExCommand(SysExPacket);
+    }
   }
   return false;
 }

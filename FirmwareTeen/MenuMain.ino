@@ -203,13 +203,18 @@ boolean gotoListFactReset()
     return true;
 }
 
+boolean ResetCPU(){
+    CPU_RESTART
+    return true;
+}
+
 boolean FactoryReset()
 {
     // Panic
     MidiMerge.Panic();
     // Reset
     EEPROM.write(2, 100); // Prevent auto loading Page config at re start
-    CPU_RESTART
+    ResetCPU();
     return true;
 }
 

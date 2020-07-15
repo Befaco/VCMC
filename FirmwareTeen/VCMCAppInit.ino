@@ -188,7 +188,7 @@ void VCMCApp::initdisplay(void)
     SPI.transfer(0xd9); // Set precharge
     SPI.transfer(0xF1);
     SPI.transfer(0xDB); // Set Vcom detect
-    SPI.transfer(0x40);
+    SPI.transfer(0x30);//40);
     SPI.transfer(0xA4); // Allow display resume
     SPI.transfer(0xA6); // Set normal display
     SPI.transfer(0xAF); // Display On

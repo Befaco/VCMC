@@ -189,6 +189,9 @@ boolean SelectCVConfig()
     //#ifdef CVTHING
     //    listAnag.disableItem(4);
     //#endif
+    if(!CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc())
+        listAnag.disableItem(4);
+    else listAnag.enableItem(4);
 
     listAnag.disableItem(6);
     listAnag.disableItem(7);

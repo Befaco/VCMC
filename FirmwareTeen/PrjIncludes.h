@@ -104,6 +104,7 @@
 #include "VCMCApp.h"
 #include "MenuLists.h"
 #include "ParTypeMap.h"
+#include "I2CSendRec.h"
 
 /** @} */
 

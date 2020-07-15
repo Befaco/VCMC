@@ -205,40 +205,6 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
 }
 
 
-/**
- * \brief handle Rx Event (incoming I2C data)
- * 
- * \param count bytes received
- */
-void receiveEvent(int count)
-{
-    int i =0;
-    while(Wire1.available() > 0) {  // loop through all but the last
-        theApp.OSCMerge.databuf[i] = Wire1.read();        // receive byte as a character
-        i++;
-    }
-    //Wire1.read(theApp.OSCMerge.databuf, count);  // copy Rx data to databuf
-    theApp.OSCMerge.received = i; //count; // set received flag to count, this triggers print in main loop
-}
-
-
-
-/**
- * \brief handle Tx Event (outgoing I2C data)
- * 
- */
-void requestEvent(void)
-{
-    if( theApp.OSCMerge.msgOut.size()==0)
-    {
-        Wire1.write(0);
-        return;
-    }
-    theApp.OSCMerge.msgOut.send(Wire1);
-    D(Serial.println((char*)theApp.OSCMerge.databuf));
-    theApp.OSCMerge.msgOut.empty();
-}
-
 void OSCmerger::begin(void)
 {
     //begin SLIPSerial just like Serial

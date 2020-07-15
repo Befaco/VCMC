@@ -75,6 +75,7 @@ boolean gotoListFactReset();
 boolean FactoryReset();
 boolean CreditsScreen();
 boolean DoNothing();
+boolean ResetCPU();
 // Defined on MenuBlock
 boolean gotoMenuBanks();
 boolean gotoMenuSettings();

@@ -43,8 +43,10 @@
 #define PRINTDEBUG  /// Define to send debug messages n Serial port
 #ifdef PRINTDEBUG
 #define D(x) x		/// Shorthand for PRINTDEBUG
+#define DP(x) Serial.println(x)		/// Shorthand for Deug serial print
 #else
 #define D(x)
+#define DP(x)
 #endif
 #define USEREADINTERR       /// Define to use interrupts for port reading
 #define READANGINT          /// Read analog ports using interrupts
@@ -55,7 +57,7 @@ const int TIMERINTSERVICE = 250; /// Microseconds between call to read ports ser
 const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports service function servicePorts()
 #endif
 //#define USEOSC
-#define CVTHING 1
+//#define CVTHING 1
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
