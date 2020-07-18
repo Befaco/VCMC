@@ -59,7 +59,7 @@ const char *PortFuncStr[] = {
 	"V/Oct", "Note", "CC#", "Vel", "Prog", "Bend", "Perc",
 	"Clock", "ST/SP", "ST/PA", "ST/SP", "ST/PA",
 	"Free", "NRPN7", "NRPN14", "No Func",
-	"Gate", "Start", "Stop", "Cont", "CC Tr", "CC Lt", "Trig","Latch"};
+	"Gate", "Start", "Stop", "Cont", "CC Tr", "CC Lt", "Trig","Latch","V/O Com"};
 /// Digital Functions names
 const char *PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", "ST/SP", "CNT/SP", "ST/SP Lt", "CNT/SP Lt", "Start", "Stop", "Continue","Panic","No Func"};
 /// MIDI Clock multiplier texts

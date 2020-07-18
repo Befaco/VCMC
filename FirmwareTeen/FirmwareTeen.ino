@@ -44,7 +44,7 @@ VCMCApp theApp; /// Main App variable
 void setup () {
 	//pau=micros();
     theApp.setup();
-    D(Serial.println("Init App"));
+    DP("Init App");
 
 }
 

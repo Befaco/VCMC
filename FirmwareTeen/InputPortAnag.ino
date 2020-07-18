@@ -258,10 +258,8 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
 	
     switch (PortCfg.MIDIfunction) {
 	case PITCHTRIG:
-		return; 
 	case PITCHLEVEL:
-		//if( !GateStat) return;
-        // TODO Implement PITCHLEVEL
+	case PITCH8TRIG:
         return;
     case PITCH:
         // Note off previous note

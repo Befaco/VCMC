@@ -254,7 +254,7 @@ bool SaveLoadClass::ReceivedSysEx(unsigned SysExLength, const byte *RecArray)
   #endif
     if (SysExLength > 64 || SysExLength < 10)
     {
-        D(Serial.println("SysEx size not valid "));
+        DP("SysEx size not valid ");
         SetMessageText("SysEx size not valid");
         return false; // Not expected size SysEx
     }
@@ -274,7 +274,7 @@ bool SaveLoadClass::ReceivedSysEx(unsigned SysExLength, const byte *RecArray)
     //if ((RecPacketID >> 28) != 6) {
     if ((RecPacketID >> 16) != CFGDATATAG)
     {
-        D(Serial.println("SysEx Received ID not valid "));
+        DP("SysEx Received ID not valid ");
         //SetMessageText ("SysEx ID not valid");
         myMenu.setupPopup("SysEx ID not valid", 1000, 10, 20, 0);
         return false; // Not a config message, should begin with 0x60000000

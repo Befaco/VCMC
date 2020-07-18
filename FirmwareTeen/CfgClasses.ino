@@ -86,6 +86,7 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
     case PITCHTRIG:
     case PITCH:
 	case PITCHLEVEL:
+	case PITCH8TRIG:
         if (RangeBipolar==MINUSPLUS5V) {
             minv = -128;
             maxv = 256;
@@ -150,6 +151,7 @@ boolean AnInputPortCfg::IsDigitalFunc(void){
   switch (MIDIfunction) {
     case PITCHTRIG:
     case PITCH:
+	case PITCH8TRIG:
     case VELOCITY:
     case CONTROLCHANGE:
     case PROGRAMCHANGE:
@@ -186,6 +188,7 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
     case ANAGLATCH:  
     case PITCHTRIG:
 	case PITCHLEVEL:
+	case PITCH8TRIG:
     case PITCH:
         if (RangeBipolar==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
         #ifndef CVTHING
@@ -380,7 +383,7 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     EEPROM.get (MemPointer, CfgDataCheck);
     if (CfgDataCheck != CFGDATATAG) {
         //myMenu.setupPopup ("Incorrect config data", 5000, 0, 17);
-		D(Serial.println( "Error Loading Global Config"));
+		DP( "Error Loading Global Config");
         return 0;
     }
 	MemPointer += sizeof (uint16_t);  

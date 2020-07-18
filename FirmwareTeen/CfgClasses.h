@@ -128,7 +128,7 @@ typedef enum IPFun_e {
     ANAGNRPN7bits,     ///< Send 7 bits NRPN values
     ANAGNRPN14bits,    ///< Send 14 bits NRPN values
     NOANFFUNC,
-	PITCHLEVEL,			///< Not in use. When Gate ON, Send Note Off/Sebd Note On
+	PITCHLEVEL,			///< Not in use in VCMC. On CVThing used to mark paired inputs on V/oct mode
     ANAGSTART,         ///< Send MIDI Start
     ANAGSTOP,          ///< Send MIDI Stop
     ANAGCONTINUE,      ///< Send MIDI Continue
@@ -136,6 +136,8 @@ typedef enum IPFun_e {
     ANAGCCLATCH,           ///< Send CC value or 0 value on High value
     ANAGTRIGGER,           ///< CV as trigger
     ANAGLATCH,             ///< CV Latched trigger. flips output on High value
+    PITCH8TRIG         ///< On CVTHing Input 8 serves as gate for all other 7 CV
+
 } InputFunctions;
 
 /// MIDI Functions for digital ports

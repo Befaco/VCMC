@@ -60,7 +60,7 @@ void VCMCApp::ProcessSysExCommand(VCMCSysExPacket *SysExPacket){
             FactoryReset();
             break;
         default:
-            D(Serial.println("SysEx General command not recognized"));
+            DP("SysEx General command not recognized");
     }
 }
 

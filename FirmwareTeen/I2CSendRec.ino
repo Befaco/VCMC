@@ -58,7 +58,7 @@ void requestEvent(void)
         return;
     }
     theApp.OSCMerge.msgOut.send(Wire1);
-    D(Serial.println((char*)theApp.OSCMerge.databuf));
+    DP((char*)theApp.OSCMerge.databuf));
     theApp.OSCMerge.msgOut.empty();
 }
 

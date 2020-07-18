@@ -91,9 +91,10 @@ MenuItem AnagList2[] = {
     {"FADER CONFIG", NULL, 1}};
 MenuList listAnag2(AnagList2, 9, ListLines);
 
-MenuItem AnagFnList[14] = {
+MenuItem AnagFnList[] = {
     {"<-BACK", gotoMenuAnag, 1},
     {"V/OC TO NOTE", SelectTrig, 1},
+    {"V/OC COMMON", SelectTrig8Level, 0},
     {"CC", SelectCC, 1},
     {"VELOCITY", SelectVel, 1},
     {"PITCH BEND", SelectBend, 1},
@@ -105,8 +106,9 @@ MenuItem AnagFnList[14] = {
     {"NRPN 7BIT", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
     {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn(AnagFnList, 13, ListLines);
+    {"MIDI MAPPING", NULL, 1}
+    };
+MenuList listAnagFn(AnagFnList, 14, ListLines);
 
 MenuItem AnagFnList2[14] = {
     {"<-BACK", SelectFaderConfig, 1},
@@ -370,23 +372,23 @@ boolean SelectAnagRange()
 boolean SelectAnagFn()
 {
     /*
-    listAnagFn.disableItem(6);
-    listAnagFn.disableItem(7);
+    listAnagFn.disableItem(6+1);
+    listAnagFn.disableItem(7+1);
     if(BankSelected==8){
-        listAnagFn.enableItem(6);
-        listAnagFn.enableItem(7);        
+        listAnagFn.enableItem(6+1);
+        listAnagFn.enableItem(7+1);        
     }
     */
    #ifdef CVTHING
     listAnagFn.disableItem(1);
-    //listAnagFn.disableItem(9);
+    //listAnagFn.disableItem(9+1);
     if(BankSelected%2==1){
-        //listAnagFn.enableItem(9);
+        //listAnagFn.enableItem(9+1);
     } else
     {
         listAnagFn.enableItem(1);
     }
-    
+    listAnagFn.enableItem(2);    
     #endif
 
     myMenu.ClearArea();
@@ -425,10 +427,28 @@ boolean SelectTrig()
         CVControls[BankSelected+1].CVPort.PortCfg.SetMIDIFunc(PITCHLEVEL);
         CVControls[BankSelected+1].GateBut.PortCfg.MIDIfunction = TRIGGER;
     }
+    // PITCH8TRIG
     #endif
 
     return gotoMenuAnag();
 }
+
+
+
+boolean SelectTrig8Level()
+{
+    if( BankSelected == 7)
+        return true; // Not applicable for Bank 8
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCH8TRIG);
+    CVControls[BankSelected].GateBut.PortCfg.MIDIfunction = TRIGGER;
+    #ifdef CVTHING
+        CVControls[7].CVPort.PortCfg.SetMIDIFunc(PITCHLEVEL);
+        CVControls[7].GateBut.PortCfg.MIDIfunction = TRIGGER;
+    // PITCH8TRIG
+    #endif
+    return gotoMenuAnag();
+}
+
 
 boolean SelectTrigLevel()
 {
@@ -437,6 +457,9 @@ boolean SelectTrigLevel()
 
     return gotoMenuAnag();
 }
+
+
+
 
 boolean SelectNoteDud()
 {

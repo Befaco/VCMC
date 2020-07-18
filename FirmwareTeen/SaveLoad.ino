@@ -77,7 +77,7 @@ bool SaveLoadClass::LoadInitialConfig(void) {
 		//SaveCfg(0);
 		//SaveCfg(1);
 		CurrentPage = theApp.theGlobalCfg.initPage;
-		D(Serial.println("Error loading. Saving std config"));
+		DP("Error loading. Saving std config");
 		return false;
 		}
 	CurrentPage = theApp.theGlobalCfg.initPage;

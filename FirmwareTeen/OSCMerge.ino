@@ -219,7 +219,7 @@ void OSCmerger::begin(void)
     // register events
     Wire1.onReceive(receiveEvent);
     Wire1.onRequest(requestEvent);
-    D(Serial.println("Init OSC Merger"));
+    DP("Init OSC Merger"));
 }
 
 void OSCmerger::SendOSCMsgint (char *address, int value) {

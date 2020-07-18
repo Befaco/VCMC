@@ -179,22 +179,7 @@ void InputControl::OnDataChange (void) {
 
     // Gate change management
     if (Gatechanged) {
-        if (Config.Chanfunction == NOTEMODE) { // In NOTEMODE send NoteOn/NoteOff once per trigger
-            if (GateStat == true) { // Send Note On
-                byte datatosend = CVPort.TrimValue (CVPort.MIDIData);
-                if( GateBut.MIDIData){ // sendNoteOff previous note
-					MidiMerge.sendNoteOff (GateBut.MIDIData, 0, CVPort.PortCfg.MIDIChannel);
-					GateBut.MIDIData=0;}
-                GateBut.MIDIData = datatosend; // Store Note in CVPort at gate activation
-                MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[CVPort.PortCfg.MIDIChannel - 1],
-                                      CVPort.PortCfg.MIDIChannel);
-                // GateBut.setBlink(100, 100, 1);
-            } else { // Send Note off
-                MidiMerge.sendNoteOff (GateBut.MIDIData, 0, CVPort.PortCfg.MIDIChannel);
-				GateBut.MIDIData=0;
-            }
-        } 
-        else if (GateBut.PortCfg.MIDIfunction == TRIGGER || GateBut.PortCfg.MIDIfunction == LATCH) { // In TRIGGER or LATCH send NoteOn/NoteOff with every change on inputs
+        if (GateBut.PortCfg.MIDIfunction == TRIGGER || GateBut.PortCfg.MIDIfunction == LATCH) { // In TRIGGER or LATCH send NoteOn/NoteOff with every change on inputs
             if (GateStat == true) { // Send Note On	
 				// Independ channels
 				boolean played = false;
@@ -213,7 +198,7 @@ void InputControl::OnDataChange (void) {
                     }
                 } else {
 
-                    if (CVPort.PortCfg.MIDIfunction == PITCHTRIG) { // CV triggered notes
+                    if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) { // CV triggered notes
                         byte datatosend = CVPort.TrimValue (CVPort.MIDIData);
 						if( CVPort.LastSentMIDIData>0){ // sendNoteOff previous note
 							MidiMerge.sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
@@ -286,23 +271,30 @@ void InputControl::OnDataChange (void) {
                 if (CVPort.PortCfg.MIDIfunction == PITCHLEVEL) { // send Trigger to paired CV
                     if( ControlNumber<1)
                         break;
-                    CVControls[ControlNumber - 1].GateBut.GateStatus = CVPort.IsHigh();
-                    CVControls[ControlNumber - 1].Gatechanged = true;
-                    CVControls[ControlNumber - 1].OnDataChange();
-                    CVControls[ControlNumber - 1].Gatechanged = false;
+                    if( ControlNumber == 7 && CVControls[6].CVPort.PortCfg.MIDIfunction!=PITCHTRIG){ // Port 8 as trigger
+                        for (int i = 0; i < 7;i++){
+                            if(CVControls[i].CVPort.PortCfg.MIDIfunction== PITCH8TRIG){
+                                CVControls[i].GateBut.GateStatus = CVPort.IsHigh();
+                                CVControls[i].Gatechanged = true;
+                                CVControls[i].OnDataChange();
+                                CVControls[i].Gatechanged = false;
+                                }
+                        }
+                    } else
+                    {
+                        CVControls[ControlNumber - 1].GateBut.GateStatus = CVPort.IsHigh();
+                        CVControls[ControlNumber - 1].Gatechanged = true;
+                        CVControls[ControlNumber - 1].OnDataChange();
+                        CVControls[ControlNumber - 1].Gatechanged = false;
+                    }
+                    
                     return;
                 }
+                //PITCH8TRIG
                 #endif
                 CVPort.SendMIDI (-9999, GateStat);
             }
             if (Slidchanged) {
-                /*if (Slider.PortCfg.MIDIfunction == ANAGCLOCK) {
-                    if (Slider.IsHigh ())
-                        if (Slider.GateStatus == 0) {
-                            Slider.GateStatus = 1;
-                            Slider.ClockReceived ();
-                        } // Transition 0->1
-                } else*/
                     Slider.SendMIDI (-9999, GateStat);
             }
             break;
