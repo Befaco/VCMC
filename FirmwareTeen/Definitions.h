@@ -56,8 +56,10 @@ const int TIMERINTSERVICE = 250; /// Microseconds between call to read ports ser
 #else
 const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports service function servicePorts()
 #endif
+#ifdef USB_MIDI_SERIAL2
+#define CVTHING 1
+#endif
 //#define USEOSC
-//#define CVTHING 1
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)

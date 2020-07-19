@@ -255,7 +255,19 @@ void InputControl::OnDataChange (void) {
 					GateBut.MIDIData=0;}
             }
         } 
-        else 
+        else if( ControlNumber== 7 && GateBut.PortCfg.MIDIfunction == GATE8TRIG ){ // Trigger all CVs with 
+            for (int i = 0; i < 8;i++){
+                if(CVControls[i].CVPort.PortCfg.MIDIfunction== PITCH8TRIG){
+                    uint8_t oldFn = CVControls[i].GateBut.PortCfg.MIDIfunction;
+                    CVControls[i].GateBut.PortCfg.MIDIfunction = TRIGGER;
+                    CVControls[i].GateBut.GateStatus = GateBut.GateStatus;
+                    CVControls[i].Gatechanged = true;
+                    CVControls[i].OnDataChange();
+                    CVControls[i].Gatechanged = false;
+                    CVControls[i].GateBut.PortCfg.MIDIfunction = oldFn;
+                    }
+            }
+        } else
             GateBut.SendMIDI ();
     }
     // Apply data calculation based on selected function

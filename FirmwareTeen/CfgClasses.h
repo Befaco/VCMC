@@ -136,7 +136,7 @@ typedef enum IPFun_e {
     ANAGCCLATCH,           ///< Send CC value or 0 value on High value
     ANAGTRIGGER,           ///< CV as trigger
     ANAGLATCH,             ///< CV Latched trigger. flips output on High value
-    PITCH8TRIG         ///< On CVTHing Input 8 serves as gate for all other 7 CV
+    PITCH8TRIG         ///< Input 8 serves as gate for all other 7 CV with this function
 
 } InputFunctions;
 
@@ -155,7 +155,8 @@ typedef enum GFun_e {
     GATESTOP,          ///< Send MIDI Stop
     GATECONTINUE,      ///< Send MIDI Continue
     GATEPANIC,         ///< Send MIDI Panic
-    NODIGFUNC
+    NODIGFUNC,
+    GATE8TRIG         ///< On VCMC Gate 8 serves as gate for all other 7 CV
 } GateFunctions;
 
 

@@ -94,7 +94,7 @@ MenuList listAnag2(AnagList2, 9, ListLines);
 MenuItem AnagFnList[] = {
     {"<-BACK", gotoMenuAnag, 1},
     {"V/OC TO NOTE", SelectTrig, 1},
-    {"V/OC COMMON", SelectTrig8Level, 0},
+    {"V/OC POLY", SelectTrig8Level, 1},
     {"CC", SelectCC, 1},
     {"VELOCITY", SelectVel, 1},
     {"PITCH BEND", SelectBend, 1},
@@ -388,7 +388,8 @@ boolean SelectAnagFn()
     {
         listAnagFn.enableItem(1);
     }
-    listAnagFn.enableItem(2);    
+    if( BankSelected ==7)
+      listAnagFn.disableItem(2);    
     #endif
 
     myMenu.ClearArea();
@@ -437,14 +438,16 @@ boolean SelectTrig()
 
 boolean SelectTrig8Level()
 {
-    if( BankSelected == 7)
-        return true; // Not applicable for Bank 8
+    //if( BankSelected == 7)
+    //    return true; // Not applicable for Bank 8
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCH8TRIG);
-    CVControls[BankSelected].GateBut.PortCfg.MIDIfunction = TRIGGER;
     #ifdef CVTHING
+        CVControls[BankSelected].GateBut.PortCfg.MIDIfunction = TRIGGER;
         CVControls[7].CVPort.PortCfg.SetMIDIFunc(PITCHLEVEL);
         CVControls[7].GateBut.PortCfg.MIDIfunction = TRIGGER;
     // PITCH8TRIG
+    #else
+        CVControls[7].GateBut.PortCfg.MIDIfunction = GATE8TRIG;
     #endif
     return gotoMenuAnag();
 }
