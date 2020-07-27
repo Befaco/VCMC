@@ -33,12 +33,12 @@
  *  \brief Configuration for Save/Load support
  *  
  *  Memory format:
- *  Pos		Size	Comment
- *  0		2		Config Data Marker
- *  2		1		Last saved page. Used for auto loading at start up
- *  3		12		DAC init values for CV, Fader and Aux
- *  100		970		First Page first byte
- *  1070	970		Second Page first byte
+ *  Pos		        Size	        Comment
+ *  0		        2		        Config Data Marker
+ *  2		        1		        Last saved page. Used for auto loading at start up
+ *  ...		        		        DAC init values for CV, Fader and Aux
+ *  150		        PageSize        First Page first byte
+ *  150+PageSize*i	PageSize		Second Page first byte
  *
  *  Page format: (970 bytes)
  *  Pos		Size	Comment
@@ -59,20 +59,23 @@
 #ifndef __SAVELOAD_H
 #define __SAVELOAD_H
 
-#define VERSAVE 13 // Change version when saved data version changes
+#define VERSAVE 14 // Change version when saved data version changes
 #define CFGDATATAG \
     9898 + VERSAVE // Pre-defined value to check if data in EEPROM is valid Configuration data
 // EEPROM Save/load config
 #define GLOBALeeSize 150
-#define DIGITALeeSize 16
-#define ANALOGeeSize 40
+#define DIGITALeeSize 8 // min 7
+#define ANALOGeeSize 24  // min 23
+#define ANALOGFADeeSize 14  // min 13
 #define BANKGENERALeeSize 2
-#define BANKeeSize (BANKGENERALeeSize+DIGITALeeSize+ANALOGeeSize+ANALOGeeSize)  //106 bytes
-#define PAGEGENERALeeSize 40
+#define BANKeeSize (BANKGENERALeeSize+DIGITALeeSize+ANALOGeeSize+ANALOGFADeeSize)  //48 bytes min 45
+#define PAGEGENERALeeSize 4 // min 2
 
-#define PageSize (PAGEGENERALeeSize+BANKeeSize*9) // Calculate bank size: 16+106*9=970
+#define PageSize \
+    (PAGEGENERALeeSize+BANKeeSize*9+ANALOGeeSize-ANALOGFADeeSize) 
+// Calculate page size: 4+48*8+2+8+24+24=446 
 #define PAGEBASEADDR GLOBALeeSize // Start position for first bank
-#define MAXSAVEPAGES 2
+#define MAXSAVEPAGES 4
 
 /// Save and Load to EEPROM and SysEx
 class SaveLoadClass {

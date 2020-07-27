@@ -26,6 +26,129 @@
 //
 #ifndef ParTypeMap_h_
 #define ParTypeMap_h_
+
+struct SysExDataStruct
+{
+    uint8_t pos;
+    uint8_t Type;
+    uint8_t ParID;
+};
+
+enum PARNames
+{
+    PAR_Size=100,
+    PAR_DefMinDAC,
+    PAR_DefRangeDAC,
+    PAR_DefMinFader,
+    PAR_DefRangeFader,
+    PAR_DefMinAux,
+    PAR_DefRangeAux,
+    PAR_DefMinAuxB,
+    PAR_DefRangeAuxB,
+    PAR_AutoOff,
+    PAR_ClockDivider,
+    PAR_ClockShift,
+
+    PAR_MIDIChannel,
+    PAR_PortName,
+    PAR_NameSufix,
+    PAR_DelayGate,
+    PAR_Function,
+    PAR_Range_minMIDI,
+    PAR_Range_rangeMIDI,
+    PAR_Range_minDAC,
+    PAR_Range_rangeDAC,
+    PAR_ClipLow,
+    PAR_ClipHigh,
+    PAR_FunctionData,
+
+    PAR_GateMIDIChannel,
+    PAR_GatePortName,
+    PAR_GateNameSufix,
+    PAR_GateDelayGate,
+    PAR_GateFunction,
+    PAR_GateFunctionData,
+
+    PAR_ChannelFunction
+};
+
+enum typesEnum
+{
+    ui08TYPE = 0, // uint8_t
+    si08TYPE,     // int8_t
+    charTYPE,     // char
+    ui16TYPE,     // uint16_t
+    si16TYPE,     // int16_t
+    ui32TYPE,     // uint32_t
+    si32TYPE,     // int32_t
+    floaTYPE      // float
+};
+uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
+
+SysExDataStruct DATA_General[] = {
+    {43, ui16TYPE, PAR_Size},
+
+    { 4, si32TYPE, PAR_DefMinDAC},
+    { 8, si32TYPE, PAR_DefRangeDAC},
+    {12, si32TYPE, PAR_DefMinFader},
+    {16, si32TYPE, PAR_DefRangeFader},
+    {20, si32TYPE, PAR_DefMinAux},
+    {24, si32TYPE, PAR_DefRangeAux},
+    {28, si32TYPE, PAR_DefMinAuxB},
+    {32, si32TYPE, PAR_DefRangeAuxB},
+    {36, si16TYPE, PAR_AutoOff},
+    {38, floaTYPE, PAR_ClockDivider},
+    {42, si08TYPE, PAR_ClockShift},
+};
+
+SysExDataStruct DATA_Analog[] = {
+    {24, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_MIDIChannel},
+    { 1, ui08TYPE, PAR_PortName},
+    { 2, charTYPE, PAR_NameSufix},
+    { 3, ui16TYPE, PAR_DelayGate},
+    // Analog Data
+    { 5, ui08TYPE, PAR_Function},
+    { 6, si16TYPE, PAR_Range_minMIDI},
+    { 8, si16TYPE, PAR_Range_rangeMIDI},
+    {10, si32TYPE, PAR_Range_minDAC},
+    {14, si32TYPE, PAR_Range_rangeDAC},
+    {18, si16TYPE, PAR_ClipLow},
+    {20, si16TYPE, PAR_ClipHigh},
+    {22, ui16TYPE, PAR_FunctionData}};
+
+SysExDataStruct DATA_Fader[] = {
+    {14, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_MIDIChannel},
+    { 1, ui08TYPE, PAR_PortName},
+    { 2, charTYPE, PAR_NameSufix},
+    // Analog Data
+    { 3, ui08TYPE, PAR_Function},
+    { 4, si16TYPE, PAR_Range_minMIDI},
+    { 6, si16TYPE, PAR_Range_rangeMIDI},
+    { 8, si16TYPE, PAR_ClipLow},
+    {10, si16TYPE, PAR_ClipHigh},
+    {12, ui16TYPE, PAR_FunctionData}};
+
+SysExDataStruct DATA_Digital[] = {
+    { 8, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_GateMIDIChannel},
+    { 1, ui08TYPE, PAR_GatePortName},
+    { 2, charTYPE, PAR_GateNameSufix},
+    { 3, ui16TYPE, PAR_GateDelayGate},
+    // Analog Data
+    { 5, ui08TYPE, PAR_GateFunction},
+    { 6, ui16TYPE, PAR_GateFunctionData}};
+
+SysExDataStruct DATA_Bank[] = {
+    { 1, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_ChannelFunction}};
+
+
 /*
 #include "PrjIncludes.h"
 
@@ -37,16 +160,7 @@ union VCMCParData
     uint8_t bytes[4]="";
 };
 
-enum typesEnum
-{
-    ui8TYPE = 0, // uint8_t
-    i8TYPE,      // int8_t
-    ui16TYPE,   // uint16_t
-    i16TYPE,    // int16_t
-    ui32TYPE,   // uint32_t
-    i32TYPE,    // int32_t
-    flTYPE  // float
-};
+
 
 class TypePar{
     private:
@@ -97,6 +211,5 @@ TypePar GlobalCfgPar[] = {
 {16,ui8TYPE,0,VCMCParNames[10]}
 };
 */
-
 
 #endif

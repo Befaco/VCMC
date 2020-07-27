@@ -171,7 +171,8 @@ boolean SelectClockDiv()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockDivider;
     bool ret = EncoderchangeValue("Clock Div:", val, 1, 255, 3, 0, 45);
-    ((DigPortCfg *)GetPortCfg())->ClockDivider = val;
+    theApp.theGlobalCfg.ClockDivider =
+        ((DigPortCfg *)GetPortCfg())->ClockDivider = val;
     return ret;
 }
 
@@ -179,7 +180,8 @@ boolean SelectClockShift()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockShift;
     bool ret = EncoderchangeValue("Clock Shift:", val, -120, 120, 4, 0, 45);
-    ((DigPortCfg *)GetPortCfg())->ClockShift = val;
+    theApp.theGlobalCfg.ClockShift =
+        ((DigPortCfg *)GetPortCfg())->ClockShift = val;
     return ret;
 }
 

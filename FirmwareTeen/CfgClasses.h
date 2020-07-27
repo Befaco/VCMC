@@ -52,6 +52,8 @@ class GlobalCfg {
     int32_t AuxBMinDAC;   ///< Minimum default Aux B DAC value
     int32_t AuxBRangeDAC; ///< Minimum default Aux B DAC range
     uint16_t AutoOff;      ///< Note Off after n milliseconds
+    float       ClockDivider=1.0;           ///< Clack divider: Divides the interval by this number for fine clock adjustment
+    int8_t      ClockShift = 0;         ///< Clack multiplier: Multiplies(+) / Divides(-) by power of 2 
 
     char UserNames[NUMUSERNAMES][SIZEPORTNAMES+1] = { { 0 } };
     ////////////////////////////////
@@ -75,7 +77,7 @@ class GlobalCfg {
     }
 	int SaveCfg();//int addr);
 	int LoadCfg();//int addr);
-	void SetPage(int page);
+	int SetPage(int page);
 #ifdef USEOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);

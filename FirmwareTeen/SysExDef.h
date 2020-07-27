@@ -41,8 +41,10 @@ typedef struct
 
 typedef struct
 {
+    byte Type;                        ///< 0tttcccc ttt= Msg type cccc= channel
     byte Slot;                 ///< 0ssspppp sss=Port pppp=parameter 
-    byte bData1[5]; ///< Data
+    byte Length;                      ///< Parameter Length (56 Max)
+    byte pData[SysExpacketDataLength+1]={0}; ///< Data
 } VCMCSysExPar;
 
 enum VCMCSysExType

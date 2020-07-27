@@ -126,9 +126,9 @@ bool SaveLoadClass::SaveCfg (int page) {
     MemPointer = PageBase[page];
     // Mark the page as containing Cfg data
     EEPROM.put (MemPointer, (uint16_t)CFGDATATAG);
-    MemPointer += sizeof (uint16_t);
+    // MemPointer += sizeof (uint16_t);
 	// Reserved PAGEGENERALeeSize for general data
-    MemPointer += PAGEGENERALeeSize-(MemPointer-PageBase[page]);// sizeof (uint16_t);
+    MemPointer += PAGEGENERALeeSize;
 
     // Bank data
     for (i = 0; i < 9; i++) {

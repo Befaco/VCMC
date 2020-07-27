@@ -78,7 +78,7 @@ void VCMCApp::setup(void)
     initADC();
 
     // Lod initial configutration from EEPROM
-    FlashAccess->LoadInitialPage();
+    //FlashAccess->LoadInitialPage();
 
     // Init Menu
     gotoMenuSettings();

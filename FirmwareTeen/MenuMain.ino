@@ -81,18 +81,22 @@ MenuItem BankSaveSelList[] = {
     {"CANCEL", gotoMenuGlobalCfg, 1},
     {"USER 1", SaveSlot1, 1},
     {"USER 2", SaveSlot2, 1},
+    {"USER 3", SaveSlot3, 1},
+    {"USER 4", SaveSlot4, 1},
     {"SYSEX", SaveViaSysEx, 1},
     {"SAVE CONFIG", NULL, 1}};
-MenuList ListBankSaveSel(BankSaveSelList, 4, ListLinesSimple);
+MenuList ListBankSaveSel(BankSaveSelList, 6, ListLinesSimple);
 
 // Load Config Menu
-MenuItem BankLoadSelList[5] = {
+MenuItem BankLoadSelList[] = {
     {"CANCEL", gotoMenuGlobalCfg, 1},
     {"USER 1", LoadSlot1, 1},
     {"USER 2", LoadSlot2, 1},
+    {"USER 3", LoadSlot3, 1},
+    {"USER 4", LoadSlot4, 1},
     {"PRESETS", LoadPreset, 1},
     {"LOAD CONFIG", NULL, 1}};
-MenuList ListBankLoadSel(BankLoadSelList, 4, ListLinesSimple);
+MenuList ListBankLoadSel(BankLoadSelList, 6, ListLinesSimple);
 
 // Factory Reset Menu
 MenuItem FactResetList[3] = {
@@ -271,26 +275,37 @@ boolean gotoListBankLoadSel()
     return true;
 }
 
-boolean SaveSlot1()
-{
-    FlashAccess->CurrentPage = 0;
-    if (!FlashAccess->SetCurrentPage(0))
+boolean SaveSlotCurrent(){
+    if (!FlashAccess->SetCurrentPage(FlashAccess->CurrentPage))
     {
         SetMessageText("Error Save");
     }
     gotoMenuGlobalCfg();
     return true;
+
+}
+boolean SaveSlot1()
+{
+    FlashAccess->CurrentPage = 0;
+    return SaveSlotCurrent();
 }
 
 boolean SaveSlot2()
 {
     FlashAccess->CurrentPage = 1;
-    if (!FlashAccess->SetCurrentPage(1))
-    {
-        SetMessageText("Error Save");
-    }
-    gotoMenuGlobalCfg();
-    return true;
+    return SaveSlotCurrent();
+}
+
+boolean SaveSlot3()
+{
+    FlashAccess->CurrentPage = 2;
+    return SaveSlotCurrent();
+}
+
+boolean SaveSlot4()
+{
+    FlashAccess->CurrentPage = 3;
+    return SaveSlotCurrent();
 }
 
 boolean SaveViaSysEx()
@@ -299,9 +314,7 @@ boolean SaveViaSysEx()
     return true;
 }
 
-boolean LoadSlot1()
-{
-    FlashAccess->CurrentPage = 0;
+boolean LoadSlotCurrentPage(){
     if (!FlashAccess->LoadCfg())
     {
         SetMessageText("Error Load");
@@ -310,15 +323,28 @@ boolean LoadSlot1()
     return true;
 }
 
+boolean LoadSlot1()
+{
+    FlashAccess->CurrentPage = 0;
+    return LoadSlotCurrentPage();
+}
+
 boolean LoadSlot2()
 {
     FlashAccess->CurrentPage = 1;
-    if (!FlashAccess->LoadCfg())
-    {
-        SetMessageText("Error Load");
-    }
-    gotoMenuGlobalCfg();
-    return true;
+    return LoadSlotCurrentPage();
+}
+
+boolean LoadSlot3()
+{
+    FlashAccess->CurrentPage = 2;
+    return LoadSlotCurrentPage();
+}
+
+boolean LoadSlot4()
+{
+    FlashAccess->CurrentPage = 3;
+    return LoadSlotCurrentPage();
 }
 
 boolean SelectSavePage()

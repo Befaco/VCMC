@@ -85,8 +85,9 @@ bool SaveLoadClass::SaveCfgSingleSysEx(byte *pSource, uint16_t uLengthSource, by
   uint8_t dumpMemory[56]={0};
   
   unsigned int encLen = midi::encodeSysEx((const byte *)pSource, dumpMemory, uLengthSource);
-  if( encLen>56)
-    return false;
+  if( encLen>56){
+    DP("Single SysEx too large");
+    return false;}
   SysExPacket.Length = encLen;
   memcpy(SysExPacket.pData, dumpMemory, encLen);
   usbMIDI.sendSysEx(sizeof(SysExPacket), (const uint8_t *)&SysExPacket, true);

@@ -401,48 +401,6 @@ int AnalogPort::TrimValue (int DatatoTrim) {
 }
 
 
-//////////////////////////////////
-// Save / Load functions
-
-/**
- *  \brief Save Port configuration to EEPROM. 
- *  
- *  \param [in] addr address to store the data 
- *  \return number of bytes written to memory
- *  
- */
-int AnalogPort::SaveCfg (int addr) {
-    int MemPointer = addr;
-
-    EEPROM.put (MemPointer, PortCfg);
-    MemPointer += sizeof (PortCfg);
-    #ifdef PRINTDEBUG
-	Serial.print( "Saved Analog ");
-	Serial.print( PortNumber);
-	Serial.print( ": ");
-	Serial.print( addr);
-	Serial.print( "/");
-	Serial.print( MemPointer - addr);
-	Serial.print( "/");
-	Serial.println( MemPointer);
-    #endif
-    return ANALOGeeSize;//MemPointer - addr;
-}
-
-/**
- *  \brief Load Port configuration from EEPROM. 
- *  
- *  \param [in] addr address to read data from
- *  \return number of bytes read from memory 
- */
-int AnalogPort::LoadCfg (int addr) {
-    int MemPointer = addr;
-
-    EEPROM.get (MemPointer, PortCfg);
-    MemPointer += sizeof (PortCfg);
-
-    return ANALOGeeSize;//MemPointer - addr;
-}
 
 
 /** @} */

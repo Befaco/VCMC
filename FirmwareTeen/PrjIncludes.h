@@ -105,6 +105,7 @@
 #include "MenuLists.h"
 #include "ParTypeMap.h"
 #include "I2CSendRec.h"
+#include "ParTypeMap.h"
 
 /** @} */
 

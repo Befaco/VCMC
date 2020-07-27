@@ -72,6 +72,7 @@ bool InputControl::SetPort (byte PortCV, byte PortSlid, byte PortGate, byte Ledp
         //CVPort.PortCfg.Ranges.setMultiPointMode (true); // Use MultiPoint for CV
         // CVPort.PortCfg.Ranges.SetDAC( 4148, -4145);  // Hack for current values in DAC
         CVPort.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.InitMinDAC, theApp.theGlobalCfg.InitRangeDAC);
+        Slider.typeSlider = true;
         Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.FaderMinDAC, theApp.theGlobalCfg.FaderRangeDAC);
         #ifdef FILTEREDANAGINPUT
         // Set parameters for FilteredInput
@@ -406,8 +407,10 @@ int InputControl::SaveCfg (int addr) {
     sprintf (msgTxt, "/VCMC/Config/%d", ControlNumber + 1);
     SaveCfgOSC (msgTxt);
     #endif
-
-    return BANKeeSize;//MemPointer - addr;
+    if(ControlNumber==8)
+        return MemPointer - addr;
+    else
+        return BANKeeSize;
 }
 
 /**
@@ -430,6 +433,7 @@ int InputControl::LoadCfg (int addr) {
     MemPointer += CVPort.LoadCfg (MemPointer);
     MemPointer += Slider.LoadCfg (MemPointer);
 
+    D(Serial.printf("Input Control %1d, size: %d\n", ControlNumber, MemPointer - addr));
     return BANKeeSize;//MemPointer - addr;
 }
 

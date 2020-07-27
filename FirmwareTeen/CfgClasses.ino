@@ -284,7 +284,7 @@ int32_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
  *
  *  \details 
  */
-void GlobalCfg::SetPage(int page){
+int GlobalCfg::SetPage(int page){
     int MemPointer = 0;//addr;
 	initPage = page;
 	
@@ -293,6 +293,8 @@ void GlobalCfg::SetPage(int page){
     MemPointer += sizeof (uint16_t);    
 	EEPROM.put (MemPointer, initPage);
     MemPointer += sizeof (initPage);
+
+    return MemPointer;
 }
 
 
@@ -309,10 +311,7 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     int MemPointer = 0;//addr;
 
     // Mark the mem as containing Cfg data
-    EEPROM.put (MemPointer, (uint16_t)CFGDATATAG);
-    MemPointer += sizeof (uint16_t);    
-	EEPROM.put (MemPointer, initPage);
-    MemPointer += sizeof (initPage);
+    MemPointer += SetPage(initPage);
 	
     EEPROM.put (MemPointer, InitMinDAC);
     MemPointer += sizeof (InitMinDAC);

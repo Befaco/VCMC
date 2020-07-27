@@ -110,25 +110,32 @@ class DigitalPort : public InputPort {
 
     int SaveCfg (int addr);
     int LoadCfg (int addr);
+    int parse(uint8_t type, uint8_t *buf, int buLen);
+    int parseFunctionData(uint8_t *buf, int buLen);
+    int fill(uint8_t type, uint8_t *buf, int buLen);
+    int fillFunctionData(uint8_t *buf, int buLen);
 };
 
 
 /// Class for analog ports (CV and Faders)
 class AnalogPort : public InputPort {
+    private:
+
     public:
+    bool typeSlider = false;
     AnInputPortCfg PortCfg; ///< Configuration info for the Port
-#ifdef FILTEREDANAGINPUT
+    #ifdef FILTEREDANAGINPUT
     ResponsiveAnalogRead *FilteredInput; ///<  Filtered data for the port
-#endif
-	int8_t adcNum = -1;
+    #endif
+    int8_t adcNum = -1;
 	
     AnalogPort () {
-#ifdef FILTEREDANAGINPUT
+        #ifdef FILTEREDANAGINPUT
         FilteredInput =
         new ResponsiveAnalogRead (0, true, 0.01); // Filter parameters: nochange, true/false, 0.0 - 1.0
         FilteredInput->setAnalogResolution (ANRANGEMAX);
         FilteredInput->setActivityThreshold (2); // Filter parameter: 0 - ANRANGEMAX
-#endif
+        #endif
         MIDIData = 0;
     }
     bool SetPort (byte PortN);
@@ -147,6 +154,10 @@ class AnalogPort : public InputPort {
     }
     int SaveCfg (int addr);
     int LoadCfg (int addr);
+    int parse(uint8_t type, uint8_t *buf, int buLen);
+    int parseFunctionData(uint8_t *buf, int buLen);
+    int fill(uint8_t type, uint8_t *buf, int buLen);
+    int fillFunctionData(uint8_t *buf, int buLen);
 };
 
 

@@ -224,52 +224,6 @@ void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
 
 
 
-//////////////////////////////////
-// Save / Load functions
 
-
-/**
- *  \brief Save Port configuration to EEPROM. 
- *  
- *  \param [in] addr address to store the data 
- *  \return number of bytes written to memory 
- */
-int DigitalPort::SaveCfg (int addr) {
-    int MemPointer = addr;
-
-    //	EEPROM.put( MemPointer, (uint8_t)PortCfg.MIDIfunction);
-    //	MemPointer+= sizeof(uint8_t);
-    EEPROM.put (MemPointer, PortCfg);
-    MemPointer += sizeof (PortCfg);
-    #ifdef PRINTDEBUG
-	Serial.print( "Saved Digital ");
-	Serial.print( PortNumber);
-	Serial.print( ": ");
-	Serial.print( addr);
-	Serial.print( "/");
-	Serial.print( MemPointer - addr);
-	Serial.print( "/");
-	Serial.println( MemPointer);
-    #endif
-    return DIGITALeeSize;//MemPointer - addr;
-}
-
-
-/**
- *  \brief Load Port configuration from EEPROM. 
- *  
- *  \param [in] addr address to read data from
- *  \return number of bytes read from memory 
- */
-int DigitalPort::LoadCfg (int addr) {
-    int MemPointer = addr;
-
-    //	PortCfg.MIDIfunction = (uint8_t) EEPROM.read( MemPointer);
-    //	MemPointer+= sizeof(uint8_t);
-    EEPROM.get (MemPointer, PortCfg);
-    MemPointer += sizeof (PortCfg);
-
-    return DIGITALeeSize;//MemPointer - addr;
-}
 
 /** @} */
