@@ -105,6 +105,7 @@ MenuItem AnagFnList[] = {
     {"NOTE GATE", SelectTrigLevel, 0},
     {"NRPN 7BIT", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
+    {"CC 14BITS", SelectCC14b, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}
     };
@@ -539,13 +540,6 @@ boolean SelectNRPN14()
     return true;
 }
 
-/*boolean SelectMod() {
-  //((AnInputPortCfg*)GetPortCfg())->SetMIDIFunc(?????);
-  myMenu.ClearArea();
-  myMenu.setCurrentMenu(&listAnag);
-  return true;
-  }
-*/
 
 boolean SelectVel()
 {
@@ -558,10 +552,17 @@ boolean SelectCC()
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CONTROLCHANGE);
     if (!SelectController())
         return false;
-    //myMenu.ClearArea();
-    //myMenu.setCurrentMenu(&listAnag);
-    return true;
+    return gotoMenuAnag();
 }
+
+boolean SelectCC14b()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CC14BITS);
+    if (!SelectController())
+        return false;
+    return gotoMenuAnag();
+}
+
 
 boolean SelectBend()
 {

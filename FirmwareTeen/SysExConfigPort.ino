@@ -206,7 +206,7 @@ bool AnInputPortCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen)
         }
     memcpy(this, DecodedData, decLen);
 
-    D(Serial.printf("Received Analog Control Config: %d", decLen));
+    D(Serial.printf("Received Analog Control Config: %d\n", decLen));
     // TODO Accept data somehow¿?
     return true;
 }

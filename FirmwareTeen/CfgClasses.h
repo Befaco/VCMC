@@ -138,7 +138,8 @@ typedef enum IPFun_e {
     ANAGCCLATCH,           ///< Send CC value or 0 value on High value
     ANAGTRIGGER,           ///< CV as trigger
     ANAGLATCH,             ///< CV Latched trigger. flips output on High value
-    PITCH8TRIG         ///< Input 8 serves as gate for all other 7 CV with this function
+    PITCH8TRIG,         ///< Input 8 serves as gate for all other 7 CV with this function
+    CC14BITS,
 
 } InputFunctions;
 
@@ -177,7 +178,7 @@ class InputPortCfg {
     uint8_t     charSufix = 0;
     uint16_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
-#ifdef USEOSC
+    #ifdef USEOSC
     void SaveCfgOSC (char *address);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
     #endif
@@ -206,13 +207,19 @@ enum
 /// Analog port configuration class
 class AnInputPortCfg : public InputPortCfg {
     public:
-    uint8_t MIDIfunction;  ///< MIDI function as defined on InputFunctions enumerator
+    union
+    {
+        struct{
+        uint8_t MIDIfunction:5;  ///< MIDI function as defined on InputFunctions enumerator
+        uint8_t RangeBipolar:2; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2: 
+        bool Use14bitsCC:1;   ///< When set, if CC is in range 0-31 will send additional CC in actual CC+32 with LSB
+        };
+        uint8_t Options1;
+    };
+    
     RangeConv Ranges;      ///< Configuration for ADC and MIDI with conversion functions
     int16_t ClipLow;   ///< Clip MIDI to this minimum value
     int16_t ClipHigh;        ///< Clip MIDI to this maximum value
-    //long Offset;           ///< Offset value to apply to MIDI
-    //long Amp;              ///< Amplification factor to apply to MIDI (in percent 100=x1)
-    byte RangeBipolar; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2: 
 	uint8_t NRPNparMSB;
 	uint8_t NRPNparLSB;
     uint16_t AutoOff=1000;      ///< Note Off after n milliseconds
@@ -226,8 +233,9 @@ class AnInputPortCfg : public InputPortCfg {
 
     AnInputPortCfg ():
         MIDIfunction (PITCHTRIG),
-		ClipLow(0), ClipHigh(120),
 		RangeBipolar(NOOFFSET),
+        Use14bitsCC(0),
+		ClipLow(0), ClipHigh(120),
 		NRPNparMSB(0x7f), NRPNparLSB(0x7f),
         AutoOff(1000)
     {}
@@ -237,6 +245,7 @@ class AnInputPortCfg : public InputPortCfg {
 		InputPortCfg( MIDIChan, CCN, nSend, ccVal, clkDiv, clkSh ),
         MIDIfunction (PITCHTRIG),
 		RangeBipolar(RangeBip),
+        Use14bitsCC(0),
 		NRPNparMSB(NRPNMSB), NRPNparLSB(NRPNLSB),
         AutoOff(1000)
     {
@@ -246,11 +255,13 @@ class AnInputPortCfg : public InputPortCfg {
     void SetMIDIFunc (uint8_t Func);
     void LimitValues (int &minv, int &maxv);
     boolean IsDigitalFunc(void);
+    uint8_t getInputRange() { return RangeBipolar; }
+    void setInputRange(uint8_t InRange) {  RangeBipolar = InRange; }
 };
 
 /// Digital port configuration class
 class DigPortCfg : public InputPortCfg {
-    public:
+    public:    
     uint8_t MIDIfunction; ///< MIDI function as defined on GateFunctions enumerator
 
     #ifdef USEOSC

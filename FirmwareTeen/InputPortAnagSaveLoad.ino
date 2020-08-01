@@ -165,6 +165,8 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
         return buLen;
     case PAR_FunctionData:
         return parseFunctionData( buf, buLen);
+    case PAR_Option1:
+        PortCfg.Options1 = *buf;
     default:
         return 0;
     }
@@ -182,6 +184,7 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
         case PITCH: // Dude mode
             PortCfg.AutoOff = *((uint16_t *)buf);
             return buLen;
+        case CC14BITS:
         case CONTROLCHANGE:
             PortCfg.ControllerNumber = *buf;
             return buLen;
@@ -299,6 +302,8 @@ int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
         return buLen;
     case PAR_FunctionData:
         return fillFunctionData( buf, buLen);
+    case PAR_Option1:
+        *buf = PortCfg.Options1;
     default:
         return 0;
     }
@@ -316,6 +321,7 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
         case PITCH: // Dude mode
             *((uint16_t *)buf) = PortCfg.AutoOff;
             return buLen;
+        case CC14BITS:
         case CONTROLCHANGE:
             *buf = PortCfg.ControllerNumber;
             return buLen;

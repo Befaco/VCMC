@@ -107,14 +107,15 @@ bool AnalogPort::ReadPort (long &NewData) {
 
     int readMidi=MIDIData;
     // Set Bipolar input
-    if (PortCfg.RangeBipolar==MINUSPLUS5V)
+    if (PortCfg.getInputRange()==MINUSPLUS5V)
         digitalWrite (PINOFFSET, HIGH);
     else
         digitalWrite (PINOFFSET, LOW);
     // Read input
-        // adc->analogRead(PortNumber); // Make two reads to clear buffer
-        //if( adcNum!=-1) adcNum = (adcNum==1)?0:1;
-    uint16_t reading = (uint16_t)adc->analogRead (PortNumber);//,adcNum);
+    uint16_t reading = 0;
+    if(PortCfg.ControllerNumber==14) reading = myMenu.disptimer / 75 / PortCfg.ControllerNumber;
+    //uint16_t reading = (uint16_t)adc->analogRead (PortNumber);//,adcNum);
+
     if (ANBITS > 12) reading >>= 4; // Filter first 4 bits
     if( PortCfg.IsDigitalFunc())
     {
@@ -197,10 +198,9 @@ bool AnalogPort::ReadPort (long &NewData) {
     }
 
 	// Check Auto off for Note in Dude mode
-	if( msecLastMIDISent && PortCfg.AutoOff &&//theApp.theGlobalCfg.AutoOff &&
-		millis()-msecLastMIDISent > PortCfg.AutoOff/* theApp.theGlobalCfg.AutoOff */ && PortCfg.MIDIfunction==PITCH){
+	if( msecLastMIDISent && PortCfg.AutoOff &&
+		millis()-msecLastMIDISent > PortCfg.AutoOff && PortCfg.MIDIfunction==PITCH){
 		// Note off previous note
-        //MidiMerge.sendNoteOff( MidiMerge.PitchData[PortCfg.MIDIChannel-1], 0, PortCfg.MIDIChannel);
 		MidiMerge.sendNoteOff( LastSentMIDIData, 0, PortCfg.MIDIChannel);
 		LastSentMIDIData = -999;
 		msecLastMIDISent = 0;
@@ -272,6 +272,14 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
     case VELOCITY:
         MidiMerge.VelData[PortCfg.MIDIChannel - 1] = SendData;
         break; // do not send MIDI, gate button or pitch change will trigger sending data
+    case CC14BITS:
+        if(PortCfg.ControllerNumber>32)
+            break; // Only for CC smalleer than 32
+        // Send the input 12 bits: 7 MSB in CC Controller NUmber and the 5 LSB on CC Number+32
+        SendData = (~PortValue)&0x0fff;
+        MidiMerge.sendControlChange (PortCfg.ControllerNumber, (SendData>>5), PortCfg.MIDIChannel);
+        MidiMerge.sendControlChange (PortCfg.ControllerNumber+32, (SendData & 0x01f)<<2, PortCfg.MIDIChannel);
+        break;
     case CONTROLCHANGE:
         MidiMerge.sendControlChange (PortCfg.ControllerNumber, SendData, PortCfg.MIDIChannel);
         break;

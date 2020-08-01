@@ -152,7 +152,7 @@ void OLEDMenu::PrintGateFunction(DigPortCfg *cfgSel)
 void OLEDMenu::PrintFunction(AnInputPortCfg *cfgSel){
     theOLED->print (PortFuncStr[cfgSel->MIDIfunction]);
 
-    if (cfgSel->MIDIfunction == CONTROLCHANGE) {
+    if (cfgSel->MIDIfunction == CONTROLCHANGE||cfgSel->MIDIfunction == CC14BITS) {
         theOLED->println (cfgSel->ControllerNumber);
     } else
     {
@@ -188,7 +188,7 @@ void OLEDMenu::displayCVConfig (int posCursor) {
         theOLED->setTextColor (BLACK, WHITE);
         theOLED->print ("Rg.");
         theOLED->setTextColor (WHITE, BLACK);
-        theOLED->println (RangeInTxt[SelCfg->RangeBipolar]);
+        theOLED->println (RangeInTxt[SelCfg->getInputRange()]);
     }
 
     theOLED->setCursor (POSXCARD + 0, posCursor);

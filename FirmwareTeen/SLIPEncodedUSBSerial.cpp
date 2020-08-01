@@ -12,6 +12,7 @@
  *  \brief Support for SLIP encoded message input/output
  */
 
+#ifdef USEOSC
 /*
  CONSTRUCTOR
  */
@@ -312,5 +313,5 @@ void SerialSLIPReceived(void){
   //clear the buffer
   serPointer = 0;
 }
-
+#endif
 /** @} */

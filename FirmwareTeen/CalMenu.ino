@@ -131,7 +131,7 @@ boolean InitCalibration (void) {
         break;
     }
 	if( UsePort != 1){
-		oldBipolar = PortInUse->PortCfg.RangeBipolar;
+		oldBipolar = PortInUse->PortCfg.getInputRange();
 		rangeData = &PortInUse->PortCfg.Ranges;
 		rangeData->getDAC (OldminD, OldRangeD); // Store old DAC values
 		OldClipLow = PortInUse->PortCfg.ClipLow;
@@ -152,7 +152,7 @@ boolean InitCalibration (void) {
     noteRec = -1;
     LastpointRec = 0;
     if (calMode == MatrixCalMode) {
-        PortInUse->PortCfg.RangeBipolar = NOOFFSET;
+        PortInUse->PortCfg.setInputRange(NOOFFSET);
         rangeData->SetDAC (INITMINDAC, INITRANGEDAC);
         for (int i = 0; i < 20; i++) {
             calPoints[i] = 0;//DACPoints[i]; // Store original points (for cancel purpose)
@@ -264,7 +264,7 @@ boolean CalibrateCV ()
     }
     if (PointSelected == 0) { // END Selected
         ClearCalArea (); // Clear area used
-        CVControls[BankSelected].CVPort.PortCfg.RangeBipolar = oldBipolar;
+        CVControls[BankSelected].CVPort.PortCfg.setInputRange(oldBipolar);
         rangeData->SetDAC (OldminD, OldRangeD); // Restore old DAC values
         InitCal = false;
         calMode = NoCalMode;
@@ -311,7 +311,7 @@ void displayTwoPoints () {
     rangeData->getDAC (minD, rangeD);
 
     //bool Is5V = (rangeD > 0) ? rangeD < INITRANGEDAC / 2 + 100 : rangeD > INITRANGEDAC / 2 - 100;
-    bool Is5V = (PortInUse->PortCfg.RangeBipolar == ZEROTO5V);
+    bool Is5V = (PortInUse->PortCfg.getInputRange() == ZEROTO5V);
 
     // Clear area used
     theOLED->fillRect (posx, posy, 128 - posx, 64 - posy, BLACK); // Erase input area
@@ -405,7 +405,7 @@ boolean TwoPointsCal () {
     int32_t minD, rangeD;
 	rangeData->getDAC(minD, rangeD);
     // bool Is5V = (rangeD > 0) ? rangeD < INITRANGEDAC / 2 + 100 : rangeD > INITRANGEDAC / 2 - 100;
-    bool Is5V = (PortInUse->PortCfg.RangeBipolar == ZEROTO5V);
+    bool Is5V = (PortInUse->PortCfg.getInputRange() == ZEROTO5V);
 
 
     if( Is5V){
@@ -435,7 +435,6 @@ boolean TwoPointsCal () {
         // TODO Check here if OK or Cancel
         ClearCalArea (); // Clear area used
 		PortInUse->PortCfg.SetMIDIFunc(OldMIDIfunction);
-        // PortInUse->PortCfg.RangeBipolar = oldBipolar;
         if (PointSelected == 0) // Cancel calibration, revert to previous values
             rangeData->SetDAC (OldminD, OldRangeD); // Restore old DAC values
         InitCal = false;
@@ -687,7 +686,6 @@ boolean SetRangeMenu () {
         if (PointSelected < 2) { // Cancel or END Selected
             ClearCalArea (); // Clear area used
 			if( PointSelected == 0){ // Cancel, return to old values
-            // PortInUse->PortCfg.RangeBipolar = oldBipolar;
 				PortInUse->PortCfg.ClipLow = OldClipLow;
 				PortInUse->PortCfg.ClipHigh = OldClipHigh;
 				rangeData->SetDAC(OldminD, OldRangeD); // Restore old DAC values
@@ -835,8 +833,6 @@ boolean SetClockMenu ()
         if (PointSelected < 2) { // Cancel or END Selected
             // TODO Check here if OK or Cancel
             ClearCalArea (); // Clear area used
-            // PortInUse->PortCfg.RangeBipolar = oldBipolar;
-            // rangeData->SetDAC(OldminD, OldRangeD); // Restore old DAC values
             InitCal = false;
             calMode = NoCalMode;
             return true;

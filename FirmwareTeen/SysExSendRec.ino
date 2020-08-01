@@ -253,7 +253,7 @@ bool SaveLoadClass::ReceivedSysEx(unsigned SysExLength, const byte *RecArray)
     Serial.print("SysEx Received length: ");
     Serial.println(SysExLength);
   #endif
-    if (SysExLength > 64 || SysExLength < 10)
+    if (SysExLength > 64 || SysExLength < 8)
     {
         DP("SysEx size not valid ");
         SetMessageText("SysEx size not valid");

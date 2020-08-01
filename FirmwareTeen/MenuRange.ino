@@ -228,10 +228,10 @@ boolean SetRange10()
 	int32_t MinDAC = INITMINDAC;
 	int32_t MidRange = INITRANGEDAC;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
-	if( Cfg->RangeBipolar == ZEROTO5V) // If it was in 0-5 v double the range
+	if( Cfg->getInputRange() == ZEROTO5V) // If it was in 0-5 v double the range
 		MidRange = MidRange * 2;
 
-	Cfg->RangeBipolar = NOOFFSET;
+	Cfg->setInputRange(NOOFFSET);
 	Cfg->Ranges.SetDAC(MinDAC, MidRange);
 
 	Cfg->SetMIDIFunc( Cfg->MIDIfunction ); // Reset MIDI Function
@@ -257,10 +257,10 @@ boolean SetRange5()
 	int32_t MinDAC;
 	int32_t MidRange;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
-	if( Cfg->RangeBipolar != ZEROTO5V) // If it was 0-10 v halve the range
+	if( Cfg->getInputRange() != ZEROTO5V) // If it was 0-10 v halve the range
 		MidRange = MidRange / 2;
 
-	Cfg->RangeBipolar = ZEROTO5V;
+	Cfg->setInputRange(ZEROTO5V);
 	Cfg->Ranges.SetDAC(MinDAC, MidRange);
 
 	Cfg->SetMIDIFunc( Cfg->MIDIfunction ); // Reset MIDI Function
@@ -289,14 +289,11 @@ boolean SetRangeBipolar()
 	int32_t MinDAC;
 	int32_t MidRange;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
-	if( Cfg->RangeBipolar == ZEROTO5V) // If it was 0-10 v halve the range
+	if( Cfg->getInputRange() == ZEROTO5V) // If it was 0-10 v halve the range
 		MidRange = MidRange * 2;
 
-	Cfg->RangeBipolar = MINUSPLUS5V;
+	Cfg->setInputRange(MINUSPLUS5V);
 	Cfg->Ranges.SetDAC(MinDAC, MidRange);
-
-//	CVControls[BankSelected].CVPort.PortCfg.RangeBipolar = MINUSPLUS5V;
-//	CVControls[BankSelected].CVPort.PortCfg.Ranges.SetDAC(INITMINDAC, INITRANGEDAC);
 
 	Cfg->SetMIDIFunc( Cfg->MIDIfunction ); // Reset MIDI Function
 

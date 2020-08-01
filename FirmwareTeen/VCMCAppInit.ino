@@ -135,8 +135,6 @@ void VCMCApp::initControls(void)
 
     // For testing purpose
     #ifndef CVTHING
-       // CVControls[7].Config.Chanfunction = SUM;
-        //CVControls[7].CVPort.PortCfg.RangeBipolar = MINUSPLUS5V;
         CVControls[7].CVPort.PortCfg.Ranges.SetDAC(INITMINDAC, INITRANGEDAC);
         CVControls[7].CVPort.PortCfg.SetMIDIFunc(
             CVControls[7].CVPort.PortCfg.MIDIfunction); // Reset MIDI Function

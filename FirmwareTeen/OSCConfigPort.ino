@@ -239,7 +239,7 @@ char MsgAddr[120];
 	strcpy(MsgAddr, address);
 	strcat(MsgAddr, "/AnagCfg");
 	OSCMessage msg(MsgAddr);
-	msg.add( MIDIfunction).add( ClipLow).add( ClipHigh)/*.add( Offset).add( Amp)*/.add( RangeBipolar)
+	msg.add( MIDIfunction).add( ClipLow).add( ClipHigh)/*.add( Offset).add( Amp)*/.add( getInputRange())
 	.add( NRPNparMSB).add( NRPNparLSB);
 	theApp.getSLIPSerial()->beginPacket();
 	msg.send(*theApp.getSLIPSerial()); // send the bytes to the SLIP stream
@@ -257,7 +257,7 @@ void AnInputPortCfg::ReadCfgOSC(OSCMessage *pMsg)
       MIDIfunction= pMsg->getInt(0);
       ClipLow= pMsg->getInt(1);
       ClipHigh= pMsg->getInt(2);
-      RangeBipolar= pMsg->getInt(3);
+      setInputRange(pMsg->getInt(3));
       NRPNparMSB= pMsg->getInt(4);
       NRPNparLSB= pMsg->getInt(5);
 }

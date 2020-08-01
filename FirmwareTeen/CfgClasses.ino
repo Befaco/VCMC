@@ -87,10 +87,10 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
     case PITCH:
 	case PITCHLEVEL:
 	case PITCH8TRIG:
-        if (RangeBipolar==MINUSPLUS5V) {
+        if (getInputRange()==MINUSPLUS5V) {
             minv = -128;
             maxv = 256;
-        } else if(RangeBipolar==ZEROTO5V){
+        } else if(getInputRange()==ZEROTO5V){
             minv = 0;
             maxv = 60;        
         }else {
@@ -111,13 +111,17 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
     case ANAGSTART:  
     case ANAGSTOP:
     case ANAGCONTINUE:
-        if (RangeBipolar==MINUSPLUS5V) {
+        if (getInputRange()==MINUSPLUS5V) {
             minv = -128;
             maxv = 256;
         } else {
             minv = 0;
             maxv = 127;
         }
+        break;
+    case CC14BITS:
+        minv = 0;
+        maxv = 16383;
         break;
     case PITCHBEND:
         minv = MIDI_PITCHBEND_MIN;
@@ -154,6 +158,7 @@ boolean AnInputPortCfg::IsDigitalFunc(void){
 	case PITCH8TRIG:
     case VELOCITY:
     case CONTROLCHANGE:
+    case CC14BITS:
     case PROGRAMCHANGE:
     case PITCHBEND:
     case PERCENT:
@@ -190,7 +195,7 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
 	case PITCHLEVEL:
 	case PITCH8TRIG:
     case PITCH:
-        if (RangeBipolar==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
+        if (getInputRange()==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
         #ifndef CVTHING
             Ranges.SetMIDI (-60, 120);
             ClipLow = -120;//60;
@@ -200,7 +205,7 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
             ClipLow = 0;
             ClipHigh = 120;
         #endif
-        } else if(RangeBipolar==ZEROTO5V){
+        } else if(getInputRange()==ZEROTO5V){
             Ranges.SetMIDI (0, 60);
             ClipLow = 0;
             ClipHigh = 120;    
@@ -223,7 +228,7 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
     case ANAGSTART:  
     case ANAGSTOP:
     case ANAGCONTINUE:
-        if (RangeBipolar==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
+        if (getInputRange()==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
         #ifndef CVTHING
             Ranges.SetMIDI (0, 127);
             ClipLow = -127;//64;
@@ -238,6 +243,12 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
             ClipLow = 0;
             ClipHigh = 127;
         }
+        break;
+    case CC14BITS:
+        // Set extended 14 bits MIDI range 0 to MIDI_PITCHBEND_MAX
+        Ranges.SetMIDI (0, 16383);
+        ClipLow = 0;
+        ClipHigh = 16383;
         break;
     case PITCHBEND:
         // Set extended Pitch Bend MIDI range -MIDI_PITCHBEND_MIN to MIDI_PITCHBEND_MAX
@@ -336,6 +347,12 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     EEPROM.put (MemPointer, UserNames);
     MemPointer += sizeof (UserNames);
 
+    EEPROM.put (MemPointer, ClockDivider);
+    MemPointer += sizeof (ClockDivider);
+    EEPROM.put (MemPointer, ClockShift);
+    MemPointer += sizeof (ClockShift);
+
+
 #ifdef PRINTDEBUG
 	Serial.print( "Saved Global ");
 	Serial.print( initPage);
@@ -355,8 +372,12 @@ int GlobalCfg::SaveCfg (/*int addr*/)
 	Serial.print( AuxBMinDAC);
 	Serial.print( "/");
 	Serial.print( AuxBRangeDAC);
+	Serial.print( "/");	
+    Serial.print( ClockDivider);
 	Serial.print( "/");
-	Serial.println( MemPointer);
+	Serial.print( ClockShift);
+	Serial.print( "/");
+    Serial.println( MemPointer);
 #endif
 #ifdef USEOSC
 	char msgTxt[120];
@@ -417,6 +438,11 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     EEPROM.get (MemPointer, UserNames);
     MemPointer += sizeof (UserNames);
 
+    EEPROM.get (MemPointer, ClockDivider);
+    MemPointer += sizeof (ClockDivider);
+    EEPROM.get (MemPointer, ClockShift);
+    MemPointer += sizeof (ClockShift);
+
 #ifdef PRINTDEBUG
 	Serial.print( "Load Global ");
 	Serial.print( initPage);
@@ -437,7 +463,11 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
 	Serial.print( "/");
 	Serial.print( AuxBRangeDAC);
 	Serial.print( "/");
-	Serial.println( MemPointer);
+    Serial.print( ClockDivider);
+	Serial.print( "/");
+	Serial.print( ClockShift);
+	Serial.print( "/");
+    Serial.println( MemPointer);
 #endif 
 	return GLOBALeeSize;//MemPointer - addr;
 }

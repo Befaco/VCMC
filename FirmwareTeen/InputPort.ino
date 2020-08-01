@@ -66,7 +66,7 @@ bool InputPort::ClockReceived (float clkDiv, int8_t bitShift) {
 		uint16_t Word[2];
 	} NewInt;
 
-    #ifdef PRINTDEBUG
+    #ifdef DEBUGMODE
     char Msg[80];
     sprintf (Msg, "ClockRcv (%d): ", PortNumber);
     Serial.print (Msg);
@@ -94,7 +94,7 @@ bool InputPort::ClockReceived (float clkDiv, int8_t bitShift) {
     //PrevDif = AcumDif;
 
     
-/*  #define MAXDIFCOMP 1000
+    /*#define MAXDIFCOMP 1000
     if( PrevDif>MAXDIFCOMP)
         NewInt.Inter += MAXDIFCOMP;
     else if( PrevDif<-MAXDIFCOMP)
@@ -103,10 +103,10 @@ bool InputPort::ClockReceived (float clkDiv, int8_t bitShift) {
         NewInt.Inter += PrevDif*NegPercentComp/100;
     else
         NewInt.Inter += PrevDif; */
-/*      if(PrevDif>0 )
+    /*  if(PrevDif>0 )
         NewInt.Inter = IntervalClock + PrevDif / 10;
     else
- */        NewInt.Inter = (int32_t)IntervalClock + PrevDif / 10;
+    */        NewInt.Inter = (int32_t)IntervalClock + PrevDif / 10;
 
     // Filter first 16 bits	
     FilteredInterval->update (NewInt.Word[0]);
@@ -135,7 +135,7 @@ bool InputPort::ClockReceived (float clkDiv, int8_t bitShift) {
     //if( dif*100 > NewInterval || (calMode==SetClockMode && PointSelected==3)) // 10% difference or fine tuning clock
         IntervalMIDIClock = NewInterval;
 
-    #ifdef PRINTDEBUG
+    #ifdef DEBUGMODE
     Serial.print ("      /");
     Serial.print (ClockCounter);
     /* Serial.print ("/");
@@ -171,9 +171,9 @@ bool InputPort::ClockReceived (float clkDiv, int8_t bitShift) {
 
     PreviousClock = CurrentClock;
 
-#ifdef USEREADINTERR
+    #ifdef USEREADINTERR
     interrupts ();
-#endif
+    #endif
 
     return true;
 }

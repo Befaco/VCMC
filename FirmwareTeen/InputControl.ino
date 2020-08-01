@@ -242,7 +242,7 @@ void InputControl::OnDataChange (void) {
                 }
                 // Independ channels
                 else {
-                    if (CVPort.PortCfg.MIDIfunction == PITCHTRIG){
+                    if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG){
 						played = true;
                         MidiMerge.sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
 						CVPort.LastSentMIDIData=-999;}
@@ -344,10 +344,10 @@ int InputControl::DataCalc (void) {
         else
             outdata = ((long)CVPort.MIDIData * Slider.MIDIData);
     }
-	byte bBip = CVPort.PortCfg.RangeBipolar;
-	CVPort.PortCfg.RangeBipolar= NOOFFSET;
+	byte bBip = CVPort.PortCfg.getInputRange();
+	CVPort.PortCfg.setInputRange(NOOFFSET);
 	outdata = CVPort.TrimValue(outdata);
-    CVPort.PortCfg.RangeBipolar= bBip;
+    CVPort.PortCfg.setInputRange(bBip);
     
     return outdata; // CVPort.TrimValue(outdata);
 }

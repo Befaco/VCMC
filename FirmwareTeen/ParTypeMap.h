@@ -61,6 +61,7 @@ enum PARNames
     PAR_ClipLow,
     PAR_ClipHigh,
     PAR_FunctionData,
+    PAR_Option1,
 
     PAR_GateMIDIChannel,
     PAR_GatePortName,
@@ -109,7 +110,7 @@ SysExDataStruct DATA_Analog[] = {
     { 2, charTYPE, PAR_NameSufix},
     { 3, ui16TYPE, PAR_DelayGate},
     // Analog Data
-    { 5, ui08TYPE, PAR_Function},
+    { 5, ui08TYPE, PAR_Option1},
     { 6, si16TYPE, PAR_Range_minMIDI},
     { 8, si16TYPE, PAR_Range_rangeMIDI},
     {10, si32TYPE, PAR_Range_minDAC},
