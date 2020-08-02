@@ -421,7 +421,8 @@ void OLEDMenu::displayMenuCards () {
     theOLED->setCursor (POSXCARD + 8, posCursor);
     posCursor += 8;
     theOLED->print (TrimCV);
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG) {
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH8TRIG) {
         if (TrimCV > 0) {
             theOLED->print (" ");
             theOLED->print (NotesNames[TrimCV]);
