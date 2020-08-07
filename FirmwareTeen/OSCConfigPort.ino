@@ -71,7 +71,7 @@
 */
 
 
-#ifdef USEOSC
+#ifdef USECONFIGOSC
 void GlobalCfg::SaveCfgOSC(char *address)
 {
 char MsgAddr[120];

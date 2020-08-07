@@ -78,7 +78,7 @@ class GlobalCfg {
 	int SaveCfg();//int addr);
 	int LoadCfg();//int addr);
 	int SetPage(int page);
-#ifdef USEOSC
+#ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
 #endif
@@ -178,7 +178,7 @@ class InputPortCfg {
     uint8_t     charSufix = 0;
     uint16_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
-    #ifdef USEOSC
+    #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
     #endif
@@ -223,7 +223,7 @@ class AnInputPortCfg : public InputPortCfg {
 	uint8_t NRPNparMSB;
 	uint8_t NRPNparLSB;
     uint16_t AutoOff=1000;      ///< Note Off after n milliseconds
-#ifdef USEOSC
+#ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
 	void ReadBaseCfgOSC(OSCMessage *pMsg);
@@ -264,7 +264,7 @@ class DigPortCfg : public InputPortCfg {
     public:    
     uint8_t MIDIfunction; ///< MIDI function as defined on GateFunctions enumerator
 
-    #ifdef USEOSC
+    #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
 	void ReadBaseCfgOSC(OSCMessage *pMsg);

@@ -145,6 +145,7 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
     pMsg->getAddress (outBuf);
 
     // Commands
+    #ifdef USECONFIGOSC
     if (pMsg->fullMatch ("/VCMC/Command")) {
         if (pMsg->isString (0)) {
             pMsg->getString (0, msgTxt, 100); // Get command string
@@ -158,6 +159,7 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
             }
         }
     }
+    
 	// Config messages
 	int posit;
     if ((posit= pMsg->match ("/VCMC/Config"))) {
@@ -202,6 +204,8 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
 			}
 		}
 	}
+    #endif
+
 }
 
 

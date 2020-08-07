@@ -116,11 +116,6 @@ InputPortCfg *VCMCApp::GetPortConfig (void) {
 }
 
 
-#ifdef USEOSC
-
-
-
-#endif
 
 
 /**@}*/

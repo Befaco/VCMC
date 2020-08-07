@@ -402,7 +402,7 @@ int InputControl::SaveCfg (int addr) {
 	Serial.print( "/");
 	Serial.println( MemPointer);
     #endif
-    #ifdef USEOSC
+    #ifdef USECONFIGOSC
 	char msgTxt[120];
     sprintf (msgTxt, "/VCMC/Config/%d", ControlNumber + 1);
     SaveCfgOSC (msgTxt);

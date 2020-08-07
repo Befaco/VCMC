@@ -53,7 +53,7 @@ class InputControl {
     DemuxAnalogPort Slider; /**< \brief Control the Fader port*/
     DigitalPort GateBut; /**< \brief Control the Gate port*/
     InputCtrlCfg Config; /**< \brief Var to store the configuration for the Input Controls*/
-    #ifdef USEOSC
+    #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
     #endif

@@ -27,7 +27,7 @@
 #include "PrjIncludes.h"
 
 
-#ifdef USEOSC
+#ifdef USEI2C
 /**
  * \brief handle Rx Event (incoming I2C data)
  * 

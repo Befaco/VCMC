@@ -125,7 +125,7 @@ class RangeConv {
         RangeD = rangeMIDI;
     }
 //    void setMultiPointMode (boolean Mode) { UseMultiPoint = Mode; }
-#ifdef USEOSC
+#ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
 #endif

@@ -112,15 +112,10 @@ bool AnalogPort::ReadPort (long &NewData) {
     else
         digitalWrite (PINOFFSET, LOW);
     // Read input
-    /*uint16_t reading = 0;
+    /* uint16_t reading = 0; // Test CV inputs
     if(PortCfg.ControllerNumber<21) reading = myMenu.disptimer / 50 / PortCfg.ControllerNumber;
-    if(PortCfg.ControllerNumber==21){
-        if((myMenu.disptimer%5000000)<500000)
-            reading = 0;
-        else
-            reading = 4095<<4;
-        }
-    */
+    if(PortCfg.ControllerNumber==21) reading = ((myMenu.disptimer%5000000)<500000)?0:4095<<4;
+     */
     uint16_t reading = (uint16_t)adc->analogRead (PortNumber);//,adcNum);
 
     if (ANBITS > 12) reading >>= 4; // Filter first 4 bits
