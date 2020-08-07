@@ -52,8 +52,18 @@ class GlobalCfg {
     int32_t AuxBMinDAC;   ///< Minimum default Aux B DAC value
     int32_t AuxBRangeDAC; ///< Minimum default Aux B DAC range
     uint16_t AutoOff;      ///< Note Off after n milliseconds
-    float       ClockDivider=1.0;           ///< Clack divider: Divides the interval by this number for fine clock adjustment
+    float       ClockDivider=1.2;           ///< Clack divider: Divides the interval by this number for fine clock adjustment
     int8_t      ClockShift = 0;         ///< Clack multiplier: Multiplies(+) / Divides(-) by power of 2 
+
+    union
+    {
+        struct{
+            bool EncoderDir:1;  ///< Encder Diretion default=0, reversed = 1)
+            uint8_t Unused:7;
+        };
+        uint8_t GenOptions1;
+    };
+    //uint8_t GenOptions1;
 
     char UserNames[NUMUSERNAMES][SIZEPORTNAMES+1] = { { 0 } };
     ////////////////////////////////
@@ -70,7 +80,8 @@ class GlobalCfg {
         AuxARangeDAC(-ANRANGEMAX),
         AuxBMinDAC (ANRANGEMAX),
         AuxBRangeDAC(-ANRANGEMAX),
-        AutoOff(1000)
+        AutoOff(1000),
+        EncoderDir(1)
 	{	
         // InitMinDAC=4138; // Hacked custom values
         // InitRangeDAC=-4144;

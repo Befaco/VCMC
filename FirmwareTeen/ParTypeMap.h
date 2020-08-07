@@ -48,6 +48,7 @@ enum PARNames
     PAR_AutoOff,
     PAR_ClockDivider,
     PAR_ClockShift,
+    PAR_GENOptions,
 
     PAR_MIDIChannel,
     PAR_PortName,
@@ -87,7 +88,7 @@ enum typesEnum
 uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
 
 SysExDataStruct DATA_General[] = {
-    {43, ui16TYPE, PAR_Size},
+    {44, ui16TYPE, PAR_Size},
 
     { 4, si32TYPE, PAR_DefMinDAC},
     { 8, si32TYPE, PAR_DefRangeDAC},
@@ -100,6 +101,7 @@ SysExDataStruct DATA_General[] = {
     {36, si16TYPE, PAR_AutoOff},
     {38, floaTYPE, PAR_ClockDivider},
     {42, si08TYPE, PAR_ClockShift},
+    {43, si08TYPE, PAR_GENOptions},
 };
 
 SysExDataStruct DATA_Analog[] = {

@@ -352,7 +352,9 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     EEPROM.put (MemPointer, ClockShift);
     MemPointer += sizeof (ClockShift);
 
-
+    /* EEPROM.put (MemPointer, GenOptions1);
+    MemPointer += sizeof (GenOptions1);
+ */
 #ifdef PRINTDEBUG
 	Serial.print( "Saved Global ");
 	Serial.print( initPage);
@@ -442,6 +444,9 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     MemPointer += sizeof (ClockDivider);
     EEPROM.get (MemPointer, ClockShift);
     MemPointer += sizeof (ClockShift);
+
+    /* EEPROM.get (MemPointer, GenOptions1);
+    MemPointer += sizeof (GenOptions1); */
 
 #ifdef PRINTDEBUG
 	Serial.print( "Load Global ");

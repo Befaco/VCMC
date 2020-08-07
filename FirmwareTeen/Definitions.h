@@ -59,7 +59,7 @@ const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports ser
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1
 #endif
-#define CVTHING 1
+//#define CVTHING 1
 //#define USEOSC
 //#define USECONFIGOSC
 //#define USEI2C
