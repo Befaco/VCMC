@@ -62,7 +62,7 @@ public:
     void sendNrpnValue(uint16_t value, uint8_t channel);
     void beginNrpn(uint16_t number, uint8_t channel);
 private:
-    midi::MidiInterface<HardwareSerial> *midiJack; ///< MIDI Interface pointers
+    midi::MidiInterface<midi::SerialMIDI<HardwareSerial>> *midiJack; ///< MIDI Interface pointers
     bool MIDIThru = false; 
 };
 
