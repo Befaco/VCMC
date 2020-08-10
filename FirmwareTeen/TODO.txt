@@ -1,10 +1,10 @@
 
 1. Modify boards.txt in folder <Arduino folder>/hardware/teensy/avr
-Add
+Add at line 871 aprox.
 teensy31.menu.usb.serialmidi2=Serial + MIDI2
 teensy31.menu.usb.serialmidi2.build.usbtype=USB_MIDI_SERIAL2
 
-In usb_desc.h add new configuration (after aprox. line 540)
+In usb_desc.h in folder <Arduino folder>\hardware\teensy\avr\cores\teensy3 add new configuration (after aprox. line 540)
 
 #elif defined(USB_MIDI_SERIAL2)
   #define VENDOR_ID		0x16C0
