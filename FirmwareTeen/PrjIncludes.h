@@ -90,6 +90,9 @@
 #include <OSCMessage.h>
 #include "OSCMerge.h"
 #endif
+#ifdef USEI2C
+#include "I2CMerge.h"
+#endif
 
 #include "Blinker.h"
 #include "MultiPointConv.h"

@@ -31,13 +31,13 @@
 * @{
 */
 
+enum I2CDevices {
+
+};
+
 void receiveEvent(int count);
 void requestEvent(void);
 
-class I2CPort {
-public:
-    void setI2CAddress(int addr);
-};
 /** @} */ 
 
 #endif /* I2CSendRec_H_ */

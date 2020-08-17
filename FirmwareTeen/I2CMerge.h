@@ -24,45 +24,61 @@
 //
 // -----------------------------------------------------------------------------
 //
-#ifndef __have__OSCMerger_h__
-#define __have__OSCMerger_h__
+#ifndef __have__I2CMerger_h__
+#define __have__I2CMerger_h__
 #include "PrjIncludes.h"
 
-/** @addtogroup OSC 
+/** @addtogroup I2C 
  *  @{
  */
 
 /**
- *  \file OSCMerge.h
- *  \brief OSC I/O management 
+ *  \file I2CMerge.h
+ *  \brief I2C I/O management 
  */
 
-/// Class for OSC I/O management
-class OSCmerger
+struct I2CMessage {
+    uint8_t Command;
+    uint8_t Port;
+    union
+    {
+        uint8_t data[2];
+        uint16_t uiValue;
+        int16_t iValue;
+        //float fValue;
+    };
+};
+
+
+
+/// Class for I2C I/O management
+class I2Cmerger
 {
 private:
-    int msgInSize = 0;
-    OSCMessage msgIn;
-    char charIn[260];
-    bool OSCInput = true;
-    bool OSCOutput = false;
+    bool I2CInput = true;
+    bool I2COutput = true;
+    bool I2CMaster = true;
 
 public:
-    SLIPEncodedUSBSerial SLIPSerial; ///< OSC Serial
-    OSCMessage msgOut;
+    union {
+        uint8_t databuf[64]; // Raw data
+        I2CMessage recMsg;  // Received message
+    };
+    int received=0;
+    int ClientPort=0x66;
 
 public:
-    OSCmerger(): SLIPSerial(Serial){};
+    bool IsMaster() { return I2CMaster; }
     bool poll(void);
     void begin(void);
-    void sendOSC();
-    void readOSC();
-    void ProcessOscMsg(OSCMessage *pMsg);
-    void SendOSCMsgint(char *address, int value);
-    void SendOSCMsgfloat(char *address, float value);
-
-    SLIPEncodedUSBSerial *getSLIPSerial(void){ return &SLIPSerial; }
+    void sendI2C();
+    void readI2C();
+    //void ProcessI2CMsg(I2CMessage *pMsg);
+    void SendI2Cint(uint8_t model, uint8_t deviceIndex, uint8_t cmd, uint8_t devicePort, int16_t value);
+    void SendI2Cint(uint8_t bank, uint8_t port, int16_t value);
 };
+
+    extern TwoWire *pWire;
 
 #endif
 

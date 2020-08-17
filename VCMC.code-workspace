@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "FirmwareTeen"
+		},
+		{
+			"path": "..\\16n"
 		}
 	],
 	"settings": {}

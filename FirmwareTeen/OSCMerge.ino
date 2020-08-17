@@ -45,15 +45,6 @@ bool OSCmerger::poll(void)
     // Receive OSC
     if( OSCInput) readOSC (); 
 
-    #ifdef PRINTDEBUG
-    if( received )
-    {
-        Serial.printf("Received %d:",received);
-        Serial.println((char*)databuf);
-        received = 0;
-    }
-    #endif
-
     return true;
 }
 
@@ -214,15 +205,6 @@ void OSCmerger::begin(void)
     //begin SLIPSerial just like Serial
     SLIPSerial.begin(115200); // set this as high as you can reliably run on your platform
 
-    // Begin I2C serial channel
-    // Setup for Slave mode, address 0x66, pins 18/19, external pullups, 400kHz
-    Wire1.begin(ClientPort);
-    Wire1.setSDA(I2C_SDA);
-    Wire1.setSCL(I2C_SCL);
-    // Wire1.begin(I2C_SLAVE, 0x66, I2C_PINS_29_30, I2C_PULLUP_EXT, 400000);
-    // register events
-    Wire1.onReceive(receiveEvent);
-    Wire1.onRequest(requestEvent);
     DP("Init OSC Merger"));
 }
 

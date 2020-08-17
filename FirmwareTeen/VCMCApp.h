@@ -94,9 +94,9 @@ public:
     #ifdef USEOSC
     OSCmerger OSCMerge;             ///< Control sending OSC through Serial USB and I2C outputs
     SLIPEncodedUSBSerial *getSLIPSerial(void){ return OSCMerge.getSLIPSerial(); }
-    //void sendOSC();
-    //void readOSC();
-    //void ProcessOscMsg(OSCMessage *pMsg);
+    #endif
+    #ifdef USEI2C
+    I2Cmerger I2CMerge;             ///< Control I2C inputs / outputs
     #endif
     int32_t getInitMinDAC() { return theGlobalCfg.InitMinDAC; }     ///< Return the global config minimum DAC value
     int32_t getInitRangeDAC() { return theGlobalCfg.InitRangeDAC; } ///< Return the global config minimum DAC range

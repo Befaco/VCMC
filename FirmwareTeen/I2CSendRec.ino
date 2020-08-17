@@ -36,12 +36,12 @@
 void receiveEvent(int count)
 {
     int i =0;
-    while(Wire1.available() > 0) {  // loop through all but the last
-        theApp.OSCMerge.databuf[i] = Wire1.read();        // receive byte as a character
+    while(pWire->available() > 0) {  // loop through all but the last
+        theApp.I2CMerge.databuf[i] = pWire->read();        // receive byte as a character
         i++;
     }
-    //Wire1.read(theApp.OSCMerge.databuf, count);  // copy Rx data to databuf
-    theApp.OSCMerge.received = i; //count; // set received flag to count, this triggers print in main loop
+    
+    theApp.I2CMerge.received = i; //count; // set received flag to count, this triggers print in main loop
 }
 
 
@@ -52,15 +52,17 @@ void receiveEvent(int count)
  */
 void requestEvent(void)
 {
-    if( theApp.OSCMerge.msgOut.size()==0)
-    {
-        Wire1.write(0);
-        return;
-    }
-    theApp.OSCMerge.msgOut.send(Wire1);
-    DP((char*)theApp.OSCMerge.databuf));
-    theApp.OSCMerge.msgOut.empty();
+  DP("request");
+  if (theApp.I2CMerge.received == 0)
+  {
+    pWire->write(0);
+    return;
+  }
+  pWire->write(theApp.I2CMerge.databuf,theApp.I2CMerge.received);
+  DP((char*)theApp.I2CMerge.databuf);
 }
+
+
 
 
 /*
@@ -74,11 +76,11 @@ void requestEvent(void)
   messageBuffer[3] = valueTemp & 0xff;
 
 #ifdef V125
-  Wire1.beginTransmission(model + deviceIndex);
+  pWire->beginTransmission(model + deviceIndex);
   messageBuffer[0] = cmd;
   messageBuffer[1] = (uint8_t)devicePort;
-  Wire1.write(messageBuffer, 4);
-  Wire1.endTransmission();
+  pWire->write(messageBuffer, 4);
+  pWire->endTransmission();
 #else
   Wire.beginTransmission(model + deviceIndex);
   messageBuffer[0] = cmd;
@@ -89,4 +91,41 @@ void requestEvent(void)
 }
  */
 
+/*
+ * The function that responds to read requests over i2c.
+ * This uses the port from the write request to determine which slider to send.
+ */
+/*
+void i2cReadRequest()
+{
+
+  D(Serial.print("i2c Read\n"));
+
+  // get and cast the value
+  uint16_t shiftReady = 0;
+  switch (activeMode)
+  {
+  case 1:
+    shiftReady = (uint16_t)currentValue[activeInput];
+    break;
+  case 2:
+    shiftReady = (uint16_t)currentValue[activeInput];
+    break;
+  default:
+    shiftReady = (uint16_t)currentValue[activeInput];
+    break;
+  }
+
+  D(Serial.printf("delivering: %d; value: %d [%d]\n", activeInput, currentValue[activeInput], shiftReady));
+
+// send the puppy as a pair of bytes
+#ifdef V125
+  pWire->write(shiftReady >> 8);
+  pWire->write(shiftReady & 255);
+#else
+  Wire.write(shiftReady >> 8);
+  Wire.write(shiftReady & 255);
+#endif
+}
+ */
 #endif

@@ -112,4 +112,7 @@ void loop () {
     #ifdef USEOSC
     theApp.OSCMerge.poll();
     #endif
+    #ifdef USEI2C
+    theApp.I2CMerge.poll();
+    #endif
 }
