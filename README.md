@@ -42,6 +42,8 @@ The code will also run with CV Thing module. See below install options for detai
 
 [Adafruit SSD1306 Display](https://github.com/adafruit/Adafruit_SSD1306)
 
+[Adafruit BusIO](https://github.com/adafruit/Adafruit_BusIO)
+
 [TimerOne](http://playground.arduino.cc/Code/Timer1)
 
 [Menu class](https://forum.arduino.cc/index.php?topic=353045.0)
