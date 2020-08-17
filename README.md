@@ -14,7 +14,7 @@ The code will also run with CV Thing module. See below install options for detai
 - New Polyphonic mode added.
 - Changed save structure. Now there are four save spaces available.
 - 14 bit CC implemented.
-- Sysex commands implemented. 
+- Web configurer available [here.](https://www.befaco.org/VCMCconfig/) 
 
 ### v1.1
 - Controls now can be named. List of common names is available as well as a list of user defined names.
@@ -51,9 +51,6 @@ The code will also run with CV Thing module. See below install options for detai
 [ClickEncoder](https://github.com/0xPIT/encoder)
 
 
-MIDI
-
-
 ## Uploading the firmware from hex file
 
 - Get latest firmware file from Bin folder.
@@ -71,6 +68,7 @@ Go to the official [Arduino website](https://www.arduino.cc/en/Main/Software) an
 
 2. Download Teensyduino
 Go to the official [Teensy site](https://www.pjrc.com/teensy/teensyduino.html) and follow the instructions to install the add-on.
+Make sure you have version 1.53.
 
 3. Edit LCD Library
 
@@ -106,14 +104,14 @@ If everything goes well you should see a "Done uploading" message in a few secon
 ## Uploading code to CV Thing.
 Upload process is the same for CV Thing. But you will need to uncomment two lines from the code:
 
-- In **Definitions.h** uncomment line 58:
+- In **Definitions.h** uncomment line 62:
 
 //#define CVTHING 1
 
 ## Screen incosistencies.
 
 We have been facing inconsistencies with screen providers. Differnet batches had different horizontal lines offset. 
-If you are facing offset problems, there is a setup in Definitions.h lines 61 - 63:
+If you are facing offset problems, there is a setup in Definitions.h lines 68 - 70 Possible values are  0x00, 0xFF, 0x01:
 
 
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...) Possible values 0x00 0xFF 0x01
