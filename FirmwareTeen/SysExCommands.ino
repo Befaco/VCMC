@@ -45,7 +45,8 @@
  */
 void VCMCApp::ProcessSysExCommand(VCMCSysExPacket *SysExPacket){
     uint8_t bComm = SysExPacket->Slot; // Global commands are stored in the slot as 7 bits value
-
+    if( SysExPacket->Length <1) return;
+    
     switch(bComm){
         case SENDCURRENTCONFIG:
             DP("Sending Current SysEx config");
@@ -58,6 +59,14 @@ void VCMCApp::ProcessSysExCommand(VCMCSysExPacket *SysExPacket){
         case FACTORYDEFAULT:
             DP("Reset module to factory default");
             FactoryReset();
+            break;
+        case SAVETOSLOT:
+            D(Serial.printf("Save to Slot %d.\n",SysExPacket->pData[0]));
+            FlashAcc.SaveCfg(SysExPacket->pData[0]);
+            break;
+        case LOADSLOT:
+            DP("Load Slot");
+            FlashAcc.LoadCfg(SysExPacket->pData[0]);
             break;
         default:
             DP("SysEx General command not recognized");

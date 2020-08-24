@@ -68,9 +68,10 @@ bool I2Cmerger::poll(void)
 
 void I2Cmerger::sendI2C () 
 {
-    static long microsI2C = 0;
-    if (micros () - microsI2C > I2CINTERVAL && Serial.availableForWrite () > 20) {
-        microsI2C = micros ();
+    static uint32_t microsI2C = 0;
+    uint32_t current = micros();
+    if (current - microsI2C > I2CINTERVAL && Serial.availableForWrite () > 20) {
+        microsI2C = current;
         uint16_t NewValue;
         static uint16_t OldValue[2][9];
         static uint16_t OldGate[9];
@@ -130,21 +131,21 @@ void I2Cmerger::begin(void)
 
 void I2Cmerger::SendI2Cint(uint8_t bank, uint8_t port, int16_t value)
 {
-    SendI2Cint(0x66, 0, 0x11, bank*10+port, value); // Send to ER-301
+    SendI2Cint(0x66, 0x11, bank*10+port, value); // Send to ER-301
 }
 
-void I2Cmerger::SendI2Cint(uint8_t model, uint8_t deviceIndex, uint8_t cmd, uint8_t devicePort, int16_t value)
+void I2Cmerger::SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value)
 {
     recMsg.Command = cmd;
     recMsg.Port = devicePort;
     recMsg.iValue = value;
 
-    pWire->beginTransmission(model + deviceIndex);
+    pWire->beginTransmission(model);
     pWire->write(databuf, 4);
     pWire->endTransmission();
 
-    D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
-        databuf[0], databuf[1], databuf[2], databuf[3]));
+    /* D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
+        databuf[0], databuf[1], databuf[2], databuf[3])); */
 }
 
 

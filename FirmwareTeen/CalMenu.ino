@@ -47,8 +47,8 @@ boolean InitCal = false;
 int PointSelected = 0;
 // Store values for cancel option
 boolean oldBipolar;
-int32_t OldminD, OldRangeD;
-int32_t DAC1 = 0, DAC2 = 0;
+int16_t OldminD, OldRangeD;
+int16_t DAC1 = 0, DAC2 = 0;
 int16_t OldClipLow = 0, OldClipHigh = 120;
 int16_t OldminMIDI,OldrangeMIDI;
 uint8_t OldMIDIfunction;
@@ -155,7 +155,7 @@ boolean InitCalibration (void) {
         PortInUse->PortCfg.setInputRange(NOOFFSET);
         rangeData->SetDAC (INITMINDAC, INITRANGEDAC);
         for (int i = 0; i < 20; i++) {
-            calPoints[i] = 0;//DACPoints[i]; // Store original points (for cancel purpose)
+            calPoints[i] = 0; // Store original points (for cancel purpose)
             pointChanged[i] = false;
         }
     }
@@ -187,7 +187,7 @@ boolean AutoCalCV () {
 void displayCalibrationCV () {
     char outBuf[17];
     int posx = 0, posy = 0;
-    int32_t minD, rangeD;
+    int16_t minD, rangeD;
 
     // Clear area used
     theOLED->fillRect (posx, posy, 128 - posx, 64 - posy, BLACK); // Erase input area
@@ -215,7 +215,6 @@ void displayCalibrationCV () {
             if (i + j == 0)
                 theOLED->println (" END");
             else {
-               // padvalue (DACPoints[pCursor], outBuf, 4);
                 theOLED->println (outBuf);
                 if (pointChanged[pCursor])
                     theOLED->drawFastHLine (posx + j * 6 * 5, posy + i * 9 + 14, 24, WHITE);
@@ -272,7 +271,6 @@ boolean CalibrateCV ()
         return true;
     } else { // Accept input in point selected
         // TODO Check conditions for point acceptance here
-        //DACPoints[PointSelected] = PortData;
         pointChanged[PointSelected] = true;
         PointSelected = (PointSelected < 19) ? PointSelected + 1 : 0; // Step to next point
     }
@@ -287,15 +285,10 @@ uint8_t IsCalPoint (uint16_t DACpoint) {
             return 2; // Point 1
         if (DACpoint < DAC2 + RangeAutoCalPoint * 20 && DACpoint > DAC2 - RangeAutoCalPoint * 20)
             return 3; // Point 2
-        int32_t DACMid = PortInUse->PortCfg.Ranges.Convert (60);
+        int16_t DACMid = PortInUse->PortCfg.Ranges.Convert (60);
         if (DACpoint < DACMid + RangeAutoCalPoint * 20 && DACpoint > DACMid - RangeAutoCalPoint * 20)
             return 1; // End
     } else {
-        /*
-        for (int i = 1; i < 20; i++)
-            if (DACpoint < DACPoints[i] + RangeAutoCalPoint && DACpoint > DACPoints[i] - RangeAutoCalPoint)
-                return i;
-        */
     }
     return 0;
 }
@@ -307,7 +300,7 @@ uint8_t IsCalPoint (uint16_t DACpoint) {
 void displayTwoPoints () {
     //char outBuf[17];
     int posx = 0, posy = 0;
-    int32_t minD, rangeD;
+    int16_t minD, rangeD;
     rangeData->getDAC (minD, rangeD);
 
     //bool Is5V = (rangeD > 0) ? rangeD < INITRANGEDAC / 2 + 100 : rangeD > INITRANGEDAC / 2 - 100;
@@ -402,7 +395,7 @@ boolean TwoPointsCal () {
             return true; // If Init fails, abort
         }
     // Get the 2 calibration points
-    int32_t minD, rangeD;
+    int16_t minD, rangeD;
 	rangeData->getDAC(minD, rangeD);
     // bool Is5V = (rangeD > 0) ? rangeD < INITRANGEDAC / 2 + 100 : rangeD > INITRANGEDAC / 2 - 100;
     bool Is5V = (PortInUse->PortCfg.getInputRange() == ZEROTO5V);
@@ -441,7 +434,7 @@ boolean TwoPointsCal () {
         calMode = NoCalMode;
         return true;
     } else { // Accept input in point selected
-        //int32_t minD, rangeD;
+        //int16_t minD, rangeD;
         if (PointSelected == 2) DAC1 = PortData;
         if (PointSelected == 3) DAC2 = PortData;
         if( Is5V){
@@ -465,8 +458,7 @@ boolean CVTwoPointsCal ()
 
     if (!TwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
-		int32_t minD, rangeD;
+		int16_t minD, rangeD;
 		rangeData->getDAC(minD, rangeD);
 		for(int i=0; i<8; i++){
 			CVControls[i].CVPort.PortCfg.Ranges.SetDAC (minD, rangeD);
@@ -489,8 +481,7 @@ boolean AuxATwoPointsCal ()
 	BankSelected = 8; // Calibrate on Aux
 	if (!AuxTwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
-		int32_t minD, rangeD;
+		int16_t minD, rangeD;
 		// Store on second Aux
 		rangeData->getDAC(minD, rangeD);
 		CVControls[8].CVPort.PortCfg.Ranges.SetDAC (minD, rangeD);
@@ -510,8 +501,7 @@ boolean AuxBTwoPointsCal ()
 	BankSelected = 8; // Calibrate on Aux
 	if (!AuxTwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
-		int32_t minD, rangeD;
+		int16_t minD, rangeD;
 		// Store on second Aux
 		rangeData->getDAC(minD, rangeD);
 		CVControls[8].Slider.PortCfg.Ranges.SetDAC (minD, rangeD);
@@ -528,17 +518,6 @@ boolean AuxBTwoPointsCal ()
 boolean AuxTwoPointsCal () {
 
     if (!TwoPointsCal ()) return false; // Wait for calibration to end
- /*   if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
-		int32_t minD, rangeD;
-		// Store on second Aux
-		rangeData->getDAC(minD, rangeD);
-		CVControls[8].Slider.PortCfg.Ranges.SetDAC (minD, rangeD);
-		// Save Global Config
-		theApp.theGlobalCfg.AuxMinDAC = minD;
-		theApp.theGlobalCfg.AuxRangeDAC = rangeD;
-		theApp.theGlobalCfg.SaveCfg();
-    }*/
     return true;
 }
 
@@ -574,7 +553,7 @@ boolean FadersCal ()
     if (PointSelected < 2) { // Cancel or END Selected
         // TODO Check here if OK or Cancel
         ClearCalArea (); // Clear area used
-		int32_t GlobalminD=0, GlobalrangeD=0;
+		int16_t GlobalminD=0, GlobalrangeD=0;
         if (PointSelected == 1) {
             for (int i = 0; i < 8; i++){
 				GlobalminD+=MinFadersData[i]/8; GlobalrangeD+=(MaxFadersData[i] - MinFadersData[i])/8;
@@ -706,7 +685,7 @@ boolean SetRangeMenu () {
 void displaySetRangeMenu () {
     char outBuf[17];
     int posx = 0, posy = 0;
-    //int32_t minD, rangeD;
+    //int16_t minD, rangeD;
 
     // Clear area used
     theOLED->fillRect (posx, posy, 128 - posx, 64 - posy, BLACK); // Erase input area
@@ -770,7 +749,7 @@ void displaySetRangeMenu () {
 
 void getSetRangeValue (char *Buf, int val) {
     int16_t minM, rangeM;
-    int32_t minD, rangeD;
+    int16_t minD, rangeD;
     PortInUse->PortCfg.Ranges.getMIDI (minM, rangeM);
     PortInUse->PortCfg.Ranges.getDAC (minD, rangeD);
     switch (val) {

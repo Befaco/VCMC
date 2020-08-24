@@ -62,6 +62,7 @@ private:
 public:
     union {
         uint8_t databuf[64]; // Raw data
+        int16_t int16buf[32]; // Data as 16 bits integers
         I2CMessage recMsg;  // Received message
     };
     int received=0;
@@ -74,8 +75,9 @@ public:
     void sendI2C();
     void readI2C();
     //void ProcessI2CMsg(I2CMessage *pMsg);
-    void SendI2Cint(uint8_t model, uint8_t deviceIndex, uint8_t cmd, uint8_t devicePort, int16_t value);
+    void SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value);
     void SendI2Cint(uint8_t bank, uint8_t port, int16_t value);
+    void scanforI2Cclients();
 };
 
     extern TwoWire *pWire;

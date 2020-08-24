@@ -297,7 +297,7 @@ void RangeConv::SaveCfgOSC (char *address) {
     strcpy (MsgAddr, address);
     strcat (MsgAddr, "/Range");
     OSCMessage msg (MsgAddr);
-    msg.add (minMIDI).add (rangeMIDI).add (minDAC).add (rangeDAC);//.add (UseMultiPoint);
+    msg.add (minMIDI).add (rangeMIDI).add (minDAC).add (rangeDAC);
 
     theApp.getSLIPSerial()->beginPacket ();
     msg.send (*theApp.getSLIPSerial()); // send the bytes to the SLIP stream

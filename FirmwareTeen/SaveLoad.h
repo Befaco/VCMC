@@ -59,7 +59,7 @@
 #ifndef __SAVELOAD_H
 #define __SAVELOAD_H
 
-#define VERSAVE 16 // Change version when saved data version changes
+#define VERSAVE 17 // Change version when saved data version changes
 #define CFGDATATAG \
     9898 + VERSAVE // Pre-defined value to check if data in EEPROM is valid Configuration data
 // EEPROM Save/load config

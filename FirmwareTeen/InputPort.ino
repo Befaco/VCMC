@@ -40,10 +40,6 @@ uint32_t AcumOutputInterv = 0;
 int32_t AcumDif = 0;
 int32_t PrevDif = 0;
 
-//extern CalModes calMode;
-//extern int PointSelected;
-//int32_t NegPercentComp=100  ;
-
 /**
  *  \brief  Every clock received, recalculate interval for MIDI Clock sent
  *  

@@ -88,24 +88,24 @@ enum typesEnum
 uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
 
 SysExDataStruct DATA_General[] = {
-    {44, ui16TYPE, PAR_Size},
+    {27, ui16TYPE, PAR_Size},
 
-    { 4, si32TYPE, PAR_DefMinDAC},
-    { 8, si32TYPE, PAR_DefRangeDAC},
-    {12, si32TYPE, PAR_DefMinFader},
-    {16, si32TYPE, PAR_DefRangeFader},
-    {20, si32TYPE, PAR_DefMinAux},
-    {24, si32TYPE, PAR_DefRangeAux},
-    {28, si32TYPE, PAR_DefMinAuxB},
-    {32, si32TYPE, PAR_DefRangeAuxB},
-    {36, si16TYPE, PAR_AutoOff},
-    {38, floaTYPE, PAR_ClockDivider},
-    {42, si08TYPE, PAR_ClockShift},
-    {43, si08TYPE, PAR_GENOptions},
+    { 2, si16TYPE, PAR_DefMinDAC},
+    { 4, si16TYPE, PAR_DefRangeDAC},
+    { 6, si16TYPE, PAR_DefMinFader},
+    { 8, si16TYPE, PAR_DefRangeFader},
+    {10, si16TYPE, PAR_DefMinAux},
+    {12, si16TYPE, PAR_DefRangeAux},
+    {14, si16TYPE, PAR_DefMinAuxB},
+    {16, si16TYPE, PAR_DefRangeAuxB},
+    {18, si16TYPE, PAR_AutoOff},
+    {20, floaTYPE, PAR_ClockDivider},
+    {24, si08TYPE, PAR_ClockShift},
+    {26, si08TYPE, PAR_GENOptions},
 };
 
 SysExDataStruct DATA_Analog[] = {
-    {24, ui16TYPE, PAR_Size},
+    {20, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
     { 1, ui08TYPE, PAR_PortName},
@@ -115,11 +115,11 @@ SysExDataStruct DATA_Analog[] = {
     { 5, ui08TYPE, PAR_Option1},
     { 6, si16TYPE, PAR_Range_minMIDI},
     { 8, si16TYPE, PAR_Range_rangeMIDI},
-    {10, si32TYPE, PAR_Range_minDAC},
-    {14, si32TYPE, PAR_Range_rangeDAC},
-    {18, si16TYPE, PAR_ClipLow},
-    {20, si16TYPE, PAR_ClipHigh},
-    {22, ui16TYPE, PAR_FunctionData}};
+    {10, si16TYPE, PAR_Range_minDAC},
+    {12, si16TYPE, PAR_Range_rangeDAC},
+    {14, si16TYPE, PAR_ClipLow},
+    {16, si16TYPE, PAR_ClipHigh},
+    {18, ui16TYPE, PAR_FunctionData}};
 
 SysExDataStruct DATA_Fader[] = {
     {14, ui16TYPE, PAR_Size},

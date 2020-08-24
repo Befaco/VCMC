@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "..\\16n"
+		},
+		{
+			"path": "..\\monome"
 		}
 	],
 	"settings": {}
