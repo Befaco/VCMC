@@ -2,12 +2,6 @@
 	"folders": [
 		{
 			"path": "FirmwareTeen"
-		},
-		{
-			"path": "..\\16n"
-		},
-		{
-			"path": "..\\monome"
 		}
 	],
 	"settings": {}
