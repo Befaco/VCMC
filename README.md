@@ -133,6 +133,25 @@ Change the value acordingly.
 In some heavy loaded, power hungry, systems teensy might not boot up. 
 We found that disabling RTC from mk20dx128.c file solved the issue. If this happend to you, comment RTC code from the file and compile.
 
+## Factory callibration
+When updating your firmware you will need to do a factory callibration. This must be done with trusted voltage sources so hardware will behave as expected.
+To enter this callibration go to global settings > Credits then hold encoder button for a couple of seconds. when you are returned to global menu, factory cal should appear in the menu.
+
+
+- Calibrating Faders.
+Move all faders to maximum position until all values stabilize. Then move all of them to zero. Press end to store the values
+
+- Calibrating Cvs.
+We will be entering to a two points calibration screen. You will be prompted to send 2v and 8 volts, so they will be stored and correcting any eventual offset and non linearity in your CV source.
+Make sure your CV source is precise enough. We suggest to measure with a three digits mutimeter.
+If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
+
+ - Calibrating Aux.
+We will be entering to a two points calibration screen. You will be prompted to send 2v and 8 volts, so they will be stored and correcting any eventual offset and non linearity in your CV source.
+Make sure your CV source is precise enough. We suggest to measure with a three digits mutimeter. 
+
+If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
+
 ## Credits.
 
 Coded By Sergio Retamero (sergioretamero@gmail.com)
