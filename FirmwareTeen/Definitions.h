@@ -65,7 +65,7 @@ const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports ser
 //#define USEI2C
 
 #ifdef CVTHING
-	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
+	const uint8_t SCREEN_OFFSET = 0x00; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
 #else
 	const uint8_t SCREEN_OFFSET = 0x00; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
 #endif
