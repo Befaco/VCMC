@@ -50,7 +50,7 @@ MenuItem GlobalconfigList[] = {
     {"PANIC", PanicFn, 1},
     {"FACTORY RST", gotoListFactReset, 1},
     {"GLOBAL CV CAL", CVTwoPointsCal, 1},
-    {"DIM SCREEN", SetScreenLight, 1},
+    {"DIM SCREEN", SetScreenLight, 0},
     {"SAVE CONF", gotoListBankSaveSel, 1}, //SelectSavePage, 1}
     {"LOAD CONF", gotoListBankLoadSel, 1}, //SelectLoadPage, 1}
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
