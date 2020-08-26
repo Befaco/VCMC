@@ -1,12 +1,10 @@
-# VCMC Development branch
-Work in progress development code. Only for developers and brave users!
-This is a Release candidate to be v1.2 firmware.
-
+# VCMC v1.2 / CV Thing v1.2
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
 This code will work in any hardware revision from PCB v1
 
 The code will also run with CV Thing module. See below install options for details. Find further information about CV Thing [here](https://www.befaco.org/CV_thing/)
+
 
 ## Changelog/ Bug Fixes:
 
@@ -55,6 +53,9 @@ The code will also run with CV Thing module. See below install options for detai
 
 ## Uploading the firmware from hex file
 
+If you are updating your module from a previous version, data structure will not be comaptible and you will loose all data saved.
+
+
 - Get latest firmware file from Bin folder.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
@@ -64,6 +65,8 @@ The code will also run with CV Thing module. See below install options for detai
 - RunTeensy uploader and load hex file. If prompted by the app, press teensy button to begin transfer... Make sure Module is plugged in.
 
 ## Uploading the firmware from source code
+
+If you are updating from a previous version, data structure will not be comaptible and yo uwill loose all data saved.
 
 1. Download Arduino IDE
 Go to the official [Arduino website](https://www.arduino.cc/en/Main/Software) and download the latest version of Arduino IDE for your operating system and install it.
