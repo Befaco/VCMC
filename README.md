@@ -53,7 +53,7 @@ The code will also run with CV Thing module. See below install options for detai
 
 ## Uploading the firmware from hex file
 
-If you are updating your module from a previous version, data structure will not be comaptible and you will loose all data saved.
+If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
 
 
 - Get latest firmware file from Bin folder.
@@ -66,7 +66,7 @@ If you are updating your module from a previous version, data structure will not
 
 ## Uploading the firmware from source code
 
-If you are updating from a previous version, data structure will not be comaptible and yo uwill loose all data saved.
+If you are updating from a previous version, data structure will not be compatible and you will loose all saved data.
 
 1. Download Arduino IDE
 Go to the official [Arduino website](https://www.arduino.cc/en/Main/Software) and download the latest version of Arduino IDE for your operating system and install it.
