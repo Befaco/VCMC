@@ -1,0 +1,25 @@
+var class_input_control =
+[
+    [ "InputControl", "class_input_control.html#aec4e4117dacae9b12b7ddd813b75ad64", null ],
+    [ "Blink", "group___input_ports_group.html#gabff9c316ac7d7038c66f57cd6f1b4124", null ],
+    [ "DataCalc", "group___input_ports_group.html#gabf6d62ead1829e08ddc46636dd8a288b", null ],
+    [ "DoChanges", "group___input_ports_group.html#gaf5f3733ec9cb9623db247bdef4b74e46", null ],
+    [ "GetGateState", "group___input_ports_group.html#ga758bb45eea53dabf378cac7ed0af16dd", null ],
+    [ "LoadCfg", "group___input_ports_group.html#gacecce847bfdf5e2779ed01bd41f14374", null ],
+    [ "OnDataChange", "group___input_ports_group.html#gafbdbfb099e46f2849ef84267ac80ef8b", null ],
+    [ "ReadCfgSysEx", "group___sys_ex.html#ga2c36d61a212c894e920ef02d3b2956e8", null ],
+    [ "ReadPorts", "group___input_ports_group.html#ga6557d6700a5ac5027ff980ee34c03186", null ],
+    [ "ReadPorts", "group___input_ports_group.html#ga0e5850e93dc29fc92b63e4696afc0d78", null ],
+    [ "SaveCfg", "group___input_ports_group.html#gab14650c7bc8b152efacd346b5df199a5", null ],
+    [ "SaveCfgSysEx", "group___sys_ex.html#ga1ee0b5b72d0156c93eee75f6f74b6684", null ],
+    [ "SetControlNumber", "group___input_ports_group.html#gad918f49e5276e4ab7e11077e6a0e2338", null ],
+    [ "SetPort", "group___input_ports_group.html#ga8fbf9674e134d7650b4f5136a0241625", null ],
+    [ "Config", "class_input_control.html#aef2f7595a3ac3c22dfcac10189c4c5f3", null ],
+    [ "ControlNumber", "class_input_control.html#a11fbc501cd00a7a9e0c9b5e9499394f5", null ],
+    [ "CVchanged", "class_input_control.html#a271a29bb444e55a4ffbe313f474262dd", null ],
+    [ "CVPort", "class_input_control.html#a2ae301ed069373525e58691595819826", null ],
+    [ "GateBut", "class_input_control.html#aa72a5e22de0193b9b4c75a5baeb72a0f", null ],
+    [ "Gatechanged", "class_input_control.html#af3d743ce839ac15bb84a58e1bc50167f", null ],
+    [ "Slidchanged", "class_input_control.html#a93847025afd2c581d69b9bf6c58c40f3", null ],
+    [ "Slider", "class_input_control.html#a656813d8bc6995e5d99ed908ac0f5ab9", null ]
+];

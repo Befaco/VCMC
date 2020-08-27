@@ -1,0 +1,4 @@
+<map id="AnalogPort::SaveCfg" name="AnalogPort::SaveCfg">
+<area shape="rect" id="node1" title="Save Port configuration to EEPROM." alt="" coords="5,5,147,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga456d185e4245ce2e075d248434d0ec7e" title="fill the buffer with information from class" alt="" coords="195,5,301,32"/>
+</map>

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "FirmwareTeen"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.tcc": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp"
+		}
+	}
+}

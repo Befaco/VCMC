@@ -1,0 +1,5 @@
+<map id="OLEDMenu::EncoderChangeVal" name="OLEDMenu::EncoderChangeVal">
+<area shape="rect" id="node1" title="Change a long value with the encoder." alt="" coords="535,5,743,32"/>
+<area shape="rect" id="node2" href="$class_o_l_e_d_menu.html#a97b7653ff603ccd69589a2fa9f41344f" title="Change a long value and show in screen title and value." alt="" coords="269,5,487,32"/>
+<area shape="rect" id="node3" href="$class_o_l_e_d_menu.html#af603cf3288b91fdec3d97d484704fe6e" title="Change a long value digits indiviadully and show in screen title and value." alt="" coords="5,5,221,32"/>
+</map>

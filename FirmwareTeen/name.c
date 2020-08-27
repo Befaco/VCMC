@@ -10,12 +10,12 @@
 #ifdef CVTHING
         #define MIDI_NAME   {'C','V','T','h','i','n','g'}
         #define MIDI_NAME_LEN  7
-        #define SERIAL_NUM {'C','V','T','h','i','n','g','1','1'}
+        #define SERIAL_NUM {'C','V','T','h','i','n','g','1','2'}
         #define SERIAL_NUM_LEN 9
 #else
         #define MIDI_NAME   {'V','C','M','C'}
         #define MIDI_NAME_LEN  4
-        #define SERIAL_NUM {'V','C','M','C','1','1'}
+        #define SERIAL_NUM {'V','C','M','C','1','2'}
         #define SERIAL_NUM_LEN 6
 #endif
 

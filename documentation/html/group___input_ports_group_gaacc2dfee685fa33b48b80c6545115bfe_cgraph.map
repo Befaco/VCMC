@@ -1,0 +1,4 @@
+<map id="DigitalPort::SaveCfg" name="DigitalPort::SaveCfg">
+<area shape="rect" id="node1" title="Save Port configuration to EEPROM." alt="" coords="5,5,143,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#gaa980ac29a6015895a9e2afbf3b8ae275" title="fill the buffer with information from class" alt="" coords="191,5,293,32"/>
+</map>

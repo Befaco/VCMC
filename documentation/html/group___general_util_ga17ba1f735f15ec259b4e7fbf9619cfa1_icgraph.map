@@ -1,0 +1,4 @@
+<map id="Blinker::setBlink" name="Blinker::setBlink">
+<area shape="rect" id="node1" title="Set a new blink." alt="" coords="191,5,308,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#gaaf2837107e96961e1e0bc411619e4879" title="Set Blink for Led." alt="" coords="5,5,143,32"/>
+</map>
