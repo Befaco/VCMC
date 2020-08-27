@@ -278,7 +278,8 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         if(PortCfg.ControllerNumber>32)
             break; // Only for CC smalleer than 32
         // Send the input 12 bits: 7 MSB in CC Controller NUmber and the 5 LSB on CC Number+32
-        SendData = (~PortValue)&0x0fff;
+        if( !typeSlider) SendData = (~PortValue)&0x0fff;
+        else SendData = (PortValue)&0x0fff;
         MidiMerge.sendControlChange (PortCfg.ControllerNumber, (SendData>>5), PortCfg.MIDIChannel);
         MidiMerge.sendControlChange (PortCfg.ControllerNumber+32, (SendData & 0x01f)<<2, PortCfg.MIDIChannel);
         break;
