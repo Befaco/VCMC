@@ -1,0 +1,9 @@
+<map id="OLEDMenu::displayMenuConfig" name="OLEDMenu::displayMenuConfig">
+<area shape="rect" id="node1" title="Show Ports configuration data." alt="" coords="5,122,212,149"/>
+<area shape="rect" id="node2" href="$group___menu_class.html#ga41842f90a67e0be0755c9f8c08b90ec6" title="Show Header Info for Bank Selected." alt="" coords="263,5,463,47"/>
+<area shape="rect" id="node3" href="$group___menu_class.html#ga2a71482de2c0b8326ac09c62f5e68148" title="Display in OLED the configuration for Bank (CV+Fader+Gate)" alt="" coords="261,71,465,98"/>
+<area shape="rect" id="node4" href="$group___menu_class.html#ga2968dc79d00a7a7acc4bce511319cd50" title="Display in OLED the configuration for Gate port." alt="" coords="515,122,717,149"/>
+<area shape="rect" id="node6" href="$group___menu_class.html#ga5327c9850fec5b689e8e3cb1941e6ef0" title="Display in OLED the configuration for CV port." alt="" coords="520,173,712,199"/>
+<area shape="rect" id="node7" href="$group___menu_class.html#ga5e404ee1578428c9e7e0c082773091a0" title="Display in OLED the configuration for Fader port." alt="" coords="260,223,467,250"/>
+<area shape="rect" id="node5" href="$group___config_group.html#ga3eb762dc5296df21b0a14537f10452f2" title="Returns the name associated to the port." alt="" coords="765,147,919,174"/>
+</map>

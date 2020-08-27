@@ -1,0 +1,9 @@
+<map id="OLEDMenu::displayMenu" name="OLEDMenu::displayMenu">
+<area shape="rect" id="node1" title="Main Display Menu Functions." alt="" coords="5,107,176,133"/>
+<area shape="rect" id="node2" href="$class_o_l_e_d_menu.html#ad107df198b65221d8a56efeb627c2746" title="Display columns for the performance screen." alt="" coords="224,5,445,32"/>
+<area shape="rect" id="node3" href="$class_o_l_e_d_menu.html#a7d5f79d1bff3dd85ebc86b2d86b2e969" title="Performance Display one item at a time." alt="" coords="233,56,437,83"/>
+<area shape="rect" id="node5" href="$class_o_l_e_d_menu.html#adbd5b7204a51608a5d9f2e8641c15f80" title="Show Ports configuration data." alt="" coords="231,107,438,133"/>
+<area shape="rect" id="node6" href="$class_o_l_e_d_menu.html#ace64662b48293e799eb6aceae9cc5c5e" title="Display Drop list menu." alt="" coords="239,158,430,199"/>
+<area shape="rect" id="node7" href="$class_o_l_e_d_menu.html#a15544a71bc7d6b4f51214b0dc1c2afbc" title="Show a message for a number of milliseconds or until encoder pressed. will show a bitmap if it is set..." alt="" coords="231,224,438,251"/>
+<area shape="rect" id="node4" href="$class_o_l_e_d_menu.html#a41842f90a67e0be0755c9f8c08b90ec6" title="Show Header Info for Bank Selected." alt="" coords="493,74,693,115"/>
+</map>

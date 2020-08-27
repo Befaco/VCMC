@@ -1,0 +1,4 @@
+<map id="InputControl::GetGateState" name="InputControl::GetGateState">
+<area shape="rect" id="node1" title="Return State of the gate/button." alt="" coords="240,5,419,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#gafbdbfb099e46f2849ef84267ac80ef8b" title="Provides functionality when inputs or gate change." alt="" coords="5,5,192,32"/>
+</map>

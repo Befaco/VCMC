@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_input_port_cfg.html" title="Base port configuration class." alt="" coords="5,31,99,57"/>
+<area shape="rect" id="node2" href="$class_an_input_port_cfg.html" title="Analog port configuration class." alt="" coords="147,5,256,32"/>
+<area shape="rect" id="node3" href="$class_dig_port_cfg.html" title="Digital port configuration class." alt="" coords="159,56,243,83"/>
+</map>

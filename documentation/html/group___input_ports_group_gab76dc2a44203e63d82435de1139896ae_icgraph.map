@@ -1,0 +1,5 @@
+<map id="InputPort::ClockReceived" name="InputPort::ClockReceived">
+<area shape="rect" id="node1" title="Every clock received, recalculate interval for MIDI Clock sent." alt="" coords="232,31,399,57"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga474aa7bdcffc13d96472afd411c37463" title="Return true if input is bigger than half the range." alt="" coords="5,5,184,32"/>
+<area shape="rect" id="node3" href="$group___input_ports_group.html#ga040b1920f5a4abc056aee40c5aa2259d" title="Every clock received, recalculate interval for MIDI Clock sent." alt="" coords="7,56,182,83"/>
+</map>

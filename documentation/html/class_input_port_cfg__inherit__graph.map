@@ -1,0 +1,5 @@
+<map id="InputPortCfg" name="InputPortCfg">
+<area shape="rect" id="node1" title="Base port configuration class." alt="" coords="73,5,167,32"/>
+<area shape="rect" id="node2" href="$class_an_input_port_cfg.html" title="Analog port configuration class." alt="" coords="5,80,115,107"/>
+<area shape="rect" id="node3" href="$class_dig_port_cfg.html" title="Digital port configuration class." alt="" coords="139,80,223,107"/>
+</map>
