@@ -59,15 +59,17 @@ MenuItem GlobalconfigList[] = {
     {" GLOBAL CFG ", NULL, 1}};
 MenuList listGlobal(GlobalconfigList, 10, ListLinesSimple);
 
-MenuItem GlobalCalList[7] = {
+MenuItem GlobalCalList[] = {
     {"<-BACK", gotoMenuSettings, 1},
     {"MATRIX CAL", CalibrateCV, 0},       //Global config?
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
     {"FADER CAL", makeFadersCal, 1},
+    {"FADER FILT", SelectFaderFilter, 1},
+    {"FADER THR", SelectFaderThres, 1},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
     {"GLOBAL CAL", NULL, 1}};
-MenuList listGlobalCal(GlobalCalList, 6, ListLinesSimple);
+MenuList listGlobalCal(GlobalCalList, 8, ListLines);//ListLinesSimple);
 
 // Received SysEx Menu
 MenuItem RecSysExList[3] = {
@@ -185,6 +187,29 @@ boolean SelectGateMode() {
 #define CPU_RESTART_ADDR (uint32_t *)0xE000ED0C
 #define CPU_RESTART_VAL 0x5FA0004
 #define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL);
+
+boolean SelectFaderFilter()
+{
+    long val = theApp.theGlobalCfg.filterFader*100000;
+    bool ret = myMenu.EncoderselDigitLong("Filter: 0.", val, 0, 999999, 5, 0, 45);
+    theApp.theGlobalCfg.filterFader = val/100000.0;
+    if( ret)
+        theApp.ApplyFilters();
+    return ret;
+}
+
+boolean SelectFaderThres()
+{
+    long val = theApp.theGlobalCfg.ActThrFader;
+    bool ret = EncoderchangeValue("Thresh:", val, 0, 256, 4, 0, 45);
+    theApp.theGlobalCfg.ActThrFader = val;
+    if( ret)
+        theApp.ApplyFilters();
+    return ret;
+}
+
+
+
 
 boolean PanicFn()
 {

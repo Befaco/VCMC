@@ -1,6 +1,6 @@
 # VCMC Development branch
 Work in progress development code. Only for developers and brave users!
-This is a Release candidate to be v1.2 firmware.
+This is a Release candidate to be v1.3 firmware.
 
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
@@ -55,6 +55,8 @@ The code will also run with CV Thing module. See below install options for detai
 
 ## Uploading the firmware from hex file
 
+If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
+
 - Get latest firmware file from Bin folder.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
@@ -64,6 +66,8 @@ The code will also run with CV Thing module. See below install options for detai
 - RunTeensy uploader and load hex file. If prompted by the app, press teensy button to begin transfer... Make sure Module is plugged in.
 
 ## Uploading the firmware from source code
+
+If you are updating from a previous version, data structure will not be compatible and you will loose all saved data.
 
 1. Download Arduino IDE
 Go to the official [Arduino website](https://www.arduino.cc/en/Main/Software) and download the latest version of Arduino IDE for your operating system and install it.
@@ -129,6 +133,26 @@ Change the value acordingly.
 ## Disabling RTC
 In some heavy loaded, power hungry, systems teensy might not boot up. 
 We found that disabling RTC from mk20dx128.c file solved the issue. If this happend to you, comment RTC code from the file and compile.
+
+## Factory callibration
+When updating your firmware you will need to do a factory callibration. This must be done with trusted voltage sources so hardware will behave as expected.
+To enter this callibration go to global settings > Credits then hold encoder button for a couple of seconds. when you are returned to global menu, factory cal should appear in the menu.
+
+
+- Calibrating Faders.
+Move all faders to maximum position until all values stabilize. Then move all of them to zero. Press end to store the values
+
+- Calibrating Cvs.
+We will be entering to a two points calibration screen. You will be prompted to send 2v and 8 volts, so they will be stored and correcting any eventual offset and non linearity in your CV source.
+Make sure your CV source is precise enough. We suggest to measure with a three digits mutimeter.
+If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
+
+ - Calibrating Aux.
+We will be entering to a two points calibration screen. You will be prompted to send 2v and 8 volts, so they will be stored and correcting any eventual offset and non linearity in your CV source.
+Make sure your CV source is precise enough. We suggest to measure with a three digits mutimeter. 
+
+If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
+
 
 ## Credits.
 

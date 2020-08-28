@@ -352,6 +352,11 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     EEPROM.put (MemPointer, ClockShift);
     MemPointer += sizeof (ClockShift);
 
+    EEPROM.put (MemPointer, filterFader);
+    MemPointer += sizeof (filterFader);
+    EEPROM.put (MemPointer, ActThrFader);
+    MemPointer += sizeof (ActThrFader);
+
     /* EEPROM.put (MemPointer, GenOptions1);
     MemPointer += sizeof (GenOptions1);
  */
@@ -378,6 +383,10 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     Serial.print( ClockDivider);
 	Serial.print( "/");
 	Serial.print( ClockShift);
+	Serial.print( "/");
+	Serial.print( ActThrFader);
+	Serial.print( "/");
+    Serial.print( filterFader);
 	Serial.print( "/");
     Serial.println( MemPointer);
 #endif
@@ -445,6 +454,11 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     EEPROM.get (MemPointer, ClockShift);
     MemPointer += sizeof (ClockShift);
 
+    EEPROM.get (MemPointer, filterFader);
+    MemPointer += sizeof (filterFader);
+    EEPROM.get (MemPointer, ActThrFader);
+    MemPointer += sizeof (ActThrFader);
+
     /* EEPROM.get (MemPointer, GenOptions1);
     MemPointer += sizeof (GenOptions1); */
 
@@ -471,6 +485,10 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     Serial.print( ClockDivider);
 	Serial.print( "/");
 	Serial.print( ClockShift);
+	Serial.print( "/");
+	Serial.print( ActThrFader);
+	Serial.print( "/");
+    Serial.print( filterFader);
 	Serial.print( "/");
     Serial.println( MemPointer);
 #endif 
