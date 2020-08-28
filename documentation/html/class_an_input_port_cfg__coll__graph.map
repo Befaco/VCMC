@@ -1,0 +1,5 @@
+<map id="AnInputPortCfg" name="AnInputPortCfg">
+<area shape="rect" id="node1" title="Analog port configuration class." alt="" coords="55,95,164,121"/>
+<area shape="rect" id="node2" href="$class_input_port_cfg.html" title="Base port configuration class." alt="" coords="5,5,99,32"/>
+<area shape="rect" id="node3" href="$class_range_conv.html" title=" " alt="" coords="123,5,210,32"/>
+</map>

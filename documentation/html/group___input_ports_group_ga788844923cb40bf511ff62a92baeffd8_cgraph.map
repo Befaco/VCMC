@@ -1,0 +1,6 @@
+<map id="DemuxAnalogPort::ReadPort" name="DemuxAnalogPort::ReadPort">
+<area shape="rect" id="node1" title="Read multiplexed analog input." alt="" coords="5,31,195,57"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga61d48200118764d5298128f9624353ac" title="Call base AnalogPort::SendMIDI() function." alt="" coords="243,5,439,32"/>
+<area shape="rect" id="node3" href="$group___input_ports_group.html#ga43b704e6546e208117597f9718573ab1" title="Read analog Port make conversion and check analog clock." alt="" coords="267,56,415,83"/>
+<area shape="rect" id="node4" href="$group___input_ports_group.html#ga5e64a70a93bc7146ba6b52c022b3335a" title="Process MIDI Clock." alt="" coords="487,56,649,83"/>
+</map>

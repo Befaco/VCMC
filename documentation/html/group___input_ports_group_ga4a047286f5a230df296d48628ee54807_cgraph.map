@@ -1,0 +1,4 @@
+<map id="DigitalPort::LoadCfg" name="DigitalPort::LoadCfg">
+<area shape="rect" id="node1" title="Load Port configuration from EEPROM." alt="" coords="5,5,143,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga568a4c59ababf6ffeef9a1c606614190" title="fill the class with information from buffer" alt="" coords="191,5,313,32"/>
+</map>

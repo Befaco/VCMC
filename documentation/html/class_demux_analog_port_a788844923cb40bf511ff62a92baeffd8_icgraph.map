@@ -1,0 +1,4 @@
+<map id="DemuxAnalogPort::ReadPort" name="DemuxAnalogPort::ReadPort">
+<area shape="rect" id="node1" title="Read multiplexed analog input." alt="" coords="213,5,403,32"/>
+<area shape="rect" id="node2" href="$class_input_control.html#a0e5850e93dc29fc92b63e4696afc0d78" title="Read selected ports and store data change." alt="" coords="5,5,165,32"/>
+</map>

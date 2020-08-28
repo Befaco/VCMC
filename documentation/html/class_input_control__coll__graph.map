@@ -1,0 +1,13 @@
+<map id="InputControl" name="InputControl">
+<area shape="rect" id="node1" title="InputControl class provides the core functionaly for each block of CV, Fader and Gate The function In..." alt="" coords="137,364,227,391"/>
+<area shape="rect" id="node2" href="$class_input_ctrl_cfg.html" title="InputControl configuration." alt="" coords="5,260,95,287"/>
+<area shape="rect" id="node3" href="$class_demux_analog_port.html" title="Class for Muxed analog ports (CV and Faders) Demux will use defines for pins: PINDEMUXA,..." alt="" coords="119,260,245,287"/>
+<area shape="rect" id="node4" href="$class_analog_port.html" title="Class for analog ports (CV and Faders)" alt="" coords="139,184,225,211"/>
+<area shape="rect" id="node5" href="$class_input_port.html" title="Base class for input ports (digital, analog,...)" alt="" coords="163,95,238,121"/>
+<area shape="rect" id="node9" href="$class_digital_port.html" title="Class for digital ports (Gates)" alt="" coords="253,184,335,211"/>
+<area shape="rect" id="node6" href="$class_an_input_port_cfg.html" title="Analog port configuration class." alt="" coords="30,95,139,121"/>
+<area shape="rect" id="node7" href="$class_input_port_cfg.html" title="Base port configuration class." alt="" coords="239,5,333,32"/>
+<area shape="rect" id="node10" href="$class_dig_port_cfg.html" title="Digital port configuration class." alt="" coords="349,95,433,121"/>
+<area shape="rect" id="node8" href="$class_range_conv.html" title=" " alt="" coords="41,5,128,32"/>
+<area shape="rect" id="node11" href="$class_blinker.html" title="Class helper to blink led." alt="" coords="263,95,325,121"/>
+</map>

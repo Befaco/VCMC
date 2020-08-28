@@ -1,0 +1,7 @@
+<map id="AnalogPort" name="AnalogPort">
+<area shape="rect" id="node1" title="Class for analog ports (CV and Faders)" alt="" coords="39,184,126,211"/>
+<area shape="rect" id="node2" href="$class_input_port.html" title="Base class for input ports (digital, analog,...)" alt="" coords="5,95,80,121"/>
+<area shape="rect" id="node3" href="$class_an_input_port_cfg.html" title="Analog port configuration class." alt="" coords="104,95,213,121"/>
+<area shape="rect" id="node4" href="$class_input_port_cfg.html" title="Base port configuration class." alt="" coords="55,5,148,32"/>
+<area shape="rect" id="node5" href="$class_range_conv.html" title=" " alt="" coords="173,5,259,32"/>
+</map>

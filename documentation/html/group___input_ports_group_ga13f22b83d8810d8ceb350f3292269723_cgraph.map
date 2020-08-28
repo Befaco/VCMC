@@ -1,0 +1,4 @@
+<map id="AnalogPort::LoadCfg" name="AnalogPort::LoadCfg">
+<area shape="rect" id="node1" title="Load Port configuration from EEPROM." alt="" coords="5,5,147,32"/>
+<area shape="rect" id="node2" href="$group___input_ports_group.html#ga2565144002f1680182a035cdf49bea1b" title="fill the class with information from buffer" alt="" coords="195,5,321,32"/>
+</map>

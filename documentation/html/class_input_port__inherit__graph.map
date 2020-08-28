@@ -1,0 +1,6 @@
+<map id="InputPort" name="InputPort">
+<area shape="rect" id="node1" title="Base class for input ports (digital, analog,...)" alt="" coords="86,5,161,32"/>
+<area shape="rect" id="node2" href="$class_analog_port.html" title="Class for analog ports (CV and Faders)" alt="" coords="25,80,112,107"/>
+<area shape="rect" id="node4" href="$class_digital_port.html" title="Class for digital ports (Gates)" alt="" coords="137,80,219,107"/>
+<area shape="rect" id="node3" href="$class_demux_analog_port.html" title="Class for Muxed analog ports (CV and Faders) Demux will use defines for pins: PINDEMUXA,..." alt="" coords="5,155,132,181"/>
+</map>

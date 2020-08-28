@@ -1,0 +1,4 @@
+<map id="GlobalCfg::SetPage" name="GlobalCfg::SetPage">
+<area shape="rect" id="node1" title="Save Page to EEPROM." alt="" coords="187,5,323,32"/>
+<area shape="rect" id="node2" href="$group___config_group.html#ga489a1a96d4c7e974a41bb77e7cc20e84" title="Save Control configuration to EEPROM." alt="" coords="5,5,139,32"/>
+</map>
