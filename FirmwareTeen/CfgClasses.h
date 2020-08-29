@@ -63,7 +63,8 @@ class GlobalCfg {
         };
         uint8_t GenOptions1;
     };
-    //uint8_t GenOptions1;
+    float filterFader = DefFaderfilter;
+    uint8_t ActThrFader = DefActivityThreshold;
 
     char UserNames[NUMUSERNAMES][SIZEPORTNAMES+1] = { { 0 } };
     ////////////////////////////////
@@ -82,8 +83,8 @@ class GlobalCfg {
         AutoOff(1000),
         EncoderDir(1)
 	{	
-        // InitMinDAC=4138; // Hacked custom values
-        // InitRangeDAC=-4144;
+        filterFader = DefFaderfilter;
+        ActThrFader = DefActivityThreshold;
     }
 	int SaveCfg();//int addr);
 	int LoadCfg();//int addr);

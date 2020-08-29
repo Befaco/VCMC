@@ -126,6 +126,10 @@ class AnalogPort : public InputPort {
     AnInputPortCfg PortCfg; ///< Configuration info for the Port
     #ifdef FILTEREDANAGINPUT
     ResponsiveAnalogRead *FilteredInput; ///<  Filtered data for the port
+    void setFilter(float filter, uint16_t Thres){
+        FilteredInput->setSnapMultiplier (filter);
+        FilteredInput->setActivityThreshold(Thres);
+        }    
     #endif
     int8_t adcNum = -1;
 	

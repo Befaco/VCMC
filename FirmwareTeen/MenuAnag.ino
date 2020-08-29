@@ -111,7 +111,7 @@ MenuItem AnagFnList[] = {
     };
 MenuList listAnagFn(AnagFnList, 14, ListLines);
 
-MenuItem AnagFnList2[14] = {
+MenuItem AnagFnList2[] = {
     {"<-BACK", SelectFaderConfig, 1},
     {"V/OC TO NOTE", SelectTrig, 1},
     {"CC", SelectCC, 1},
@@ -124,9 +124,10 @@ MenuItem AnagFnList2[14] = {
     {"NOTE GATE", SelectTrigLevel, 0},
     {"NRPN 7BITS", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
+    {"CC 14BITS", SelectCC14b, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 13, ListLines);
+MenuList listAnagFn2(AnagFnList2, 14, ListLines);
 
 MenuItem AnagDigFnList[8] = {
     {"<-BACK", gotoMenuAnag, 1},

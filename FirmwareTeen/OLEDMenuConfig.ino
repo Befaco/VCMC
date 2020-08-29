@@ -45,6 +45,13 @@ void OLEDMenu::displayMenuConfig () {
     int posCursor = 17;
 
     theOLED->fillRect (POSXCARD, 0, MenuPosX - POSXCARD, 64, BLACK);
+    // Visualization on General Cal
+    if(GlobalCalEnabled){
+        displayGenCal();
+        return;
+    } 
+
+    // Standard Cards
     displayMenuBankHeader (true);
 
     InputPortCfg *SelCfg = GetPortCfg ();
@@ -63,6 +70,19 @@ void OLEDMenu::displayMenuConfig () {
         displayFaderConfig (posCursor);
         break;
     }
+}
+
+
+void OLEDMenu::displayGenCal(void){
+    int posCursor = 8; //17;
+    theOLED->setTextColor (WHITE, BLACK);
+    theOLED->setCursor (POSXCARD + 0, posCursor);
+    // Fader Data
+    for (int i = 0; i < NUMCHAN-1;i++){
+        theOLED->print(CVControls[i].Slider.PortValue);
+        theOLED->setCursor (POSXCARD + 0, posCursor);
+        posCursor += 8;
+        }
 }
 
 
