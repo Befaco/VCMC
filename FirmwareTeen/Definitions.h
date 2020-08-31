@@ -156,6 +156,7 @@ const uint16_t TRIMOSC = 5; //10
 /// I2C definitions
 const uint32_t I2CINTERVAL = 1000; // Limit sending every 1000 us
 const uint16_t TRIMI2C = 16; // Change in input to consider it a new value
+const uint16_t E_NOI2CFUNC = 0x3FF;
 #endif
 
 

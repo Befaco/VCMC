@@ -164,6 +164,22 @@ bool InputControl::ReadPorts (bool onlyDig) {
 }
 
 
+void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
+    MidiMerge.sendNoteOn(Note, Veloc, Chann);
+    #ifdef USEI2C
+    if( Config.CommI2C != E_OP_JF_NOTE) return;
+    // Send Note On/Off as Note plus velocity
+    command_state_t Notedata;
+    // Convert 14 to 16 bits
+    Notedata.push((~CVPort.PortValue)<<2); // Send Note instead?
+    Notedata.push(Slider.PortValue<<2); // Send Veloc instead?
+    theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
+#endif
+}
+void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
+    MidiMerge.sendNoteOff(Note, Veloc, Chann);
+}
+
 /**
  *  \brief Provides functionality when inputs or gate change
  *
@@ -187,10 +203,10 @@ void InputControl::OnDataChange (void) {
                     if (CVPort.PortCfg.MIDIfunction == TRIGGER) {
                         byte datatosend = CVPort.TrimValue (SendData);
 						if( CVPort.LastSentMIDIData>0){ // sendNoteOff previous note
-							MidiMerge.sendNoteOff (GateBut.MIDIData, 0, CVPort.PortCfg.MIDIChannel);
+							sendNoteOff (GateBut.MIDIData, 0, CVPort.PortCfg.MIDIChannel);
 							CVPort.LastSentMIDIData=-999;}
 						CVPort.LastSentMIDIData = datatosend;
-                        MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[CVPort.PortCfg.MIDIChannel - 1],
+                        sendNoteOn (datatosend, MidiMerge.VelData[CVPort.PortCfg.MIDIChannel - 1],
                                               CVPort.PortCfg.MIDIChannel);
 						played = true;
                         // GateBut.setBlink(100, 100, 1);
@@ -200,20 +216,20 @@ void InputControl::OnDataChange (void) {
                     if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) { // CV triggered notes
                         byte datatosend = CVPort.TrimValue (CVPort.MIDIData);
 						if( CVPort.LastSentMIDIData>0){ // sendNoteOff previous note
-							MidiMerge.sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
+							sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
 							CVPort.LastSentMIDIData=-999;}
 						CVPort.LastSentMIDIData= datatosend; // Store Note in CVPort at gate activation
-                        MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[CVPort.PortCfg.MIDIChannel - 1],
+                        sendNoteOn (datatosend, MidiMerge.VelData[CVPort.PortCfg.MIDIChannel - 1],
                                               CVPort.PortCfg.MIDIChannel);
 						played = true;
                     }
 					if (Slider.PortCfg.MIDIfunction == PITCHTRIG) { // Fader triggered notes
                         byte datatosend = Slider.TrimValue (Slider.MIDIData);
 						if( Slider.LastSentMIDIData>0){ // sendNoteOff previous note
-							MidiMerge.sendNoteOff (Slider.LastSentMIDIData, 0, Slider.PortCfg.MIDIChannel);
+							sendNoteOff (Slider.LastSentMIDIData, 0, Slider.PortCfg.MIDIChannel);
 							Slider.LastSentMIDIData=-999;}
                         Slider.LastSentMIDIData = datatosend; // Store Note in Slider at gate activation
-                        MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[Slider.PortCfg.MIDIChannel - 1],
+                        sendNoteOn (datatosend, MidiMerge.VelData[Slider.PortCfg.MIDIChannel - 1],
                                               Slider.PortCfg.MIDIChannel);
 						played = true;
                     } 
@@ -221,10 +237,10 @@ void InputControl::OnDataChange (void) {
 				if(!played){ // Gate play notes
 					byte datatosend = GateBut.PortCfg.NoteToSend;
 					if( GateBut.MIDIData){ // sendNoteOff previous note
-						MidiMerge.sendNoteOff (GateBut.MIDIData, 0, GateBut.PortCfg.MIDIChannel);
+						sendNoteOff (GateBut.MIDIData, 0, GateBut.PortCfg.MIDIChannel);
 						GateBut.MIDIData=0;}
 					GateBut.MIDIData = datatosend; // Store Note in CVPort at gate activation
-					MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[GateBut.PortCfg.MIDIChannel - 1], GateBut.PortCfg.MIDIChannel);
+					sendNoteOn (datatosend, MidiMerge.VelData[GateBut.PortCfg.MIDIChannel - 1], GateBut.PortCfg.MIDIChannel);
 					}
 
             } 
@@ -233,7 +249,7 @@ void InputControl::OnDataChange (void) {
                 // If SUM or MULTIP send result through CV channel if it has the trigger option
                 if (Config.Chanfunction != INDEP) {
                     if (CVPort.PortCfg.MIDIfunction == TRIGGER){
-                        MidiMerge.sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
+                        sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
 						CVPort.LastSentMIDIData=0;
 						played = true;
 						}
@@ -242,15 +258,15 @@ void InputControl::OnDataChange (void) {
                 else {
                     if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG){
 						played = true;
-                        MidiMerge.sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
+                        sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
 						CVPort.LastSentMIDIData=-999;}
                     if (Slider.PortCfg.MIDIfunction == PITCHTRIG){
 						played = true;
-                        MidiMerge.sendNoteOff (Slider.LastSentMIDIData, 0, Slider.PortCfg.MIDIChannel);
+                        sendNoteOff (Slider.LastSentMIDIData, 0, Slider.PortCfg.MIDIChannel);
 						Slider.LastSentMIDIData=-999;}
                 }
 				if(!played) {
-					MidiMerge.sendNoteOff (GateBut.MIDIData, 0, GateBut.PortCfg.MIDIChannel);
+					sendNoteOff (GateBut.MIDIData, 0, GateBut.PortCfg.MIDIChannel);
 					GateBut.MIDIData=0;}
             }
         } 
@@ -422,7 +438,7 @@ int InputControl::SaveCfg (int addr) {
 int InputControl::LoadCfg (int addr) {
     int MemPointer = addr;
 
-    Config.Chanfunction = (CtrlFunctions)EEPROM.read (MemPointer);
+    Config.Chanfunction = EEPROM.read (MemPointer);
     MemPointer += sizeof (uint8_t);
     // Reserved BANKGENERALeeSize for general data
     MemPointer += BANKGENERALeeSize-(MemPointer-addr);

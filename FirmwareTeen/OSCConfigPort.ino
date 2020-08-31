@@ -142,7 +142,7 @@ void InputControl::ReadCfgOSC(OSCMessage *pMsg)
 {
 	if( !(pMsg->isInt(0) )) return;
 	
-      Config.Chanfunction= (CtrlFunctions)pMsg->getInt(0);
+      Config.Chanfunction= pMsg->getInt(0);
 
 }
 

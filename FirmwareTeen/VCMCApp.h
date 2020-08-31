@@ -65,6 +65,13 @@ public:
     #endif
     SaveLoadClass FlashAcc; ///< Save/Load to EEPROM, SYSEX and OSC
     Bounce *pEncButt;       ///< Encoder Button handler
+    #ifdef USEOSC
+    OSCmerger OSCMerge;             ///< Control sending OSC through Serial USB and I2C outputs
+    #endif
+    #ifdef USEI2C
+    I2Cmerger I2CMerge;             ///< Control I2C inputs / outputs
+    #endif
+
     ///@}
 
 public:
@@ -98,11 +105,7 @@ public:
     ClickEncoder *getEncoder(void) { return pEncoder; }
     Bounce *getEncButton(void) { return pEncButt; }
     #ifdef USEOSC
-    OSCmerger OSCMerge;             ///< Control sending OSC through Serial USB and I2C outputs
     SLIPEncodedUSBSerial *getSLIPSerial(void){ return OSCMerge.getSLIPSerial(); }
-    #endif
-    #ifdef USEI2C
-    I2Cmerger I2CMerge;             ///< Control I2C inputs / outputs
     #endif
     int16_t getInitMinDAC() { return theGlobalCfg.InitMinDAC; }     ///< Return the global config minimum DAC value
     int16_t getInitRangeDAC() { return theGlobalCfg.InitRangeDAC; } ///< Return the global config minimum DAC range

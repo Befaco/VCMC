@@ -140,12 +140,19 @@ void I2Cmerger::SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16
     recMsg.Port = devicePort;
     recMsg.iValue = value;
 
-    pWire->beginTransmission(model);
-    pWire->write(databuf, 4);
-    pWire->endTransmission();
+    SendI2Cdata(model, databuf, 4);
 
     /* D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
         databuf[0], databuf[1], databuf[2], databuf[3])); */
+}
+
+
+void I2Cmerger::SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l)
+{
+    pWire->beginTransmission(addr);
+    pWire->write(data, l);
+    pWire->endTransmission();
+    D(Serial.printf("Addr:%d, d0:%d d1:%d", addr, data[0], data[1]));
 }
 
 

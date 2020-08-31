@@ -80,6 +80,9 @@ class InputControl {
     void Blink ();
     int SaveCfg (int addr);
     int LoadCfg (int addr);
+
+    void sendNoteOn(byte Note, byte Veloc, byte Chann);
+    void sendNoteOff(byte Note, byte Veloc, byte Chann);
 };
 
 /**@}*/

@@ -102,7 +102,7 @@ int AnalogPort::LoadCfg (int addr) {
 int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
     int Initbuf = (int)buf;
     int cont;
-    SysExDataStruct *pDataStr;
+    const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
     int16_t minDAC, rDAC;
 
@@ -239,7 +239,7 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
 int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
     int Initbuf = (int)buf;
     int cont;
-    SysExDataStruct *pDataStr;
+    const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
     int16_t minDAC, rDAC;
 

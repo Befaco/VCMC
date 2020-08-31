@@ -55,19 +55,19 @@ const char PortNames[][SIZEPORTNAMES+1] = {
 
 
 /// Analog Functions names
-const char *PortFuncStr[] = {
+const char * const PortFuncStr[] = {
 	"V/Oct", "Note", "CC#", "Vel", "Prog", "Bend", "Perc",
 	"Clock", "ST/SP", "ST/PA", "ST/SP", "ST/PA",
 	"Free", "NRPN7", "NRPN14", "No Func",
 	"Gate", "Start", "Stop", "Cont", "CC Tr", "CC Lt", "Trig","Latch","V/O Pol","CC14b"};
 /// Digital Functions names
-const char *PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", 
+const char * const PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", 
 	"ST/SP", "CNT/SP", "ST/SP Lt", "CNT/SP Lt", "Start", "Stop", "Continue",
 	"Panic","No Func", "Poly"};
 /// MIDI Clock multiplier texts
-const char *ClokShiftTxt[] = { "x32", "x16", "x08", "x04", "x02", "x01", "/02", "/04", "/08", "/16", "/32"};
+const char * const ClokShiftTxt[] = { "x32", "x16", "x08", "x04", "x02", "x01", "/02", "/04", "/08", "/16", "/32"};
 /// MIDI Clock multiplier texts
-const char *RangeInTxt[] = { "+10V", "Bip.", "+5V"};
+const char * const RangeInTxt[] = { "+10V", "Bip.", "+5V"};
 
 /// Credit text for splah screen
 #ifdef CVTHING

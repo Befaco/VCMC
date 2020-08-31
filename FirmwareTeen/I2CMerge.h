@@ -78,9 +78,21 @@ public:
     void SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value);
     void SendI2Cint(uint8_t bank, uint8_t port, int16_t value);
     void scanforI2Cclients();
-};
+    void SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l);
 
-    extern TwoWire *pWire;
+    void callOP(const tele_op_t *pOp, command_state_t *cs){
+        pOp->get(NULL, NULL, NULL, cs);
+    }
+};
+/*
+MidiMerge.sendNoteOn
+MidiMerge.sendNoteOff
+GateBut.SendMIDI
+CVPort.SendMIDI
+Slider.SendMIDI
+*/
+
+extern TwoWire *pWire;
 
 #endif
 

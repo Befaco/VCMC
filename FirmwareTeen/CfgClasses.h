@@ -110,10 +110,21 @@ typedef enum ICFun_e {
 /// InputControl configuration
 class InputCtrlCfg {
     public:
-    CtrlFunctions Chanfunction; ///< Function selected for the input control
-
-    InputCtrlCfg (): Chanfunction (INDEP){}
-    InputCtrlCfg (int chanF){Chanfunction=(CtrlFunctions)chanF;}
+    union {
+        struct {
+        uint8_t Chanfunction : 2; ///< Function selected for the input control
+        uint8_t OptionsI2C : 4;
+        uint16_t CommI2C : 10;
+        };
+        uint16_t OptionsInputCtrl;
+    };
+    InputCtrlCfg (): Chanfunction (INDEP){        
+        OptionsI2C = 0;
+        CommI2C = E_NOI2CFUNC;}
+    InputCtrlCfg (int chanF){
+        Chanfunction=chanF;
+        OptionsI2C = 0;
+        CommI2C = E_NOI2CFUNC;}
 
     void SaveCfgSysEx (uint8_t par=0,uint8_t chan=0);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
@@ -189,13 +200,24 @@ class InputPortCfg {
     uint8_t     charSufix = 0;
     uint16_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
+    union {
+        struct {
+        uint8_t Chanfunction : 2; ///< Function selected for the input control
+        uint8_t OptionsI2C : 4;
+        uint16_t CommI2C : 10;
+        uint8_t I2CChannel;
+        uint8_t OtherOptions;
+        };
+        uint32_t OptionsInputPort=0;
+    };
+
     #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
     #endif
     InputPortCfg ():
         ClockDivider (1.0)
-     {}
+     {CommI2C = E_NOI2CFUNC;}
     InputPortCfg (byte MIDIChan, byte CCN, byte nSend=60, byte ccVal=40, float clkDiv = 1.0, int8_t clkSh = 0):
         MIDIChannel (MIDIChan),
         ControllerNumber (CCN),
@@ -203,7 +225,7 @@ class InputPortCfg {
 		ControllerValue(ccVal),
         ClockDivider (clkDiv),
 		ClockShift (clkSh)
-     {}
+     {CommI2C = E_NOI2CFUNC;}
      uint8_t getName(char *name);
 };
 
@@ -223,7 +245,7 @@ class AnInputPortCfg : public InputPortCfg {
         struct{
         uint8_t MIDIfunction:5;  ///< MIDI function as defined on InputFunctions enumerator
         uint8_t RangeBipolar:2; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2: 
-        bool Use14bitsCC:1;   ///< When set, if CC is in range 0-31 will send additional CC in actual CC+32 with LSB
+        bool Use14bitsCC:1;   ///< Available for future use
         };
         uint8_t Options1;
     };

@@ -36,7 +36,6 @@
  *  \file PrjIncludes.h
  *  \brief Includes for the project come here 
  */
-#include "Definitions.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -50,6 +49,8 @@
 
 #include <ADC.h>
 #include <ResponsiveAnalogRead.h>
+
+#include "Definitions.h"
 
 #include "DefStrings.h"
 
@@ -91,6 +92,16 @@
 #include "OSCMerge.h"
 #endif
 #ifdef USEI2C
+#ifdef __GNUC__
+#define NOTUSED(x) UNUSED_##x __attribute__((__unused__))
+#else
+#define NOTUSED(x) UNUSED_##x
+#endif
+#define tele_ii_tx theApp.I2CMerge.SendI2Cdata
+#include "ops\helpers.h"
+#include "ops\ii.h"
+#include "ops\op.h"
+#include "ops\justfriends.h"
 #include "I2CMerge.h"
 #endif
 
