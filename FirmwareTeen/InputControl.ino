@@ -164,22 +164,6 @@ bool InputControl::ReadPorts (bool onlyDig) {
 }
 
 
-void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
-    MidiMerge.sendNoteOn(Note, Veloc, Chann);
-    #ifdef USEI2C
-    if( Config.CommI2C != E_OP_JF_NOTE) return;
-    // Send Note On/Off as Note plus velocity
-    command_state_t Notedata;
-    // Convert 14 to 16 bits
-    Notedata.push((~CVPort.PortValue)<<2); // Send Note instead?
-    Notedata.push(Slider.PortValue<<2); // Send Veloc instead?
-    theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
-#endif
-}
-void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
-    MidiMerge.sendNoteOff(Note, Veloc, Chann);
-}
-
 /**
  *  \brief Provides functionality when inputs or gate change
  *

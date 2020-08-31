@@ -152,9 +152,18 @@ void I2Cmerger::SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l)
     pWire->beginTransmission(addr);
     pWire->write(data, l);
     pWire->endTransmission();
-    D(Serial.printf("Addr:%d, d0:%d d1:%d", addr, data[0], data[1]));
+    D(printData(addr, data, l));
 }
 
+void printData(uint8_t addr, uint8_t *data, uint8_t l)
+{
+    Serial.printf("Addr:%2X: ", addr);
+    for (size_t i = 0; i < l; i++)
+    {
+        Serial.printf("%2x - ", data[i]);
+    }
+    Serial.println("EOM");
+}
 
 #endif
 

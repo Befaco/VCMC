@@ -135,13 +135,6 @@ void VCMCApp::initControls(void)
 
     CVControls[8].CVPort.PortCfg.ControllerNumber = 32;
     CVControls[8].Slider.PortCfg.ControllerNumber = 33;
-
-    // For testing purpose
-    #ifndef CVTHING
-        CVControls[7].CVPort.PortCfg.Ranges.SetDAC(INITMINDAC, INITRANGEDAC);
-        CVControls[7].CVPort.PortCfg.SetMIDIFunc(
-            CVControls[7].CVPort.PortCfg.MIDIfunction); // Reset MIDI Function
-    #endif
 }
 
 /**

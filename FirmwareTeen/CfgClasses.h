@@ -118,13 +118,21 @@ class InputCtrlCfg {
         };
         uint16_t OptionsInputCtrl;
     };
-    InputCtrlCfg (): Chanfunction (INDEP){        
+    InputCtrlCfg (): Chanfunction (INDEP){
+        #ifdef USEI2C
         OptionsI2C = 0;
-        CommI2C = E_NOI2CFUNC;}
+        CommI2C = E_NOI2CFUNC; // Default
+        // E_OP_JF_NOTE; // Test Just Friends
+        #endif
+        }
     InputCtrlCfg (int chanF){
         Chanfunction=chanF;
+        #ifdef USEI2C
         OptionsI2C = 0;
-        CommI2C = E_NOI2CFUNC;}
+        CommI2C = E_NOI2CFUNC; // Default
+        // E_OP_JF_NOTE; // Test Just Friends
+        #endif
+    }
 
     void SaveCfgSysEx (uint8_t par=0,uint8_t chan=0);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
@@ -216,16 +224,22 @@ class InputPortCfg {
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
     #endif
     InputPortCfg ():
-        ClockDivider (1.0)
-     {CommI2C = E_NOI2CFUNC;}
+        ClockDivider (1.0) {  
+        #ifdef USEI2C 
+        CommI2C = E_NOI2CFUNC;
+        #endif
+        }
     InputPortCfg (byte MIDIChan, byte CCN, byte nSend=60, byte ccVal=40, float clkDiv = 1.0, int8_t clkSh = 0):
         MIDIChannel (MIDIChan),
         ControllerNumber (CCN),
 		NoteToSend(nSend),
 		ControllerValue(ccVal),
         ClockDivider (clkDiv),
-		ClockShift (clkSh)
-     {CommI2C = E_NOI2CFUNC;}
+		ClockShift (clkSh) {
+        #ifdef USEI2C 
+        CommI2C = E_NOI2CFUNC;
+        #endif
+        }
      uint8_t getName(char *name);
 };
 

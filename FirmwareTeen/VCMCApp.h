@@ -125,8 +125,8 @@ public:
 
     void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
 
-private:
     void initControls(void);
+private:
     void initdisplay(void);
     void initEncoder(void);
     void initADC(void);

@@ -24,77 +24,59 @@
 //
 // -----------------------------------------------------------------------------
 //
-#ifndef __have__I2CMerger_h__
-#define __have__I2CMerger_h__
 #include "PrjIncludes.h"
+
 
 /** @addtogroup I2C 
  *  @{
  */
 
-/**
- *  \file I2CMerge.h
- *  \brief I2C I/O management 
- */
-
-struct I2CMessage {
-    uint8_t Command;
-    uint8_t Port;
-    union
-    {
-        uint8_t data[2];
-        uint16_t uiValue;
-        int16_t iValue;
-        //float fValue;
-    };
-};
-
-
-
-/// Class for I2C I/O management
-class I2Cmerger
+void I2Cmerger::InitDefControls(void)
 {
-private:
-    bool I2CInput = false;
-    bool I2COutput = false;
-    bool I2CMaster = true;
-
-public:
-    union {
-        uint8_t databuf[64]; // Raw data
-        int16_t int16buf[32]; // Data as 16 bits integers
-        I2CMessage recMsg;  // Received message
-    };
-    int received=0;
-    int ClientPort=0x66;
-
-public:
-    bool IsMaster() { return I2CMaster; }
-    bool poll(void);
-    void begin(void);
-    void InitDefControls(void);
-    void sendI2C();
-    void readI2C();
-    //void ProcessI2CMsg(I2CMessage *pMsg);
-    void SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value);
-    void SendI2Cint(uint8_t bank, uint8_t port, int16_t value);
-    void scanforI2Cclients();
-    void SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l);
-
-    void callOP(const tele_op_t *pOp, command_state_t *cs){
-        pOp->get(NULL, NULL, NULL, cs);
+    CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
+    for (size_t i = 1; i < 7; i++)
+    {
+        CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+        CVControls[i].CVPort.PortCfg.CommI2C = E_OP_JF_NOTE;
     }
-};
-/*
-MidiMerge.sendNoteOn
-MidiMerge.sendNoteOff
-GateBut.SendMIDI
-CVPort.SendMIDI
-Slider.SendMIDI
-*/
+    
+}
 
-extern TwoWire *pWire;
 
-#endif
+void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
+    MidiMerge.sendNoteOn(Note, Veloc, Chann);
+
+    #ifdef USEI2C
+    if( Config.CommI2C != E_OP_JF_NOTE) return;
+
+    // Send Note On/Off as Note plus velocity
+    command_state_t Notedata;
+    // Convert 14 to 16 bits
+    Notedata.push(Slider.PortValue<<2); // Send Veloc instead?
+    Notedata.push((~CVPort.PortValue)<<2); // Send Note instead?
+    theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
+
+    // Send Trigger
+    command_state_t GateData;
+    GateData.push(1); // High
+    GateData.push(0); // All channels
+    theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
+    #endif
+}
+
+
+void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
+    MidiMerge.sendNoteOff(Note, Veloc, Chann);
+
+    #ifdef USEI2C
+    if( Config.CommI2C != E_OP_JF_NOTE) return;
+    
+    // Send Trigger
+    command_state_t GateData;
+    GateData.push(0); // Low
+    GateData.push(0); // All channels
+    theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
+    #endif
+}
 
 /** @} */

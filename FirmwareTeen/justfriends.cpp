@@ -3,6 +3,7 @@
 
 #include "PrjIncludes.h"
 
+#ifdef USEI2C
 
 static void op_JF_TR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
@@ -141,3 +142,5 @@ static void op_JF_QT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     uint8_t d[] = { JF_QT, a };
     tele_ii_tx(JF_ADDR, d, 2);
 }
+
+#endif
