@@ -73,10 +73,8 @@ bool SaveLoadClass::SetCurrentPage (int page) {
  */
 bool SaveLoadClass::LoadInitialConfig(void) {
 	if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
-		theApp.theGlobalCfg.SaveCfg();
-		//SaveCfg(0);
-		//SaveCfg(1);
-		CurrentPage = theApp.theGlobalCfg.initPage;
+        theApp.initControls();
+        SetCurrentPage(0);
 		DP("Error loading. Saving std config");
 		return false;
 		}

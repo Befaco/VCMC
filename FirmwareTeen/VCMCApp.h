@@ -86,6 +86,12 @@ public:
     #endif
     }
     void setup(void);
+    void ApplyFilters(){
+        for (int i = 0; i < NUMCHAN-1;i++){
+            Controls[i].Slider.setFilter(theGlobalCfg.filterFader, theGlobalCfg.ActThrFader);
+        }
+    }
+
     ADC *getADC() { return padc; }
     byte getBankSelected() { return byBankSelected; }
     byte getPortSelected() { return byPortSelected; }
@@ -116,8 +122,8 @@ public:
 
     void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
 
-private:
     void initControls(void);
+private:
     void initdisplay(void);
     void initEncoder(void);
     void initADC(void);

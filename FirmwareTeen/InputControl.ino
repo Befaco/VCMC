@@ -76,8 +76,9 @@ bool InputControl::SetPort (byte PortCV, byte PortSlid, byte PortGate, byte Ledp
         Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.FaderMinDAC, theApp.theGlobalCfg.FaderRangeDAC);
         #ifdef FILTEREDANAGINPUT
         // Set parameters for FilteredInput
-        Slider.FilteredInput->setSnapMultiplier (0.0001);
-        Slider.FilteredInput->setActivityThreshold (17);
+        Slider.setFilter(theApp.theGlobalCfg.filterFader, theApp.theGlobalCfg.ActThrFader);
+        //Slider.FilteredInput->setSnapMultiplier (0.0001);
+        //Slider.FilteredInput->setActivityThreshold (17);
         //Slider.FilteredInput->enableEdgeSnap();
         #endif
     }

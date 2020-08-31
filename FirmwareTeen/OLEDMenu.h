@@ -106,6 +106,7 @@ public:
     void ClearArea();
     void PrintFunction(AnInputPortCfg *selCfg);
     void PrintGateFunction(DigPortCfg *cfgSel);
+    void displayGenCal(void);
     void displayBankConfig(int posCursor);
     void displayCVConfig(int posCursor);
     void displayFaderConfig(int posCursor);
