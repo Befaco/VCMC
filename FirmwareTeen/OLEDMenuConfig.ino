@@ -85,23 +85,6 @@ void OLEDMenu::displayGenCal(void){
         theOLED->setCursor (POSXCARD + 0, posCursor);
         posCursor += 8;
         }
-    /* 
-    // CV Data
-    int TrimCV = CVControls[BankSelected].CVPort.TrimValue (-9999);
-    theOLED->print (TrimCV);
-    theOLED->setCursor (POSXCARD + 0, posCursor);
-    posCursor += 8;
-    theOLED->print (CVControls[BankSelected].CVPort.PortValue);
-    theOLED->setCursor (POSXCARD + 0, posCursor);
-    posCursor += 8;
-    // Fader Data
-    int TrimFader = CVControls[BankSelected].Slider.TrimValue (-9999);
-    theOLED->print (TrimFader); // CVControls[BankSelected].Slider.MIDIData);
-    theOLED->setCursor (POSXCARD + 0, posCursor);
-    posCursor += 8;
-    theOLED->print (CVControls[BankSelected].Slider.PortValue);
-    theOLED->setCursor (POSXCARD + 0, posCursor);
-    posCursor += 8; */
 }
 
 /**
