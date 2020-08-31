@@ -74,12 +74,14 @@ void OLEDMenu::displayMenuConfig () {
 
 
 void OLEDMenu::displayGenCal(void){
-    int posCursor = 8; //17;
+    int posCursor = 1; //17;
     theOLED->setTextColor (WHITE, BLACK);
     theOLED->setCursor (POSXCARD + 0, posCursor);
+    posCursor += 8;
     // Fader Data
     for (int i = 0; i < NUMCHAN-1;i++){
-        theOLED->print(CVControls[i].Slider.PortValue);
+        theOLED->printf("%4d:%3d", CVControls[i].Slider.PortValue,
+            CVControls[i].Slider.MIDIData%127);
         theOLED->setCursor (POSXCARD + 0, posCursor);
         posCursor += 8;
         }
