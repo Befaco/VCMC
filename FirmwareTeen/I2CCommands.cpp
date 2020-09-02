@@ -31,29 +31,78 @@
  *  @{
  */
 
+#ifdef USEI2C
+
 void I2Cmerger::InitDefControls(void)
 {
     CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
     for (size_t i = 1; i < 7; i++)
     {
         CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
-        CVControls[i].CVPort.PortCfg.CommI2C = E_OP_JF_NOTE;
+        CVControls[i].GateBut.PortCfg.I2CChannel = i;
+        CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
+        CVControls[i].Slider.PortCfg.I2CChannel = i;
     }
     
 }
 
 
+void AnalogPort::SendI2C (int MidiData, bool GateStat)
+{
+command_state_t Notedata;
+
+    switch(PortCfg.CommI2C){
+        case E_NOI2CFUNC:
+            return;
+        case E_OP_JF_VOX:
+            // Convert 14 to 16 bits
+            Notedata.push(0x1FF); // Send other velocity instead?
+            Notedata.push(PortValue<<2); // Send MidiData instead?
+            Notedata.push(PortCfg.I2CChannel); // Selected channels
+            theApp.I2CMerge.callOP(&op_JF_VOX, &Notedata);
+        break;
+    }
+    return;
+}
+
+
+
+
+void DigitalPort::SendI2C (int MidiData, bool GateStat)
+{
+command_state_t GateData;
+
+    // Send Trigger
+    switch(PortCfg.CommI2C){
+        case E_NOI2CFUNC:
+            return;
+        case E_OP_JF_TR:
+            GateData.push(GateStatus); // High/Low
+            GateData.push(PortCfg.I2CChannel); // Selected channels
+            theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
+            break;
+    }
+    return;
+}
+
+#endif
+
+
 void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
+    int16_t chan = 0;
     MidiMerge.sendNoteOn(Note, Veloc, Chann);
 
     #ifdef USEI2C
-    if( Config.CommI2C != E_OP_JF_NOTE) return;
+    // Review other conditions to send Note On / Off
+    if( Config.CommI2C == E_NOI2CFUNC && GateBut.PortCfg.CommI2C == E_NOI2CFUNC ){
+        return;
+    }
 
     // Send Note On/Off as Note plus velocity
     command_state_t Notedata;
     // Convert 14 to 16 bits
-    Notedata.push(Slider.PortValue<<2); // Send Veloc instead?
-    Notedata.push((~CVPort.PortValue)<<2); // Send Note instead?
+    Notedata.push(Veloc * 0x3FF / 127.);//Slider.PortValue<<2);
+    Notedata.push(Note * 0x3FF / 120.);//(~CVPort.PortValue)<<2);
     theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
 
     // Send Trigger
@@ -69,7 +118,9 @@ void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
     MidiMerge.sendNoteOff(Note, Veloc, Chann);
 
     #ifdef USEI2C
-    if( Config.CommI2C != E_OP_JF_NOTE) return;
+    if( Config.CommI2C == E_NOI2CFUNC && GateBut.PortCfg.CommI2C == E_NOI2CFUNC ){
+        return;
+    }
     
     // Send Trigger
     command_state_t GateData;

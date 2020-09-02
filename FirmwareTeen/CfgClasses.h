@@ -113,11 +113,22 @@ class InputCtrlCfg {
     union {
         struct {
         uint8_t Chanfunction : 2; ///< Function selected for the input control
-        uint8_t OptionsI2C : 4;
-        uint16_t CommI2C : 10;
+        uint8_t OptionsCtrl : 4;
+        uint16_t OtherCtrlOptions : 10;
         };
         uint16_t OptionsInputCtrl;
     };
+    union {
+        struct {
+        uint8_t I2Cfunction : 2;
+        uint8_t OptionsI2C : 4;
+        uint16_t CommI2C : 10;
+        uint8_t I2CChannel;
+        uint8_t OtherOptions;
+        };
+        uint32_t I2COptionsInputCtrl=0;
+    };
+
     InputCtrlCfg (): Chanfunction (INDEP){
         #ifdef USEI2C
         OptionsI2C = 0;

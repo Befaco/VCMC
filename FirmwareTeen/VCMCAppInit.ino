@@ -135,6 +135,10 @@ void VCMCApp::initControls(void)
 
     CVControls[8].CVPort.PortCfg.ControllerNumber = 32;
     CVControls[8].Slider.PortCfg.ControllerNumber = 33;
+
+    #ifdef USEI2C
+    I2CMerge.InitDefControls();
+    #endif
 }
 
 /**

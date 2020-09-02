@@ -164,6 +164,10 @@ void DigitalPort::setBlink (unsigned long periodon, unsigned long periodoff, int
 void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
 	msecLastMIDISent = millis();
 	
+    #ifdef USEI2C
+    SendI2C ( MidiData, GateStat) ;
+    #endif
+    
     switch (PortCfg.MIDIfunction) {
     case TRIGGER:
     case LATCH:

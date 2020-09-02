@@ -226,7 +226,6 @@ void InputControl::OnDataChange (void) {
 					GateBut.MIDIData = datatosend; // Store Note in CVPort at gate activation
 					sendNoteOn (datatosend, MidiMerge.VelData[GateBut.PortCfg.MIDIChannel - 1], GateBut.PortCfg.MIDIChannel);
 					}
-
             } 
             else { // Send Note Off
 				boolean played = false;

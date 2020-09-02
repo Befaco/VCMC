@@ -80,16 +80,19 @@ void I2Cmerger::sendI2C ()
             // Send port values
             NewValue = CVControls[i].CVPort.PortValue;
             if (NewValue - OldValue[0][i] > TRIMI2C || OldValue[0][i] - NewValue > TRIMI2C) {
-                SendI2Cint ( i, CVSLOT, (NewValue<<2));
+                if( CVControls[i].CVPort.PortCfg.CommI2C != E_NOI2CFUNC )
+                    SendI2Cint ( i, CVSLOT, (NewValue<<2));
                 OldValue[0][i] = NewValue;
             }
             NewValue = CVControls[i].Slider.PortValue;
             if (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C) {
-                SendI2Cint ( i, FADERSLOT, (NewValue<<2));
+                if( CVControls[i].Slider.PortCfg.CommI2C != E_NOI2CFUNC )
+                    SendI2Cint ( i, FADERSLOT, (NewValue<<2));
                 OldValue[1][i] = NewValue;
             }
             NewValue = CVControls[i].GateBut.GateStatus;
             if (NewValue != OldGate[i]) {
+                //if( CVControls[i].GateBut.PortCfg.CommI2C != E_NOI2CFUNC )
                 //SendI2CMsgbool ( i, GATESLOT, NewValue);
                 OldGate[i] = NewValue;
             }
