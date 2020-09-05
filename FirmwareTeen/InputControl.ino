@@ -196,7 +196,6 @@ void InputControl::OnDataChange (void) {
                         // GateBut.setBlink(100, 100, 1);
                     }
                 } else {
-
                     if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) { // CV triggered notes
                         byte datatosend = CVPort.TrimValue (CVPort.MIDIData);
 						if( CVPort.LastSentMIDIData>0){ // sendNoteOff previous note

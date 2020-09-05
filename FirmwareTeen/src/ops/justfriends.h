@@ -4,7 +4,7 @@
 #ifndef _OPS_JUSTFRIENDS_H_
 #define _OPS_JUSTFRIENDS_H_
 
-#include "op.h"
+//#include "ops/op.h"
 
 extern const tele_op_t op_JF_TR;
 extern const tele_op_t op_JF_RMODE;

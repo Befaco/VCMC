@@ -254,7 +254,7 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
     if (SendData == LastSentMIDIData) return; // Do not send the same data twice
 	
     #ifdef USEI2C
-    SendI2C ( MidiData, GateStat) ;
+    if( PortCfg.UseMIDII2C) SendI2C ( SendData, GateStat) ;
     #endif
 
     switch (PortCfg.MIDIfunction) {

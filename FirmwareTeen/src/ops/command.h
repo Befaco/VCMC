@@ -31,5 +31,6 @@ public:
 };
 
 #define cs_pop(x) x->pop()
+#define cs_push(x,y) x->push(y)
 
 #endif

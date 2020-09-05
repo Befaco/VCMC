@@ -253,6 +253,7 @@ typedef enum {
     E_OP_IIBB1,
     E_OP_IIBB2,
     E_OP_IIBB3,
+
     E_OP_WW_PRESET,
     E_OP_WW_POS,
     E_OP_WW_SYNC,
@@ -267,9 +268,11 @@ typedef enum {
     E_OP_WW_MUTE4,
     E_OP_WW_MUTEA,
     E_OP_WW_MUTEB,
+
     E_OP_MP_PRESET,
     E_OP_MP_RESET,
     E_OP_MP_STOP,
+    
     E_OP_ES_PRESET,
     E_OP_ES_MODE,
     E_OP_ES_CLOCK,
@@ -279,6 +282,7 @@ typedef enum {
     E_OP_ES_STOP,
     E_OP_ES_TRIPLE,
     E_OP_ES_MAGIC,
+
     E_OP_OR_TRK,
     E_OP_OR_CLK,
     E_OP_OR_DIV,
@@ -295,6 +299,7 @@ typedef enum {
     E_OP_OR_GRST,
     E_OP_OR_CVA,
     E_OP_OR_CVB,
+
     E_OP_ANS_G_LED,
     E_OP_ANS_G,
     E_OP_ANS_G_P,
@@ -348,6 +353,7 @@ typedef enum {
     E_OP_ARP_FIL,
     E_OP_ARP_ROT,
     E_OP_ARP_ER,
+
     E_OP_JF_TR,
     E_OP_JF_RMODE,
     E_OP_JF_RUN,
@@ -360,10 +366,12 @@ typedef enum {
     E_OP_JF_GOD,
     E_OP_JF_TUNE,
     E_OP_JF_QT,
+
     E_OP_WS_PLAY,
     E_OP_WS_REC,
     E_OP_WS_CUE,
     E_OP_WS_LOOP,
+
     E_OP_TO_TR,
     E_OP_TO_TR_TOG,
     E_OP_TO_TR_PULSE,
@@ -471,6 +479,7 @@ typedef enum {
     E_OP_TI_PRM_SCALE,
     E_OP_TI_PRM_MAP,
     E_OP_TI_PRM_INIT,
+
     E_OP_FADER,
     E_OP_FADER_SCALE,
     E_OP_FADER_CAL_MIN,
@@ -481,6 +490,7 @@ typedef enum {
     E_OP_FB_C_MIN,
     E_OP_FB_C_MAX,
     E_OP_FB_C_R,
+ 
     E_OP_SC_TR,
     E_OP_SC_TR_TOG,
     E_OP_SC_TR_PULSE,
@@ -491,6 +501,7 @@ typedef enum {
     E_OP_SC_CV_SET,
     E_OP_SC_CV_OFF,
     E_OP_SC_TR_P,
+
     E_OP_G_RST,
     E_OP_G_CLR,
     E_OP_G_ROTATE,
@@ -556,6 +567,7 @@ typedef enum {
     E_OP_G_GBTN_X2,
     E_OP_G_GBTN_Y1,
     E_OP_G_GBTN_Y2,
+
     E_OP_MA_SELECT,
     E_OP_MA_STEP,
     E_OP_MA_RESET,
@@ -572,6 +584,7 @@ typedef enum {
     E_OP_MA_PROW,
     E_OP_MA_CLR,
     E_OP_MA_PCLR,
+
     E_OP_EX,
     E_OP_EX_PRESET,
     E_OP_EX_PRE,
@@ -624,6 +637,7 @@ typedef enum {
     E_OP_EX_AO,
     E_OP_EX_T,
     E_OP_EX_TV,
+ 
     E_OP_SEED,
     E_OP_RAND_SEED,
     E_OP_SYM_RAND_SD,
@@ -636,6 +650,7 @@ typedef enum {
     E_OP_SYM_DRUNK_SD,
     E_OP_P_SEED,
     E_OP_SYM_P_SD,
+ 
     E_OP__LENGTH,
 } tele_op_idx_t;
 

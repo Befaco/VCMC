@@ -2,10 +2,6 @@
 #define _OPS_OP_H_
 
 
-#include "command.h"
-#include "op_enum.h"
-#include "state.h"
-
 /////////////////////////////////////////
 // op.h
 /////////////////////////////////////////
@@ -49,6 +45,9 @@ typedef struct {
         .name = #n, .get = op_simple_i2c, .set = NULL, .params = 1, \
         .returns = 0, .data = (void *)v                             \
     }
+
+void op_simple_i2c(const void *data, scene_state_t *ss, exec_state_t *es,
+                   command_state_t *cs);
 
 // Mods
 #define MAKE_MOD(n, f, p) \

@@ -35,33 +35,90 @@
 
 void I2Cmerger::InitDefControls(void)
 {
+    
+    // Test Just Friends
     CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
+    CVControls[0].Config.UseMIDII2C = true;
     for (size_t i = 1; i < 7; i++)
     {
         CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
         CVControls[i].GateBut.PortCfg.I2CChannel = i;
-        CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
+        CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VTR+i;
         CVControls[i].Slider.PortCfg.I2CChannel = i;
     }
+    CVControls[7].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+    CVControls[7].GateBut.PortCfg.I2CChannel = 7;
+    CVControls[7].GateBut.PortCfg.UseMIDII2C = true;
+    CVControls[7].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
+    CVControls[7].Slider.PortCfg.I2CChannel = 7;
+    CVControls[7].Slider.PortCfg.UseMIDII2C = true;
+
+    // Test ER-301
+    for (size_t i = 0; i < 8; i++)
+    {
+        CVControls[i].GateBut.PortCfg.CommI2C = E_OP_SC_TR;
+        CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
+        CVControls[i].CVPort.PortCfg.CommI2C = E_OP_SC_CV;
+        CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
+        CVControls[i].Slider.PortCfg.CommI2C = E_OP_SC_CV_SLEW;
+        CVControls[i].Slider.PortCfg.I2CChannel = i+1;
+    }
     
+
 }
 
+const tele_op_t *I2Cmerger::getTeleOp(uint16_t Comm){
+    /* if(Comm>=E_OP_JF_TR && Comm<=E_OP_JF_QT)
+        return tele_opsJF[Comm - E_OP_JF_TR];
+    return nullptr; 
+    */
+
+    return tele_ops[Comm];
+}
+
+bool I2Cmerger::TeleOpUseChanInfo(uint16_t Comm){
+    if(Comm>=E_OP_JF_TR && Comm<=E_OP_JF_QT)
+        return tele_opsJFChan[Comm - E_OP_JF_TR];
+
+    return true;
+}
 
 void AnalogPort::SendI2C (int MidiData, bool GateStat)
 {
-command_state_t Notedata;
+    int16_t toSend = 0;
+    if(PortCfg.CommI2C==E_NOI2CFUNC)
+        return;
 
-    switch(PortCfg.CommI2C){
-        case E_NOI2CFUNC:
-            return;
-        case E_OP_JF_VOX:
-            // Convert 14 to 16 bits
-            Notedata.push(0x1FF); // Send other velocity instead?
-            Notedata.push(PortValue<<2); // Send MidiData instead?
-            Notedata.push(PortCfg.I2CChannel); // Selected channels
-            theApp.I2CMerge.callOP(&op_JF_VOX, &Notedata);
-        break;
+    if(!PortCfg.UseMIDII2C){ // Raw data config
+        toSend = (typeSlider) ? PortValue<<2 : (~PortValue)<<2;
+    } else{
+        if( PortCfg.MIDIfunction == CC14BITS ||
+                PortCfg.MIDIfunction == PITCHBEND || 
+                PortCfg.MIDIfunction == ANAGNRPN14bits)
+            toSend = MidiData << 2; // 14 bits MIDI data
+        else if( PortCfg.MIDIfunction == PITCHTRIG || 
+                    PortCfg.MIDIfunction == PITCH8TRIG)
+            toSend = MidiData / 120. * 0x3FF; // V/Oct MIDI data
+        else 
+            toSend = MidiData / 127. * 0x3FF; // 7 bits MIDI data
     }
+    
+    command_state_t Notedata;
+    // Convert 14 to 16 bits
+    Notedata.push(0x1FF);              // Send other velocity instead?
+    Notedata.push(toSend);     // Send MidiData instead?
+    if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
+        Notedata.push(PortCfg.I2CChannel); // Selected channels
+
+    theApp.I2CMerge.callOP(PortCfg.CommI2C, &Notedata);
+    /* switch (PortCfg.CommI2C)
+    {
+    case E_NOI2CFUNC:
+        return;
+    case E_OP_JF_VOX:
+        theApp.I2CMerge.callOP(&op_JF_VOX, &Notedata);
+        break;
+    } */
     return;
 }
 
@@ -72,16 +129,25 @@ void DigitalPort::SendI2C (int MidiData, bool GateStat)
 {
 command_state_t GateData;
 
+    if(PortCfg.CommI2C==E_NOI2CFUNC)
+        return;
+    GateData.push(GateStatus); // High/Low
+    if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
+        GateData.push(PortCfg.I2CChannel); // Selected channels
+    theApp.I2CMerge.callOP(PortCfg.CommI2C, &GateData);
+
+    /* 
     // Send Trigger
     switch(PortCfg.CommI2C){
         case E_NOI2CFUNC:
             return;
         case E_OP_JF_TR:
             GateData.push(GateStatus); // High/Low
-            GateData.push(PortCfg.I2CChannel); // Selected channels
+            if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
+                GateData.push(PortCfg.I2CChannel); // Selected channels
             theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
             break;
-    }
+    } */
     return;
 }
 
@@ -89,10 +155,11 @@ command_state_t GateData;
 
 
 void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
-    int16_t chan = 0;
     MidiMerge.sendNoteOn(Note, Veloc, Chann);
 
     #ifdef USEI2C
+    if(!Config.UseMIDII2C || (Config.CommI2C == E_NOI2CFUNC && !GateBut.PortCfg.UseMIDII2C))
+        return; // Send only on MIDI mode
     // Review other conditions to send Note On / Off
     if( Config.CommI2C == E_NOI2CFUNC && GateBut.PortCfg.CommI2C == E_NOI2CFUNC ){
         return;
@@ -101,8 +168,8 @@ void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
     // Send Note On/Off as Note plus velocity
     command_state_t Notedata;
     // Convert 14 to 16 bits
-    Notedata.push(Veloc * 0x3FF / 127.);//Slider.PortValue<<2);
-    Notedata.push(Note * 0x3FF / 120.);//(~CVPort.PortValue)<<2);
+    Notedata.push(Veloc / 127. * 0x3FF);//Slider.PortValue<<2);
+    Notedata.push(Note / 120. * 0x3FF);//(~CVPort.PortValue)<<2);
     theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
 
     // Send Trigger
@@ -118,6 +185,8 @@ void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
     MidiMerge.sendNoteOff(Note, Veloc, Chann);
 
     #ifdef USEI2C
+    if(!Config.UseMIDII2C || (Config.CommI2C == E_NOI2CFUNC && !GateBut.PortCfg.UseMIDII2C))
+        return; // Send only on MIDI mode
     if( Config.CommI2C == E_NOI2CFUNC && GateBut.PortCfg.CommI2C == E_NOI2CFUNC ){
         return;
     }

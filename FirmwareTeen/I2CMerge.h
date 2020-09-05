@@ -37,6 +37,7 @@
  *  \brief I2C I/O management 
  */
 
+
 struct I2CMessage {
     uint8_t Command;
     uint8_t Port;
@@ -56,7 +57,7 @@ class I2Cmerger
 {
 private:
     bool I2CInput = false;
-    bool I2COutput = false;
+    bool I2COutput = true;
     bool I2CMaster = true;
 
 public:
@@ -81,8 +82,16 @@ public:
     void scanforI2Cclients();
     void SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l);
 
+    void ReadI2CLeader(uint8_t addr, uint8_t* data, uint8_t l) {} // TODO implement
+
+    const tele_op_t *getTeleOp(uint16_t Comm);
+    bool TeleOpUseChanInfo(uint16_t Comm);
+    void callOP(uint16_t Comm, command_state_t *cs){
+        callOP(getTeleOp(Comm), cs);
+    }
     void callOP(const tele_op_t *pOp, command_state_t *cs){
-        pOp->get(NULL, NULL, NULL, cs);
+        if(pOp)
+            pOp->get(NULL, NULL, NULL, cs);
     }
 };
 /*

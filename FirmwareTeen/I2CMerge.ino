@@ -77,23 +77,29 @@ void I2Cmerger::sendI2C ()
         static uint16_t OldGate[9];
 		
         for (int i = 0; i < 9; i++) {
+            if( CVControls[i].Config.UseMIDII2C)
+                continue; // Do not process bank in MIDI mode
             // Send port values
             NewValue = CVControls[i].CVPort.PortValue;
-            if (NewValue - OldValue[0][i] > TRIMI2C || OldValue[0][i] - NewValue > TRIMI2C) {
-                if( CVControls[i].CVPort.PortCfg.CommI2C != E_NOI2CFUNC )
-                    SendI2Cint ( i, CVSLOT, (NewValue<<2));
+            if ( !CVControls[i].CVPort.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
+                (NewValue - OldValue[0][i] > TRIMI2C || OldValue[0][i] - NewValue > TRIMI2C)) {
+                CVControls[i].CVPort.SendI2C(0,(~NewValue)<<2);
                 OldValue[0][i] = NewValue;
             }
             NewValue = CVControls[i].Slider.PortValue;
-            if (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C) {
-                if( CVControls[i].Slider.PortCfg.CommI2C != E_NOI2CFUNC )
-                    SendI2Cint ( i, FADERSLOT, (NewValue<<2));
+            if (  !CVControls[i].Slider.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
+                (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C)) {
+                /* if( CVControls[i].Slider.PortCfg.CommI2C != E_NOI2CFUNC )
+                    SendI2Cint ( i, FADERSLOT, (NewValue<<2)); */
+                CVControls[i].Slider.SendI2C(0,NewValue);
                 OldValue[1][i] = NewValue;
             }
             NewValue = CVControls[i].GateBut.GateStatus;
-            if (NewValue != OldGate[i]) {
+            if (  !CVControls[i].GateBut.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
+                    NewValue != OldGate[i]) {
                 //if( CVControls[i].GateBut.PortCfg.CommI2C != E_NOI2CFUNC )
                 //SendI2CMsgbool ( i, GATESLOT, NewValue);
+                CVControls[i].GateBut.SendI2C(0,NewValue);
                 OldGate[i] = NewValue;
             }
         }

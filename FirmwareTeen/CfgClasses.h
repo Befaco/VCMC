@@ -121,7 +121,8 @@ class InputCtrlCfg {
     union {
         struct {
         uint8_t I2Cfunction : 2;
-        uint8_t OptionsI2C : 4;
+        uint8_t UseMIDII2C : 1;
+        uint8_t OptionsI2C : 3;
         uint16_t CommI2C : 10;
         uint8_t I2CChannel;
         uint8_t OtherOptions;
@@ -222,7 +223,8 @@ class InputPortCfg {
     union {
         struct {
         uint8_t Chanfunction : 2; ///< Function selected for the input control
-        uint8_t OptionsI2C : 4;
+        uint8_t UseMIDII2C : 1;
+        uint8_t OptionsI2C : 3;
         uint16_t CommI2C : 10;
         uint8_t I2CChannel;
         uint8_t OtherOptions;

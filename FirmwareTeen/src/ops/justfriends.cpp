@@ -1,9 +1,19 @@
+//////////////////////////////////////
 // Adapted from TeleType source code.
 // See license on https://github.com/monome/teletype
 
-#include "PrjIncludes.h"
 
+#include "../../PrjIncludes.h"
+/*
+#include "ops/justfriends.h"
+
+#include "helpers.h"
+#include "ii.h"
+#include "teletype_io.h"
+*/
 #ifdef USEI2C
+
+////////////////////////////////
 
 static void op_JF_TR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);

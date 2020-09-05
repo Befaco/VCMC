@@ -98,11 +98,10 @@
 #define NOTUSED(x) UNUSED_##x
 #endif
 #define tele_ii_tx theApp.I2CMerge.SendI2Cdata
-#include "ops\helpers.h"
-#include "ops\ii.h"
-#include "ops\op.h"
-#include "ops\justfriends.h"
+#define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
+#include "src\ops\ops.h"
 #include "I2CMerge.h"
+#include "I2CDevice.h"
 #endif
 
 #include "Blinker.h"

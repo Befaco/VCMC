@@ -165,7 +165,7 @@ void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
 	msecLastMIDISent = millis();
 	
     #ifdef USEI2C
-    SendI2C ( MidiData, GateStat) ;
+    if( PortCfg.UseMIDII2C) SendI2C(MidiData, GateStat) ;
     #endif
     
     switch (PortCfg.MIDIfunction) {
