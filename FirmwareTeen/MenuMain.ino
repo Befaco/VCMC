@@ -56,8 +56,9 @@ MenuItem GlobalconfigList[] = {
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
+    {"I2C Menu", selectI2CDevice, 1},
     {" GLOBAL CFG ", NULL, 1}};
-MenuList listGlobal(GlobalconfigList, 10, ListLinesSimple);
+MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
 
 MenuItem GlobalCalList[] = {
     {"<-BACK", gotoMenuSettings, 1},
@@ -130,11 +131,9 @@ boolean DoNothing()
 // User Names
 bool changeUserNames()
 {
-    bool ret = true;
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&UserNameList);
     return true;
-    return ret;
 }
 
 //Main Menu entry function

@@ -68,7 +68,7 @@ public:
     };
     int received=0;
     int ClientPort=0x66;
-
+    I2CDevCollection I2CDevices;
 public:
     bool IsMaster() { return I2CMaster; }
     bool poll(void);
@@ -84,8 +84,8 @@ public:
 
     void ReadI2CLeader(uint8_t addr, uint8_t* data, uint8_t l) {} // TODO implement
 
-    const tele_op_t *getTeleOp(uint16_t Comm);
-    bool TeleOpUseChanInfo(uint16_t Comm);
+    const tele_op_t *getTeleOp(uint16_t Comm); // Definition in I2CCommands.cpp
+    bool TeleOpUseChanInfo(uint16_t Comm);   // Definition in I2CCommands.cpp
     void callOP(uint16_t Comm, command_state_t *cs){
         callOP(getTeleOp(Comm), cs);
     }

@@ -81,8 +81,8 @@ class InputControl {
     int SaveCfg (int addr);
     int LoadCfg (int addr);
 
-    void sendNoteOn(byte Note, byte Veloc, byte Chann);
-    void sendNoteOff(byte Note, byte Veloc, byte Chann);
+    void sendNoteOn(byte Note, byte Veloc, byte Chann); // Definition in I2CCommands.cpp
+    void sendNoteOff(byte Note, byte Veloc, byte Chann); // Definition in I2CCommands.cpp
 };
 
 /**@}*/

@@ -197,6 +197,8 @@ void OLEDMenu::setCurrentMenu (MenuList *aMenu) {
         posMenu = FillNameMenuList();
     } else if(aMenu == &UserNameList){
         posMenu = FillUserNameMenuList(true);
+    } else if(aMenu == &I2CDevList){
+        posMenu = FillI2CDevList();
     } else{
         // Create Menu with visible list items
         for (int i = 0; i < aMenu->getSize (); i++) {

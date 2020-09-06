@@ -116,7 +116,7 @@ class DigitalPort : public InputPort {
     int fillFunctionData(uint8_t *buf, int buLen);
 
     #ifdef USEI2C
-    void SendI2C(int MidiData, bool GateStat);
+    void SendI2C(int MidiData, bool GateStat); // Definition in I2CCommands.cpp
     #endif
 };
 
@@ -167,7 +167,7 @@ class AnalogPort : public InputPort {
     int fill(uint8_t type, uint8_t *buf, int buLen);
     int fillFunctionData(uint8_t *buf, int buLen);
     #ifdef USEI2C
-    void SendI2C(int MidiData, bool GateStat);
+    void SendI2C(int MidiData, bool GateStat); // Definition in I2CCommands.cpp
     #endif
 };
 

@@ -34,6 +34,7 @@
 #ifdef USEI2C
 
 I2CDevice listDevices[] = {
+    {NO_I2CDEVICE, E_NOI2CFUNC, E_NOI2CFUNC, "No Device"},
     {WW, E_OP_WW_PRESET, E_OP_WW_MUTEB, "whitewhale"},
     {MP, E_OP_MP_PRESET, E_OP_MP_STOP, "meadowphysics"},
     {ES, E_OP_ES_PRESET, E_OP_ES_MAGIC, "earthsea"},
@@ -46,9 +47,96 @@ I2CDevice listDevices[] = {
     {ER301_1, E_OP_SC_TR, E_OP_SC_TR_P, "ER301"},
     {MATRIXARCHATE, E_OP_MA_SELECT, E_OP_MA_PCLR, "matrixarchate"},
     {DISTING_EX_1, E_OP_EX, E_OP_EX_TV, "disting ex"},
-    {DISTING_EX_1, E_OP_EX, E_OP_EX_TV, "disting ex"},
     {LASTDEVICE, E_MOD__LENGTH, E_MOD__LENGTH, "Last Device"}
 };
+
+void I2CDevCollection::addBaseDevices(void)
+{
+    int i = 0;
+    while (listDevices[i].I2Cid!=LASTDEVICE)
+    {
+        addDevice(&listDevices[i]);
+        i++;
+    }
+}
+
+void I2CDevCollection::InitDefault(uint8_t Dev)
+{
+    if( !pDevices[Dev]){
+        DP("InitDefault Device not initialized");
+        return;
+    }
+    // Reset values
+    for (size_t i = 0; i < 8; i++)
+    {
+        CVControls[i].Config.CommI2C = E_NOI2CFUNC;
+        CVControls[i].CVPort.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].Slider.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].GateBut.PortCfg.CommI2C = E_NOI2CFUNC;
+    }
+
+    switch (Dev)
+    {
+    case NO_I2CDEVICE:
+        break;
+    case ER301_1:
+        DP("Init Default ER-301 Config");
+        for (size_t i = 0; i < 8; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_SC_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
+            CVControls[i].CVPort.PortCfg.I2Cdev = Dev;
+            CVControls[i].CVPort.PortCfg.CommI2C = E_OP_SC_CV;
+            CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_SC_CV_SLEW;
+            CVControls[i].Slider.PortCfg.I2CChannel = i+1;
+        }
+        break;
+    case JF_ADDR:
+        DP("Init Default Just Friends Config");
+        CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
+        CVControls[0].Config.UseMIDII2C = true;
+        for (size_t i = 1; i < 7; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VTR+i;
+            CVControls[i].Slider.PortCfg.I2CChannel = i;
+        }
+        CVControls[7].GateBut.PortCfg.I2Cdev = Dev;
+        CVControls[7].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+        CVControls[7].GateBut.PortCfg.I2CChannel = 7;
+        CVControls[7].GateBut.PortCfg.UseMIDII2C = true;
+        CVControls[7].Slider.PortCfg.I2Cdev = Dev;
+        CVControls[7].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
+        CVControls[7].Slider.PortCfg.I2CChannel = 7;
+        CVControls[7].Slider.PortCfg.UseMIDII2C = true;
+        break;
+    case TELEXO:
+        DP("Init Default TxO Config");
+        for (size_t i = 0; i < 8; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_TO_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
+            CVControls[i].CVPort.PortCfg.I2Cdev = Dev;
+            CVControls[i].CVPort.PortCfg.CommI2C = E_OP_TO_CV;
+            CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_TO_CV_SLEW;
+            CVControls[i].Slider.PortCfg.I2CChannel = i+1;
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+
 
 #endif
 

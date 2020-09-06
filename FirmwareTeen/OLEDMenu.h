@@ -94,8 +94,10 @@ public:
     int updateSelection();
     boolean selectionMade();
     void setCurrentMenu(MenuList *aMenu);
-    uint8_t FillNameMenuList();
+    uint8_t FillNameMenuList(void);
     uint8_t FillUserNameMenuList(bool fillEmpty=true);
+    uint8_t FillI2CDevList(void); // Definition on I2CDevice.cpp
+    uint8_t FillI2COpList(void);  // Definition on I2CDevice.cpp
 
     void displayMenu();
     void displayMenuListLines();
@@ -148,7 +150,8 @@ public:
     void ClearInputArea(const char *title, uint16_t padPos, uint16_t posx, uint16_t posy);
     void DrawInputArea(const char *title, uint16_t padPos, uint16_t posx, uint16_t posy);
 };
-
+extern MenuItem CurrentMenuItems[];
+extern MenuList CurrentMenuList;
 /** @} */
   
 #endif //__have__OLEDMenu_h__

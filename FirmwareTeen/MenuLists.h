@@ -67,6 +67,10 @@ extern MenuList InRangeListMenu;
 extern MenuList listButFn;
 extern MenuList listGatSTSPFn;
 extern MenuList listGate;
+// Defined in MenuI2C
+extern MenuList I2CDevList;
+bool selectI2CDevice(void);
+bool setI2CDevice(void);
 
 // Defined on MenuMain
 boolean gotoMenuGlobalCfg();

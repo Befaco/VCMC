@@ -39,10 +39,10 @@
 
 class I2CDevice{
 public:
-    uint8_t I2Cid;
-    uint16_t firstOP;
-    uint16_t lastOP;
-    const char *sName;
+    uint8_t I2Cid;  // I2C device number as defined in ii.h
+    uint16_t firstOP; // First OP for device as defined in op_enum.h
+    uint16_t lastOP; // Last OP for device as defined in op_enum.h
+    const char *sName; // Text string for device
     I2CDevice():
         I2Cid(0), firstOP(0), lastOP(0), sName(NULL) 
         {}
@@ -51,7 +51,29 @@ public:
         {}
 };
 
+class I2CDevCollection{
+private:
+    uint8_t countDev = 0;
+    uint8_t mapDev[256] = {0}; // TODO  CHECK if useful
+    I2CDevice *pDevices[256] = {NULL};
+public:
+    uint8_t addDevice(I2CDevice *pDev) { 
+        mapDev[countDev] = pDev->I2Cid;
+        countDev++;
+        pDevices[pDev->I2Cid] = pDev;
+        D(Serial.printf("Device %s:%d added\n", pDev->sName, pDev->I2Cid));
+        return pDev->I2Cid;
+    }
+    void InitDefault(uint8_t Dev);
+    void addBaseDevices(void);
+    uint8_t getCount(void) { return countDev; }
+    I2CDevice *getDeviceAtPos(uint8_t pos) { 
+        if(pos<countDev) return pDevices[mapDev[pos]];
+        else return NULL;}
+};
+
 #define LASTDEVICE 0xFF
+#define NO_I2CDEVICE 0
 extern I2CDevice listDevices[];
 
 

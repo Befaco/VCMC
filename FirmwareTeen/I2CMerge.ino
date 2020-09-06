@@ -116,6 +116,17 @@ void I2Cmerger::ProcessI2CMsg (I2CMessage *pMsg) {
 }
  */
 
+
+void I2Cmerger::InitDefControls(void)
+{
+    I2CDevices.addBaseDevices();
+    // Test Just Friends
+    I2CDevices.InitDefault(JF_ADDR);
+    // Test ER-301
+    //I2CDevices.InitDefault(ER301_1);
+}
+
+
 void I2Cmerger::begin(void)
 {
     // Begin I2C serial channel

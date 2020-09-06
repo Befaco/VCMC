@@ -18,7 +18,7 @@ BOARD_ID         := TEENSY32
 MCU              := mk20dx256
 
 BUILDER_BASE     := D:\apl\Arduino
-FLAGS            := -verbose=0 -warnings=all
+FLAGS            := -verbose=0 -warnings=default
 FQBN             := teensy:avr:teensy31:usb=serialmidi,speed=96,opt=o2std,keys=en-us
 BUILD_PATH       := $(abspath ../../build)
 HARDWARE         := -hardware="D:\apl\Arduino/hardware"

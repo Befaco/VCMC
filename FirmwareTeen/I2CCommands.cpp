@@ -33,46 +33,7 @@
 
 #ifdef USEI2C
 
-void I2Cmerger::InitDefControls(void)
-{
-    
-    // Test Just Friends
-    CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
-    CVControls[0].Config.UseMIDII2C = true;
-    for (size_t i = 1; i < 7; i++)
-    {
-        CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
-        CVControls[i].GateBut.PortCfg.I2CChannel = i;
-        CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VTR+i;
-        CVControls[i].Slider.PortCfg.I2CChannel = i;
-    }
-    CVControls[7].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
-    CVControls[7].GateBut.PortCfg.I2CChannel = 7;
-    CVControls[7].GateBut.PortCfg.UseMIDII2C = true;
-    CVControls[7].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
-    CVControls[7].Slider.PortCfg.I2CChannel = 7;
-    CVControls[7].Slider.PortCfg.UseMIDII2C = true;
-
-    // Test ER-301
-    for (size_t i = 0; i < 8; i++)
-    {
-        CVControls[i].GateBut.PortCfg.CommI2C = E_OP_SC_TR;
-        CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
-        CVControls[i].CVPort.PortCfg.CommI2C = E_OP_SC_CV;
-        CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
-        CVControls[i].Slider.PortCfg.CommI2C = E_OP_SC_CV_SLEW;
-        CVControls[i].Slider.PortCfg.I2CChannel = i+1;
-    }
-    
-
-}
-
 const tele_op_t *I2Cmerger::getTeleOp(uint16_t Comm){
-    /* if(Comm>=E_OP_JF_TR && Comm<=E_OP_JF_QT)
-        return tele_opsJF[Comm - E_OP_JF_TR];
-    return nullptr; 
-    */
-
     return tele_ops[Comm];
 }
 

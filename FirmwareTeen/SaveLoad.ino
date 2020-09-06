@@ -101,6 +101,7 @@ bool SaveLoadClass::LoadInitialPage (void) {
         //CurrentPage = initBank;
         return true;
     } else { // Incorrect Tag Data, Save current config in page
+        theApp.initControls();
 		SaveCfg(initBank);
 	}
     return false;
@@ -173,7 +174,7 @@ bool SaveLoadClass::LoadCfg (int page) {
         return false;
     }
     // Reserved PAGEGENERALeeSize for general data
-    MemPointer += PAGEGENERALeeSize-(MemPointer-PageBase[page]);// sizeof (uint16_t);
+    MemPointer += PAGEGENERALeeSize;// sizeof (uint16_t);
 
     // Bank data
     for (i = 0; i < 9; i++) {

@@ -125,7 +125,7 @@ class InputCtrlCfg {
         uint8_t OptionsI2C : 3;
         uint16_t CommI2C : 10;
         uint8_t I2CChannel;
-        uint8_t OtherOptions;
+        uint8_t I2Cdev;
         };
         uint32_t I2COptionsInputCtrl=0;
     };
@@ -134,7 +134,6 @@ class InputCtrlCfg {
         #ifdef USEI2C
         OptionsI2C = 0;
         CommI2C = E_NOI2CFUNC; // Default
-        // E_OP_JF_NOTE; // Test Just Friends
         #endif
         }
     InputCtrlCfg (int chanF){
@@ -142,7 +141,6 @@ class InputCtrlCfg {
         #ifdef USEI2C
         OptionsI2C = 0;
         CommI2C = E_NOI2CFUNC; // Default
-        // E_OP_JF_NOTE; // Test Just Friends
         #endif
     }
 
@@ -227,7 +225,7 @@ class InputPortCfg {
         uint8_t OptionsI2C : 3;
         uint16_t CommI2C : 10;
         uint8_t I2CChannel;
-        uint8_t OtherOptions;
+        uint8_t I2Cdev;
         };
         uint32_t OptionsInputPort=0;
     };
