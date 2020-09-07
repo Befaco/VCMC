@@ -56,7 +56,7 @@ The code will also run with CV Thing module. See below install options for detai
 If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
 
 
-- Get latest firmware file from Bin folder.
+- Get latest firmware file from Bin folder. Follow instructions from Readme.md file there.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
 
@@ -128,6 +128,8 @@ If you are facing offset problems, there is a setup in Definitions.h lines 68 - 
 
 
 Change the value acordingly.
+
+Binary files have been created for all known screen batches.
 
 ## Disabling RTC
 In some heavy loaded, power hungry, systems teensy might not boot up. 
