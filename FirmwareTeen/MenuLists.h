@@ -68,8 +68,10 @@ extern MenuList listButFn;
 extern MenuList listGatSTSPFn;
 extern MenuList listGate;
 // Defined in MenuI2C
+extern MenuList I2CMenuList;
 extern MenuList I2CDevList;
 extern MenuList I2COpList;
+bool selectI2CMenu(void);
 bool selectI2COp(void);
 bool selectI2CDevice(void);
 bool setI2CDevice(void);

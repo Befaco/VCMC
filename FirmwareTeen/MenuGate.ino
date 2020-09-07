@@ -83,11 +83,10 @@ MenuItem GateList[] = {
     {"CLOCK SHIFT", SelectClockShift, 0},    // Shown only when Clock
     {"CLOCK SET", SetClockMenu, 1},          // Shown only when Clock
     {"PORT NAME", SelectNameMenu, 1},
-    {"I2C Device", selectI2CDevice, 1},
-    {"I2C Ops", selectI2COp, 1},
+    {"I2C OPTIONS", selectI2CMenu, 1},
     {"GATE CONFIG", NULL, 1}
 };
-MenuList listGate(GateList, 12, ListLines);
+MenuList listGate(GateList, 11, ListLines);
 
 // Gate Cfg Mode ??? Only needed if menu needed. Might add CC latch and CC Gate in main menu
 MenuItem SelectGateModeCfgList[4] = {

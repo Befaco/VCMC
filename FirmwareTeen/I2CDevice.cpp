@@ -73,6 +73,10 @@ void I2CDevCollection::InitDefault(uint8_t Dev)
         CVControls[i].CVPort.PortCfg.CommI2C = E_NOI2CFUNC;
         CVControls[i].Slider.PortCfg.CommI2C = E_NOI2CFUNC;
         CVControls[i].GateBut.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].Config.UseMIDII2C = false;
+        CVControls[i].CVPort.PortCfg.UseMIDII2C = false;
+        CVControls[i].Slider.PortCfg.UseMIDII2C = false;
+        CVControls[i].GateBut.PortCfg.UseMIDII2C = false;
     }
 
     switch (Dev)

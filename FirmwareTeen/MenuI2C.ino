@@ -36,6 +36,16 @@
  */
 
 
+// Load Config Menu
+MenuItem I2CMenuItems[] = {
+    {"CANCEL", gotoMenuAnag, 1},
+    {"DEVICE", selectI2CDevice, 1},
+    {"COMMAND", selectI2COp, 1},
+    {"CHANNEL", SelectI2CChan, 1},
+    {"I2C OPTIONS", NULL, 1} };
+MenuList I2CMenuList(I2CMenuItems, 4, ListLinesSimple);
+
+
 MenuItem I2CDevItems[] = {
     {"I2CDev", selectMenuPortName, 1}};
 MenuList I2CDevList(I2CDevItems, 1, ListLines);
@@ -45,6 +55,18 @@ MenuItem I2COpItems[] = {
     {"I2COp", selectMenuPortName, 1}};
 MenuList I2COpList(I2COpItems, 1, ListLines);
 
+bool SelectI2CChan(void){
+    long val = GetPortCfg()->I2CChannel;
+    bool ret = EncoderchangeValue("Chann:", val, 0, 100, 4, 0, 45);
+    GetPortCfg()->I2CChannel = val;
+    return ret;
+}
+
+bool selectI2CMenu(void){
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&I2CMenuList);
+    return true;
+}
 
 bool selectI2CDevice(void){
     myMenu.ClearArea();
@@ -98,8 +120,8 @@ bool setI2COp(void){
         op = E_NOI2CFUNC;
     else{ 
         op+= pDev->firstOP;
-        D(Serial.printf("Selected %d, OP %d\n", pDev->firstOP, op));
-       // D(Serial.printf("Selected %d, OP %s/%d\n", pDev->firstOP, tele_ops[op]->name, op));
+        //D(Serial.printf("Selected %d, OP %d\n", pDev->firstOP, op));
+        D(Serial.printf("Selected %d, OP %s/%d\n", pDev->firstOP, tele_ops[op]->name, op));
         }
     if(cfg){ // Port selected
         cfg->CommI2C = op;
@@ -127,8 +149,6 @@ uint8_t OLEDMenu::FillI2CDevList(void)
         CurrentMenuItems[posMenu].func = setI2CDevice;
         CurrentMenuItems[posMenu].Status = i;
         strcpy(CurrentMenuItems[posMenu].text, pDev->sName);
-        //strncpy(CurrentMenuItems[posMenu].text, pDev->sName, SIZEPORTNAMES);
-        //CurrentMenuItems[posMenu].text[SIZEPORTNAMES] = 0;
         posMenu++;
     }
     strcpy(CurrentMenuItems[posMenu].text, "I2C Device"); // Copy menu title
@@ -147,7 +167,7 @@ uint8_t OLEDMenu::FillI2COpList(void)
         D(Serial.printf("No Devu %d\n", dev));
         return 0;
     }
-    D(Serial.printf("Menu %s/%d\n", pDev->sName, pDev->I2Cid));
+    //D(Serial.printf("Menu %s/%d\n", pDev->sName, pDev->I2Cid));
     CurrentMenuItems[posMenu].func = setI2COp;
     CurrentMenuItems[posMenu].Status = 0xFF;
     strcpy(CurrentMenuItems[posMenu].text, "No Op");
@@ -160,12 +180,10 @@ uint8_t OLEDMenu::FillI2COpList(void)
             DP("No Op");
             continue;
         }
-        D(Serial.printf("  Op %s/%d\n", tele_ops[i]->name, i));
+        //D(Serial.printf("  Op %s/%d\n", tele_ops[i]->name, i));
         CurrentMenuItems[posMenu].func = setI2COp;
         CurrentMenuItems[posMenu].Status = i-pDev->firstOP;
         strcpy(CurrentMenuItems[posMenu].text, tele_ops[i]->name);
-        //strncpy(CurrentMenuItems[posMenu].text, pDev->sName, SIZEPORTNAMES);
-        //CurrentMenuItems[posMenu].text[SIZEPORTNAMES] = 0;
         posMenu++;
     }
     strcpy(CurrentMenuItems[posMenu].text, "I2C Op"); // Copy menu title
