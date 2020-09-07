@@ -37,13 +37,30 @@
 
 
 MenuItem I2CDevItems[] = {
-    {"Name", selectMenuPortName, 1}};
+    {"I2CDev", selectMenuPortName, 1}};
 MenuList I2CDevList(I2CDevItems, 1, ListLines);
+
+
+MenuItem I2COpItems[] = {
+    {"I2COp", selectMenuPortName, 1}};
+MenuList I2COpList(I2COpItems, 1, ListLines);
 
 
 bool selectI2CDevice(void){
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&I2CDevList);
+    return true;
+}
+
+bool selectI2COp(void){
+    InputPortCfg *cfg = GetPortCfg();
+    uint8_t dev = cfg->I2Cdev;
+    if(dev==NO_I2CDEVICE){
+        DP("No Dev selected");
+        return true; // No device selected on this port
+    }
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&I2COpList);
     return true;
 }
 
@@ -57,6 +74,8 @@ bool setI2CDevice(void){
         if(cfg){ // Port selected
             cfg->I2Cdev= pDev->I2Cid;
             cfg->CommI2C = pDev->firstOP;
+            D(Serial.printf("Selected %s/%d Op:%d\n", pDev->sName, pDev->I2Cid, pDev->firstOP));
+            gotoMenuAnag();
             }
         else{ // No port selected, change all
             pCol->InitDefault(pDev->I2Cid);
@@ -68,12 +87,40 @@ bool setI2CDevice(void){
 }
 
 
+bool setI2COp(void){
+    InputPortCfg *cfg = GetPortCfg();
+    uint8_t dev = cfg->I2Cdev;
+    if(dev == NO_I2CDEVICE) return true; // No I2C Dev
+    I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
+    I2CDevice *pDev = pCol->getDevice(dev);
+    uint16_t op = myMenu.getItemStatus();
+    if (op == 0xFF)
+        op = E_NOI2CFUNC;
+    else{ 
+        op+= pDev->firstOP;
+        D(Serial.printf("Selected %d, OP %d\n", pDev->firstOP, op));
+       // D(Serial.printf("Selected %d, OP %s/%d\n", pDev->firstOP, tele_ops[op]->name, op));
+        }
+    if(cfg){ // Port selected
+        cfg->CommI2C = op;
+        gotoMenuAnag();
+        }
+    else{ // No port selected, change all
+        //pCol->InitDefault(pDev->I2Cid);
+        //gotoMenuGlobalCfg();
+        }
+
+    return true;
+}
+
+
 uint8_t OLEDMenu::FillI2CDevList(void)
 {
     uint8_t posMenu = 0;
     I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
     I2CDevice *pDev = NULL;
-    // Add Standard Names
+
+    // Add Device Ops
     for (int i = 1; i < pCol->getCount() + 1; i++)
     {
         pDev = pCol->getDeviceAtPos(i - 1);
@@ -95,14 +142,27 @@ uint8_t OLEDMenu::FillI2COpList(void)
     uint8_t posMenu = 0;
     I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
     uint8_t dev = GetPortCfg()->I2Cdev;
-    I2CDevice *pDev = pCol->getDeviceAtPos(dev);
+    I2CDevice *pDev = pCol->getDevice(dev);
+    if( pDev==NULL){
+        D(Serial.printf("No Devu %d\n", dev));
+        return 0;
+    }
+    D(Serial.printf("Menu %s/%d\n", pDev->sName, pDev->I2Cid));
+    CurrentMenuItems[posMenu].func = setI2COp;
+    CurrentMenuItems[posMenu].Status = 0xFF;
+    strcpy(CurrentMenuItems[posMenu].text, "No Op");
+    posMenu++;
 
     // Add Standard Names
-    
-    for (int i = pDev->firstOP; i < pDev->lastOP-pDev->firstOP; i++)
+    for (int i = pDev->firstOP; i < pDev->lastOP+1; i++)
     {
-        CurrentMenuItems[posMenu].func = setI2CDevice;
-        CurrentMenuItems[posMenu].Status = i;
+        if( tele_ops[i]==NULL){
+            DP("No Op");
+            continue;
+        }
+        D(Serial.printf("  Op %s/%d\n", tele_ops[i]->name, i));
+        CurrentMenuItems[posMenu].func = setI2COp;
+        CurrentMenuItems[posMenu].Status = i-pDev->firstOP;
         strcpy(CurrentMenuItems[posMenu].text, tele_ops[i]->name);
         //strncpy(CurrentMenuItems[posMenu].text, pDev->sName, SIZEPORTNAMES);
         //CurrentMenuItems[posMenu].text[SIZEPORTNAMES] = 0;

@@ -74,8 +74,10 @@ MenuItem AnagList[] = {
     {"AUTO OFF", AutoOffFn, 0},
     {"NRPN Val", SelectNRPNval, 1},
     {"PORT NAME", SelectNameMenu, 1},
+    {"I2C Menu", selectI2CDevice, 1},
+    {"I2C Ops", selectI2COp, 1},
     {" CV CONFIG ", NULL, 1}};
-MenuList listAnag(AnagList, 14, ListLines);
+MenuList listAnag(AnagList, 16, ListLines);
 
 // Fader configuration menu
 MenuItem AnagList2[] = {
@@ -88,8 +90,10 @@ MenuItem AnagList2[] = {
     {"AUTO OFF", AutoOffFn, 0},
     {"OUT RANGE", SetRangeMenu, 1},
     {"PORT NAME", SelectNameMenu, 1},
+    {"I2C Device", selectI2CDevice, 1},
+    {"I2C Ops", selectI2COp, 1},
     {"FADER CONFIG", NULL, 1}};
-MenuList listAnag2(AnagList2, 9, ListLines);
+MenuList listAnag2(AnagList2, 11, ListLines);
 
 MenuItem AnagFnList[] = {
     {"<-BACK", gotoMenuAnag, 1},

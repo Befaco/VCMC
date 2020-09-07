@@ -69,7 +69,11 @@ public:
     uint8_t getCount(void) { return countDev; }
     I2CDevice *getDeviceAtPos(uint8_t pos) { 
         if(pos<countDev) return pDevices[mapDev[pos]];
-        else return NULL;}
+        else return NULL;
+        }
+    I2CDevice *getDevice(uint8_t pos) { 
+        return pDevices[pos];
+        }
 };
 
 #define LASTDEVICE 0xFF

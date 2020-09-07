@@ -49,7 +49,7 @@
 bool I2Cmerger::poll(void)
 {
     // Send I2C
-    if( I2COutput) sendI2C ();
+    if( I2COutput && !CalTimer) sendI2C ();
     // Receive I2C
     if( I2CInput) readI2C (); 
 

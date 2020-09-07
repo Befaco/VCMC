@@ -69,6 +69,8 @@ extern MenuList listGatSTSPFn;
 extern MenuList listGate;
 // Defined in MenuI2C
 extern MenuList I2CDevList;
+extern MenuList I2COpList;
+bool selectI2COp(void);
 bool selectI2CDevice(void);
 bool setI2CDevice(void);
 
