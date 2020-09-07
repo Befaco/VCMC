@@ -35,15 +35,16 @@
  *  \brief 
  */
 
-
+const char *ModeI2C[] = {"MODE:RAW", "MODE:MIDI"};
 // Load Config Menu
 MenuItem I2CMenuItems[] = {
     {"CANCEL", gotoMenuAnag, 1},
     {"DEVICE", selectI2CDevice, 1},
     {"COMMAND", selectI2COp, 1},
     {"CHANNEL", SelectI2CChan, 1},
+    {"MODE:RAW", SwitchI2CMode, 1},
     {"I2C OPTIONS", NULL, 1} };
-MenuList I2CMenuList(I2CMenuItems, 4, ListLinesSimple);
+MenuList I2CMenuList(I2CMenuItems, 5, ListLinesSimple);
 
 
 MenuItem I2CDevItems[] = {
@@ -54,6 +55,20 @@ MenuList I2CDevList(I2CDevItems, 1, ListLines);
 MenuItem I2COpItems[] = {
     {"I2COp", selectMenuPortName, 1}};
 MenuList I2COpList(I2COpItems, 1, ListLines);
+
+bool SwitchI2CMode(void){
+    MenuItem *pM = myMenu.currentMenu->getItem(4);
+
+    GetPortCfg()->UseMIDII2C = !GetPortCfg()->UseMIDII2C;
+    if(GetPortCfg()->UseMIDII2C){
+        strcpy(pM->text, ModeI2C[1]);
+    }else {
+        strcpy(pM->text, ModeI2C[0]);
+    }
+    
+    return true;
+}
+
 
 bool SelectI2CChan(void){
     long val = GetPortCfg()->I2CChannel;
@@ -97,7 +112,7 @@ bool setI2CDevice(void){
             cfg->I2Cdev= pDev->I2Cid;
             cfg->CommI2C = pDev->firstOP;
             D(Serial.printf("Selected %s/%d Op:%d\n", pDev->sName, pDev->I2Cid, pDev->firstOP));
-            gotoMenuAnag();
+            selectI2CMenu();
             }
         else{ // No port selected, change all
             pCol->InitDefault(pDev->I2Cid);
