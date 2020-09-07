@@ -152,6 +152,11 @@ Make sure your CV source is precise enough. We suggest to measure with a three d
 
 If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
 
+
+- Fader Filter.
+Fader values are filtered in order to avoid unstable values. The higher the filter the better valu stability, but the fader response will be slower.
+Find your preffered value. Our tests find that 50 - 65 are good values. going up to 75 - 100 will be a bit too much. 
+
 ## Credits.
 
 Coded By Sergio Retamero (sergioretamero@gmail.com)
