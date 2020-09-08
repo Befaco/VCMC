@@ -121,7 +121,7 @@ void I2Cmerger::InitDefControls(void)
 {
     I2CDevices.addBaseDevices();
     // Test Just Friends
-    I2CDevices.InitDefault(JF_ADDR);
+    //I2CDevices.InitDefault(JF_ADDR);
     // Test ER-301
     //I2CDevices.InitDefault(ER301_1);
 }
