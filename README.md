@@ -46,6 +46,8 @@ The code will also run with CV Thing module. See below install options for detai
 
 [Menu class](https://forum.arduino.cc/index.php?topic=353045.0)
 
+[Midi Library](https://github.com/FortySevenEffects/arduino_midi_library)
+
 [Bounce2](https://github.com/thomasfredericks/Bounce2)
 
 [ClickEncoder](https://github.com/0xPIT/encoder)
