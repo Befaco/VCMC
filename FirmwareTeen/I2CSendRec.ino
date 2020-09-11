@@ -28,6 +28,41 @@
 
 
 #ifdef USEI2C
+
+
+
+void I2Cmerger::SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value)
+{
+    OutMsg.Command = cmd;
+    OutMsg.Port = devicePort;
+    OutMsg.iValue = value;
+
+    SendI2Cdata(model, OutDatabuf, 4);
+
+    /* D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
+        outDatabuf[0], outDatabuf[1], outDatabuf[2], outDatabuf[3])); */
+}
+
+
+void I2Cmerger::SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l)
+{
+    pWire->beginTransmission(addr);
+    pWire->write(data, l);
+    pWire->endTransmission();
+    D(printI2CData(addr, data, l));
+}
+
+void printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
+{
+    Serial.printf("Addr:%2X: ", addr);
+    for (size_t i = 0; i < l; i++)
+    {
+        Serial.printf("%2x - ", data[i]);
+    }
+    Serial.println("EOM");
+}
+
+
 /**
  * \brief handle Rx Event (incoming I2C data)
  * 
@@ -37,7 +72,7 @@ void receiveEvent(int count)
 {
     int i =0;
     while(pWire->available() > 0) {  // loop through all but the last
-        theApp.I2CMerge.databuf[i] = pWire->read();        // receive byte as a character
+        theApp.I2CMerge.InDatabuf[i] = pWire->read();        // receive byte as a character
         i++;
     }
     
@@ -52,44 +87,20 @@ void receiveEvent(int count)
  */
 void requestEvent(void)
 {
-  DP("request");
   if (theApp.I2CMerge.received == 0)
   {
     pWire->write(0);
     return;
   }
-  pWire->write(theApp.I2CMerge.databuf,theApp.I2CMerge.received);
-  DP((char*)theApp.I2CMerge.databuf);
+  DP("request");
+  uint16_t dataReq = theApp.I2CMerge.ProcessInputRequest();
+  pWire->write(dataReq >> 8);
+  pWire->write(dataReq & 255);
+  D(Serial.printf("Requested value: %d\n", dataReq));
 }
 
 
 
-
-/*
- * Sends an i2c command out to a slave when running in master mode
- */
-/* void sendi2c(uint8_t model, uint8_t deviceIndex, uint8_t cmd, uint8_t devicePort, int value)
-{
-
-  valueTemp = (uint16_t)value;
-  messageBuffer[2] = valueTemp >> 8;
-  messageBuffer[3] = valueTemp & 0xff;
-
-#ifdef V125
-  pWire->beginTransmission(model + deviceIndex);
-  messageBuffer[0] = cmd;
-  messageBuffer[1] = (uint8_t)devicePort;
-  pWire->write(messageBuffer, 4);
-  pWire->endTransmission();
-#else
-  Wire.beginTransmission(model + deviceIndex);
-  messageBuffer[0] = cmd;
-  messageBuffer[1] = (uint8_t)devicePort;
-  Wire.write(messageBuffer, 4);
-  Wire.endTransmission();
-#endif
-}
- */
 
 /*
  * The function that responds to read requests over i2c.

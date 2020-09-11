@@ -97,8 +97,13 @@ void servicePorts () {
  *  \return Currently selected config port pointer
  *
  */
-InputPortCfg *VCMCApp::GetPortConfig (void) {
+InputPortCfg *VCMCApp::GetPortConfig (int8_t Bank, int8_t Port) {
     InputPortCfg *SelCfg = NULL;
+    uint8_t banksel = byBankSelected;
+    uint8_t portsel = byPortSelected;
+
+    if( Port!=-1) portsel = Port;
+    if( Bank!=-1) banksel = Bank;
 
     switch (byPortSelected) {
     case 1:
@@ -115,6 +120,28 @@ InputPortCfg *VCMCApp::GetPortConfig (void) {
     return SelCfg;
 }
 
+InputPort *VCMCApp::GetPort (int8_t Bank, int8_t Port) {
+    InputPort *SelCfg = NULL;
+    uint8_t banksel = byBankSelected;
+    uint8_t portsel = byPortSelected;
+
+    if( Port!=-1) portsel = Port;
+    if( Bank!=-1) banksel = Bank;
+
+    switch (byPortSelected) {
+    case 1:
+        SelCfg = &Controls[byBankSelected].GateBut;
+        break;
+    case 2:
+        SelCfg = &Controls[byBankSelected].CVPort;
+        break;
+    case 3:
+        SelCfg = &Controls[byBankSelected].Slider;
+        break;
+        //default: return NULL;
+    }
+    return SelCfg;
+}
 
 
 

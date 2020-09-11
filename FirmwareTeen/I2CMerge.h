@@ -40,13 +40,16 @@
 
 struct I2CMessage {
     uint8_t Command;
-    uint8_t Port;
+    union{
+        uint8_t Bank : 4;
+        uint8_t Port : 4;
+        uint8_t Destination;
+    };
     union
     {
         uint8_t data[2];
         uint16_t uiValue;
         int16_t iValue;
-        //float fValue;
     };
 };
 
@@ -62,9 +65,14 @@ private:
 
 public:
     union {
-        uint8_t databuf[64]; // Raw data
-        int16_t int16buf[32]; // Data as 16 bits integers
-        I2CMessage recMsg;  // Received message
+        uint8_t OutDatabuf[64]; // Raw data
+        int16_t Outint16buf[32]; // Data as 16 bits integers
+        I2CMessage OutMsg;  // Received message
+    };
+    union {
+        uint8_t InDatabuf[64]; // Raw data
+        int16_t Inint16buf[32]; // Data as 16 bits integers
+        I2CMessage InMsg;  // Received message
     };
     int received=0;
     int ClientPort=0x66;
@@ -76,9 +84,10 @@ public:
     void InitDefControls(void);
     void sendI2C();
     void readI2C();
+    uint16_t ProcessInputRequest(void);
+
     //void ProcessI2CMsg(I2CMessage *pMsg);
     void SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value);
-    void SendI2Cint(uint8_t bank, uint8_t port, int16_t value);
     void scanforI2Cclients();
     void SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l);
 

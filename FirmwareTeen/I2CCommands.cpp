@@ -72,14 +72,7 @@ void AnalogPort::SendI2C (int MidiData, bool GateStat)
         Notedata.push(PortCfg.I2CChannel); // Selected channels
 
     theApp.I2CMerge.callOP(PortCfg.CommI2C, &Notedata);
-    /* switch (PortCfg.CommI2C)
-    {
-    case E_NOI2CFUNC:
-        return;
-    case E_OP_JF_VOX:
-        theApp.I2CMerge.callOP(&op_JF_VOX, &Notedata);
-        break;
-    } */
+
     return;
 }
 
@@ -97,18 +90,6 @@ command_state_t GateData;
         GateData.push(PortCfg.I2CChannel); // Selected channels
     theApp.I2CMerge.callOP(PortCfg.CommI2C, &GateData);
 
-    /* 
-    // Send Trigger
-    switch(PortCfg.CommI2C){
-        case E_NOI2CFUNC:
-            return;
-        case E_OP_JF_TR:
-            GateData.push(GateStatus); // High/Low
-            if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
-                GateData.push(PortCfg.I2CChannel); // Selected channels
-            theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
-            break;
-    } */
     return;
 }
 

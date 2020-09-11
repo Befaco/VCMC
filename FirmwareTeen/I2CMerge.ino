@@ -57,7 +57,7 @@ bool I2Cmerger::poll(void)
     if( received )
     {
         Serial.printf("Received %d:",received);
-        Serial.println((char*)databuf);
+        Serial.println((char*)InDatabuf);
         received = 0;
     }
     #endif
@@ -89,16 +89,12 @@ void I2Cmerger::sendI2C ()
             NewValue = CVControls[i].Slider.PortValue;
             if (  !CVControls[i].Slider.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
                 (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C)) {
-                /* if( CVControls[i].Slider.PortCfg.CommI2C != E_NOI2CFUNC )
-                    SendI2Cint ( i, FADERSLOT, (NewValue<<2)); */
                 CVControls[i].Slider.SendI2C(0,NewValue);
                 OldValue[1][i] = NewValue;
             }
             NewValue = CVControls[i].GateBut.GateStatus;
             if (  !CVControls[i].GateBut.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
                     NewValue != OldGate[i]) {
-                //if( CVControls[i].GateBut.PortCfg.CommI2C != E_NOI2CFUNC )
-                //SendI2CMsgbool ( i, GATESLOT, NewValue);
                 CVControls[i].GateBut.SendI2C(0,NewValue);
                 OldGate[i] = NewValue;
             }
@@ -111,10 +107,30 @@ void I2Cmerger::sendI2C ()
 void I2Cmerger::readI2C () {
 }
 
+
 /* 
 void I2Cmerger::ProcessI2CMsg (I2CMessage *pMsg) {
 }
  */
+uint16_t I2Cmerger::ProcessInputRequest()
+{
+    if( received==0xFFFF){
+        return 0;
+    }
+    uint16_t retval = 0xFFFF;
+    if(InMsg.Bank==0){ // General Command
+        return retval;
+    } else if( InMsg.Command==0){ // Command for Bank
+        return retval;
+    } else { // Command for Port
+        // Process command
+        InputPort *pPort = theApp.GetPort(InMsg.Bank - 1, InMsg.Port);
+        retval = pPort->PortValue;
+
+    }
+
+    return retval;
+}
 
 
 void I2Cmerger::InitDefControls(void)
@@ -135,6 +151,7 @@ void I2Cmerger::begin(void)
         pWire->begin();//I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, 400000);
         pWire->setSDA(I2C_SDA);
         pWire->setSCL(I2C_SCL);
+        DP("Init Leader I2C Merger");
     } else
     {
         // Setup for Slave mode
@@ -144,46 +161,10 @@ void I2Cmerger::begin(void)
         // register events
         pWire->onReceive(receiveEvent);
         pWire->onRequest(requestEvent);
+        DP("Init Follower I2C Merger");
     }
-
-    DP("Init I2C Merger");
 }
 
-void I2Cmerger::SendI2Cint(uint8_t bank, uint8_t port, int16_t value)
-{
-    SendI2Cint(0x66, 0x11, bank*10+port, value); // Send to ER-301
-}
-
-void I2Cmerger::SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value)
-{
-    recMsg.Command = cmd;
-    recMsg.Port = devicePort;
-    recMsg.iValue = value;
-
-    SendI2Cdata(model, databuf, 4);
-
-    /* D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
-        databuf[0], databuf[1], databuf[2], databuf[3])); */
-}
-
-
-void I2Cmerger::SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l)
-{
-    pWire->beginTransmission(addr);
-    pWire->write(data, l);
-    pWire->endTransmission();
-    D(printData(addr, data, l));
-}
-
-void printData(uint8_t addr, uint8_t *data, uint8_t l)
-{
-    Serial.printf("Addr:%2X: ", addr);
-    for (size_t i = 0; i < l; i++)
-    {
-        Serial.printf("%2x - ", data[i]);
-    }
-    Serial.println("EOM");
-}
 
 #endif
 

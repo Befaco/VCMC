@@ -121,7 +121,8 @@ public:
             return disp;
         #endif
      }
-    InputPortCfg *GetPortConfig(void);
+    InputPortCfg *GetPortConfig(int8_t Bank=-1, int8_t Port=-1);
+    InputPort *GetPort(int8_t Bank=-1, int8_t Port=-1);
 
     void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
 

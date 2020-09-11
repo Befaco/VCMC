@@ -99,7 +99,7 @@
 #endif
 #define tele_ii_tx theApp.I2CMerge.SendI2Cdata
 #define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
-#include "src\ops\ops.h"
+#include "src/ops/ops.h"
 #include "I2CDevice.h"
 #include "I2CMerge.h"
 #endif
