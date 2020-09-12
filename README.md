@@ -46,6 +46,8 @@ The code will also run with CV Thing module. See below install options for detai
 
 [Menu class](https://forum.arduino.cc/index.php?topic=353045.0)
 
+[Midi Library](https://github.com/FortySevenEffects/arduino_midi_library)
+
 [Bounce2](https://github.com/thomasfredericks/Bounce2)
 
 [ClickEncoder](https://github.com/0xPIT/encoder)
@@ -56,7 +58,7 @@ The code will also run with CV Thing module. See below install options for detai
 If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
 
 
-- Get latest firmware file from Bin folder.
+- Get latest firmware file from Bin folder. Follow instructions from Readme.md file there.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
 
@@ -129,6 +131,8 @@ If you are facing offset problems, there is a setup in Definitions.h lines 68 - 
 
 Change the value acordingly.
 
+Binary files have been created for all known screen batches.
+
 ## Disabling RTC
 In some heavy loaded, power hungry, systems teensy might not boot up. 
 We found that disabling RTC from mk20dx128.c file solved the issue. If this happend to you, comment RTC code from the file and compile.
@@ -151,6 +155,11 @@ We will be entering to a two points calibration screen. You will be prompted to 
 Make sure your CV source is precise enough. We suggest to measure with a three digits mutimeter. 
 
 If your voltage source is not able to provide 8v, you can change input range in CV 1 to +5 and try again. It should prompt you to send 1v and 4v.
+
+
+- Fader Filter.
+Fader values are filtered in order to avoid unstable values. The higher the filter the better valu stability, but the fader response will be slower.
+Find your preffered value. Our tests find that 50 - 65 are good values. going up to 75 - 100 will be a bit too much. 
 
 ## Credits.
 
