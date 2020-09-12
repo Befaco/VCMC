@@ -77,8 +77,6 @@ void AnalogPort::SendI2C (int MidiData, bool GateStat)
 }
 
 
-
-
 void DigitalPort::SendI2C (int MidiData, bool GateStat)
 {
 command_state_t GateData;

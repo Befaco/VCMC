@@ -38,19 +38,28 @@
  */
 
 
-struct I2CMessage {
-    uint8_t Command;
+class I2CMessage {
+public:
     union{
-        uint8_t Bank : 4;
-        uint8_t Port : 4;
-        uint8_t Destination;
-    };
-    union
-    {
-        uint8_t data[2];
-        uint16_t uiValue;
+    struct{
+        uint8_t I2CCommand;
+        union{
+            uint8_t Bank : 4;
+            uint8_t Port : 4;
+            uint8_t Destination;
+        };
         int16_t iValue;
+        uint8_t additionaldata[MAXI2CMSGLEN-4];
     };
+    uint8_t dataRaw[MAXI2CMSGLEN];
+    };
+    uint16_t Length=NOMSGLEN; // Use 0xFFFF to mark empty message
+public:
+    uint16_t Fill(uint8_t *pDest, uint16_t len) { 
+        memcpy(dataRaw, pDest, 2);
+        Length = len;
+        return len;
+    }
 };
 
 
@@ -64,17 +73,9 @@ private:
     bool I2CMaster = true;
 
 public:
-    union {
-        uint8_t OutDatabuf[64]; // Raw data
-        int16_t Outint16buf[32]; // Data as 16 bits integers
-        I2CMessage OutMsg;  // Received message
-    };
-    union {
-        uint8_t InDatabuf[64]; // Raw data
-        int16_t Inint16buf[32]; // Data as 16 bits integers
-        I2CMessage InMsg;  // Received message
-    };
-    int received=0;
+    I2CMessage OutMsg;  // Message to send
+    I2CMessage InMsg;  // Received message
+
     int ClientPort=0x66;
     I2CDevCollection I2CDevices;
 public:
@@ -85,14 +86,17 @@ public:
     void sendI2C();
     void readI2C();
     uint16_t ProcessInputRequest(void);
+    
+    // Functions for Leader and Follower Mode
+    void ReadI2Cdata(int count);
 
-    //void ProcessI2CMsg(I2CMessage *pMsg);
-    void SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value);
-    void scanforI2Cclients();
-    void SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l);
+    // Functions for Master/Leader Mode
+    //void scanforI2Cclients();
+    void SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l);
+    uint16_t LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Port);
+    void ReadI2CLeader(uint8_t addr, uint8_t *data, uint8_t l);
 
-    void ReadI2CLeader(uint8_t addr, uint8_t* data, uint8_t l) {} // TODO implement
-
+    // Ops 
     const tele_op_t *getTeleOp(uint16_t Comm); // Definition in I2CCommands.cpp
     bool TeleOpUseChanInfo(uint16_t Comm);   // Definition in I2CCommands.cpp
     void callOP(uint16_t Comm, command_state_t *cs){
@@ -103,13 +107,6 @@ public:
             pOp->get(NULL, NULL, NULL, cs);
     }
 };
-/*
-MidiMerge.sendNoteOn
-MidiMerge.sendNoteOff
-GateBut.SendMIDI
-CVPort.SendMIDI
-Slider.SendMIDI
-*/
 
 extern TwoWire *pWire;
 

@@ -45,26 +45,8 @@
 #endif
 
 
-
-bool I2Cmerger::poll(void)
-{
-    // Send I2C
-    if( I2COutput && CalTimer==0) sendI2C ();
-    // Receive I2C
-    if( I2CInput) readI2C (); 
-
-    #ifdef PRINTDEBUG
-    if( received )
-    {
-        Serial.printf("Received %d:",received);
-        Serial.println((char*)InDatabuf);
-        received = 0;
-    }
-    #endif
-
-    return true;
-}
-
+///////////////////////////////////////////////////
+// Master I2C/ Leader
 
 void I2Cmerger::sendI2C () 
 {
@@ -103,35 +85,51 @@ void I2Cmerger::sendI2C ()
     }
 }
 
-
 void I2Cmerger::readI2C () {
+    // Only for test purpose, poll another VCMC
+    static uint8_t Bank = 0;
+    static uint8_t Port = 0;
+    const uint32_t INTERVALPOLLMASTER = 1000; 
+    static uint32_t prevMill = 0;
+    uint32_t actMill = millis();
+
+    if(prevMill+INTERVALPOLLMASTER < actMill){
+        prevMill = actMill;
+        // request
+        uint16_t value = LeaderReceiveSimple(VCMC0, Bank, Port);
+        Bank = (Bank == 8) ? 0 : Bank + 1;
+        Port = (Port == 3) ? 0 : Port + 1;
+        D(Serial.printf("Rceived %d\n", value));
+    }
 }
 
 
-/* 
-void I2Cmerger::ProcessI2CMsg (I2CMessage *pMsg) {
-}
- */
+///////////////////////////////////////////////////
+// Slave I2C/ Follower
+
 uint16_t I2Cmerger::ProcessInputRequest()
 {
-    if( received==0xFFFF){
-        return 0;
+    if( InMsg.Length==NOMSGLEN){
+        return NOMSGLEN;
     }
-    uint16_t retval = 0xFFFF;
+    uint16_t retval = NOMSGLEN;
     if(InMsg.Bank==0){ // General Command
         return retval;
-    } else if( InMsg.Command==0){ // Command for Bank
+    } else if( InMsg.I2CCommand==0){ // Command for Bank
         return retval;
     } else { // Command for Port
-        // Process command
+        // TODO Process command
+        // Send Port Command
         InputPort *pPort = theApp.GetPort(InMsg.Bank - 1, InMsg.Port);
-        retval = pPort->PortValue;
-
+        retval = OutMsg.Fill( (uint8_t *)&pPort->PortValue, 2);
     }
 
     return retval;
 }
 
+
+//////////////////////////////////////////////////
+// Utils
 
 void I2Cmerger::InitDefControls(void)
 {
@@ -141,7 +139,6 @@ void I2Cmerger::InitDefControls(void)
     // Test ER-301
     //I2CDevices.InitDefault(ER301_1);
 }
-
 
 void I2Cmerger::begin(void)
 {
@@ -165,6 +162,24 @@ void I2Cmerger::begin(void)
     }
 }
 
+bool I2Cmerger::poll(void)
+{
+    // Send I2C
+    if( I2COutput && CalTimer==0) sendI2C ();
+    // Receive I2C
+    if( I2CInput && IsMaster()) readI2C (); 
+
+    #ifdef PRINTDEBUG
+    if( InMsg.Length !=NOMSGLEN)
+    {
+        Serial.printf("Received %d:",InMsg.Length);
+        Serial.println((char*)InMsg.dataRaw);
+        InMsg.Length = 0;
+    }
+    #endif
+
+    return true;
+}
 
 #endif
 

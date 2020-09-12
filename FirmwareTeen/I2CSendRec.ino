@@ -30,21 +30,25 @@
 #ifdef USEI2C
 
 
+////////////////////////////////////////////////////
+// Leader and Follower functions
 
-void I2Cmerger::SendI2Cint(uint8_t model, uint8_t cmd, uint8_t devicePort, int16_t value)
-{
-    OutMsg.Command = cmd;
-    OutMsg.Port = devicePort;
-    OutMsg.iValue = value;
+void I2Cmerger::ReadI2Cdata(int count){
+  int i = 0;
+  while (pWire->available() > 0 && count > i)
+  {                                                   // loop through all but the last
+    InMsg.dataRaw[i] = pWire->read(); // receive byte as a character
+    i++;
+    }
 
-    SendI2Cdata(model, OutDatabuf, 4);
-
-    /* D(Serial.printf("Sent Int %d:%d,%d,%d,%d\n", value, 
-        outDatabuf[0], outDatabuf[1], outDatabuf[2], outDatabuf[3])); */
+    InMsg.Length = i; //count; // set received flag to count, this triggers print in main loop
 }
 
 
-void I2Cmerger::SendI2Cdata(uint8_t addr, uint8_t *data, uint8_t l)
+///////////////////////////////////////////////////
+// Master I2C/ Leader
+
+void I2Cmerger::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
 {
     pWire->beginTransmission(addr);
     pWire->write(data, l);
@@ -62,6 +66,30 @@ void printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
     Serial.println("EOM");
 }
 
+void I2Cmerger::ReadI2CLeader(uint8_t addr, uint8_t *data, uint8_t l)
+{
+  ReadI2Cdata(l);
+  if(l!=InMsg.Length) return; // Not enough data to read
+  memcpy(data, InMsg.dataRaw, l);
+}
+
+uint16_t I2Cmerger::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Port)
+{
+    // Ask for CV, Fader or Gate
+    OutMsg.I2CCommand = Port;
+    OutMsg.Port = Bank;
+    OutMsg.Length = 2;
+    SendI2CdataLeader(addr, OutMsg.dataRaw, 2);
+    // Receive value
+    ReadI2Cdata(2);
+
+    D(Serial.printf("Received %d,%d:%d\n", Bank, Port, InMsg.iValue));
+    return InMsg.iValue;
+}
+
+
+///////////////////////////////////////////////////
+// Slave I2C/ Follower
 
 /**
  * \brief handle Rx Event (incoming I2C data)
@@ -70,16 +98,8 @@ void printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
  */
 void receiveEvent(int count)
 {
-    int i =0;
-    while(pWire->available() > 0) {  // loop through all but the last
-        theApp.I2CMerge.InDatabuf[i] = pWire->read();        // receive byte as a character
-        i++;
-    }
-    
-    theApp.I2CMerge.received = i; //count; // set received flag to count, this triggers print in main loop
+  theApp.I2CMerge.ReadI2Cdata(count);
 }
-
-
 
 /**
  * \brief handle Tx Event (outgoing I2C data)
@@ -87,19 +107,28 @@ void receiveEvent(int count)
  */
 void requestEvent(void)
 {
-  if (theApp.I2CMerge.received == 0)
+  if (
+    theApp.I2CMerge.InMsg.Length == NOMSGLEN ||
+    theApp.I2CMerge.InMsg.Length == 0)
   {
     pWire->write(0);
     return;
   }
+
   DP("request");
   uint16_t dataReq = theApp.I2CMerge.ProcessInputRequest();
-  pWire->write(dataReq >> 8);
-  pWire->write(dataReq & 255);
+  if( dataReq == NOMSGLEN){
+    DP("Incorrect Msg");
+    return;
+    }
+  //pWire->write(dataReq >> 8);
+  //pWire->write(dataReq & 255);
+  pWire->write(theApp.I2CMerge.OutMsg.dataRaw, theApp.I2CMerge.OutMsg.Length);
   D(Serial.printf("Requested value: %d\n", dataReq));
+  theApp.I2CMerge.InMsg.Length = NOMSGLEN;
 }
 
-
+// TODO implement
 
 
 /*

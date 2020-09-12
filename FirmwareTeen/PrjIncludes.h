@@ -97,9 +97,10 @@
 #else
 #define NOTUSED(x) UNUSED_##x
 #endif
-#define tele_ii_tx theApp.I2CMerge.SendI2Cdata
+#define tele_ii_tx theApp.I2CMerge.SendI2CdataLeader
 #define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
 #include "src/ops/ops.h"
+#include "vcmcop.h"
 #include "I2CDevice.h"
 #include "I2CMerge.h"
 #endif

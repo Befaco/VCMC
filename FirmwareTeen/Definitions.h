@@ -157,6 +157,8 @@ const uint16_t TRIMOSC = 5; //10
 const uint32_t I2CINTERVAL = 10000; // Limit sending every x us
 const uint16_t TRIMI2C = 16; // Change in input to consider it a new value
 const uint16_t E_NOI2CFUNC = 0x3FF;
+const uint16_t NOMSGLEN = 0xFFFF;
+const uint8_t MAXI2CMSGLEN = 64;
 #endif
 
 
