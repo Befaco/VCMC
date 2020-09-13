@@ -61,7 +61,7 @@ public:
         mapDev[countDev] = pDev->I2Cid;
         countDev++;
         pDevices[pDev->I2Cid] = pDev;
-        D(Serial.printf("Device %s:%d added\n", pDev->sName, pDev->I2Cid));
+        //D(Serial.printf("Device %s:%d added\n", pDev->sName, pDev->I2Cid));
         return pDev->I2Cid;
     }
     void InitDefault(uint8_t Dev);

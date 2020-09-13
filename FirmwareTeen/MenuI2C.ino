@@ -38,7 +38,7 @@
 const char *ModeI2C[] = {"MODE:RAW", "MODE:MIDI"};
 // Load Config Menu
 MenuItem I2CMenuItems[] = {
-    {"CANCEL", gotoMenuAnag, 1},
+    {"<-BACK", gotoMenuAnag, 1},
     {"DEVICE", selectI2CDevice, 1},
     {"COMMAND", selectI2COp, 1},
     {"CHANNEL", SelectI2CChan, 1},
@@ -140,7 +140,7 @@ bool setI2COp(void){
         }
     if(cfg){ // Port selected
         cfg->CommI2C = op;
-        gotoMenuAnag();
+        selectI2CMenu();
         }
     else{ // No port selected, change all
         //pCol->InitDefault(pDev->I2Cid);

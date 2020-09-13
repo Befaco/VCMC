@@ -383,7 +383,8 @@ int InputControl::SaveCfg (int addr) {
     EEPROM.put (MemPointer, (uint8_t)Config.Chanfunction);
     MemPointer += sizeof (uint8_t);
     // Reserved BANKGENERALeeSize for general data
-    MemPointer += BANKGENERALeeSize-(MemPointer-addr);
+    //MemPointer += BANKGENERALeeSize-(MemPointer-addr);
+    MemPointer = addr+BANKGENERALeeSize;
 
     MemPointer += GateBut.SaveCfg (MemPointer);
     MemPointer += CVPort.SaveCfg (MemPointer);
@@ -423,7 +424,8 @@ int InputControl::LoadCfg (int addr) {
     Config.Chanfunction = EEPROM.read (MemPointer);
     MemPointer += sizeof (uint8_t);
     // Reserved BANKGENERALeeSize for general data
-    MemPointer += BANKGENERALeeSize-(MemPointer-addr);
+    //MemPointer += BANKGENERALeeSize-(MemPointer-addr);
+    MemPointer = addr+BANKGENERALeeSize;
 	
     MemPointer += GateBut.LoadCfg (MemPointer);
     MemPointer += CVPort.LoadCfg (MemPointer);

@@ -56,7 +56,7 @@ void I2Cmerger::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
     D(printI2CData(addr, data, l));
 }
 
-void printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
+void I2Cmerger::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
 {
     Serial.printf("Addr:%2X: ", addr);
     for (size_t i = 0; i < l; i++)
@@ -81,9 +81,11 @@ uint16_t I2Cmerger::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Por
     OutMsg.Length = 2;
     SendI2CdataLeader(addr, OutMsg.dataRaw, 2);
     // Receive value
+    pWire->requestFrom(addr, (uint8_t)2);
     ReadI2Cdata(2);
 
-    D(Serial.printf("Received %d,%d:%d\n", Bank, Port, InMsg.iValue));
+    D(Serial.printf("Data from 0x%x:%d/%d\n", addr, InMsg.Length, *((uint16_t *)InMsg.dataRaw)));
+    InMsg.Length = NOMSGLEN;
     return InMsg.iValue;
 }
 
@@ -99,6 +101,7 @@ uint16_t I2Cmerger::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Por
 void receiveEvent(int count)
 {
   theApp.I2CMerge.ReadI2Cdata(count);
+  theApp.I2CMerge.ProcessInputRequest();
 }
 
 /**
@@ -107,25 +110,27 @@ void receiveEvent(int count)
  */
 void requestEvent(void)
 {
-  if (
-    theApp.I2CMerge.InMsg.Length == NOMSGLEN ||
-    theApp.I2CMerge.InMsg.Length == 0)
+  //DP("request");
+  if (theApp.I2CMerge.InMsg.Length == 0)
   {
     pWire->write(0);
     return;
   }
 
-  DP("request");
-  uint16_t dataReq = theApp.I2CMerge.ProcessInputRequest();
-  if( dataReq == NOMSGLEN){
+  if( theApp.I2CMerge.OutMsg.Length == NOMSGLEN){
     DP("Incorrect Msg");
     return;
     }
+  
+  //uint16_t dataReq = CVControls[0].CVPort.PortValue;
   //pWire->write(dataReq >> 8);
   //pWire->write(dataReq & 255);
+  //D(Serial.printf("Sent Requested value: %d/%d\n", dataReq, 2));
+
   pWire->write(theApp.I2CMerge.OutMsg.dataRaw, theApp.I2CMerge.OutMsg.Length);
-  D(Serial.printf("Requested value: %d\n", dataReq));
+  D(Serial.printf("Sent Requested value: %d/%d\n", theApp.I2CMerge.OutMsg.iValue, theApp.I2CMerge.OutMsg.Length));
   theApp.I2CMerge.InMsg.Length = NOMSGLEN;
+  theApp.I2CMerge.OutMsg.Length = NOMSGLEN;
 }
 
 // TODO implement

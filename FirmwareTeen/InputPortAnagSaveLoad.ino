@@ -166,7 +166,8 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
     case PAR_FunctionData:
         return parseFunctionData( buf, buLen);
     case PAR_Option1:
-        PortCfg.Options1 = *buf;
+        PortCfg.Options1 = (uint8_t) *buf;
+        return buLen;
     default:
         return 0;
     }
@@ -303,7 +304,8 @@ int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
     case PAR_FunctionData:
         return fillFunctionData( buf, buLen);
     case PAR_Option1:
-        *buf = PortCfg.Options1;
+        *buf = (uint8_t) PortCfg.Options1;
+        return buLen;
     default:
         return 0;
     }

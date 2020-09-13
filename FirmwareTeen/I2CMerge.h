@@ -68,15 +68,15 @@ public:
 class I2Cmerger
 {
 private:
-    bool I2CInput = false;
+    bool I2CInput = true;
     bool I2COutput = true;
-    bool I2CMaster = true;
+    bool I2CMaster = false;
 
 public:
     I2CMessage OutMsg;  // Message to send
     I2CMessage InMsg;  // Received message
 
-    int ClientPort=0x66;
+    int ClientPort=VCMC0;
     I2CDevCollection I2CDevices;
 public:
     bool IsMaster() { return I2CMaster; }
@@ -89,6 +89,7 @@ public:
     
     // Functions for Leader and Follower Mode
     void ReadI2Cdata(int count);
+    void printI2CData(uint8_t addr, uint8_t *data, uint8_t l);
 
     // Functions for Master/Leader Mode
     //void scanforI2Cclients();

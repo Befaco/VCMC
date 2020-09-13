@@ -56,9 +56,9 @@ bool SaveLoadClass::SetCurrentPage (int page) {
     if (page < 0 || page > MAXSAVEPAGES - 1) return false;
     CurrentPage = page;
     // Save current config
-    if (SaveCfg ()) {
+    if (SaveCfg (page)) {
         //EEPROM.put (0, CurrentPage);
-		theApp.theGlobalCfg.initPage= CurrentPage;
+		theApp.theGlobalCfg.initPage= page;
 		theApp.theGlobalCfg.SaveCfg();
         return true;
     }
@@ -72,10 +72,13 @@ bool SaveLoadClass::SetCurrentPage (int page) {
  * \return true if succesful
  */
 bool SaveLoadClass::LoadInitialConfig(void) {
+    DP("Load Initial config");
 	if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
-        theApp.initControls();
-        SetCurrentPage(0);
 		DP("Error loading. Saving std config");
+        theApp.initControls();
+        if( !SetCurrentPage(0)){
+            DP("Error Saving std config");
+        }
 		return false;
 		}
 	CurrentPage = theApp.theGlobalCfg.initPage;

@@ -85,21 +85,23 @@ void I2Cmerger::sendI2C ()
     }
 }
 
+
 void I2Cmerger::readI2C () {
     // Only for test purpose, poll another VCMC
     static uint8_t Bank = 0;
     static uint8_t Port = 0;
-    const uint32_t INTERVALPOLLMASTER = 1000; 
     static uint32_t prevMill = 0;
+    const uint32_t INTERVALPOLLMASTER = 3000; 
     uint32_t actMill = millis();
 
-    if(prevMill+INTERVALPOLLMASTER < actMill){
+    if( prevMill+INTERVALPOLLMASTER < actMill){
         prevMill = actMill;
         // request
+        DP("poll I2C");
         uint16_t value = LeaderReceiveSimple(VCMC0, Bank, Port);
         Bank = (Bank == 8) ? 0 : Bank + 1;
         Port = (Port == 3) ? 0 : Port + 1;
-        D(Serial.printf("Rceived %d\n", value));
+        D(Serial.printf("Received %d\n", value));
     }
 }
 
@@ -165,16 +167,17 @@ void I2Cmerger::begin(void)
 bool I2Cmerger::poll(void)
 {
     // Send I2C
-    if( I2COutput && CalTimer==0) sendI2C ();
+    if( I2COutput && IsMaster() && CalTimer==0) sendI2C ();
     // Receive I2C
     if( I2CInput && IsMaster()) readI2C (); 
 
     #ifdef PRINTDEBUG
-    if( InMsg.Length !=NOMSGLEN)
+    if( InMsg.Length !=NOMSGLEN && !IsMaster())
     {
         Serial.printf("Received %d:",InMsg.Length);
-        Serial.println((char*)InMsg.dataRaw);
-        InMsg.Length = 0;
+        //Serial.println((char*)InMsg.dataRaw);
+        printI2CData(VCMC0, InMsg.dataRaw, InMsg.Length);
+        InMsg.Length = NOMSGLEN;
     }
     #endif
 
