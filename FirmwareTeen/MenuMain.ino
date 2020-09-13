@@ -65,7 +65,7 @@ MenuItem GlobalCalList[] = {
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
     {"FADER CAL", makeFadersCal, 1},
     {"FADER FILT", SelectFaderFilter, 1},
-    {"FADER THR", SelectFaderThres, 1},
+    {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
     {"GLOBAL CAL", NULL, 1}};

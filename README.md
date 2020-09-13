@@ -1,12 +1,18 @@
-# VCMC v1.2 / CV Thing v1.2
+# VCMC v1.2.1 / CV Thing v1.2.1
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
 This code will work in any hardware revision from PCB v1
 
 The code will also run with CV Thing module. See below install options for details. Find further information about CV Thing [here](https://www.befaco.org/CV_thing/)
 
+If you are updating version is always recommended a factory reset and save.
+
 
 ## Changelog/ Bug Fixes:
+
+### v1.2.1
+- CV Delay bug fixed.
+- Other minor bug fixes.
 
 ### v1.2
 - New Polyphonic mode added.
