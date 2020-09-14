@@ -64,7 +64,7 @@ If you are updating version is always recommended a factory reset and save.
 If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
 
 
-- Get latest firmware file from Bin folder. Follow instructions from Readme.md file there.
+- Get latest firmware file from Bin folder. Make sure you clon the repository, as downloading just the file won't work. Follow instructions from Readme.md file there.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
 
