@@ -70,7 +70,7 @@ If you are updating your module from a previous version, data structure will not
 
 - Connect VCMC to your computer using a USB cable.
 
-- RunTeensy uploader and load hex file. If prompted by the app, press teensy button to begin transfer... Make sure Module is plugged in.
+- RunTeensy uploader and load hex file. Press teensy button to begin transfer... Make sure Module is plugged in.
 
 ## Uploading the firmware from source code
 
