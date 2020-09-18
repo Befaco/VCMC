@@ -56,7 +56,7 @@ MenuItem GlobalconfigList[] = {
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
-    {"I2C Menu", selectI2CDevice, 1},
+    {"I2C Menu", selectGlobalI2CMenu, 1},
     {" GLOBAL CFG ", NULL, 1}};
 MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
 
@@ -66,7 +66,7 @@ MenuItem GlobalCalList[] = {
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
     {"FADER CAL", makeFadersCal, 1},
     {"FADER FILT", SelectFaderFilter, 1},
-    {"FADER THR", SelectFaderThres, 1},
+    {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
     {"GLOBAL CAL", NULL, 1}};
@@ -85,7 +85,7 @@ MenuItem BankSaveSelList[] = {
     {"USER 1", SaveSlot1, 1},
     {"USER 2", SaveSlot2, 1},
     {"USER 3", SaveSlot3, 1},
-    {"USER 4", SaveSlot4, 1},
+    {"USER 4", SaveSlot4, 0},
     {"SYSEX", SaveViaSysEx, 1},
     {"SAVE CONFIG", NULL, 1}};
 MenuList ListBankSaveSel(BankSaveSelList, 6, ListLinesSimple);
@@ -96,7 +96,7 @@ MenuItem BankLoadSelList[] = {
     {"USER 1", LoadSlot1, 1},
     {"USER 2", LoadSlot2, 1},
     {"USER 3", LoadSlot3, 1},
-    {"USER 4", LoadSlot4, 1},
+    {"USER 4", LoadSlot4, 0},
     {"PRESETS", LoadPreset, 1},
     {"LOAD CONFIG", NULL, 1}};
 MenuList ListBankLoadSel(BankLoadSelList, 6, ListLinesSimple);

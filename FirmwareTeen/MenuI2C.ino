@@ -36,6 +36,7 @@
  */
 
 const char *ModeI2C[] = {"MODE:RAW", "MODE:MIDI"};
+const char *ModeGenI2C[] = {"MODE:Leader", "MODE:Follower"};
 // Load Config Menu
 MenuItem I2CMenuItems[] = {
     {"<-BACK", gotoMenuAnag, 1},
@@ -45,6 +46,15 @@ MenuItem I2CMenuItems[] = {
     {"MODE:RAW", SwitchI2CMode, 1},
     {"I2C OPTIONS", NULL, 1} };
 MenuList I2CMenuList(I2CMenuItems, 5, ListLinesSimple);
+
+MenuItem GlobalI2CMenuItems[] = {
+    {"<-BACK", gotoMenuGlobalCfg, 1},
+    {"DEVICE", selectI2CDevice, 1},
+    {"COMMAND", selectI2COp, 0},
+    {"CHANNEL", SelectI2CChan, 0},
+    {"MODE:Leader", SwitchI2CGenMode, 1},
+    {"I2C OPTIONS", NULL, 1} };
+MenuList GlobalI2CMenuList(GlobalI2CMenuItems, 5, ListLinesSimple);
 
 
 MenuItem I2CDevItems[] = {
@@ -56,8 +66,34 @@ MenuItem I2COpItems[] = {
     {"I2COp", selectMenuPortName, 1}};
 MenuList I2COpList(I2COpItems, 1, ListLines);
 
+
+/////////////////////////////////////////////////////////
+// General I2C Menu
+bool selectGlobalI2CMenu(void){
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&GlobalI2CMenuList);
+    return true;
+}
+
+bool SwitchI2CGenMode(void){
+    MenuItem *pM = myMenu.currentMenu->getItem(myMenu.currentItemIndex);
+    bool setMode = !theApp.theGlobalCfg.masterI2C;
+
+    theApp.I2CMerge.setMasterMode( setMode);
+    if(setMode){
+        strcpy(pM->text, ModeGenI2C[0]);
+    }else {
+        strcpy(pM->text, ModeGenI2C[1]);
+    }
+    
+    return true;
+}
+
+
+/////////////////////////////////////////////////////////
+// Port  I2C Menu
 bool SwitchI2CMode(void){
-    MenuItem *pM = myMenu.currentMenu->getItem(4);
+    MenuItem *pM = myMenu.currentMenu->getItem(myMenu.currentItemIndex);
 
     GetPortCfg()->UseMIDII2C = !GetPortCfg()->UseMIDII2C;
     if(GetPortCfg()->UseMIDII2C){

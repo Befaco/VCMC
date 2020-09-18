@@ -59,23 +59,23 @@
 #ifndef __SAVELOAD_H
 #define __SAVELOAD_H
 
-#define VERSAVE 220 // Change version when saved data version changes
+#define VERSAVE 322 // Change version when saved data version changes
 #define CFGDATATAG \
     9898 + VERSAVE // Pre-defined value to check if data in EEPROM is valid Configuration data
 // EEPROM Save/load config
 #define GLOBALeeSize 150
-#define DIGITALeeSize 8 // min 7
-#define ANALOGeeSize 24  // min 23
-#define ANALOGFADeeSize 14  // min 13
+#define DIGITALeeSize 10 // min 10
+#define ANALOGeeSize 23  // min 23
+#define ANALOGFADeeSize 18  // min 18
 #define BANKGENERALeeSize 2
-#define BANKeeSize (BANKGENERALeeSize+DIGITALeeSize+ANALOGeeSize+ANALOGFADeeSize)  //48 bytes min 45
+#define BANKeeSize (BANKGENERALeeSize+DIGITALeeSize+ANALOGeeSize+ANALOGFADeeSize)  //53 bytes min 45
 #define PAGEGENERALeeSize 4 // min 2
 
 #define PageSize \
     (PAGEGENERALeeSize+BANKeeSize*9+ANALOGeeSize-ANALOGFADeeSize) 
 // Calculate page size: 4+48*8+2+8+24+24=446 
 #define PAGEBASEADDR GLOBALeeSize // Start position for first bank
-#define MAXSAVEPAGES 4
+#define MAXSAVEPAGES 3
 
 /// Save and Load to EEPROM and SysEx
 class SaveLoadClass {

@@ -71,6 +71,7 @@ extern MenuList listGate;
 extern MenuList I2CMenuList;
 extern MenuList I2CDevList;
 extern MenuList I2COpList;
+bool selectGlobalI2CMenu(void);
 bool selectI2CMenu(void);
 bool selectI2COp(void);
 bool selectI2CDevice(void);

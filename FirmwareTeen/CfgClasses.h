@@ -58,10 +58,12 @@ class GlobalCfg {
     union
     {
         struct{
-            bool EncoderDir:1;  ///< Encder Diretion default=0, reversed = 1)
-            uint8_t Unused:7;
+            bool EncoderDir: 1;  ///< Encder Diretion default=0, reversed = 1)
+            bool masterI2C : 1;  ///< Device is in I2C Master(Leader) mode
+            uint8_t Unused : 6;
+            uint8_t I2CFollowerAddr;
         };
-        uint8_t GenOptions1;
+        uint16_t GenOptions1 = 0;
     };
     float filterFader = DefFaderfilter;
     uint8_t ActThrFader = DefActivityThreshold;
@@ -216,18 +218,18 @@ class InputPortCfg {
     uint8_t     charPrefix = 0;
     uint8_t     textPort = 0;
     uint8_t     charSufix = 0;
-    uint16_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
+    uint8_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
     union {
         struct {
-        uint8_t Chanfunction : 2; ///< Function selected for the input control
+        uint8_t I2Cfunction : 2; // Not in use
         uint8_t UseMIDII2C : 1;
-        uint8_t OptionsI2C : 3;
+        uint8_t OptionsI2C : 3; // Not in use
         uint16_t CommI2C : 10;
         uint8_t I2CChannel;
         uint8_t I2Cdev;
         };
-        uint32_t OptionsInputPort=0;
+        uint32_t I2COptionsInputPort=0;
     };
 
     #ifdef USECONFIGOSC

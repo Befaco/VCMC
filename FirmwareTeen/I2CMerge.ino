@@ -45,6 +45,17 @@
 #endif
 
 
+bool I2Cmerger::IsMaster()
+{
+    return theApp.theGlobalCfg.masterI2C;
+}
+
+void I2Cmerger::setMasterMode(bool isMast) { 
+    theApp.theGlobalCfg.masterI2C = isMast;
+    begin();
+}
+
+
 ///////////////////////////////////////////////////
 // Master I2C/ Leader
 
@@ -52,11 +63,11 @@ void I2Cmerger::sendI2C ()
 {
     static uint32_t microsI2C = 0;
     uint32_t current = micros();
-    if (current - microsI2C > I2CINTERVAL && Serial.availableForWrite () > 20) {
+    if (current - microsI2C > I2CINTERVAL D(&& Serial.availableForWrite () > 20) ) {
         microsI2C = current;
         uint16_t NewValue;
-        static uint16_t OldValue[2][9];
-        static uint16_t OldGate[9];
+        static uint16_t OldValue[2][9]={0};
+        static uint16_t OldGate[9]={0};
 		
         for (int i = 0; i < 9; i++) {
             if( CVControls[i].Config.UseMIDII2C)
@@ -64,13 +75,17 @@ void I2Cmerger::sendI2C ()
             // Send port values
             NewValue = CVControls[i].CVPort.PortValue;
             if ( !CVControls[i].CVPort.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
-                (NewValue - OldValue[0][i] > TRIMI2C || OldValue[0][i] - NewValue > TRIMI2C)) {
+                (NewValue - OldValue[0][i] > TRIMI2C || OldValue[0][i] - NewValue > TRIMI2C)) 
+                // Send Only when difference bigger than Trim I2C value
+            {
                 CVControls[i].CVPort.SendI2C(0,(~NewValue)<<2);
                 OldValue[0][i] = NewValue;
             }
             NewValue = CVControls[i].Slider.PortValue;
             if (  !CVControls[i].Slider.PortCfg.UseMIDII2C && // If MIDI mode selected, do not send
-                (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C)) {
+                (NewValue - OldValue[1][i] > TRIMI2C || OldValue[1][i] - NewValue > TRIMI2C)) 
+                // Send Only when difference bigger than Trim I2C value
+            {
                 CVControls[i].Slider.SendI2C(0,NewValue);
                 OldValue[1][i] = NewValue;
             }
@@ -87,9 +102,10 @@ void I2Cmerger::sendI2C ()
 
 
 void I2Cmerger::readI2C () {
+    //////////////////////////////////////////
     // Only for test purpose, poll another VCMC
-    static uint8_t Bank = 0;
-    static uint8_t Port = 0;
+    static uint8_t Bank = 1;
+    static uint8_t Port = 2;
     static uint32_t prevMill = 0;
     const uint32_t INTERVALPOLLMASTER = 3000; 
     uint32_t actMill = millis();
@@ -99,10 +115,11 @@ void I2Cmerger::readI2C () {
         // request
         DP("poll I2C");
         uint16_t value = LeaderReceiveSimple(VCMC0, Bank, Port);
-        Bank = (Bank == 8) ? 0 : Bank + 1;
-        Port = (Port == 3) ? 0 : Port + 1;
+        Bank = (Bank == 8) ? 1 : Bank + 1;
+        Port = (Port == 3) ? 3 : Port + 1;
         D(Serial.printf("Received %d\n", value));
     }
+    /////////////////////////////////////////////
 }
 
 
@@ -122,7 +139,7 @@ uint16_t I2Cmerger::ProcessInputRequest()
     } else { // Command for Port
         // TODO Process command
         // Send Port Command
-        InputPort *pPort = theApp.GetPort(InMsg.Bank - 1, InMsg.Port);
+        InputPort *pPort = theApp.GetPort(InMsg.Destination - 1, InMsg.I2CCommand);
         retval = OutMsg.Fill( (uint8_t *)&pPort->PortValue, 2);
     }
 

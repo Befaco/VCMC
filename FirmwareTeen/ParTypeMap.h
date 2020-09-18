@@ -63,6 +63,7 @@ enum PARNames
     PAR_ClipHigh,
     PAR_FunctionData,
     PAR_Option1,
+    PAR_AnagOptionsI2C,
 
     PAR_GateMIDIChannel,
     PAR_GatePortName,
@@ -70,6 +71,7 @@ enum PARNames
     PAR_GateDelayGate,
     PAR_GateFunction,
     PAR_GateFunctionData,
+    PAR_GateOptionsI2C,
 
     PAR_ChannelFunction
 };
@@ -121,6 +123,25 @@ const SysExDataStruct DATA_General_1_1[] = {
 };
 
 const SysExDataStruct DATA_Analog[] = {
+    {23, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_MIDIChannel},
+    { 1, ui08TYPE, PAR_PortName},
+    { 2, charTYPE, PAR_NameSufix},
+    { 3, ui08TYPE, PAR_DelayGate},
+    // Analog Data
+    { 4, ui08TYPE, PAR_Option1},
+    { 5, si16TYPE, PAR_Range_minMIDI},
+    { 7, si16TYPE, PAR_Range_rangeMIDI},
+    { 9, si16TYPE, PAR_Range_minDAC},
+    {11, si16TYPE, PAR_Range_rangeDAC},
+    {13, si16TYPE, PAR_ClipLow},
+    {15, si16TYPE, PAR_ClipHigh},
+    {17, ui16TYPE, PAR_FunctionData},
+    {19, ui32TYPE, PAR_AnagOptionsI2C}
+    };
+
+const SysExDataStruct DATA_Analog_1_2[] = {
     {20, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -158,6 +179,22 @@ const SysExDataStruct DATA_Analog_1_1[] = {
 
 
 const SysExDataStruct DATA_Fader[] = {
+    {18, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_MIDIChannel},
+    { 1, ui08TYPE, PAR_PortName},
+    { 2, charTYPE, PAR_NameSufix},
+    // Analog Data
+    { 3, ui08TYPE, PAR_Function},
+    { 4, si16TYPE, PAR_Range_minMIDI},
+    { 6, si16TYPE, PAR_Range_rangeMIDI},
+    { 8, si16TYPE, PAR_ClipLow},
+    {10, si16TYPE, PAR_ClipHigh},
+    {12, ui16TYPE, PAR_FunctionData},
+    {14, ui32TYPE, PAR_AnagOptionsI2C}
+    };
+
+const SysExDataStruct DATA_Fader_1_2[] = {
     {14, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -172,6 +209,19 @@ const SysExDataStruct DATA_Fader[] = {
     {12, ui16TYPE, PAR_FunctionData}};
 
 const SysExDataStruct DATA_Digital[] = {
+    { 10, ui16TYPE, PAR_Size},
+    // Base Port Data
+    { 0, ui08TYPE, PAR_GateMIDIChannel},
+    { 1, ui08TYPE, PAR_GatePortName},
+    { 2, charTYPE, PAR_GateNameSufix},
+    { 3, ui08TYPE, PAR_GateDelayGate},
+    // Analog Data
+    { 4, ui08TYPE, PAR_GateFunction},
+    { 5, ui16TYPE, PAR_GateFunctionData},
+    { 6, ui32TYPE, PAR_GateOptionsI2C}
+    };
+
+const SysExDataStruct DATA_Digital_1_2[] = {
     { 8, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_GateMIDIChannel},

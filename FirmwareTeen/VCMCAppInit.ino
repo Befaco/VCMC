@@ -67,10 +67,6 @@ void VCMCApp::setup(void)
     #else
         Serial.begin(115200);
     #endif
-    #ifdef USEI2C
-        I2CMerge.begin();
-    #endif
-
     // Lod initial configutration from EEPROM
     FlashAccess->LoadInitialConfig();
 
@@ -82,6 +78,11 @@ void VCMCApp::setup(void)
 
     // Lod initial configutration from EEPROM
     FlashAccess->LoadInitialPage();
+
+    #ifdef USEI2C
+        I2CMerge.begin();
+    #endif
+
 
     // Init Menu
     gotoMenuSettings();

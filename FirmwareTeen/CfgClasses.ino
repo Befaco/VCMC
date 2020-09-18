@@ -353,9 +353,9 @@ int GlobalCfg::SaveCfg (/*int addr*/)
     EEPROM.put (MemPointer, ActThrFader);
     MemPointer += sizeof (ActThrFader);
 
-    /* EEPROM.put (MemPointer, GenOptions1);
+    EEPROM.put (MemPointer, GenOptions1);
     MemPointer += sizeof (GenOptions1);
- */
+ 
 #ifdef PRINTDEBUG
 	Serial.print( "Saved Global ");
 	Serial.print( initPage);
@@ -455,8 +455,8 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
     EEPROM.get (MemPointer, ActThrFader);
     MemPointer += sizeof (ActThrFader);
 
-    /* EEPROM.get (MemPointer, GenOptions1);
-    MemPointer += sizeof (GenOptions1); */
+    EEPROM.get (MemPointer, GenOptions1);
+    MemPointer += sizeof (GenOptions1);
 
 #ifdef PRINTDEBUG
 	Serial.print( "Load Global ");

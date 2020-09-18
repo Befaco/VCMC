@@ -166,7 +166,10 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
     case PAR_FunctionData:
         return parseFunctionData( buf, buLen);
     case PAR_Option1:
-        PortCfg.Options1 = (uint8_t) *buf;
+        PortCfg.Options1 = *buf;
+        return buLen;
+    case PAR_AnagOptionsI2C:
+        PortCfg.I2COptionsInputPort = *((uint32_t*)buf);
         return buLen;
     default:
         return 0;
@@ -178,7 +181,7 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
 int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
 
     if(buLen<2){
-        DP("Incorrect Length parsing parameter");
+        D(Serial.printf("Incorrect Length parsing parameter %d\n", buLen));
         return 0;}
 
     switch(PortCfg.MIDIfunction){
@@ -305,6 +308,9 @@ int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
         return fillFunctionData( buf, buLen);
     case PAR_Option1:
         *buf = (uint8_t) PortCfg.Options1;
+        return buLen;
+    case PAR_AnagOptionsI2C:
+        *((uint32_t*)buf) = PortCfg.I2COptionsInputPort;
         return buLen;
     default:
         return 0;

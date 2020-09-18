@@ -52,6 +52,7 @@ public:
         uint8_t additionaldata[MAXI2CMSGLEN-4];
     };
     uint8_t dataRaw[MAXI2CMSGLEN];
+    uint16_t data16Raw[MAXI2CMSGLEN/2];
     };
     uint16_t Length=NOMSGLEN; // Use 0xFFFF to mark empty message
 public:
@@ -70,7 +71,7 @@ class I2Cmerger
 private:
     bool I2CInput = true;
     bool I2COutput = true;
-    bool I2CMaster = false;
+    //bool I2CMaster = false;
 
 public:
     I2CMessage OutMsg;  // Message to send
@@ -79,7 +80,8 @@ public:
     int ClientPort=VCMC0;
     I2CDevCollection I2CDevices;
 public:
-    bool IsMaster() { return I2CMaster; }
+    bool IsMaster();
+    void setMasterMode(bool isMast);
     bool poll(void);
     void begin(void);
     void InitDefControls(void);

@@ -125,10 +125,13 @@ int DigitalPort::parse (uint8_t type, uint8_t *buf, int buLen) {
         PortCfg.charSufix = *buf;
         return buLen;
     case PAR_GateDelayGate:
-        PortCfg.DelayGate = *((uint16_t*)buf);
+        PortCfg.DelayGate = *buf;
         return buLen;
     case PAR_GateFunction:
         PortCfg.MIDIfunction = *buf;
+        return buLen;
+    case PAR_GateOptionsI2C:
+        PortCfg.I2COptionsInputPort = *((uint32_t*)buf);
         return buLen;
     case PAR_GateFunctionData:
         return parseFunctionData( buf, buLen);
@@ -170,6 +173,7 @@ int DigitalPort::parseFunctionData(uint8_t *buf, int buLen){
         case GATEPANIC:
         case NODIGFUNC:
         case GATE8TRIG:        
+        default:
             return buLen;
     }
     return 0;
@@ -210,14 +214,18 @@ int DigitalPort::fill (uint8_t type, uint8_t *buf, int buLen) {
         *buf = PortCfg.charSufix;
         return buLen;
     case PAR_GateDelayGate:
-        *((uint16_t*)buf) = PortCfg.DelayGate;
+        *buf = PortCfg.DelayGate;
         return buLen;
     case PAR_GateFunction:
         *buf = PortCfg.MIDIfunction;
         return buLen;
+    case PAR_GateOptionsI2C:
+        *((uint32_t*)buf) = PortCfg.I2COptionsInputPort;
+        return buLen;
     case PAR_GateFunctionData:
         return fillFunctionData( buf, buLen);
     default:
+        D(Serial.printf("Parameter Not recognized %d\n", type));
         return 0;
     }
     return 0;
@@ -227,7 +235,7 @@ int DigitalPort::fill (uint8_t type, uint8_t *buf, int buLen) {
 int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
 
     if(buLen<2){
-        DP("Incorrect Length parsing parameter");
+        D(Serial.printf("Incorrect Length parsing parameter %d\n", buLen));
         return 0;}
 
     switch(PortCfg.MIDIfunction){
@@ -251,7 +259,8 @@ int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
         case GATECONTINUE:
         case GATEPANIC:
         case NODIGFUNC:
-        case GATE8TRIG:        
+        case GATE8TRIG:
+        default:
             return buLen;
     }
     return 0;
