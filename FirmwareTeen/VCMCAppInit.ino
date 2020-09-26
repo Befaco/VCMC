@@ -67,6 +67,13 @@ void VCMCApp::setup(void)
     #else
         Serial.begin(115200);
     #endif
+/* 
+    ////// Test empty mem
+    for (size_t i = 0; i < 500; i++)
+    {
+        EEPROM.write(i, 0);
+    }
+     */
     // Lod initial configutration from EEPROM
     FlashAccess->LoadInitialConfig();
 

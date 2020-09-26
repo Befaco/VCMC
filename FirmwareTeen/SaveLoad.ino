@@ -55,14 +55,15 @@ SaveLoadClass::SaveLoadClass () {
 bool SaveLoadClass::SetCurrentPage (int page) {
     if (page < 0 || page > MAXSAVEPAGES - 1) return false;
     CurrentPage = page;
+	theApp.theGlobalCfg.initPage= page;
     // Save current config
     if (SaveCfg (page)) {
         //EEPROM.put (0, CurrentPage);
-		theApp.theGlobalCfg.initPage= page;
 		theApp.theGlobalCfg.SaveCfg();
         return true;
     }
 
+    DP("Error setting page");
     return false;
 }
 
@@ -73,7 +74,8 @@ bool SaveLoadClass::SetCurrentPage (int page) {
  */
 bool SaveLoadClass::LoadInitialConfig(void) {
     DP("Load Initial config");
-	if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
+    CurrentPage = 0;
+    if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
 		DP("Error loading. Saving std config");
         theApp.initControls();
         if( !SetCurrentPage(0)){
@@ -122,7 +124,10 @@ bool SaveLoadClass::SaveCfg (int page) {
 
     // Load address of selected page
     if (page == -1) page = CurrentPage; // No value = Current Bank
-    if (page < 0 || page > MAXSAVEPAGES - 1) return false;
+    if (page < 0 || page > MAXSAVEPAGES - 1){
+        DP("Wrong page when saving");
+        return false;
+        }
 
     // Write data
     MemPointer = PageBase[page];
@@ -174,6 +179,7 @@ bool SaveLoadClass::LoadCfg (int page) {
     EEPROM.get (MemPointer, CfgDataCheck);
     if (CfgDataCheck != CFGDATATAG) {
         myMenu.setupPopup ("Incorrect config data", 5000, 0, 17);
+        DP("Incorrect config data");
         return false;
     }
     // Reserved PAGEGENERALeeSize for general data
