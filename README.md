@@ -1,12 +1,18 @@
-# VCMC v1.2 / CV Thing v1.2
+# VCMC v1.2.1 / CV Thing v1.2.1
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
 This code will work in any hardware revision from PCB v1
 
 The code will also run with CV Thing module. See below install options for details. Find further information about CV Thing [here](https://www.befaco.org/CV_thing/)
 
+If you are updating version is always recommended a factory reset and save.
+
 
 ## Changelog/ Bug Fixes:
+
+### v1.2.1
+- CV Delay bug fixed.
+- Other minor bug fixes.
 
 ### v1.2
 - New Polyphonic mode added.
@@ -58,13 +64,13 @@ The code will also run with CV Thing module. See below install options for detai
 If you are updating your module from a previous version, data structure will not be compatible and you will loose all saved data.
 
 
-- Get latest firmware file from Bin folder. Follow instructions from Readme.md file there.
+- Get latest firmware file from Bin folder. Make sure you clon the repository, as downloading just the file won't work. Follow instructions from Readme.md file there.
 
 - Install Teensy uploader app found [here](https://www.pjrc.com/teensy/loader.html)
 
 - Connect VCMC to your computer using a USB cable.
 
-- RunTeensy uploader and load hex file. If prompted by the app, press teensy button to begin transfer... Make sure Module is plugged in.
+- RunTeensy uploader and load hex file. Press teensy button to begin transfer... Make sure Module is plugged in.
 
 ## Uploading the firmware from source code
 
