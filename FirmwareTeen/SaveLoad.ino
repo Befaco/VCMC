@@ -54,15 +54,15 @@ SaveLoadClass::SaveLoadClass () {
  */
 bool SaveLoadClass::SetCurrentPage (int page) {
     if (page < 0 || page > MAXSAVEPAGES - 1) return false;
-    CurrentPage = page;
+	theApp.theGlobalCfg.initPage = CurrentPage = page;
     // Save current config
-    if (SaveCfg ()) {
+    if (SaveCfg (page)) {
         //EEPROM.put (0, CurrentPage);
-		theApp.theGlobalCfg.initPage= CurrentPage;
 		theApp.theGlobalCfg.SaveCfg();
         return true;
     }
 
+    DP("Error setting page");
     return false;
 }
 
@@ -72,10 +72,14 @@ bool SaveLoadClass::SetCurrentPage (int page) {
  * \return true if succesful
  */
 bool SaveLoadClass::LoadInitialConfig(void) {
-	if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
-        theApp.initControls();
-        SetCurrentPage(0);
+    DP("Load Initial config");
+    CurrentPage = 0;
+    if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
 		DP("Error loading. Saving std config");
+        theApp.initControls();
+        if( !SetCurrentPage(0)){
+            DP("Error Saving std config");
+        }
 		return false;
 		}
 	CurrentPage = theApp.theGlobalCfg.initPage;
@@ -101,6 +105,7 @@ bool SaveLoadClass::LoadInitialPage (void) {
         //CurrentPage = initBank;
         return true;
     } else { // Incorrect Tag Data, Save current config in page
+        theApp.initControls();
 		SaveCfg(initBank);
 	}
     return false;
@@ -118,7 +123,10 @@ bool SaveLoadClass::SaveCfg (int page) {
 
     // Load address of selected page
     if (page == -1) page = CurrentPage; // No value = Current Bank
-    if (page < 0 || page > MAXSAVEPAGES - 1) return false;
+    if (page < 0 || page > MAXSAVEPAGES - 1){
+        DP("Wrong page when saving");
+        return false;
+        }
 
     // Write data
     MemPointer = PageBase[page];
@@ -170,10 +178,11 @@ bool SaveLoadClass::LoadCfg (int page) {
     EEPROM.get (MemPointer, CfgDataCheck);
     if (CfgDataCheck != CFGDATATAG) {
         myMenu.setupPopup ("Incorrect config data", 5000, 0, 17);
+        DP("Incorrect config data");
         return false;
     }
     // Reserved PAGEGENERALeeSize for general data
-    MemPointer += PAGEGENERALeeSize-(MemPointer-PageBase[page]);// sizeof (uint16_t);
+    MemPointer += PAGEGENERALeeSize;// sizeof (uint16_t);
 
     // Bank data
     for (i = 0; i < 9; i++) {

@@ -78,7 +78,7 @@ const uint8_t ANBITS = 16;				/// Bits read 8on ADC during AnalogRead
 const int32_t ANRANGEMAX = 4095;		/// Maximum range for Input. On Teensy out of the 16 bits read first 4 are discarded.
 const int32_t DEFMINDAC = 4095;	/// Default CV Minimum DAC
 const int32_t DEFRANGEDAC = -4095; /// Default CV Range DAC
-const float DefFaderfilter = 0.0001; /// Filter for faders inputs
+const float DefFaderfilter = 0.00060; /// Filter for faders inputs
 const uint16_t DefActivityThreshold = 17; /// Activity detection for Faders
 #ifdef CVTHING
 const uint8_t PINENCA = 7;
