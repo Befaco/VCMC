@@ -785,7 +785,23 @@ void getSetRangeValue (char *Buf, int val) {
 // Set Range Mode
 Item_Function SetClockFuns[] = {ChangeClockShift, ChangeClockBPM}; // ChangeClockDiv
 
+void getClkValues(float &ClkDiv, int8_t &ClkShift, unsigned long &IntMIDIClk){
+    if(PortSelected>1){
+		ClkDiv= PortInUse->getClockDivider();
+		ClkShift= PortInUse->getClockShift();
+        IntMIDIClk = PortInUse->IntervalMIDIClock;
+		//ClacksPM= 60000.0/(PortInUse->IntervalClock/1000.0);
+	} else { // Gate selecetd
+		DigitalPort *PortUsed = (DigitalPort*) PortInUse; 
+		ClkDiv= PortUsed->getClockDivider();
+		ClkShift= PortUsed->getClockShift();
+        IntMIDIClk = PortUsed->IntervalMIDIClock;
+        /* MIDIBPM = roundf(MIDIBPM);
+        PortUsed->IntervalMIDIClock= 60000.0/(MIDIBPM/1000.0)/24.0; */
+        //ClacksPM= 60000.0/(PortUsed->IntervalClock/1000.0);
+	}
 
+}
 
 boolean SetClockMenu ()
 {
@@ -814,6 +830,12 @@ boolean SetClockMenu ()
             ClearCalArea (); // Clear area used
             InitCal = false;
             calMode = NoCalMode;
+            float ClkDiv;
+	        int8_t ClkShift;
+            unsigned long IntMIDIClk;
+            getClkValues(ClkDiv, ClkShift, IntMIDIClk);
+            theApp.theGlobalCfg.ClockShift = ClkShift;
+            theApp.theGlobalCfg.ClockDivider = ClkDiv;
             return true;
         } else { // Accept input in point selected
             runFunc = SetClockFuns[PointSelected - 2];
@@ -831,24 +853,12 @@ static long disptim=0;
     int posx = 0, posy = 0;
     float MIDIBPM;
     //float ClacksPM;
-    //float ClkDiv;
+    float ClkDiv;
 	int8_t ClkShift;
     unsigned long IntMIDIClk;
 
-    if(PortSelected>1){
-		//ClkDiv= PortInUse->getClockDivider();
-		ClkShift= PortInUse->getClockShift();
-        IntMIDIClk = PortInUse->IntervalMIDIClock;
-		//ClacksPM= 60000.0/(PortInUse->IntervalClock/1000.0);
-	} else { // Gate selecetd
-		DigitalPort *PortUsed = (DigitalPort*) PortInUse; 
-		//ClkDiv= PortUsed->getClockDivider();
-		ClkShift= PortUsed->getClockShift();
-        IntMIDIClk = PortUsed->IntervalMIDIClock;
-        /* MIDIBPM = roundf(MIDIBPM);
-        PortUsed->IntervalMIDIClock= 60000.0/(MIDIBPM/1000.0)/24.0; */
-        //ClacksPM= 60000.0/(PortUsed->IntervalClock/1000.0);
-	}
+    getClkValues(ClkDiv, ClkShift, IntMIDIClk);    
+
     MIDIBPM = 60000.0/(IntMIDIClk/1000.0)/24.0;
 	
     // Clear area used
@@ -938,8 +948,7 @@ static long disptim=0;
 boolean ChangeClockDiv () {
     float *ck= &(((InputPortCfg *)GetPortCfg())->ClockDivider);
     float val = *ck;
-    //bool ret = EncoderchangeValue ("Clock Div:", val, 1, 255, 3, 0, 45);
-	//bool ret = 
+
     editingPar = EncChangeValF (val, 0, 2, 0.001, displaySetClockMenu);
     theApp.theGlobalCfg.ClockDivider = *ck = val;
 
@@ -952,21 +961,19 @@ boolean ChangeClockBPM () {
     unsigned long *NewInterval;
     
     if(PortSelected>1){
+        ClkDiv = &(PortInUse->PortCfg.ClockDivider);
+        NewInterval= &(PortInUse->IntervalMIDIClock);
+        }
+    else{
 	    DigitalPort *PortUsed = (DigitalPort*) PortInUse;
         ClkDiv = &(PortUsed->PortCfg.ClockDivider);
         NewInterval= &(PortUsed->IntervalMIDIClock);
-        }
-    else{
-        ClkDiv = &(PortInUse->PortCfg.ClockDivider);
-        NewInterval= &(PortInUse->IntervalMIDIClock);
         }
     
     float MIDIBPM = 60000.0/(*NewInterval/1000.0)/24.0;
     MIDIBPM = roundf(MIDIBPM*1)/1;
     float prevBPM = MIDIBPM;
 
-    //bool ret = EncoderchangeValue ("Clock Div:", val, 1, 255, 3, 0, 45);
-	//bool ret = 
     editingPar = EncChangeValF (MIDIBPM, 0, 500, 1.0, displaySetClockMenu);
 
     *NewInterval= 60000.0/(MIDIBPM/1000.0)/24.0;
@@ -981,8 +988,7 @@ boolean ChangeClockShift () {
     ClkShift = &(((InputPortCfg *)GetPortCfg())->ClockShift);
 
     float val = *ClkShift;
-    //bool ret = EncoderchangeValue ("Clock Shift:", val, -120, 120, 4, 0, 45);
-	//bool ret = 
+
     editingPar = EncChangeValF (val, -5, 5, 1.0, displaySetClockMenu);
     theApp.theGlobalCfg.ClockShift = *ClkShift = val;
     return editingPar;//ret;
