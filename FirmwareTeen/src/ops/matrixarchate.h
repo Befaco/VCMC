@@ -1,7 +1,7 @@
 #ifndef _OPS_MATRIXARCHATE_H_
 #define _OPS_MATRIXARCHATE_H_
 
-//#include "ops/op.h"
+#include "ops/op.h"
 
 extern const tele_op_t op_MA_SELECT;
 extern const tele_op_t op_MA_STEP;

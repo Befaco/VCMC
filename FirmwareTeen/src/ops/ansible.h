@@ -1,7 +1,7 @@
 #ifndef _OPS_ANSIBLE_H_
 #define _OPS_ANSIBLE_H_
 
-//#include "ops/op.h"
+#include "ops/op.h"
 
 extern const tele_op_t op_ANS_G_LED;
 extern const tele_op_t op_ANS_G;

@@ -9,17 +9,17 @@
 #include "op.h"
 
 
-#include "justfriends.h"
-#include "telex.h"
-#include "er301.h"
-#include "ansible.h"
-#include "orca.h"
-#include "earthsea.h"
-#include "meadowphysics.h"
-#include "whitewhale.h"
-#include "wslash.h"
-#include "matrixarchate.h"
-#include "disting.h"
+#include "../justfriends.h"
+#include "../telex.h"
+#include "../er301.h"
+#include "../ansible.h"
+#include "../orca.h"
+#include "../earthsea.h"
+#include "../meadowphysics.h"
+#include "../whitewhale.h"
+#include "../wslash.h"
+#include "../matrixarchate.h"
+#include "../disting.h"
 
 extern const tele_op_t *tele_ops[];
 //extern const tele_op_t *tele_opsJF[];

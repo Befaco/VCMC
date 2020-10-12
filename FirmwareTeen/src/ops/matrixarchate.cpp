@@ -1,4 +1,4 @@
-#include "../../PrjIncludes.h"
+#include "ops/ops.h"
 /*#include "ops/matrixarchate.h"
 
 #include "helpers.h"
@@ -83,7 +83,7 @@ u8 selected_ma = 0;
 
 static void ma_set(s16 row, s16 column, s16 value) {
     if (row < 0 || row > 15 || column < 0 || column > 7) return;
-    uint8_t d[] = { value ? 0b10010000 : 0b10000000, (row << 3) + column, 128 };
+    uint8_t d[] = { (uint8_t)(value ? 0b10010000 : 0b10000000), (row << 3) + column, 128 };
     tele_ii_tx(MATRIXARCHATE + selected_ma, d, 3);
 }
 
@@ -91,26 +91,26 @@ static void ma_set_pgm(s16 program, s16 row, s16 column, s16 value) {
     if (program < 0 || program > 59 || row < 0 || row > 15 || column < 0 ||
         column > 7)
         return;
-    uint8_t d[] = { value ? 0b10010000 : 0b10000000, (row << 3) + column,
-                    program };
+    uint8_t d[] = { (uint8_t)(value ? 0b10010000 : 0b10000000), (row << 3) + column,
+                    (uint8_t)(program) };
     tele_ii_tx(MATRIXARCHATE + selected_ma, d, 3);
 }
 
 static void ma_set_col(s16 column, u16 value) {
     if (column < 0 || column > 7) return;
-    uint8_t d[] = { 0b10110000, column, 128, value & 255, value >> 8 };
+    uint8_t d[] = { (uint8_t)(0b10110000), column, 128, value & 255, value >> 8 };
     tele_ii_tx(MATRIXARCHATE + selected_ma, d, 5);
 }
 
 static void ma_set_col_pgm(s16 program, s16 column, u16 value) {
     if (program < 0 || program > 59 || column < 0 || column > 7) return;
-    uint8_t d[] = { 0b10110000, column, program, value & 255, value >> 8 };
+    uint8_t d[] = { 0b10110000, column, program, value & 255, (uint8_t)(value >> 8) };
     tele_ii_tx(MATRIXARCHATE + selected_ma, d, 5);
 }
 
 static void ma_set_row(s16 row, u16 value) {
     if (row < 0 || row > 15) return;
-    uint8_t d[] = { 0b10110000, row | 128, 128, value & 255, value >> 8 };
+    uint8_t d[] = { (uint8_t)(0b10110000), row | 128, 128, (uint8_t)(value & 255), (uint8_t)(value >> 8) };
     tele_ii_tx(MATRIXARCHATE + selected_ma, d, 5);
 }
 

@@ -45,7 +45,7 @@
 #include <MIDI.h>
 #include <EEPROM.h>
 #include <Bounce2.h>
-#include <ClickEncoder.h>
+#include "src/encoder-master/ClickEncoder.h"
 
 #include <ADC.h>
 #include <ResponsiveAnalogRead.h>
@@ -92,14 +92,12 @@
 #include "OSCMerge.h"
 #endif
 #ifdef USEI2C
-#ifdef __GNUC__
-#define NOTUSED(x) UNUSED_##x __attribute__((__unused__))
-#else
-#define NOTUSED(x) UNUSED_##x
-#endif
-#define tele_ii_tx theApp.I2CMerge.SendI2CdataLeader
-#define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
-#include "src/ops/ops.h"
+
+//#define tele_ii_tx theApp.I2CMerge.SendI2CdataLeader
+//#define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
+extern void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l);
+extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
+#include "src/ops/ops/ops.h"
 #include "vcmcop.h"
 #include "I2CDevice.h"
 #include "I2CMerge.h"

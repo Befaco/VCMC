@@ -32,27 +32,34 @@
 
 ////////////////////////////////////////////////////
 // Leader and Follower functions
-
-void I2Cmerger::ReadI2Cdata(int count){
-  int i = 0;
-  while (pWire->available() > 0 && count > i)
-  {                                                   // loop through all but the last
-    InMsg.dataRaw[i] = pWire->read(); // receive byte as a character
-    i++;
-    }
-
-    InMsg.Length = i; //count; // set received flag to count, this triggers print in main loop
-}
-
-///////////////////////////////////////////////////
-// Master I2C/ Leader
-
-void I2Cmerger::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
+void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l)
 {
     pWire->beginTransmission(addr);
     pWire->write(data, l);
     pWire->endTransmission();
-    D(printI2CData(addr, data, l));
+}
+
+int lenRead = 0;
+void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l)
+{
+  int i = 0;
+  while (pWire->available() > 0 && l > i)
+  {                                                   // loop through all but the last
+    data[i] = pWire->read(); // receive byte as a character
+    i++;
+    }
+
+    lenRead = i; //count; // set received flag to count, this triggers print in main loop
+
+}
+
+
+///////////////////////////////////////////////////
+// Master I2C/ Leader
+void I2Cmerger::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
+{
+  tele_ii_tx( addr, data, l);
+  D(printI2CData(addr, data, l));
 }
 
 void I2Cmerger::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
@@ -63,6 +70,11 @@ void I2Cmerger::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
         Serial.printf("%2x - ", data[i]);
     }
     Serial.printf("EOM\n");
+}
+
+void I2Cmerger::ReadI2Cdata(int count){
+  tele_ii_rx( 0, InMsg.dataRaw, count);
+  InMsg.Length = lenRead;
 }
 
 void I2Cmerger::ReadI2CLeader(uint8_t addr, uint8_t *data, uint8_t l)

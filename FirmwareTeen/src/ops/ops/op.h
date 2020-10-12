@@ -2,6 +2,21 @@
 #define _OPS_OP_H_
 
 
+#include <stdbool.h>
+#include <stddef.h>
+
+#include "command.h"
+#include "op_enum.h"
+#include "state.h"
+extern void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l);
+extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
+
+#ifdef __GNUC__
+#define NOTUSED(x) UNUSED_##x __attribute__((__unused__))
+#else
+#define NOTUSED(x) UNUSED_##x
+#endif
+
 /////////////////////////////////////////
 // op.h
 /////////////////////////////////////////

@@ -201,6 +201,17 @@ bool I2Cmerger::poll(void)
     return true;
 }
 
+const tele_op_t *I2Cmerger::getTeleOp(uint16_t Comm){
+    return tele_ops[Comm];
+}
+
+bool I2Cmerger::TeleOpUseChanInfo(uint16_t Comm){
+    if(Comm>=E_OP_JF_TR && Comm<=E_OP_JF_QT)
+        return tele_opsJFChan[Comm - E_OP_JF_TR];
+
+    return true;
+}
+
 #endif
 
 /** @} */
