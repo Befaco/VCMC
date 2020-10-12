@@ -76,14 +76,14 @@ const char CreditText[] =
 	"                    "
 	"                    "
 	"      CV Thing      "
-	"     v1.2.1 Dev     "
+	"     v1.2.2 Dev     "
 	"   www.befaco.org";
 #else
 const char CreditText[] =
 	"                    "
 	"                    "
 	"        VCMC        "
-	"     v1.2.1 Dev     "
+	"     v1.2.2 Dev     "
 	"                    "
 	"   www.befaco.org";
 #endif

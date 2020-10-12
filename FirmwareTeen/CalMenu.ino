@@ -970,6 +970,7 @@ static long disptim=0;
 boolean ChangeClockDiv () {
     float *ck= &(((InputPortCfg *)GetPortCfg())->ClockDivider);
     float val = *ck;
+
     editingPar = EncChangeValF (val, 0, 2, 0.001, displaySetClockMenu);
     theApp.theGlobalCfg.ClockDivider = *ck = val;
 
@@ -995,8 +996,6 @@ boolean ChangeClockBPM () {
     MIDIBPM = roundf(MIDIBPM*1)/1;
     float prevBPM = MIDIBPM;
 
-    //bool ret = EncoderchangeValue ("Clock Div:", val, 1, 255, 3, 0, 45);
-	//bool ret = 
     editingPar = EncChangeValF (MIDIBPM, 0, 500, 1.0, displaySetClockMenu);
 
     *NewInterval= 60000.0/(MIDIBPM/1000.0)/24.0;
@@ -1011,8 +1010,7 @@ boolean ChangeClockShift () {
     ClkShift = &(((InputPortCfg *)GetPortCfg())->ClockShift);
 
     float val = *ClkShift;
-    //bool ret = EncoderchangeValue ("Clock Shift:", val, -120, 120, 4, 0, 45);
-	//bool ret = 
+
     editingPar = EncChangeValF (val, -5, 5, 1.0, displaySetClockMenu);
     theApp.theGlobalCfg.ClockShift = *ClkShift = val;
     return editingPar;//ret;
