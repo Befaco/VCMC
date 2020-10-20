@@ -87,6 +87,7 @@ class GlobalCfg {
 	{	
         filterFader = DefFaderfilter;
         ActThrFader = DefActivityThreshold;
+        masterI2C = true;
     }
 	int SaveCfg();//int addr);
 	int LoadCfg();//int addr);

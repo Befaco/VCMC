@@ -91,7 +91,7 @@ public:
     
     // Functions for Leader and Follower Mode
     void ReadI2Cdata(int count);
-    void printI2CData(uint8_t addr, uint8_t *data, uint8_t l);
+    static void printI2CData(uint8_t addr, uint8_t *data, uint8_t l);
 
     // Functions for Master/Leader Mode
     //void scanforI2Cclients();

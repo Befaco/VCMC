@@ -37,6 +37,7 @@ void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l)
     pWire->beginTransmission(addr);
     pWire->write(data, l);
     pWire->endTransmission();
+    D(I2Cmerger::printI2CData(addr, data, l));
 }
 
 int lenRead = 0;

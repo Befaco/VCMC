@@ -102,6 +102,7 @@ void I2Cmerger::sendI2C ()
 
 
 void I2Cmerger::readI2C () {
+    /*
     //////////////////////////////////////////
     // Only for test purpose, poll another VCMC
     static uint8_t Bank = 1;
@@ -120,6 +121,7 @@ void I2Cmerger::readI2C () {
         D(Serial.printf("Received %d\n", value));
     }
     /////////////////////////////////////////////
+    */
 }
 
 
@@ -184,7 +186,8 @@ void I2Cmerger::begin(void)
 bool I2Cmerger::poll(void)
 {
     // Send I2C
-    if( I2COutput && IsMaster() && CalTimer==0) sendI2C ();
+    //if( I2COutput && IsMaster() && CalTimer==0) sendI2C ();
+    if( I2COutput && IsMaster() ) sendI2C ();
     // Receive I2C
     if( I2CInput && IsMaster()) readI2C (); 
 
