@@ -119,9 +119,13 @@ bool selectI2CMenu(void){
     return true;
 }
 
+uint8_t retPos = 0;
 bool selectI2CDevice(void){
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&I2CDevList);
+    if(retPos){
+        myMenu.firstVisibleLine = myMenu.currentItemIndex = retPos;
+        }
     return true;
 }
 
@@ -139,7 +143,7 @@ bool selectI2COp(void){
 
 
 bool setI2CDevice(void){
-    I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
+    I2CDevCollection *pCol = &I2CCore.I2CDevices;
     I2CDevice *pDev = pCol->getDeviceAtPos(myMenu.getItemStatus() - 1);
     InputPortCfg *cfg = GetPortCfg();
 
@@ -151,7 +155,7 @@ bool setI2CDevice(void){
             selectI2CMenu();
             }
         else{ // No port selected, change all
-            pCol->InitDefault(pDev->I2Cid);
+            theApp.I2CMerge.InitDefault(pDev->I2Cid);
             gotoMenuGlobalCfg();
             }
     }
@@ -164,7 +168,7 @@ bool setI2COp(void){
     InputPortCfg *cfg = GetPortCfg();
     uint8_t dev = cfg->I2Cdev;
     if(dev == NO_I2CDEVICE) return true; // No I2C Dev
-    I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
+    I2CDevCollection *pCol = &I2CCore.I2CDevices;
     I2CDevice *pDev = pCol->getDevice(dev);
     uint16_t op = myMenu.getItemStatus();
     if (op == 0xFF)
@@ -186,12 +190,17 @@ bool setI2COp(void){
     return true;
 }
 
-
 uint8_t OLEDMenu::FillI2CDevList(void)
 {
     uint8_t posMenu = 0;
-    I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
+    I2CDevCollection *pCol = &I2CCore.I2CDevices;
     I2CDevice *pDev = NULL;
+    InputPortCfg *cfg = GetPortCfg();
+    uint8_t iDev = 0;
+
+    retPos = 0;
+    if (cfg)
+        iDev = cfg->I2Cdev;
 
     // Add Device Ops
     for (int i = 1; i < pCol->getCount() + 1; i++)
@@ -200,6 +209,7 @@ uint8_t OLEDMenu::FillI2CDevList(void)
         CurrentMenuItems[posMenu].func = setI2CDevice;
         CurrentMenuItems[posMenu].Status = i;
         strcpy(CurrentMenuItems[posMenu].text, pDev->sName);
+        if(iDev== pDev->I2Cid) retPos = posMenu;
         posMenu++;
     }
     strcpy(CurrentMenuItems[posMenu].text, "I2C Device"); // Copy menu title
@@ -211,7 +221,7 @@ uint8_t OLEDMenu::FillI2CDevList(void)
 uint8_t OLEDMenu::FillI2COpList(void)
 {
     uint8_t posMenu = 0;
-    I2CDevCollection *pCol = &theApp.I2CMerge.I2CDevices;
+    I2CDevCollection *pCol = &I2CCore.I2CDevices;
     uint8_t dev = GetPortCfg()->I2Cdev;
     I2CDevice *pDev = pCol->getDevice(dev);
     if( pDev==NULL){

@@ -57,10 +57,10 @@ void AnalogPort::SendI2C (int MidiData, bool GateStat)
     // Convert 14 to 16 bits
     Notedata.push(0x1FF);              // Send other velocity instead?
     Notedata.push(toSend);     // Send MidiData instead?
-    if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
+    if( I2CCore.TeleOpUseChanInfo(PortCfg.CommI2C))
         Notedata.push(PortCfg.I2CChannel); // Selected channels
 
-    theApp.I2CMerge.callOP(PortCfg.CommI2C, &Notedata);
+    I2CCore.callOP(PortCfg.CommI2C, &Notedata);
 
     return;
 }
@@ -73,9 +73,9 @@ command_state_t GateData;
     if(PortCfg.CommI2C==E_NOI2CFUNC)
         return;
     GateData.push(GateStatus); // High/Low
-    if( theApp.I2CMerge.TeleOpUseChanInfo(PortCfg.CommI2C))
+    if( I2CCore.TeleOpUseChanInfo(PortCfg.CommI2C))
         GateData.push(PortCfg.I2CChannel); // Selected channels
-    theApp.I2CMerge.callOP(PortCfg.CommI2C, &GateData);
+    I2CCore.callOP(PortCfg.CommI2C, &GateData);
 
     return;
 }
@@ -99,13 +99,13 @@ void InputControl::sendNoteOn(byte Note, byte Veloc, byte Chann){
     // Convert 14 to 16 bits
     Notedata.push(Veloc / 127. * 0x3FF);//Slider.PortValue<<2);
     Notedata.push(Note / 120. * 0x3FF);//(~CVPort.PortValue)<<2);
-    theApp.I2CMerge.callOP(&op_JF_NOTE, &Notedata);
+    I2CCore.callOP(&op_JF_NOTE, &Notedata);
 
     // Send Trigger
     command_state_t GateData;
     GateData.push(1); // High
     GateData.push(0); // All channels
-    theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
+    I2CCore.callOP(&op_JF_TR, &GateData);
     #endif
 }
 
@@ -124,7 +124,7 @@ void InputControl::sendNoteOff(byte Note, byte Veloc, byte Chann){
     command_state_t GateData;
     GateData.push(0); // Low
     GateData.push(0); // All channels
-    theApp.I2CMerge.callOP(&op_JF_TR, &GateData);
+    I2CCore.callOP(&op_JF_TR, &GateData);
     #endif
 }
 

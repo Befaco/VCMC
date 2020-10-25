@@ -24,20 +24,27 @@
 //
 // -----------------------------------------------------------------------------
 //
-#include "PrjIncludes.h"
+#include "I2CCore.h"
 
+#define PRINTDEBUG
 
 #ifdef USEI2C
-
+#ifdef PRINTDEBUG
+#define D(x) x		/// Shorthand for PRINTDEBUG
+#define DP(x) Serial.println(x)		/// Shorthand for Deug serial print
+#else
+#define D(x)
+#define DP(x)
+#endif
 
 ////////////////////////////////////////////////////
-// Leader and Follower functions
+// Leader and Follower functions for Teletype implementation
 void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l)
 {
     pWire->beginTransmission(addr);
     pWire->write(data, l);
     pWire->endTransmission();
-    D(I2Cmerger::printI2CData(addr, data, l));
+    D(I2Ccore::printI2CData(addr, data, l));
 }
 
 int lenRead = 0;
@@ -57,13 +64,13 @@ void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l)
 
 ///////////////////////////////////////////////////
 // Master I2C/ Leader
-void I2Cmerger::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
+void I2Ccore::SendI2CdataLeader(uint8_t addr, uint8_t *data, uint8_t l)
 {
   tele_ii_tx( addr, data, l);
   D(printI2CData(addr, data, l));
 }
 
-void I2Cmerger::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
+void I2Ccore::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
 {
     Serial.printf("Addr:%2X: ", addr);
     for (size_t i = 0; i < l; i++)
@@ -73,19 +80,19 @@ void I2Cmerger::printI2CData(uint8_t addr, uint8_t *data, uint8_t l)
     Serial.printf("EOM\n");
 }
 
-void I2Cmerger::ReadI2Cdata(int count){
+void I2Ccore::ReadI2Cdata(int count){
   tele_ii_rx( 0, InMsg.dataRaw, count);
   InMsg.Length = lenRead;
 }
 
-void I2Cmerger::ReadI2CLeader(uint8_t addr, uint8_t *data, uint8_t l)
+void I2Ccore::ReadI2CLeader(uint8_t addr, uint8_t *data, uint8_t l)
 {
   ReadI2Cdata(l);
   if(l!=InMsg.Length) return; // Not enough data to read
   memcpy(data, InMsg.dataRaw, l);
 }
 
-uint16_t I2Cmerger::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Port)
+uint16_t I2Ccore::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Port)
 {
     // Ask for CV, Fader or Gate
     OutMsg.I2CCommand = Port;
@@ -110,26 +117,26 @@ uint16_t I2Cmerger::LeaderReceiveSimple( uint8_t addr, uint8_t Bank, uint8_t Por
  * 
  * \param count bytes received
  */
-void receiveEvent(int count)
+void I2Ccore::receiveEvent(int count)
 {
-  theApp.I2CMerge.ReadI2Cdata(count);
-  theApp.I2CMerge.ProcessInputRequest();
+  I2CCore.ReadI2Cdata(count);
+  I2CCore.ProcessInputRequest();
 }
 
 /**
  * \brief handle Tx Event (outgoing I2C data)
  * 
  */
-void requestEvent(void)
+void I2Ccore::requestEvent(void)
 {
   //DP("request");
-  if (theApp.I2CMerge.InMsg.Length == 0)
+  if (I2CCore.InMsg.Length == 0)
   {
     pWire->write(0);
     return;
   }
 
-  if( theApp.I2CMerge.OutMsg.Length == NOMSGLEN){
+  if( I2CCore.OutMsg.Length == NOMSGLEN){
     DP("Incorrect Msg");
     return;
     }
@@ -139,10 +146,10 @@ void requestEvent(void)
   //pWire->write(dataReq & 255);
   //D(Serial.printf("Sent Requested value: %d/%d\n", dataReq, 2));
 
-  pWire->write(theApp.I2CMerge.OutMsg.dataRaw, theApp.I2CMerge.OutMsg.Length);
-  D(Serial.printf("Sent Requested value: %d/%d\n", theApp.I2CMerge.OutMsg.data16Raw[0], theApp.I2CMerge.OutMsg.Length));
-  theApp.I2CMerge.InMsg.Length = NOMSGLEN;
-  theApp.I2CMerge.OutMsg.Length = NOMSGLEN;
+  pWire->write(I2CCore.OutMsg.dataRaw, I2CCore.OutMsg.Length);
+  D(Serial.printf("Sent Requested value: %d/%d\n", I2CCore.OutMsg.data16Raw[0], I2CCore.OutMsg.Length));
+  I2CCore.InMsg.Length = NOMSGLEN;
+  I2CCore.OutMsg.Length = NOMSGLEN;
 }
 
 #endif

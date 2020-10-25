@@ -47,11 +47,12 @@
 
 bool I2Cmerger::IsMaster()
 {
-    return theApp.theGlobalCfg.masterI2C;
+    return I2CCore.IsMaster();
 }
 
 void I2Cmerger::setMasterMode(bool isMast) { 
     theApp.theGlobalCfg.masterI2C = isMast;
+    I2CCore.setMasterMode(isMast);
     begin();
 }
 
@@ -125,28 +126,6 @@ void I2Cmerger::readI2C () {
 }
 
 
-///////////////////////////////////////////////////
-// Slave I2C/ Follower
-
-uint16_t I2Cmerger::ProcessInputRequest()
-{
-    if( InMsg.Length==NOMSGLEN){
-        return NOMSGLEN;
-    }
-    uint16_t retval = NOMSGLEN;
-    if(InMsg.Bank==0){ // General Command
-        return retval;
-    } else if( InMsg.I2CCommand==0){ // Command for Bank
-        return retval;
-    } else { // Command for Port
-        // TODO Process command
-        // Send Port Command
-        InputPort *pPort = theApp.GetPort(InMsg.Destination - 1, InMsg.I2CCommand);
-        retval = OutMsg.Fill( (uint8_t *)&pPort->PortValue, 2);
-    }
-
-    return retval;
-}
 
 
 //////////////////////////////////////////////////
@@ -154,66 +133,141 @@ uint16_t I2Cmerger::ProcessInputRequest()
 
 void I2Cmerger::InitDefControls(void)
 {
-    I2CDevices.addBaseDevices();
+    I2CCore.I2CDevices.addBaseDevices();
     // Test Just Friends
     //I2CDevices.InitDefault(JF_ADDR);
     // Test ER-301
     //I2CDevices.InitDefault(ER301_1);
 }
 
-void I2Cmerger::begin(void)
+
+void I2Cmerger::InitDefault(uint8_t Dev)
 {
-    // Begin I2C serial channel
-    if( IsMaster()){
-        // Setup for Master mode
-        pWire->begin();//I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, 400000);
-        pWire->setSDA(I2C_SDA);
-        pWire->setSCL(I2C_SCL);
-        DP("Init Leader I2C Merger");
-    } else
+    if( !I2CCore.I2CDevices.getDevice(Dev)){
+        DP("InitDefault Device not initialized");
+        return;
+    }
+    // Reset values
+    for (size_t i = 0; i < 8; i++)
     {
-        // Setup for Slave mode
-        pWire->begin(ClientPort);
-        pWire->setSDA(I2C_SDA);
-        pWire->setSCL(I2C_SCL);
-        // register events
-        pWire->onReceive(receiveEvent);
-        pWire->onRequest(requestEvent);
-        DP("Init Follower I2C Merger");
+        CVControls[i].Config.CommI2C = E_NOI2CFUNC;
+        CVControls[i].CVPort.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].Slider.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].GateBut.PortCfg.CommI2C = E_NOI2CFUNC;
+        CVControls[i].Config.UseMIDII2C = false;
+        CVControls[i].CVPort.PortCfg.UseMIDII2C = false;
+        CVControls[i].Slider.PortCfg.UseMIDII2C = false;
+        CVControls[i].GateBut.PortCfg.UseMIDII2C = false;
+    }
+
+    switch (Dev)
+    {
+    case NO_I2CDEVICE:
+        break;
+    case ER301_1:
+        DP("Init Default ER-301 Config");
+        for (size_t i = 0; i < 8; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_SC_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
+            CVControls[i].CVPort.PortCfg.I2Cdev = Dev;
+            CVControls[i].CVPort.PortCfg.CommI2C = E_OP_SC_CV;
+            CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_SC_CV_SLEW;
+            CVControls[i].Slider.PortCfg.I2CChannel = i+1;
+        }
+        break;
+    case JF_ADDR:
+        DP("Init Default Just Friends Config");
+        CVControls[0].Config.CommI2C = E_OP_JF_NOTE; // First Bank sends Note ON/Off
+        CVControls[0].Config.UseMIDII2C = true;
+        for (size_t i = 1; i < 7; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_JF_VTR+i;
+            CVControls[i].Slider.PortCfg.I2CChannel = i;
+        }
+        CVControls[7].GateBut.PortCfg.I2Cdev = Dev;
+        CVControls[7].GateBut.PortCfg.CommI2C = E_OP_JF_TR;
+        CVControls[7].GateBut.PortCfg.I2CChannel = 7;
+        CVControls[7].GateBut.PortCfg.UseMIDII2C = true;
+        CVControls[7].Slider.PortCfg.I2Cdev = Dev;
+        CVControls[7].Slider.PortCfg.CommI2C = E_OP_JF_VOX;
+        CVControls[7].Slider.PortCfg.I2CChannel = 7;
+        CVControls[7].Slider.PortCfg.UseMIDII2C = true;
+        break;
+    case TELEXO:
+        DP("Init Default TxO Config");
+        for (size_t i = 0; i < 8; i++)
+        {
+            CVControls[i].GateBut.PortCfg.I2Cdev = Dev;
+            CVControls[i].GateBut.PortCfg.CommI2C = E_OP_TO_TR;
+            CVControls[i].GateBut.PortCfg.I2CChannel = i+1;
+            CVControls[i].CVPort.PortCfg.I2Cdev = Dev;
+            CVControls[i].CVPort.PortCfg.CommI2C = E_OP_TO_CV;
+            CVControls[i].CVPort.PortCfg.I2CChannel = i+1;
+            CVControls[i].Slider.PortCfg.I2Cdev = Dev;
+            CVControls[i].Slider.PortCfg.CommI2C = E_OP_TO_CV_SLEW;
+            CVControls[i].Slider.PortCfg.I2CChannel = i+1;
+        }
+        break;
+    default:
+        break;
     }
 }
+
+
+void I2Cmerger::begin(void)
+{
+    I2CCore.ProcessInput = I2Cmerger::ProcessInput;
+    I2CCore.begin(I2C_SDA,I2C_SCL);
+}
+
+
+
+uint16_t I2Cmerger::ProcessInput(I2CMessage *pMsg)
+{
+    uint16_t retval = NOMSGLEN;
+    if(pMsg->Bank==0){ // General Command
+        return retval;
+    } else if( pMsg->I2CCommand==0){ // Command for Bank
+        return retval;
+    } else { // Command for Port
+        // TODO Process command
+        // Send Port Command
+        InputPort *pPort = theApp.GetPort(pMsg->Destination-1, pMsg->I2CCommand);
+        retval = pPort->PortValue;
+    }
+    return retval;
+}
+
 
 bool I2Cmerger::poll(void)
 {
     // Send I2C
     //if( I2COutput && IsMaster() && CalTimer==0) sendI2C ();
-    if( I2COutput && IsMaster() ) sendI2C ();
+    if( I2CCore.IsOutputActive() && IsMaster() ) sendI2C ();
     // Receive I2C
-    if( I2CInput && IsMaster()) readI2C (); 
+    if( I2CCore.IsInputActive() && IsMaster()) readI2C (); 
 
     #ifdef PRINTDEBUG
-    if( InMsg.Length !=NOMSGLEN && !IsMaster())
+    if( I2CCore.InMsg.Length !=NOMSGLEN && !IsMaster())
     {
-        Serial.printf("Received %d:",InMsg.Length);
+        Serial.printf("Received %d:", I2CCore.InMsg.Length);
         //Serial.println((char*)InMsg.dataRaw);
-        printI2CData(VCMC0, InMsg.dataRaw, InMsg.Length);
-        InMsg.Length = NOMSGLEN;
+        I2CCore.printI2CData(VCMC0, I2CCore.InMsg.dataRaw, I2CCore.InMsg.Length);
+        I2CCore.InMsg.Length = NOMSGLEN;
     }
     #endif
 
     return true;
 }
 
-const tele_op_t *I2Cmerger::getTeleOp(uint16_t Comm){
-    return tele_ops[Comm];
-}
-
-bool I2Cmerger::TeleOpUseChanInfo(uint16_t Comm){
-    if(Comm>=E_OP_JF_TR && Comm<=E_OP_JF_QT)
-        return tele_opsJFChan[Comm - E_OP_JF_TR];
-
-    return true;
-}
 
 #endif
 

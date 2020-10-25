@@ -71,7 +71,7 @@ public:
     #ifdef USEI2C
     I2Cmerger I2CMerge;             ///< Control I2C inputs / outputs
     #endif
-
+   
     ///@}
 
 public:

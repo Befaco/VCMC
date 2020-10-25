@@ -93,13 +93,12 @@
 #endif
 #ifdef USEI2C
 
-//#define tele_ii_tx theApp.I2CMerge.SendI2CdataLeader
-//#define tele_ii_rx theApp.I2CMerge.ReadI2CLeader
 extern void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l);
 extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
-#include "src/ops/ops/ops.h"
+#include "src/ops/ops.h"
 #include "vcmcop.h"
-#include "I2CDevice.h"
+#include "src/ops/I2CDevice.h"
+#include "src/ops/I2CCore.h"
 #include "I2CMerge.h"
 #endif
 
@@ -116,7 +115,6 @@ extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
 #include "VCMCApp.h"
 #include "MenuLists.h"
 #include "ParTypeMap.h"
-#include "I2CSendRec.h"
 #include "ParTypeMap.h"
 
 /** @} */

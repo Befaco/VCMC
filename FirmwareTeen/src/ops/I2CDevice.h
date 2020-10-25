@@ -37,6 +37,10 @@
  *  \brief 
  */
 
+#ifndef USEI2C // If you arrived here, I2C is clearly desired
+#define USEI2C
+#endif 
+
 class I2CDevice{
 public:
     uint8_t I2Cid;  // I2C device number as defined in ii.h
@@ -64,20 +68,22 @@ public:
         //D(Serial.printf("Device %s:%d added\n", pDev->sName, pDev->I2Cid));
         return pDev->I2Cid;
     }
-    void InitDefault(uint8_t Dev);
+    
     void addBaseDevices(void);
     uint8_t getCount(void) { return countDev; }
-    I2CDevice *getDeviceAtPos(uint8_t pos) { 
+    I2CDevice *getDeviceAtPos(uint8_t pos) { // Based on Device position on list
         if(pos<countDev) return pDevices[mapDev[pos]];
         else return NULL;
         }
-    I2CDevice *getDevice(uint8_t pos) { 
-        return pDevices[pos];
+    I2CDevice *getDevice(uint8_t opID) { // Based on Device I2C operator
+        return pDevices[opID];
         }
 };
 
 #define LASTDEVICE 0xFF
 #define NO_I2CDEVICE 0
+const uint16_t E_NOI2CFUNC = 0x3FF;
+
 extern I2CDevice listDevices[];
 
 
