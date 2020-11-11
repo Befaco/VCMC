@@ -76,8 +76,8 @@ If you are updating your module from a previous version, data structure will not
 
 - RunTeensy uploader and load hex file. Press teensy button to begin transfer... Make sure Module is plugged in.
 
-If you are getting  File too long error message in teensy loader, it might be due to the app not detecting what Teensy its connected to.
-Thisis a known issue with teensy and its OS dependant. Pressing the button on the teensy (back of the module) will override this message and begin the upload. 
+If you are getting  File too long error message in teensy loader, it might be due to the app not detecting what version of Teensy it is connected to.
+This is a known issue with teensy and it is OS dependant. Pressing the button on the teensy (back of the module) will override this message and begin the upload. 
 
 ## Uploading the firmware from source code
 
