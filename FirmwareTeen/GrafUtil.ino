@@ -454,8 +454,12 @@ boolean OLEDMenu::EncoderPopupMsg(const char *title, unsigned long milTime, uint
 	if (PopupUseBMP)
 		theOLED->drawBitmap(PopupBMPXpos, PopupBMPYpos, PopupBMPInfo, PopupBMPXWidth, PopupBMPYWidth, PopupBMPColor);
 
-	theOLED->display();
-
+	//theOLED->display();
+    if (micros () - myMenu.disptimer > REFRESH_RATE) {
+        theOLED->display ();
+        myMenu.disptimer = micros ();
+    }
+	
 	// If button pressed (LOW input), or finish time reached finish
 	if (EncButton->rose() || millis() > Inittime + milTime)
 	{

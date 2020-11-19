@@ -291,7 +291,8 @@ void OLEDMenu::displayMenu () {
             disptimer2 = microsdisp;
         }
 
-    } else{
+    } else
+    {
         if (microsdisp - disptimer3 >= REFRESH_RATE) {
             updatingText = true;
             updateText = -1;
@@ -347,7 +348,8 @@ void OLEDMenu::displayMenuListLines () {
         theOLED->drawLine (MenuPosX, MenuPosY + 8, MenuPosX + 14 * 6, MenuPosY + 8, WHITE);
         //updateText++;
         updateText = firstVisibleLine;
-    } else {
+    }
+    else {
         theOLED->setTextSize (1);
 
         int limit = (MaxLines + firstVisibleLine < currentMenu->getSize ()) ? MaxLines + firstVisibleLine :
@@ -385,12 +387,14 @@ void OLEDMenu::displayMenuListLines () {
     //if (!showPopUp) theOLED->display ();
 }
 
+
 #ifdef DEBUGMODE
-extern unsigned long  clicktimer2, clicktimer3,
-    avgtimer2, avgtimer , maxtimer, mintimer;
-extern int count, count2, count3;
+unsigned long  clicktimer2, clicktimer3,
+	avgtimer2 = 500, avgtimer = 8000, maxtimer = 0, mintimer = 999999999;
+ int count = 0, count2 = 0, count3 = 0;
 //char Buf[80];
 #endif
+
 
 /**
  * \brief Performance Display one item at a time

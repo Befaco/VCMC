@@ -85,9 +85,7 @@ void loop () {
         #endif
     }
 
-    #ifdef DEBUGMODE
-        beginDebugTimers ();
-    #endif
+
     // Update the menu
     if (gotoGloblaMenu) {
         gotoMenuGlobalCfg ();
@@ -97,14 +95,23 @@ void loop () {
         myMenu.displayMenu ();
     } else
         myMenu.doMenu ();
-    #ifdef DEBUGMODE
-        endDebugTimers ();
-    #endif
+
  
     // Refresh the screen every REFRESH_RATE usec
-    if (micros () - myMenu.disptimer > REFRESH_RATE) {
+    uint32_t now = micros();
+
+    if (now - myMenu.disptimer > REFRESH_RATE) {
+    #ifdef DEBUGMODE
+        beginDebugTimers ();
+    #endif
         theOLED->display ();
-        myMenu.disptimer = micros ();
+    #ifdef DEBUGMODE
+        endDebugTimers ();
+    #endif        
+    uint32_t after = micros();
+        //if(now%5==1)
+        //    Serial.println( after - now);
+        myMenu.disptimer = after;
     }
 
     // Refresh MIDI stream

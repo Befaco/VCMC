@@ -69,8 +69,9 @@ MenuItem GlobalCalList[] = {
     {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
+    {"FREQUENCY", FreqMeas, 1},
     {"GLOBAL CAL", NULL, 1}};
-MenuList listGlobalCal(GlobalCalList, 8, ListLines);
+MenuList listGlobalCal(GlobalCalList, 9, ListLines);
 
 // Received SysEx Menu
 MenuItem RecSysExList[3] = {

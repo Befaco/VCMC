@@ -35,6 +35,11 @@
  * \brief Main App declarations
  */
 
+// Interrput handling definitions
+extern volatile bool servicingPorts;
+void timerIsr();
+void servicePorts();
+
 //#define DEPR_CONS
 /// Main Class for the VCMC Application
 class VCMCApp
@@ -61,7 +66,11 @@ public:
     #ifdef DEPR_CONS
         Adafruit_SSD1306 disp;    ///< Display
     #else
+        #ifdef ST3375SCR
+        ST7735_t3 *disp;
+        #else
         Adafruit_SSD1306 *disp;    ///< Display
+        #endif
     #endif
     SaveLoadClass FlashAcc; ///< Save/Load to EEPROM, SYSEX and OSC
     Bounce *pEncButt;       ///< Encoder Button handler
@@ -86,13 +95,20 @@ public:
 
     #ifdef DEPR_CONS
     #else
+    #ifdef ST3375SCR
+        disp = new ST7735_t3(OLED_CS, OLED_DC, 11, 14, OLED_RESET);
+    #else
         SPI.begin();
         // Moce SCK from pin 13 to pin 14
         SPI.setSCK(14);
         disp= new Adafruit_SSD1306(128, 64, &SPI, OLED_DC, OLED_RESET, OLED_CS);
     #endif
+    #endif
     }
     void setup(void);
+    void beginPortsTimer(){ PortsTimer.begin(servicePorts, TIMERINTSERVICE);}
+    void stopPortsTimer(){ PortsTimer.end();}
+
     void ApplyFilters(){
         for (int i = 0; i < NUMCHAN-1;i++){
             Controls[i].Slider.setFilter(theGlobalCfg.filterFader, theGlobalCfg.ActThrFader);
@@ -114,7 +130,11 @@ public:
     int16_t getInitAuxBMinDAC() { return theGlobalCfg.AuxBMinDAC; }     ///< Return the global config minimum DAC value for Aux B
     int16_t getInitAuxBRangeDAC() { return theGlobalCfg.AuxBRangeDAC; } ///< Return the global config minimum DAC range for Aux B
     SaveLoadClass *getFlashAccess() { return &FlashAcc; }
-    Adafruit_SSD1306 *getDisplay() { 
+    #ifdef ST3375SCR
+    ST7735_t3 *getDisplay(){
+    #else
+    Adafruit_SSD1306 *getDisplay() {
+    #endif
         #ifdef DEPR_CONS
             return &disp;
         #else
@@ -133,10 +153,6 @@ private:
     void initADC(void);
 };
 
-// Interrput handling definitions
-extern volatile bool servicingPorts;
-void timerIsr();
-void servicePorts();
 // Main object definition
 extern VCMCApp theApp;
 

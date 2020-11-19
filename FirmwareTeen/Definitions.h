@@ -48,6 +48,8 @@
 #define D(x)
 #define DP(x)
 #endif
+
+
 #define USEREADINTERR       /// Define to use interrupts for port reading
 #define READANGINT          /// Read analog ports using interrupts
 #define FILTEREDANAGINPUT   /// Filter analog inputs
@@ -59,10 +61,11 @@ const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports ser
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1
 #endif
-//#define CVTHING 1
+#define CVTHING 1
 //#define USEOSC
 //#define USECONFIGOSC
 #define USEI2C
+//#define ST3375SCR
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
@@ -98,8 +101,8 @@ const uint8_t PINLED[] = { 16, 16, 16, 16, 16, 16, 16, 16, 16 };
 const uint8_t OLED_DC = 9;
 const uint8_t OLED_CS = 10;
 const uint8_t OLED_RESET = 8;
-const uint8_t MOSI_PIN = 11;
-const uint8_t SCK_PIN = 14;
+const uint8_t MOSI_PIN_1 = 11;
+const uint8_t SCK_PIN_1 = 14;
 const uint8_t I2C_SDA = 18;
 const uint8_t I2C_SCL = 19;
 #else
@@ -121,8 +124,8 @@ const uint8_t PINLED[] = {22, 21, 20, 19, 17, 16, 15, 13, 0 };//13, 13, 13 };
 const uint8_t OLED_DC = 9;
 const uint8_t OLED_CS = 10;
 const uint8_t OLED_RESET = 8;
-const uint8_t MOSI_PIN = 11;
-const uint8_t SCK_PIN = 14;
+const uint8_t MOSI_PIN_1 = 11;
+const uint8_t SCK_PIN_1 = 14;
 const uint8_t I2C_SDA = 30;
 const uint8_t I2C_SCL = 29;
 ///@}
@@ -141,7 +144,7 @@ const int16_t COLUMNW = 8;
 /// Divider from input clacks to MIDI clicks
 #define INPUTCLKDIVIDER 6
 /// Calibration modes
-typedef enum { NoCalMode, MatrixCalMode, SetRangeMode, TwoPointCalMode, FadersCalMode, SetClockMode } CalModes;
+typedef enum { NoCalMode, MatrixCalMode, SetRangeMode, TwoPointCalMode, FadersCalMode, SetClockMode, FreqMeasure } CalModes;
 
 /// Screen refresh rates
 const uint32_t REFRESH_RATE  = 30000;	  /// Refresh screen portion every REFRESH_RATE usec

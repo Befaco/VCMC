@@ -123,9 +123,6 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
             //                buf, sizeTypes[pDataStr[i].Type]));
         }
         return (int)buf-Initbuf;
-        //LentoCopy = sizeof(PortCfg);
-        //memcpy(&PortCfg, buf, LentoCopy);
-        //break;
     case PAR_MIDIChannel:
         PortCfg.MIDIChannel = *buf;
         return buLen;

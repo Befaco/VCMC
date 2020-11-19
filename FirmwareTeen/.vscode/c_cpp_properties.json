@@ -6,8 +6,8 @@
         "D:/apl/Arduino/hardware/teensy/avr/cores/teensy3/**",
         "D:/apl/Arduino/hardware/teensy/avr/libraries/**",
         "D:/apl/Arduino/libraries/**",
-                "C:/Users/sergi/Documents/Arduino/libraries/**",
-                "C:/Users/sergi/Documents/Arduino/libraries/Adafruit_GFX_Library"
+        "C:/Users/sergi/Documents/Arduino/libraries/**",
+        "C:/Users/sergi/Documents/Arduino/libraries/Adafruit_GFX_Library"
       ],
       "forcedInclude": [
         "D:/apl/Arduino/hardware/teensy/avr/cores/teensy3/arduino.h"
@@ -21,7 +21,7 @@
         "ARDUINO"
       ],
       "compilerPath": "D:/apl/Arduino/hardware/tools/arm/bin/arm-none-eabi-gcc.exe",
-      "intelliSenseMode": "gcc-x64"
+      "intelliSenseMode": "gcc-arm"
     }
   ],
   "version": 4

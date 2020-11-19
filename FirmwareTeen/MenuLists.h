@@ -123,15 +123,17 @@ boolean CalibrateCV();
 boolean AuxATwoPointsCal();
 boolean AuxBTwoPointsCal();
 boolean FadersCal();
+// Defined on FreqMeasure
+boolean FreqMeas();
 // Defined on setValues
 boolean LoadPreset();
 // Defined on GrafUtil
 void padvalue(long value, char *outBuf, int padPos);
 
 #ifdef DEBUGMODE
-unsigned long clicktimer2, clicktimer3,
-	avgtimer2 = 500, avgtimer = 8000, maxtimer = 0, mintimer = 999999999;
-int count = 0, count2 = 0, count3 = 0;
+extern unsigned long clicktimer2, clicktimer3,
+    avgtimer2, avgtimer , maxtimer, mintimer;
+extern int count, count2, count3;
 void beginDebugTimers(void);
 void endDebugTimers(void);
 #endif // DEBUGMODE

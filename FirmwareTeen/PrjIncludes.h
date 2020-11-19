@@ -37,8 +37,21 @@
  *  \brief Includes for the project come here 
  */
 
+#include <Arduino.h>
+#include "Definitions.h"
+
 #include <Adafruit_GFX.h>
+#ifdef ST3375SCR
+#include <ST7735_t3.h>
+#define display() updateScreen()
+#define dim(dimStatus) setCursor(0,0)
+// Color definitions
+#define BLACK ST7735_BLACK
+#define WHITE ST7735_WHITE
+#else
 #include <Adafruit_SSD1306.h>
+#endif
+
 #include <SPI.h>
 #include <Wire.h>
 #include <limits.h>
@@ -50,7 +63,6 @@
 #include <ADC.h>
 #include <ResponsiveAnalogRead.h>
 
-#include "Definitions.h"
 
 #include "DefStrings.h"
 

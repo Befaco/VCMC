@@ -102,7 +102,7 @@ void VCMCApp::setup(void)
 #endif
 // Ports reading interrupt
 #ifdef USEREADINTERR
-    PortsTimer.begin(servicePorts, TIMERINTSERVICE);
+    beginPortsTimer();
 #endif
 
     // Init Menu
@@ -153,13 +153,27 @@ void VCMCApp::initControls(void)
  *  \brief Init the SSD1306 display
  *
  */
+#ifdef ST3375SCR
+#define RGB(r,g,b) (b<<11|g<<6|r)
+//uint16_t ScrBuf[160 * 80];
+#endif
 void VCMCApp::initdisplay(void)
 {
+    #ifdef ST3375SCR
+    theOLED->initR(INITR_MINI160x80_ST7735S);
+    theOLED->setRotation(3);
+    theOLED->setTextWrap(false);
+    theOLED->setTextColor(RGB(31,31,31), RGB(0,0,0));
+    theOLED->setCursor(0, 0);
+    //theOLED->setFrameBuffer(ScrBuf);
+    if(!theOLED->useFrameBuffer(true))
+        Serial.println("Error allocating buffer memory");
+#else
     // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
     theOLED->begin(SSD1306_SWITCHCAPVCC);
     SPI.begin();
     // Moce SCK from pin 13 to pin 14
-    SPI.setSCK(14);
+    SPI.setSCK(SCK_PIN_1);
     // Set SPI speed
     SPI.setClockDivider(SPI_CLOCK_DIV2); // 2.25  MHz
 
@@ -204,6 +218,8 @@ void VCMCApp::initdisplay(void)
     theOLED->clearDisplay();
     theOLED->setTextWrap(false);
     theOLED->setTextColor(WHITE, BLACK);
+
+    #endif
 }
 
 /**
