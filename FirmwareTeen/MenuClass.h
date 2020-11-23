@@ -22,12 +22,28 @@
 
 typedef boolean (*Item_Function)();
 
-/*const */typedef struct MenuItem_t {
+/**
+ * \brief Defines variables for a new Menu
+ * 
+ * \param name Variable name to use for the menu
+ * \param title Menu header (title)
+ * \param style one of MenuListStyles enum
+ * \param ItList menu collection of comma separated MenuItem
+ *
+*/
+#define DEF_MENULIST(name, title, style, ItList...) \
+	MenuItem name##List[]{                          \
+		ItList,                                     \
+		{#title, NULL, 1}};                         \
+	MenuList name(name##List, sizeof(name##List) / sizeof(MenuItem)-1, style);
+
+
+
+typedef struct MenuItem_t {
  char text[16];
  Item_Function func;
  byte Status; // Use for enable/disable option. This function is not used in the base MenuList class and should be implemented on derived classes
 } MenuItem;
-
 
 enum MenuListStyles{
 	ListLines, // Classical menu with several options shown at the same time

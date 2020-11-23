@@ -42,9 +42,9 @@
 // Menu Definition and menu response functions
 // Defined on MenuMain
 extern MenuList list1;
-extern MenuList listGlobal;
-extern MenuList listGlobalCal;
-extern MenuList listLoadSysEx;
+extern MenuList mGlobalConfig;
+extern MenuList mGlobalCal;
+extern MenuList mRecSysEx;
 extern MenuList ListBankSaveSel;
 extern MenuList ListBankLoadSel;
 extern MenuList ListFactReset;

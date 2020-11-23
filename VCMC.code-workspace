@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "FirmwareTeen"
+		},
+		{
+			"path": "..\\monome\\teletype"
 		}
 	],
 	"settings": {

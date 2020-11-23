@@ -45,7 +45,7 @@ MenuItem firstList[3] = {
 MenuList list1(firstList, 2, ListCards); // (Nombre lista, numero items, Tipo de item)
 
 // global config menu. enters Button+encoder
-MenuItem GlobalconfigList[] = {
+DEF_MENULIST(mGlobalConfig, GLOBAL CFG ,ListLinesSimple,
     {"<-BACK", gotoMenuSettings, 1},
     {"PANIC", PanicFn, 1},
     {"FACTORY RST", gotoListFactReset, 1},
@@ -56,11 +56,11 @@ MenuItem GlobalconfigList[] = {
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
-    {"I2C Menu", selectGlobalI2CMenu, 1},
-    {" GLOBAL CFG ", NULL, 1}};
-MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
+    {"I2C Menu", selectGlobalI2CMenu, 1}
+    )
 
-MenuItem GlobalCalList[] = {
+
+DEF_MENULIST(mGlobalCal,GLOBAL CAL,ListLines,
     {"<-BACK", gotoMenuSettings, 1},
     {"MATRIX CAL", CalibrateCV, 0},       //Global config?
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
@@ -69,16 +69,13 @@ MenuItem GlobalCalList[] = {
     {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
-    {"FREQUENCY", FreqMeas, 1},
-    {"GLOBAL CAL", NULL, 1}};
-MenuList listGlobalCal(GlobalCalList, 9, ListLines);
+    {"FREQUENCY", FreqMeas, 1}
+    )
 
 // Received SysEx Menu
-MenuItem RecSysExList[3] = {
+DEF_MENULIST(mRecSysEx,RECEIVED SYSEX,ListLinesSimple,
     {"DISCARD", gotoMenuSettings, 1},
-    {"LOAD SYSEX", SelectSysExLoadPage, 1},
-    {"RECEIVED SYSEX", NULL, 1}};
-MenuList listLoadSysEx(RecSysExList, 2, ListLinesSimple);
+    {"LOAD SYSEX", SelectSysExLoadPage, 1})
 
 // Save Config Menu
 MenuItem BankSaveSelList[] = {
@@ -143,17 +140,17 @@ boolean gotoMenuGlobalCfg()
     fullCVDisplay = false;
     if (AutoCal)
     {
-        listGlobal.enableItem(8);
+        mGlobalConfig.enableItem(8);
         GlobalCalEnabled = true;
     }
     else
     {
-        listGlobal.disableItem(8);
+        mGlobalConfig.disableItem(8);
         //GlobalCalEnabled = false;
     }
     if (durationButton != 1)
         myMenu.ClearArea();
-    myMenu.setCurrentMenu(&listGlobal);
+    myMenu.setCurrentMenu(&mGlobalConfig);
     if (!EncButton->rose())
         return false;
     EncButton->update();
@@ -164,13 +161,13 @@ boolean gotoMenuGlobalCfg()
 boolean gotoMenuGlobalCal()
 {
     #ifdef CVTHING
-    listGlobalCal.disableItem(3);
-    listGlobalCal.disableItem(4);
-    listGlobalCal.disableItem(5);
+    mGlobalCal.disableItem(3);
+    mGlobalCal.disableItem(4);
+    mGlobalCal.disableItem(5);
     #endif
     
     myMenu.ClearArea();
-    myMenu.setCurrentMenu(&listGlobalCal);
+    myMenu.setCurrentMenu(&mGlobalCal);
     return true;
 }
 

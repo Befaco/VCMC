@@ -112,11 +112,11 @@ bool MIDImerger::poll (void) {
     if (FlashAccess->IsSysExRecComplete () && MidiMerge.tagProcessSysex == 0) {
         if (MidiMerge.tagProcessSysex == 0) {
             myMenu.ClearArea ();
-            myMenu.setCurrentMenu (&listLoadSysEx);
+            myMenu.setCurrentMenu (&mRecSysEx);
             MidiMerge.tagProcessSysex = 1;
         }
         // SetMessageText( "SysEx Config Received!");
-        //&& myMenu.currentMenu!=&listLoadSysEx
+        //&& myMenu.currentMenu!=&mRecSysEx
     }
 
     switch (type) {
