@@ -109,7 +109,7 @@ MenuItem AnagFnList[] = {
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}
     };
-MenuList listAnagFn(AnagFnList, 14, ListLines);
+MenuList listAnagFn(AnagFnList, 15, ListLines);
 
 MenuItem AnagFnList2[] = {
     {"<-BACK", SelectFaderConfig, 1},

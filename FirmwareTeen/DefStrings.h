@@ -82,9 +82,9 @@ const char CreditText[] =
 const char CreditText[] =
 	"                    "
 	"                    "
+	"                    "
 	"        VCMC        "
 	"     v1.2.2 Dev     "
-	"                    "
 	"   www.befaco.org";
 #endif
 
