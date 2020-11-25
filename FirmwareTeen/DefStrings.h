@@ -76,16 +76,16 @@ const char CreditText[] =
 	"                    "
 	"                    "
 	"      CV Thing      "
-	"       v1.2.2       "
+	"       v1.2.3       "
 	"   www.befaco.org";
 #else
 const char CreditText[] =
 	"                    "
 	"                    "
 	"                    "
-	"    VCMC v1.2.2     "
-	"                    "
-	"   www.befaco.org";
+	"        VCMC        "
+	"       v1.2.2       "
+	"   www.befaco.org   ";
 #endif
 
 /// Credits graph 128x24 pixels
