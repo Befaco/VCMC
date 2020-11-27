@@ -52,6 +52,7 @@ MenuItem DigFnList[] = {
     {"CC LATCH", SelectButCCLATCH, 1},
     {"CLOCK", SelectButClock, 1},
     {"ST/SP", SelectGatSTSPFn, 1}, // Antes SelectButStartStop
+    {"CHORD", SelectChord, 1},
     {"PANIC", SelectGatePanic, 1},
     {"NO FUNCTION", SelectNoDifFunc, 1},
     {" GATE FUNCTION ", NULL, 1} // the algorithm
@@ -154,6 +155,9 @@ boolean SelectGain () {
 // Gate Config Functions
 boolean SelectGateFn()
 {
+    if (BankSelected != 7) listButFn.disableItem(7);
+    else listButFn.enableItem(7);
+    
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listButFn);
     return true;
@@ -339,6 +343,17 @@ boolean SelectGateCont()
 boolean SelectGateStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATESTOP);
+    SelectGateConfig();
+    return true;
+}
+
+boolean SelectChord()
+{
+    ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORD);
+    // Set banks 4, 5, 6, 7 to V/Oct input.
+    for (int i=4; i < 7; i++) {
+     CVControls[i].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+    }
     SelectGateConfig();
     return true;
 }

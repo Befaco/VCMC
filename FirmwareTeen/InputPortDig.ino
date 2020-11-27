@@ -167,6 +167,7 @@ void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
     switch (PortCfg.MIDIfunction) {
     case TRIGGER:
     case LATCH:
+    case CHORD:
         break;
     case CCLATCH:
     case CCBUT:

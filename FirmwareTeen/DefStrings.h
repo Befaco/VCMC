@@ -63,7 +63,7 @@ const char *PortFuncStr[] = {
 /// Digital Functions names
 const char *PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", 
 	"ST/SP", "CNT/SP", "ST/SP Lt", "CNT/SP Lt", "Start", "Stop", "Continue",
-	"Panic","No Func", "Poly"};
+	"Panic","No Func", "Poly", "Chord" };
 /// MIDI Clock multiplier texts
 const char *ClokShiftTxt[] = { "x32", "x16", "x08", "x04", "x02", "x01", "/02", "/04", "/08", "/16", "/32"};
 /// MIDI Clock multiplier texts
@@ -76,14 +76,14 @@ const char CreditText[] =
 	"                    "
 	"                    "
 	"      CV Thing      "
-	"       v1.2.2       "
+	"       v1.2.3       "
 	"   www.befaco.org";
 #else
 const char CreditText[] =
 	"                    "
 	"                    "
 	"                    "
-	"    VCMC v1.2.2     "
+	"    VCMC v1.2.3     "
 	"                    "
 	"   www.befaco.org";
 #endif
