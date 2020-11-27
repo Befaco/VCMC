@@ -1,4 +1,6 @@
-# VCMC v1.2.3 / CV Thing v1.2.3
+# VCMC v1.2.3 / CV Thing v1.2.3 Chords Branch
+This Branch is the Work in progress of Chords feature by Tony Fleig.
+
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
 This code will work in any hardware revision from PCB v1
