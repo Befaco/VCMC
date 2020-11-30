@@ -184,7 +184,7 @@ void InputControl::OnDataChange (void) {
 				boolean played = false;
 				if (Config.Chanfunction != INDEP) {
                     // If SUM or MULTIP send result through CV channel if it has the trigger option
-                    if (CVPort.PortCfg.MIDIfunction == TRIGGER) {
+                    if (CVPort.PortCfg.MIDIfunction == TRIGGER || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) {
                         byte datatosend = CVPort.TrimValue (SendData);
 						if( CVPort.LastSentMIDIData>0){ // sendNoteOff previous note
 							sendNoteOff (GateBut.MIDIData, 0, CVPort.PortCfg.MIDIChannel);
@@ -230,7 +230,7 @@ void InputControl::OnDataChange (void) {
 				boolean played = false;
                 // If SUM or MULTIP send result through CV channel if it has the trigger option
                 if (Config.Chanfunction != INDEP) {
-                    if (CVPort.PortCfg.MIDIfunction == TRIGGER){
+                    if (CVPort.PortCfg.MIDIfunction == TRIGGER || CVPort.PortCfg.MIDIfunction == PITCH8TRIG){
                         sendNoteOff (CVPort.LastSentMIDIData, 0, CVPort.PortCfg.MIDIChannel);
 						CVPort.LastSentMIDIData=0;
 						played = true;
