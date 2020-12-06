@@ -85,6 +85,7 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
     case ANAGLATCH:  
     case PITCHTRIG:
     case PITCH:
+    case CHORD:
 	case PITCHLEVEL:
 	case PITCH8TRIG:
         if (getInputRange()==MINUSPLUS5V) {
@@ -155,6 +156,7 @@ boolean AnInputPortCfg::IsDigitalFunc(void){
   switch (MIDIfunction) {
     case PITCHTRIG:
     case PITCH:
+    case CHORD:  
 	case PITCH8TRIG:
     case VELOCITY:
     case CONTROLCHANGE:
@@ -178,7 +180,7 @@ boolean AnInputPortCfg::IsDigitalFunc(void){
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case ANAGTRIGGER:
-    case ANAGLATCH:  
+    case ANAGLATCH:
         return true;
 	}
     return false;
@@ -194,6 +196,7 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
     case PITCHTRIG:
 	case PITCHLEVEL:
 	case PITCH8TRIG:
+  case CHORD:
     case PITCH:
         if (getInputRange()==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
         #ifndef CVTHING
@@ -498,4 +501,3 @@ int GlobalCfg::LoadCfg (/*int addr*/) {
 
 
 /**@}*/
-

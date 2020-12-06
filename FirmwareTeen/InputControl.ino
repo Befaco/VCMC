@@ -189,6 +189,60 @@ void InputControl::SendLastNoteOff(byte controlNumber, InputPort& port, byte cha
   }
 }
 
+// This table is used to determine the Ionian modal chord notes as offsets from the key's root note.
+byte scaleChords[12][4] = {
+  { 0, 4, 7, 11 },
+  { 0, 0, 0, 0 }, // not in key (the next array element wil be used)
+  { 0, 3, 7, 10 },
+  { 0, 0, 0, 0 },
+  { 0, 3, 7, 10 },
+  { 0, 4, 7, 11 },
+  { 0, 0, 0, 0 },
+  { 0, 4, 7, 10 },
+  { 0, 0, 0, 0 },
+  { 0, 3, 7, 10 },
+  { 0, 0, 0, 0 },
+  { 0, 3, 6, 10 }
+};
+
+// This table contains the offsets of the notes in the modal chord from the scaleChords table for
+// the supported inversions, voicings, and combinations thereof.
+int invdrop[12][4] = {
+  { 0, 0, 0, 0 },     // root (close voicing)
+  { 12, 0, 0, 0 },    // 1st inv
+  { 12, 12, 0, 0 },   // 2nd inv
+  { 0, 0, 0, -12 },   // 3rd inv
+
+  { 0, 0, -12, 0 },   // root drop 2
+  { 12, 0, 0, -12 },  // 1st inv drop 2
+  { 0, 12, 0, 0 },    // 2nd inv drop 2
+  { 12, 0, 12, 0 },   // 3rd inv drop 2
+
+  { 0, -12, 0, 0 },   // root drop 3
+  { 12, 0, -12, 0 },  // 1st inv drop 3
+  { 12, 12, 0, -12 }, // 2nd inv drop 3
+  { 0, 12, 12, 0  }   // 3rd inv drop 3
+};
+
+
+#ifdef __arm__
+// should use uinstd.h to define sbrk but Due causes a conflict
+extern "C" char* sbrk(int incr);
+#else  // __ARM__
+extern char *__brkval;
+#endif  // __arm__
+
+int freeMemory() {
+  char top;
+#ifdef __arm__
+  return &top - reinterpret_cast<char*>(sbrk(0));
+#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+  return &top - __brkval;
+#else  // __arm__
+  return __brkval ? &top - __brkval : &top - __malloc_heap_start;
+#endif  // __arm__
+}
+
 /**
     \brief Provides functionality when inputs or gate change
 
@@ -204,8 +258,6 @@ void InputControl::OnDataChange (void) {
 
   // Gate change management
   if (Gatechanged) {
-    //TF char notename[5] = "";
-
     // In TRIGGER or LATCH send NoteOn/NoteOff with every change on inputs
     if (GateBut.PortCfg.MIDIfunction == TRIGGER || GateBut.PortCfg.MIDIfunction == LATCH) {
       if (GateStat == true) { // Send Note On
@@ -271,41 +323,6 @@ void InputControl::OnDataChange (void) {
 
         const byte FIRSTBLK = 4;
         const byte LASTBLK = 7;
-
-        // This table is used to determine the Ionian modal chord notes as offsets from the key's root note.
-        const byte scaleChords[12][4] = {
-          { 0, 4, 7, 11 },
-          { 0, 0, 0, 0 }, // not in key (will be moved down 1)
-          { 0, 3, 7, 10 },
-          { 0, 0, 0, 0 },
-          { 0, 3, 7, 10 },
-          { 0, 4, 7, 11 },
-          { 0, 0, 0, 0 },
-          { 0, 4, 7, 10 },
-          { 0, 0, 0, 0 },
-          { 0, 3, 7, 10 },
-          { 0, 0, 0, 0 },
-          { 0, 3, 6, 10 }
-        };
-
-        // This table contains the offsets of the notes in the modal chord from the scaleChords table for
-        // the supported inversions, voicings, and combinations thereof.
-        const int invdrop[12][4] = {
-          { 0, 0, 0, 0 },     // root (close voicing)
-          { 12, 0, 0, 0 },    // 1st inv
-          { 12, 12, 0, 0 },   // 2nd inv
-          { 0, 0, 0, -12 },   // 3rd inv
-
-          { 0, 0, -12, 0 },   // root drop 2
-          { 12, 0, 0, -12 },  // 1st inv drop 2
-          { 0, 12, 0, 0 },    // 2nd inv drop 2
-          { 12, 0, 12, 0 },   // 3rd inv drop 2
-
-          { 0, -12, 0, 0 },   // root drop 3
-          { 12, 0, -12, 0 },  // 1st inv drop 3
-          { 12, 12, 0, -12 }, // 2nd inv drop 3
-          { 0, 12, 12, 0  }   // 3rd inv drop 3
-        };
 
         // Get the chord root, key, voicing index, and overall offset from the CV inputs and sliders.
         // Sliders 5 and 6 are scaled so that the travel of the slider covers the complete range of values.
