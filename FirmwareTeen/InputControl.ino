@@ -312,17 +312,21 @@ void InputControl::OnDataChange (void) {
         byte idx = (CVControls[5].CVPort.MIDIData + ((CVControls[5].Slider.MIDIData - 9) / 10)) % 12;
         byte sliderOffset = CVControls[4].CVPort.MIDIData + CVControls[4].Slider.MIDIData;
 
-        // Calculate the modal offsets for the specified root and key.
         byte const* offsets = scaleChords[(root + 12 - key) % 12];
         if (offsets[1] == 0) {
           root--;
           offsets = scaleChords[(root + 12 - key) % 12];
         }
 
-        // Create the chosen chord voicing.
         byte chord[4];
+        // Create the chosen chord voicing.
         for (int i = 0; i < 4; i++) {
-          chord[i] = root + offsets[i] + invdrop[idx][i] + sliderOffset;
+          int note;
+          note = root + offsets[i] + invdrop[idx][i] + sliderOffset;
+          // Adjust out-of-range chord tones to be in range.
+          while (note < 0) note += 12;
+          while (note > 127) note -= 12;
+          chord[i] = note; 
         }
 
         // Send Note On and Note Off for the chord notes. 
