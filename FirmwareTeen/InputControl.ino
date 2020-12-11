@@ -183,7 +183,7 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, in
     \details Send a Note Off for any Note that is stll on on the specified port.
 */
 void InputControl::SendLastNoteOff(byte controlNumber, InputPort& port, byte chan) {
-  if ( port.LastSentMIDIData > 0 ) {
+  if ( port.LastSentMIDIData >= 0 ) {
     MidiMerge.sendNoteOff (port.LastSentMIDIData, 0, chan);
     port.LastSentMIDIData = -999;
   }
