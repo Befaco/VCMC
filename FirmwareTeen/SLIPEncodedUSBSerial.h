@@ -19,6 +19,7 @@ Extends the Serial class to encode SLIP over serial
 
 #include <usb_serial.h>
 
+#ifdef USEOSC
 
 class SLIPEncodedUSBSerial: public Stream{
 	
@@ -59,6 +60,7 @@ public:
 
 };
 
+#endif
 /** @} */
 
 

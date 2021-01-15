@@ -40,7 +40,7 @@
 
 // Configuration flags
 //#define DEBUGMODE  1  /// Define to use Debug screen and messages
-#define PRINTDEBUG  /// Define to send debug messages n Serial port
+//#define PRINTDEBUG  /// Define to send debug messages n Serial port
 #ifdef PRINTDEBUG
 #define D(x) x		/// Shorthand for PRINTDEBUG
 #define DP(x) Serial.println(x)		/// Shorthand for Deug serial print
