@@ -44,9 +44,9 @@
  * \param maxv Maximum value
  * \param inc Increment per encoder step
  * \param DispFunc Function to call to display the value
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderChangeValFloat(float &value, float minv, float maxv, float inc, void (*DispFunc)(long val))
+bool OLEDMenu::EncoderChangeValFloat(float &value, float minv, float maxv, float inc, void (*DispFunc)(long val))
 {
 	if (DispFunc)
 		DispFunc(value);
@@ -83,9 +83,9 @@ boolean OLEDMenu::EncoderChangeValFloat(float &value, float minv, float maxv, fl
  * \param maxv Maximum value
  * \param inc Increment per encoder step
  * \param DispFunc Function to call to display the value
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderChangeVal(long &value, long minv, long maxv, float inc, void (*DispFunc)(long val))
+bool OLEDMenu::EncoderChangeVal(long &value, long minv, long maxv, float inc, void (*DispFunc)(long val))
 {
 	if (DispFunc)
 		DispFunc(value);
@@ -121,9 +121,9 @@ boolean OLEDMenu::EncoderChangeVal(long &value, long minv, long maxv, float inc,
  * \param maxv Maximum value
  * \param padPos Number of digits to show
  * \param outBuf character array for the output of value
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderselDigitVal(long &value, long minv, long maxv, uint16_t padPos, char *outBuf)
+bool OLEDMenu::EncoderselDigitVal(long &value, long minv, long maxv, uint16_t padPos, char *outBuf)
 {
 	valueEncoder += encoder->getValue();
 	char selNumber = outBuf[digSel];
@@ -167,9 +167,9 @@ boolean OLEDMenu::EncoderselDigitVal(long &value, long minv, long maxv, uint16_t
  * \param padPos Number of positions for number
  * \param posx Popuo position X
  * \param posy Popuo position Y
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
+bool OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
 {
 	char outBuf[17];
 
@@ -196,6 +196,35 @@ boolean OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, l
 	return false;
 }
 
+
+bool OLEDMenu::EncoderSelectStr(const char *title, long &value, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
+{
+/* 	char outBuf[17];
+
+	ClearInputArea( title, padPos, posx, posy); // Erase input area
+	DrawInputArea(title, padPos, posx, posy);  // Draw Input area
+
+	//get value string
+	 df((char*)outBuf, value, padPos);
+	// theOLED->display();
+
+	// Read encoder and change the value
+	bool retVal = true;
+	if( digSel==255)
+		retVal = EncoderChangeVal(value, minv, maxv, 1.0, NULL);
+	else
+		retVal = EncoderselDigitVal(value, minv, maxv, padPos, outBuf);
+
+	if (retVal)	{
+		ClearInputArea( title, padPos, posx, posy); // Erase input area
+		digSel = 255;
+		return true;
+	}
+ */
+	return false;
+}
+
+
 /**
  * \brief Change a long value digits indiviadully and show in screen title and value.
  * 
@@ -206,9 +235,9 @@ boolean OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, l
  * \param padPos Number of positions for number
  * \param posx Popuo position X
  * \param posy Popuo position Y
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderselDigitLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
+bool OLEDMenu::EncoderselDigitLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
 {
 	// Change digSel to first character in the value
     if( digSel==255) digSel = padPos-1;
@@ -230,9 +259,9 @@ boolean OLEDMenu::EncoderselDigitLong(const char *title, long &value, long minv,
  * \param padPos Number of positions for string. Memory allocated for string should cover this number of chars plus one for null terminator.
  * \param posx Popuo position X
  * \param posy Popuo position Y
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderselDigitStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy)
+bool OLEDMenu::EncoderselDigitStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy)
 {
 	// Change digSel to first character in the value
     if( digSel==255) {
@@ -263,9 +292,9 @@ boolean OLEDMenu::EncoderselDigitStr(const char *title, char *str, uint16_t padP
  * \param padPos Number of positions for string. Memory allocated for string should cover this number of chars plus one for null terminator.
  * \param posx Popuo position X
  * \param posy Popuo position Y
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderChangeStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy)
+bool OLEDMenu::EncoderChangeStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy)
 {
 
 	ClearInputArea( title, padPos, posx, posy); // Erase input area
@@ -301,10 +330,10 @@ boolean OLEDMenu::EncoderChangeStr(const char *title, char *str, uint16_t padPos
  * 
  * \param str Value to modify
  * \param padPos Number of digits to show
- * \return boolean 
+ * \return bool 
  */
 const uint8_t CONTROLWITHPRESS = 1;
-boolean OLEDMenu::EncoderselStrChar( char *str, uint16_t padPos)
+bool OLEDMenu::EncoderselStrChar( char *str, uint16_t padPos)
 {
 	valueEncoder += encoder->getValue();
 	char selNumber = str[digSel];
@@ -407,9 +436,9 @@ void OLEDMenu::printStrInput(char *outBuf, long value, uint16_t padPos){
  * \param posx Postion X
  * \param posy Postion Y
  * \param xwidth Number of chars per line
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::EncoderPopupMsg(const char *title, unsigned long milTime, uint16_t posx, uint16_t posy, uint8_t xwidth)
+bool OLEDMenu::EncoderPopupMsg(const char *title, unsigned long milTime, uint16_t posx, uint16_t posy, uint8_t xwidth)
 {
 	const uint16_t xMargin = 4, yMargin = 8;
 	uint16_t xW, yW;

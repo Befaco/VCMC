@@ -148,6 +148,7 @@ int DigitalPort::parseFunctionData(uint8_t *buf, int buLen){
     switch(PortCfg.MIDIfunction){
         case TRIGGER:
         case LATCH:
+        case CHORDTRIG:
         case CHORD:
             PortCfg.NoteToSend = *buf;
             return buLen;
@@ -234,6 +235,7 @@ int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
     switch(PortCfg.MIDIfunction){
         case TRIGGER:
         case LATCH:
+        case CHORDTRIG:
         case CHORD:
             *buf = PortCfg.NoteToSend;
             return buLen;

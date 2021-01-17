@@ -1,6 +1,6 @@
 
 /////////////////Original file begins
-
+#ifdef USEOSC
 #include "SLIPEncodedUSBSerial.h"
 
 /** @addtogroup GeneralUtil
@@ -12,7 +12,7 @@
  *  \brief Support for SLIP encoded message input/output
  */
 
-#ifdef USEOSC
+
 /*
  CONSTRUCTOR
  */

@@ -120,6 +120,10 @@ void VCMCApp::initControls(void)
 
         CVControls[i].GateBut.PortCfg.MIDIChannel = 1;
         CVControls[i].GateBut.PortCfg.NoteToSend = 12 + i * 12;
+
+        CVControls[i].Chord.setCallbacks(sendNoteOn, sendNoteOff);
+        CVControls[i].Chord.setScale(Ionian_SCALE);
+        CVControls[i].Chord.setChord(CHORD_15);
     }
     CVControls[0].GateBut.PortCfg.NoteToSend = 60;
     CVControls[1].GateBut.PortCfg.NoteToSend = 62;

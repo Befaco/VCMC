@@ -146,6 +146,7 @@ void OLEDMenu::PrintGateFunction(DigPortCfg *cfgSel)
     switch (cfgSel->MIDIfunction) {
     case TRIGGER:
     case LATCH:
+    case CHORDTRIG:
     case CHORD:
         theOLED->print (cfgSel->NoteToSend);
         break;
@@ -305,6 +306,7 @@ void OLEDMenu::displayGateConfig (int posCursor) {
     switch (SelCfg->MIDIfunction) {
     case TRIGGER:
     case LATCH:
+    case CHORDTRIG:
     case CHORD:
         break;
     case CCLATCH:

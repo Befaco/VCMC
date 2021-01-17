@@ -53,11 +53,12 @@ MenuItem DigFnList[] = {
     {"CLOCK", SelectButClock, 1},
     {"ST/SP", SelectGatSTSPFn, 1}, // Antes SelectButStartStop
     {"CHORD", SelectChord, 1},
+    {"CHORD TR", SelectChordTr, 1},
     {"PANIC", SelectGatePanic, 1},
     {"NO FUNCTION", SelectNoDifFunc, 1},
     {" GATE FUNCTION ", NULL, 1} // the algorithm
 };
-MenuList listButFn(DigFnList, 9, ListLines);
+MenuList listButFn(DigFnList, 10, ListLines);
 
 MenuItem STSPGatFnList[] = {
     {"<-BACK", gotoMenuDig, 1},
@@ -155,7 +156,8 @@ boolean SelectGain () {
 // Gate Config Functions
 boolean SelectGateFn()
 {
-    if (BankSelected != 7) listButFn.disableItem(7);
+    //if (BankSelected != 7) listButFn.disableItem(7);
+    if (BankSelected%4 != 0) listButFn.disableItem(7); // Chords triggered in gates 1 and 5
     else listButFn.enableItem(7);
     
     myMenu.ClearArea();
@@ -349,11 +351,23 @@ boolean SelectGateStop()
 
 boolean SelectChord()
 {
-    ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORD);
-    // Set banks 4, 5, 6, 7 to V/Oct input.
-    for (int i=4; i < 7; i++) {
+    byte FIRSTBLK = (BankSelected==0)?0:4;
+    byte LASTBLK = (BankSelected==0)?3:7;
+    // Set banks 5, 6, 7, 8 to V/Oct input.
+    for (int i=FIRSTBLK; i < LASTBLK; i++) {
      CVControls[i].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+     CVControls[i].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
+     //CVControls[i].GateBut.PortCfg.SetMIDIFunc(CHORD);
     }
+    ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORD);
+    SelectGateConfig();
+    return true;
+}
+
+bool SelectChordTr()
+{
+    CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+    ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDTRIG);
     SelectGateConfig();
     return true;
 }

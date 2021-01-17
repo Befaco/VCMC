@@ -85,9 +85,9 @@ enum typesEnum
     si32TYPE,     // int32_t
     floaTYPE      // float
 };
-uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
+const uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
 
-SysExDataStruct DATA_General[] = {
+static const SysExDataStruct DATA_General[] = {
     {44, ui16TYPE, PAR_Size},
 
     { 4, si32TYPE, PAR_DefMinDAC},
@@ -104,7 +104,7 @@ SysExDataStruct DATA_General[] = {
     {43, si08TYPE, PAR_GENOptions},
 };
 
-SysExDataStruct DATA_Analog[] = {
+static const SysExDataStruct DATA_Analog[] = {
     {24, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -121,7 +121,7 @@ SysExDataStruct DATA_Analog[] = {
     {20, si16TYPE, PAR_ClipHigh},
     {22, ui16TYPE, PAR_FunctionData}};
 
-SysExDataStruct DATA_Fader[] = {
+static const SysExDataStruct DATA_Fader[] = {
     {14, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -135,7 +135,7 @@ SysExDataStruct DATA_Fader[] = {
     {10, si16TYPE, PAR_ClipHigh},
     {12, ui16TYPE, PAR_FunctionData}};
 
-SysExDataStruct DATA_Digital[] = {
+static const SysExDataStruct DATA_Digital[] = {
     { 8, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_GateMIDIChannel},
@@ -146,7 +146,7 @@ SysExDataStruct DATA_Digital[] = {
     { 5, ui08TYPE, PAR_GateFunction},
     { 6, ui16TYPE, PAR_GateFunctionData}};
 
-SysExDataStruct DATA_Bank[] = {
+static const SysExDataStruct DATA_Bank[] = {
     { 1, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_ChannelFunction}};

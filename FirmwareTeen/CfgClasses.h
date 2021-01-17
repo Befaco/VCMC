@@ -176,7 +176,8 @@ typedef enum GFun_e {
   GATEPANIC,         ///< Send MIDI Panic
   NODIGFUNC,
   GATE8TRIG,         ///< On VCMC Gate 8 serves as gate for all other 7 CV
-  CHORD              ///< Chord generation mode
+  CHORD,              ///< Chord generation mode
+  CHORDTRIG              ///< Chord triggered mode
 } GateFunctions;
 
 

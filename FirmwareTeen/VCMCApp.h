@@ -135,6 +135,9 @@ void timerIsr();
 void servicePorts();
 // Main object definition
 extern VCMCApp theApp;
+// Callbacks
+void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan);
+void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan);
 
 /** @} */ // end of Maingroup
 

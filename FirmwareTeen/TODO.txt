@@ -1,3 +1,6 @@
+In \Arduino\libraries\ResponsiveAnalogRead\src\ResponsiveAnalogRead.h
+Line 75: float smoothValue=0.;
+
 
 1. Modify boards.txt in folder <Arduino folder>/hardware/teensy/avr
 Add at line 871 aprox.
