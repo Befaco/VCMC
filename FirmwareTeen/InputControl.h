@@ -78,8 +78,8 @@ class InputControl {
     void OnDataChange (void);
     void ProcessGateNotes(void);
     void ProcessGateChord(void);
-    void SendNoteOn(byte controlNumber, InputPort &port, byte chan, int datatosend);
-    void SendLastNoteOff(byte controlNumber, InputPort& port, byte chan);
+    void SendNoteOn(byte controlNumber, InputPort &port, byte chan, int datatosend, bool chord=true);
+    void SendLastNoteOff(byte controlNumber, InputPort& port, byte chan, bool chord=true);
     int DataCalc (void);
     bool GetGateState ();
     void Blink ();

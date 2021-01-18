@@ -171,11 +171,13 @@ bool InputControl::ReadPorts (bool onlyDig) {
 
     \details Send a Note On for the specified port, note, and MIDI channel.
 */
-void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, int datatosend) {
+void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, int datatosend,bool chord) {
   SendLastNoteOff(controlNumber, port, chan);
   port.LastSentMIDIData = datatosend;
-  Chord.setRootNote(datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan, true);
-  //MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan);
+  if( chord)
+    Chord.setRootNote(datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan, true);
+  else
+    MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan);
 }
 
 /**
@@ -183,10 +185,13 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, in
 
     \details Send a Note Off for any Note that is stll on on the specified port.
 */
-void InputControl::SendLastNoteOff(byte controlNumber, InputPort& port, byte chan) {
+void InputControl::SendLastNoteOff(byte controlNumber, InputPort& port, byte chan,bool chord) {
   if ( port.LastSentMIDIData >= 0 ) {
-    Chord.noteoffChord();
-    //MidiMerge.sendNoteOff (port.LastSentMIDIData, 0, chan);
+    if( chord)
+      Chord.noteoffChord();
+    else
+      MidiMerge.sendNoteOff (port.LastSentMIDIData, 0, chan);
+
     port.LastSentMIDIData = -999;
   }
 }
@@ -364,12 +369,13 @@ void InputControl::ProcessGateChord(void)
     if(CVControls[i].CVPort.PortCfg.MIDIfunction!=PITCHTRIG) // Play only notes on channels with PITCHTRIG
       continue;
     if (GateStat == true) {
-      SendNoteOn(i, CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel, chord[i - FIRSTBLK]); 
+      SendNoteOn(i, CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel, chord[i - FIRSTBLK], false);
       if(CVControls[i].GateBut.PortCfg.MIDIfunction == NODIGFUNC ||
         CVControls[i].GateBut.PortCfg.MIDIfunction == CHORD )
                 CVControls[i].GateBut.setBlink(100, 100, 1); // Blink only on NODIGFUNC or CHORD modes
     }
-    else SendLastNoteOff(i, CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel);
+    else
+      SendLastNoteOff(i, CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel, false);
   }
 }
 
