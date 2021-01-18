@@ -22,8 +22,9 @@
 
 typedef boolean (*Item_Function)();
 
+const uint8_t MENUITEMTEXTSIZE=16;
 /*const */typedef struct MenuItem_t {
- char text[16];
+ char text[MENUITEMTEXTSIZE];
  Item_Function func;
  byte Status; // Use for enable/disable option. This function is not used in the base MenuList class and should be implemented on derived classes
 } MenuItem;

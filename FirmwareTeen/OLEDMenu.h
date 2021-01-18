@@ -94,6 +94,7 @@ public:
     int updateSelection();
     bool selectionMade();
     void setCurrentMenu(MenuList *aMenu);
+    void setCurrentMenu(const char *title, const char * const*listStr, uint8_t numitems, Item_Function fun);
     uint8_t FillNameMenuList();
     uint8_t FillUserNameMenuList(bool fillEmpty=true);
 

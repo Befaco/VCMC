@@ -82,6 +82,9 @@ boolean gotoMenuSettings();
 boolean SelectGateConfig();
 boolean SelectFaderConfig();
 boolean SelectCVConfig();
+bool setActiveChord();
+bool SelectChordType();
+bool SelectScale();
 // Defined on MenuMode
 bool SelectNameMenu();
 bool selectMenuPortName();

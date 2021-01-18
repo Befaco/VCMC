@@ -221,6 +221,41 @@ void OLEDMenu::setCurrentMenu (MenuList *aMenu) {
 }
 
 
+
+/**
+ * \brief Updates items list for new menu
+ * 
+ * \param aMenu 
+ */
+void OLEDMenu::setCurrentMenu (const char *title, const char * const* listStr, uint8_t numitems, Item_Function fun) {
+    uint8_t posMenu = 0;
+    firstVisibleLine = 0;
+
+    // Create Menu with visible list items
+    for (int i = 0; i < numitems; i++) {
+        //DP(listStr[i]);
+        CurrentMenuItems[posMenu].func = fun;
+        CurrentMenuItems[posMenu].Status = i;
+        strncpy(CurrentMenuItems[posMenu].text, listStr[i], MENUITEMTEXTSIZE);
+        CurrentMenuItems[posMenu].text[MENUITEMTEXTSIZE-1] = 0;
+        posMenu++;
+    }
+    
+    strcpy(CurrentMenuItems[posMenu].text, title); // Copy menu title
+    CurrentMenuList.Style = ListLines;
+
+    // Create Menu List
+    CurrentMenuList.menuItems = CurrentMenuItems;
+    CurrentMenuList.listSize = posMenu;
+
+    // Update text
+    updatingText = true;
+    updateText = -1;
+
+    MenuClass::setCurrentMenu (&CurrentMenuList);
+}
+
+
 /**
  * \brief Setup Text Popup Message
  * 

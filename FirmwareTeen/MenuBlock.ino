@@ -36,18 +36,20 @@
  */
 
 // Bank configuration menu. CHANGED FUNCTION NAME AND ORDER.
-MenuItem BankList[6] = {
+MenuItem BankList[] = {
     {"<-BACK", gotoMenuSettings, 1},
     {"CV", SelectCVConfig, 1},       // Hidden in Note mode
     {"FADER", SelectFaderConfig, 1}, // Shown only in Indep mode
     {"GATE", SelectGateConfig, 1},   // Hidden on Note MODE
     {"CV-FDR LINK", SelectBankFunction, 1},
+    {"NOTE SCALE", SelectScale, 1},
+    {"CHORD TYPE", SelectChordType, 1},
     {"   CONFIG   ", NULL, 1} //Name changed!!
 };
-MenuList listBanks(BankList, 5, ListLines);
+MenuList listBanks(BankList, 7, ListLines);
 
 // Bank configuration menu
-MenuItem AuxList[4] = {
+MenuItem AuxList[] = {
   { "<-BACK" , gotoMenuSettings,1   }
    , {"AUX A" , SelectAuxAConfig,1   } // Hidden in Note mode
    , {"AUX B", SelectAuxBConfig,1} // SelectCVConfig,1   } //  Shown only in Indep mode
@@ -57,7 +59,7 @@ MenuList listAux(AuxList, 3, ListLines);
 
 
 // Function menu. REMOVED NOTE ENTRY   , {"Note" , SelectNoteMode,1   }
-MenuItem BankFnList[5] = {
+MenuItem BankFnList[] = {
   { "<-BACK" , gotoMenuBanks, 1   }
   , {"INDEP." , SelectIndep, 1   }
   , {"SUM" , SelectSum, 1   }
@@ -298,6 +300,34 @@ boolean SelectMult() {
   /*  myMenu.ClearArea();
     myMenu.setCurrentMenu(&listBanks);
     return true;*/
+}
+
+///////////////////////////////////////////////
+// Scales and Chords
+bool setActiveChord()
+{
+    CVControls[BankSelected].Chord.setChord(myMenu.getItemStatus());
+    return gotoMenuBanks();
+}
+
+
+bool setActiveScale()
+{
+    CVControls[BankSelected].Chord.setScale(myMenu.getItemStatus());
+    return gotoMenuBanks();
+}
+
+
+bool SelectScale()
+{
+    myMenu.setCurrentMenu("NOTE SCALE", ScaleLongNames, LASTSCALE-1, setActiveScale);
+    return true;
+}
+
+bool SelectChordType()
+{
+    myMenu.setCurrentMenu("CHORD", ChordNames, LASTCHORD-1, setActiveChord);
+    return true;
 }
 
 /** @} */

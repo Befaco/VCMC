@@ -368,7 +368,7 @@ bool SelectChordTr()
 {
     CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDTRIG);
-    SelectGateConfig();
+    SelectChordType();
     return true;
 }
 

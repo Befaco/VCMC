@@ -148,8 +148,6 @@ int DigitalPort::parseFunctionData(uint8_t *buf, int buLen){
     switch(PortCfg.MIDIfunction){
         case TRIGGER:
         case LATCH:
-        case CHORDTRIG:
-        case CHORD:
             PortCfg.NoteToSend = *buf;
             return buLen;
         case CCBUT:
@@ -162,6 +160,8 @@ int DigitalPort::parseFunctionData(uint8_t *buf, int buLen){
             PortCfg.ClockDivider = theApp.theGlobalCfg.ClockDivider;
             PortCfg.ClockShift = theApp.theGlobalCfg.ClockShift;
             return buLen;
+        case CHORDTRIG:
+        case CHORD:
         case GATESTARTSTOP:
         case GATEPAUSECONT:
         case GATETRIGSTARTSTOP:
@@ -235,8 +235,6 @@ int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
     switch(PortCfg.MIDIfunction){
         case TRIGGER:
         case LATCH:
-        case CHORDTRIG:
-        case CHORD:
             *buf = PortCfg.NoteToSend;
             return buLen;
         case CCBUT:
@@ -244,6 +242,8 @@ int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
             buf[0] = PortCfg.ControllerNumber;
             buf[1] = PortCfg.ControllerValue;
             return buLen;
+        case CHORDTRIG:
+        case CHORD:
         case GATECLOCK:
             //  Do nothing, clock info should already be on General config
         case GATESTARTSTOP:

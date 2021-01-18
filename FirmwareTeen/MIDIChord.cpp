@@ -78,7 +78,7 @@ uint8_t MIDIChord::adjustNoteToScale(uint8_t note){
     {
         if(ScalesDefinition[Scale].Notes[i]) return note; // Note in scale
     }
-    DP("Error in Scale"); // Code should not get to this position
+    //DP("Error in Scale"); // Code should not get to this position
     return note;
 }
 

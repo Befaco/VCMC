@@ -42,6 +42,35 @@ const bool ScaleNotes[][12] = {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}  // LAST SCALE
 };
 
+static const char * const ScaleShortNames[] =
+    {
+        "Full",
+        "M penta",
+        "Ionian",
+        "Mixolydian",
+        "Lydian",
+        "Dorian",
+        "Aeolian",
+        "m penta",
+        "Phrygian",
+        "Locrian"
+};
+
+static const char * const ScaleLongNames[] =
+    {
+        "Full Scale",
+        "Major pentatonic scale",
+        "Ionian mode or major",
+        "Mixolydian mode",
+        "Lydian mode",
+        "Dorian mode",
+        "Aeolian or natural minor",
+        "Minor pentatonic scale",
+        "Phrygian mode",
+        "Locrian mode"
+};
+
+
 
 struct ScaleDef{
 public:
@@ -51,10 +80,26 @@ public:
     const bool *Notes;
 };
 
+#define DEF_SCALE(ID) \
+    ScaleDef{ID, ScaleShortNames[ID], ScaleLongNames[ID], ScaleNotes[ID]}
 
+const ScaleDef ScalesDefinition[] __attribute__((unused)) = {
+    DEF_SCALE(FULL_SCALE),
+    DEF_SCALE(Mpenta_SCALE),
+    DEF_SCALE(Ionian_SCALE),
+    DEF_SCALE(Mixolydian_SCALE),
+    DEF_SCALE(Lydian_SCALE),
+    DEF_SCALE(Dorian_SCALE),
+    DEF_SCALE(Aeolian_SCALE),
+    DEF_SCALE(mpenta_SCALE),
+    DEF_SCALE(Phrygian_SCALE),
+    DEF_SCALE(Locrian_SCALE),
+    DEF_SCALE(LASTSCALE)
+};
+
+/*
 #define DEF_SCALE(ID, shname, lgname) \
     ScaleDef{ID, shname, lgname, ScaleNotes[ID]}
-
 
 const ScaleDef ScalesDefinition[] = {
     DEF_SCALE(FULL_SCALE,"Full", "Full Scale"),
@@ -70,33 +115,8 @@ const ScaleDef ScalesDefinition[] = {
     DEF_SCALE(LASTSCALE,"Empty", "Empty Invalid Scale"),
 };
 
+ */
 
-
-/*
-Major pentatonic scale
-Ionian mode or major
-Mixolydian mode
-Lydian mode
-Dorian mode
-Aeolian or natural minor
-Minor pentatonic scale
-Phrygian mode
-Locrian mode
-
-const char ScaleShortNames[][11]=
-{Full
-M penta
-Ionian
-Mixolydian
-Lydian
-Dorian
-Aeolian
-m penta
-Phrygian
-Locrian
-};
-
-*/
 
 
 /** @} */
