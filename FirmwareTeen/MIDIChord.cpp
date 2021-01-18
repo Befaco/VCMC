@@ -104,7 +104,7 @@ uint8_t MIDIChord::playChord(void)
 {
     if( !NoteOn) return rootNote; // No NoteOn defined
 
-    const uint8_t *chord = chordNotesDef[ChordType];
+    const int8_t *chord = chordNotesDef[ChordType];
 
     if(isPlaying) noteoffChord();
     
@@ -119,7 +119,7 @@ uint8_t MIDIChord::noteoffChord(void)
 {
     if( !NoteOff) return rootNote; // No NoteOff defined
     
-    const uint8_t *chord = chordNotesDef[ChordType];
+    const int8_t *chord = chordNotesDef[ChordType];
 
     for (size_t i = 0; i < chord[0]; i++){
         NoteOff(rootNote + chord[i + 1], Velocity, MIDIChannel);

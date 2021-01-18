@@ -10,7 +10,7 @@
  *  \brief Music Chords support
  */
 
-const uint8_t chordNotesDef[][9] = {
+const int8_t chordNotesDef[][9] = {
     {1, 0},
     {3, 0, 4, 8},
     {6, 0, 4, 7, 10, 14, 18},
