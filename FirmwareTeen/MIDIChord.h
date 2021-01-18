@@ -54,7 +54,7 @@ protected:
         uint8_t Scale;      // Scale 0 is all notes iun scale
         uint8_t ChordType;  // Chord 0 is only 1 note without offset
         };
-        uint16_t Type = 0; 
+        uint16_t Type=0;
     };
     uint8_t rootNote = 0;
     uint8_t Velocity = defVel;
@@ -65,6 +65,8 @@ protected:
     NoteCallback NoteOff = nullptr;
 
 public:
+    MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD) {}
+
     // Returns note adjusted to selected scale
     uint8_t adjustNoteToScale(uint8_t note);
     uint8_t playChord(void);

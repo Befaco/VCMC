@@ -63,7 +63,7 @@ static const char * const PortFuncStr[] = {
 /// Digital Functions names
 static const char * const PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", 
 	"ST/SP", "CNT/SP", "ST/SP Lt", "CNT/SP Lt", "Start", "Stop", "Continue",
-	"Panic","No Func", "Poly", "Chord", "ChordTr" };
+	"Panic","No Func", "Poly", "Chord" };
 /// MIDI Clock multiplier texts
 static const char * const ClokShiftTxt[] = { "x32", "x16", "x08", "x04", "x02", "x01", "/02", "/04", "/08", "/16", "/32"};
 /// MIDI Clock multiplier texts

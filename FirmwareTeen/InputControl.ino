@@ -174,10 +174,8 @@ bool InputControl::ReadPorts (bool onlyDig) {
 void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, int datatosend) {
   SendLastNoteOff(controlNumber, port, chan);
   port.LastSentMIDIData = datatosend;
-  if( GateBut.PortCfg.MIDIfunction==CHORDTRIG)
-    Chord.setRootNote(datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan, true);
-  else
-    MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan);
+  Chord.setRootNote(datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan, true);
+  //MidiMerge.sendNoteOn (datatosend, MidiMerge.VelData[port.PortCfg.MIDIChannel - 1], chan);
 }
 
 /**
@@ -187,10 +185,8 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort& port, byte chan, in
 */
 void InputControl::SendLastNoteOff(byte controlNumber, InputPort& port, byte chan) {
   if ( port.LastSentMIDIData >= 0 ) {
-    if( GateBut.PortCfg.MIDIfunction==CHORDTRIG)
-      Chord.noteoffChord();
-    else
-      MidiMerge.sendNoteOff (port.LastSentMIDIData, 0, chan);
+    Chord.noteoffChord();
+    //MidiMerge.sendNoteOff (port.LastSentMIDIData, 0, chan);
     port.LastSentMIDIData = -999;
   }
 }
@@ -245,7 +241,7 @@ void InputControl::OnDataChange (void) {
   // Gate change management
   if (Gatechanged) {
     // In TRIGGER or LATCH send NoteOn/NoteOff with every change on inputs
-    if (GateBut.PortCfg.MIDIfunction == TRIGGER || GateBut.PortCfg.MIDIfunction == LATCH || GateBut.PortCfg.MIDIfunction == CHORDTRIG) {
+    if (GateBut.PortCfg.MIDIfunction == TRIGGER || GateBut.PortCfg.MIDIfunction == LATCH) {
       ProcessGateNotes();
     }
     // Chord mode triggered in gates 1 and 5

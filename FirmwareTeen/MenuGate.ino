@@ -53,12 +53,11 @@ MenuItem DigFnList[] = {
     {"CLOCK", SelectButClock, 1},
     {"ST/SP", SelectGatSTSPFn, 1}, // Antes SelectButStartStop
     {"CHORD", SelectChord, 1},
-    {"CHORD TR", SelectChordTr, 1},
     {"PANIC", SelectGatePanic, 1},
     {"NO FUNCTION", SelectNoDifFunc, 1},
     {" GATE FUNCTION ", NULL, 1} // the algorithm
 };
-MenuList listButFn(DigFnList, 10, ListLines);
+MenuList listButFn(DigFnList, 9, ListLines);
 
 MenuItem STSPGatFnList[] = {
     {"<-BACK", gotoMenuDig, 1},
@@ -364,6 +363,7 @@ boolean SelectChord()
     return true;
 }
 
+/*
 bool SelectChordTr()
 {
     CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
@@ -371,6 +371,7 @@ bool SelectChordTr()
     SelectChordType();
     return true;
 }
+*/
 
 boolean SelectGatePanic()
 {
