@@ -105,6 +105,11 @@ void VCMCApp::setup(void)
  */
 void VCMCApp::initControls(void)
 {
+    //DefaultChord.setCallbacks(sendNoteOn, sendNoteOff); // Default Chord do not need to send Notes
+    DefaultChord.setScale(FULL_SCALE);
+    DefaultChord.setChord(ONENOTECHORD);
+    DefaultChord.setInvDrop(NO_INVDROP);
+
     for (int i = 0; i < NUMCHAN; i++)
     {
         CVControls[i].SetControlNumber(i);

@@ -97,7 +97,7 @@ boolean SetLimitMIDI()
 
 boolean SetLowLimit()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	long val = ((AnInputPortCfg *)GetPortCfg())->ClipLow;
 	((AnInputPortCfg *)GetPortCfg())->LimitValues(minv, maxv);
 	bool ret = EncoderchangeValue("Clip Low:", val, minv, maxv, 5, 00, 45);
@@ -107,7 +107,7 @@ boolean SetLowLimit()
 
 boolean SetHighLimit()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	long val = ((AnInputPortCfg *)GetPortCfg())->ClipHigh;
 	((AnInputPortCfg *)GetPortCfg())->LimitValues(minv, maxv);
 	bool ret = EncoderchangeValue("Clip High:", val, minv, maxv, 5, 00, 45);
@@ -175,7 +175,7 @@ boolean SetRangeMIDI()
 
 boolean SelectMin()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getMIDI(min, range);
 	long val = min;
@@ -187,7 +187,7 @@ boolean SelectMin()
 
 boolean SelectMax()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getMIDI(min, range);
 	long max = min + range;

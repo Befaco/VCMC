@@ -157,6 +157,9 @@ typedef enum IPFun_e {
   PITCH8TRIG,         ///< Input 8 serves as gate for all other 7 CV with this function
   CC14BITS,
 
+  SCALE_DEF,
+  CHORDTYPE_DEF,
+  CHORDINVERSION
 } InputFunctions;
 
 /// MIDI Functions for digital ports
@@ -270,7 +273,7 @@ class AnInputPortCfg : public InputPortCfg {
       ClipLow = ClipL; ClipHigh = ClipH;
     }
     void SetMIDIFunc (uint8_t Func);
-    void LimitValues (int &minv, int &maxv);
+    void LimitValues (int16_t &minv, int16_t &maxv);
     boolean IsDigitalFunc(void);
     uint8_t getInputRange() {
       return RangeBipolar;

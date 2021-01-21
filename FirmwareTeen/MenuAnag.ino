@@ -106,10 +106,13 @@ MenuItem AnagFnList[] = {
     {"NRPN 7BIT", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
     {"CC 14BITS", SelectCC14b, 1},
+    {"CHORD TYPE", SelectDefChord, 1},
+    {"SCALE", SelectDefScale, 1},
+    {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}
     };
-MenuList listAnagFn(AnagFnList, 15, ListLines);
+MenuList listAnagFn(AnagFnList, 18, ListLines);
 
 MenuItem AnagFnList2[] = {
     {"<-BACK", SelectFaderConfig, 1},
@@ -125,9 +128,12 @@ MenuItem AnagFnList2[] = {
     {"NRPN 7BITS", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
     {"CC 14BITS", SelectCC14b, 1},
+    {"CHORD TYPE", SelectDefChord, 1},
+    {"SCALE", SelectDefScale, 1},
+    {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 14, ListLines);
+MenuList listAnagFn2(AnagFnList2, 17, ListLines);
 
 MenuItem AnagDigFnList[8] = {
     {"<-BACK", gotoMenuAnag, 1},
@@ -166,6 +172,28 @@ MenuList ListAutoOffOptions(AutoOffOptionsList, 7, ListLinesSimple);
 MenuItem StdNamesItems[] = {
     {"Name", selectMenuPortName, 1}};
 MenuList StdNameList(StdNamesItems, 1, ListLines);
+
+
+
+bool SelectDefChord()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDTYPE_DEF);
+    return gotoMenuAnag();
+}
+
+bool SelectDefScale()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(SCALE_DEF);
+    return gotoMenuAnag();
+}
+
+
+bool SelectInvDrop()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDINVERSION);
+    return gotoMenuAnag();
+}
+
 
 /*****************************
  ******************************

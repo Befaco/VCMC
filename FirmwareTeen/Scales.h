@@ -13,7 +13,8 @@
 
 enum
 {
-    FULL_SCALE =0,
+    DEF_SCALE = 0,
+    FULL_SCALE ,
     Mpenta_SCALE,
     Ionian_SCALE,
     Mixolydian_SCALE,
@@ -30,6 +31,7 @@ enum
 // Please note tht the first (root note) have to be set to 1
 const bool ScaleNotes[][12] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0},
     {1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
     {1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0},
@@ -44,6 +46,7 @@ const bool ScaleNotes[][12] = {
 
 static const char * const ScaleShortNames[] =
     {
+        "Default",
         "Full",
         "M penta",
         "Ionian",
@@ -58,9 +61,10 @@ static const char * const ScaleShortNames[] =
 
 static const char * const ScaleLongNames[] =
     {
+        "Default",
         "Full Scale",
-        "Major pentatonic scale",
-        "Ionian mode or major",
+        "Major pentatonic scale",
+        "Major / Ionian mode",
         "Mixolydian mode",
         "Lydian mode",
         "Dorian mode",
@@ -84,6 +88,7 @@ public:
     ScaleDef{ID, ScaleShortNames[ID], ScaleLongNames[ID], ScaleNotes[ID]}
 
 const ScaleDef ScalesDefinition[] __attribute__((unused)) = {
+    DEF_SCALE(DEF_SCALE),
     DEF_SCALE(FULL_SCALE),
     DEF_SCALE(Mpenta_SCALE),
     DEF_SCALE(Ionian_SCALE),

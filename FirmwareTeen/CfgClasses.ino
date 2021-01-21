@@ -85,7 +85,7 @@ uint8_t InputPortCfg::getName(char *name)
  *  \param [in] maxv Max value
 
  */
-void AnInputPortCfg::LimitValues(int &minv, int &maxv)
+void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
 {
     switch (MIDIfunction)
     {
@@ -160,6 +160,18 @@ void AnInputPortCfg::LimitValues(int &minv, int &maxv)
         minv = 0;
         maxv = 16383;
         break;
+    case SCALE_DEF:
+        minv = FULL_SCALE;
+        maxv = LASTSCALE-1;
+        break;
+    case CHORDTYPE_DEF:
+        minv = ONENOTECHORD;
+        maxv = LASTCHORD;
+        break;
+    case CHORDINVERSION:
+        minv = NO_INVDROP;
+        maxv = DROP3INV3_INVDROP;
+        break;
     }
 }
 
@@ -185,6 +197,9 @@ boolean AnInputPortCfg::IsDigitalFunc(void)
     case ANAGFREEVALUE:
     case ANAGNRPN7bits:
     case ANAGNRPN14bits:
+    case SCALE_DEF:
+    case CHORDTYPE_DEF:
+    case CHORDINVERSION:
         return false;
     case PITCHLEVEL:
     case ANAGCLOCK:
@@ -276,37 +291,16 @@ void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
         }
         break;
     case CC14BITS:
-        // Set extended 14 bits MIDI range 0 to MIDI_PITCHBEND_MAX
-        Ranges.SetMIDI(0, 16383);
-        ClipLow = 0;
-        ClipHigh = 16383;
-        break;
     case PITCHBEND:
-        // Set extended Pitch Bend MIDI range -MIDI_PITCHBEND_MIN to MIDI_PITCHBEND_MAX
-        Ranges.SetMIDI(MIDI_PITCHBEND_MIN, MIDI_PITCHBEND_MAX - MIDI_PITCHBEND_MIN);
-        ClipLow = MIDI_PITCHBEND_MIN;
-        ClipHigh = MIDI_PITCHBEND_MAX;
-        break;
     case PERCENT:
-        // Set to percentage range -100 to 100
-        Ranges.SetMIDI(0, 100);
-        ClipLow = 0;
-        ClipHigh = 100;
-        break;
     case ANAGFREEVALUE:
-        Ranges.SetMIDI(SHRT_MIN, SHRT_MAX);
-        ClipLow = SHRT_MIN;
-        ClipHigh = SHRT_MAX;
-        break;
     case ANAGNRPN7bits:
-        Ranges.SetMIDI(0, 127);
-        ClipLow = 0;
-        ClipHigh = 127;
-        break;
     case ANAGNRPN14bits:
-        Ranges.SetMIDI(0, 16383);
-        ClipLow = 0;
-        ClipHigh = 16383;
+    case CHORDINVERSION:
+    case CHORDTYPE_DEF:
+    case SCALE_DEF:
+        LimitValues(ClipLow, ClipHigh);
+        Ranges.SetMIDI(ClipLow, ClipHigh-ClipLow);
         break;
     }
 }

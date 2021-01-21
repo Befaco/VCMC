@@ -224,6 +224,9 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
         case NOANFFUNC:
         case PITCHLEVEL:
         case PITCH8TRIG:
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
             return buLen;
     }
     return 0;
@@ -359,6 +362,9 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
         case NOANFFUNC:
         case PITCHLEVEL:
         case PITCH8TRIG:
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
             return buLen;
     }
     return 0;

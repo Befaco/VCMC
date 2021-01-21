@@ -218,7 +218,7 @@ int invdrop[12][4] = {
   { 0, 0, 0, 0 },     // root (close voicing)
   { 12, 0, 0, 0 },    // 1st inv
   { 12, 12, 0, 0 },   // 2nd inv
-  { 0, 0, 0, -12 },   // 3rd inv
+  { 12, 12, 12, 0}, //{ 0, 0, 0, -12 },   // 3rd inv
 
   { 0, 0, -12, 0 },   // root drop 2
   { 12, 0, 0, -12 },  // 1st inv drop 2
@@ -230,6 +230,19 @@ int invdrop[12][4] = {
   { 12, 12, 0, -12 }, // 2nd inv drop 3
   { 0, 12, 12, 0  }   // 3rd inv drop 3
 };
+
+/* 
+// 3 notes chords inversions and drop
+{0,0,0}, //close voicing
+{12,0,0},
+{12,12,0},
+
+{0,-12,0}, // drop 2
+{12,0,-12},
+{0,12,0},
+
+{}
+ */
 
 /**
     \brief Provides functionality when inputs or gate change

@@ -45,10 +45,11 @@
 uint8_t MIDIChord::setScale(uint8_t newscale){
     if( newscale>=LASTSCALE) // Incorrect scale, no change
         return rootNote;
-    if(isPlaying) noteoffChord();
 
     Scale = newscale;
-    return setRootNote(rootNote); // Adjust rootNote to new scale and return new root
+    // Adjust rootNote to new scale and return new root 
+    // return setRootNote(rootNote); //Will stop playing current chord
+    return setRootNote(rootNote,Velocity,MIDIChannel,isPlaying); // Will stop playing current chord and play new one
 }
 
 /**
@@ -59,9 +60,24 @@ uint8_t MIDIChord::setScale(uint8_t newscale){
 void MIDIChord::setChord(uint8_t newchord){
     if( newchord>=LASTCHORD) // Incorrect scale, no change
         return;
+    bool wasPlaying = isPlaying;
     if(isPlaying) noteoffChord();
 
     ChordType = newchord;
+    if(wasPlaying) // Play new chord it it was playing
+        setRootNote(rootNote, Velocity, MIDIChannel, true);
+}
+
+
+void MIDIChord::setInvDrop(uint8_t newInv){ 
+    if(newInv>=LAST_INVDROP)
+        return;
+    bool wasPlaying = isPlaying;
+    if(isPlaying) noteoffChord();
+
+    InvDrop = newInv;
+    if(wasPlaying) // Play new chord it it was playing
+        setRootNote(rootNote, Velocity, MIDIChannel, true);
 }
 
 
@@ -73,13 +89,16 @@ void MIDIChord::setChord(uint8_t newchord){
  */
 uint8_t MIDIChord::adjustNoteToScale(uint8_t note){
     uint8_t notepos = note % 12;
-    
-    for (size_t i = notepos; i > 0 && note >0; i--,note--)
+    uint8_t scaletoUse = (Scale == DEF_SCALE) ? theApp.DefaultChord.getScale() : Scale;
+    uint8_t retVal = note;
+    //D(Serial.printf("Scale (%s), recv note %d", ScaleShortNames[scaletoUse], note));
+    for (size_t i = notepos; i >= 0 && note >0; i--,note--)
     {
-        if(ScalesDefinition[Scale].Notes[i]) return note; // Note in scale
+        retVal=note; // Note in scale
+        if(ScalesDefinition[scaletoUse].Notes[i]){ break; }
     }
-    //DP("Error in Scale"); // Code should not get to this position
-    return note;
+    //D(Serial.printf(": %d\n",retVal));
+    return retVal;
 }
 
 
@@ -100,16 +119,40 @@ uint8_t MIDIChord::setRootNote(uint8_t newroot, uint8_t vel, uint8_t chan, bool 
     return rootNote;
 }
 
+const int8_t*  MIDIChord::getInvTable(uint8_t chordtoPlay)
+{
+    const int8_t *pretVal = nullptr;
+
+    uint8_t invtoPlay = (InvDrop == DEF_CHORD) ? theApp.DefaultChord.getInvDrop() : InvDrop;
+    if(chordNotesDef[chordtoPlay][0]==4){
+        pretVal = InversionDrop4[invtoPlay];
+        D(Serial.printf("4 Notes Chord, Inversion %d\n",invtoPlay));
+        }
+    else if(chordNotesDef[chordtoPlay][0]==3){
+        pretVal = InversionDrop3[invtoPlay];
+        D(Serial.printf("3 Notes Chord, Inversion %d\n",invtoPlay));
+        }
+
+    return pretVal;
+}
+
 uint8_t MIDIChord::playChord(void)
 {
     if( !NoteOn) return rootNote; // No NoteOn defined
 
-    const int8_t *chord = chordNotesDef[ChordType];
+    uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
+    const int8_t *chord = chordNotesDef[chordtoPlay];
 
     if(isPlaying) noteoffChord();
-    
-    for (size_t i = 0; i < chord[0]; i++){
-        NoteOn(rootNote + chord[i + 1], Velocity, MIDIChannel);
+
+    int8_t inv = 0;
+    const int8_t *invTable = getInvTable(chordtoPlay);
+    for (int i = 0; i < chord[0]; i++){
+        if(invTable){
+            inv = invTable[i];
+            DP(inv);
+            }
+        NoteOn(rootNote + chord[i + 1] + inv, Velocity, MIDIChannel);
     }
     isPlaying = true;
     return rootNote;
@@ -119,9 +162,10 @@ uint8_t MIDIChord::noteoffChord(void)
 {
     if( !NoteOff) return rootNote; // No NoteOff defined
     
-    const int8_t *chord = chordNotesDef[ChordType];
+    uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
+    const int8_t *chord = chordNotesDef[chordtoPlay];
 
-    for (size_t i = 0; i < chord[0]; i++){
+    for (int i = 0; i < chord[0]; i++){
         NoteOff(rootNote + chord[i + 1], Velocity, MIDIChannel);
     }
     isPlaying = false;

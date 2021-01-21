@@ -38,6 +38,7 @@
 
 #include "Scales.h"
 #include "Chords.h"
+#include "ChordInversions.h"
 
 const size_t NOTESCHORD = 8; // Number of maximum notes in chord
 const uint8_t defVel = 60;
@@ -53,19 +54,20 @@ protected:
         struct {
         uint8_t Scale;      // Scale 0 is all notes iun scale
         uint8_t ChordType;  // Chord 0 is only 1 note without offset
+        uint8_t InvDrop;
         };
-        uint16_t Type=0;
+        uint32_t Type=0;
     };
     uint8_t rootNote = 0;
     uint8_t Velocity = defVel;
     uint8_t MIDIChannel = 1;
-    //uint8_t Notes[NOTESCHORD] = {0};
+    // uint8_t Notes[NOTESCHORD+1] = {0};
     bool isPlaying = false;
     NoteCallback NoteOn = nullptr;
     NoteCallback NoteOff = nullptr;
 
 public:
-    MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD) {}
+    MIDIChord() : Scale(DEF_SCALE), ChordType(DEF_CHORD), InvDrop(DEF_INVDROP) {}
 
     // Returns note adjusted to selected scale
     uint8_t adjustNoteToScale(uint8_t note);
@@ -81,10 +83,13 @@ public:
         NoteOn = non;
         NoteOff = nof;
     }
+    void setInvDrop(uint8_t newInv);
     // get func
     uint8_t getScale(void) { return Scale; }
     uint8_t getChordType(void) { return ChordType; }
+    uint8_t getInvDrop(void) { return InvDrop; }
     uint16_t getType(void) { return Type; }
+    const int8_t *getInvTable(uint8_t chordtoPlay);
 };
 
 /** @} */
