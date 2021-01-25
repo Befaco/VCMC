@@ -77,7 +77,7 @@ const char CreditText[] =
 	"                    "
 	"      CV Thing      "
 	"       v1.2.3       "
-	"   www.befaco.org";
+	"   www.befaco.org   ";
 #else
 const char CreditText[] =
 	"                    "
