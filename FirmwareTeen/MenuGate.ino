@@ -100,7 +100,7 @@ MenuItem SelectGateModeCfgList[4] = {
  ******************************
  * Define the functions you want your menu to call
  * They can be blocking or non-blocking
- * They should take no arguments and return a boolean
+ * They should take no arguments and return a bool
  * true if the function is finished and doesn't want to run again
  * false if the function is not done and wants to be called again
  ******************************
@@ -109,7 +109,7 @@ MenuItem SelectGateModeCfgList[4] = {
 // NEW FUNCTIONS ADDED
 
 // ST/SP Menu foir Gates
-boolean SelectGatSTSPFn()
+bool SelectGatSTSPFn()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listGatSTSPFn);
@@ -117,7 +117,7 @@ boolean SelectGatSTSPFn()
 }
 
 /*
-boolean SelectGateModeCfg () {
+bool SelectGateModeCfg () {
     PortSelected = 2;
     myMenu.ClearArea ();
     myMenu.setCurrentMenu (&listAnag);
@@ -126,7 +126,7 @@ boolean SelectGateModeCfg () {
 }
 */
 
-boolean SelectNoteNmbr()
+bool SelectNoteNmbr()
 {
     long val = GetPortCfg()->NoteToSend;
     //long val = CVControls[BankSelected].GateBut.PortCfg.NoteToSend;
@@ -140,11 +140,11 @@ boolean SelectNoteNmbr()
 
 // DELETE
 /*
-boolean SelectOffset () {
+bool SelectOffset () {
     return EncoderchangeValue ("Offset:", ((AnInputPortCfg *)GetPortCfg ())->Offset, -16387, 16386, 6, 0, 45);
 }
 
-boolean SelectGain () {
+bool SelectGain () {
     bool ret =
     EncoderchangeValue ("Ampl x100:", ((AnInputPortCfg *)GetPortCfg ())->Amp, -500, 500, 4, 0, 45);
     return ret;
@@ -153,7 +153,7 @@ boolean SelectGain () {
 
 ////////////////////////////////
 // Gate Config Functions
-boolean SelectGateFn()
+bool SelectGateFn()
 {
     //if (BankSelected != 7) listButFn.disableItem(7);
     if (BankSelected%4 != 0) listButFn.disableItem(7); // Chords triggered in gates 1 and 5
@@ -164,7 +164,7 @@ boolean SelectGateFn()
     return true;
 }
 
-boolean SelectControllerValue()
+bool SelectControllerValue()
 {
     long val = GetPortCfg()->ControllerValue;
     bool ret = EncoderchangeValue("CC Value ", val, 0, 127, 3, 0, 45);
@@ -172,7 +172,7 @@ boolean SelectControllerValue()
     return ret;
 }
 
-boolean SelectClockDiv()
+bool SelectClockDiv()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockDivider;
     bool ret = EncoderchangeValue("Clock Div:", val, 1, 255, 3, 0, 45);
@@ -181,7 +181,7 @@ boolean SelectClockDiv()
     return ret;
 }
 
-boolean SelectClockShift()
+bool SelectClockShift()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockShift;
     bool ret = EncoderchangeValue("Clock Shift:", val, -120, 120, 4, 0, 45);
@@ -190,7 +190,7 @@ boolean SelectClockShift()
     return ret;
 }
 
-boolean SelectDelay()
+bool SelectDelay()
 {
     uint16_t *vdir;
     if( CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
@@ -204,7 +204,7 @@ boolean SelectDelay()
     return ret;
 }
 
-boolean gotoMenuDig()
+bool gotoMenuDig()
 {
     SelectGateConfig();
     return true;
@@ -212,14 +212,14 @@ boolean gotoMenuDig()
 
 // MIDI Functions selection
 
-boolean SelectNoDifFunc()
+bool SelectNoDifFunc()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(NODIGFUNC);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectButTrig()
+bool SelectButTrig()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(TRIGGER);
     if (!SelectNoteNmbr())
@@ -229,7 +229,7 @@ boolean SelectButTrig()
     return true;
 }
 
-boolean SelectButLatch()
+bool SelectButLatch()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(LATCH);
     if (!SelectNoteNmbr())
@@ -239,7 +239,7 @@ boolean SelectButLatch()
     return true;
 }
 
-boolean SelectButCC()
+bool SelectButCC()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CCBUT);
     if (SetValState == 0)
@@ -264,7 +264,7 @@ boolean SelectButCC()
     return true;
 }
 
-boolean SelectButCCLATCH()
+bool SelectButCCLATCH()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CCLATCH);
     if (SetValState == 0)
@@ -289,7 +289,7 @@ boolean SelectButCCLATCH()
     return true;
 }
 
-boolean SelectButClock()
+bool SelectButClock()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATECLOCK);
     if (!SetClockMenu())
@@ -299,56 +299,56 @@ boolean SelectButClock()
     return true;
 }
 
-boolean SelectButStartStop()
+bool SelectButStartStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATESTARTSTOP);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectButContStop()
+bool SelectButContStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATEPAUSECONT);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectLatchStartStop()
+bool SelectLatchStartStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATETRIGSTARTSTOP);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectLatchContStop()
+bool SelectLatchContStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATETRIGPAUSECONT);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectGateStart()
+bool SelectGateStart()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATESTART);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectGateCont()
+bool SelectGateCont()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATECONTINUE);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectGateStop()
+bool SelectGateStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATESTOP);
     SelectGateConfig();
     return true;
 }
 
-boolean SelectChord()
+bool SelectChord()
 {
     byte FIRSTBLK = (BankSelected==0)?0:4;
     byte LASTBLK = (BankSelected==0)?3:7;
@@ -373,7 +373,7 @@ bool SelectChordTr()
 }
 */
 
-boolean SelectGatePanic()
+bool SelectGatePanic()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATEPANIC);
     SelectGateConfig();
@@ -382,6 +382,6 @@ boolean SelectGatePanic()
 
 ///////////////////////
 long value = 100;
-boolean fun1() { return EncoderchangeValue("", value, 0, 120, 3, 40, 45); }
+bool fun1() { return EncoderchangeValue("", value, 0, 120, 3, 40, 45); }
 
 /** @} */

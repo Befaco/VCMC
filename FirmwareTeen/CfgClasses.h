@@ -274,7 +274,7 @@ class AnInputPortCfg : public InputPortCfg {
     }
     void SetMIDIFunc (uint8_t Func);
     void LimitValues (int16_t &minv, int16_t &maxv);
-    boolean IsDigitalFunc(void);
+    bool IsDigitalFunc(void);
     uint8_t getInputRange() {
       return RangeBipolar;
     }

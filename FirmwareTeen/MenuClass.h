@@ -20,7 +20,7 @@
  *  \brief Defines Base Menu class
  */
 
-typedef boolean (*Item_Function)();
+typedef bool (*Item_Function)();
 
 const uint8_t MENUITEMTEXTSIZE=16;
 /*const */typedef struct MenuItem_t {
@@ -54,8 +54,8 @@ public:
 class MenuClass {
 private:
 
- boolean cancelFlag;
- boolean runningFunction;
+ bool cancelFlag;
+ bool runningFunction;
 public:
  MenuList *currentMenu;
  int currentItemIndex;
@@ -69,11 +69,11 @@ public:
  void enableItem(int);
  void disableItem(int);
  bool isEnabled(int);
- boolean runFunction(void);
+ bool runFunction(void);
  virtual void displayMenu() = 0;
- virtual boolean checkForCancel();
+ virtual bool checkForCancel();
  virtual int updateSelection() = 0;
- virtual boolean selectionMade() = 0;
+ virtual bool selectionMade() = 0;
  byte getItemStatus() { return currentMenu->getItem(currentItemIndex)->Status; };
 };
 

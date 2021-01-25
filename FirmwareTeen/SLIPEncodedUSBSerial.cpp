@@ -245,7 +245,7 @@ byte slipescesc = 221;
 */
 byte previousByte;
 
-boolean serialBufferAdd(byte add)
+bool serialBufferAdd(byte add)
 {
 	serialBuffer[serPointer++] = add;
 	if( serPointer > MAXSLIPBUFSIZE){

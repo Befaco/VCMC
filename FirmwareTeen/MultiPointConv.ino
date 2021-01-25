@@ -73,7 +73,7 @@ int RangeConv::invintervalConvert (int32_t inp) {
     // Convert input into standard DAC range
     inp = INITMINDAC + ((float)inp - minDAC) * INITRANGEDAC / rangeDAC;
     // Look for interval
-    boolean found = false;
+    bool found = false;
     for (i = 2; i < 20 && !found; i++) {
         found = ((inp - DACPoints[i] - HALFNOTERANGE) * rangeDAC < 0) ? true : false;
     }

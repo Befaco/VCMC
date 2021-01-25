@@ -178,9 +178,9 @@ void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
 /**
  * \brief Check if the config is a digital function
  * 
- * \return boolean 
+ * \return bool 
  */
-boolean AnInputPortCfg::IsDigitalFunc(void)
+bool AnInputPortCfg::IsDigitalFunc(void)
 {
     switch (MIDIfunction)
     {

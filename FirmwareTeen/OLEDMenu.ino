@@ -112,9 +112,9 @@ void OLEDMenu::ClearArea () {
 /**
  * \brief Updates states after the selection is made
  * 
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::selectionMade () {
+bool OLEDMenu::selectionMade () {
 
     // if( EncButton->fell())
     if (!EncButton->read ()) msDurationButton = EncButton->duration ();

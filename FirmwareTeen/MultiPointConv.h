@@ -39,7 +39,7 @@
 //extern uint16_t DACPoints[21];
 //int32_t getInitMinDAC ();
 //int32_t getInitRangeDAC ();
-//boolean UseMultiPoint = false;
+//bool UseMultiPoint = false;
 
 #define HALFNOTERANGE 17 // DAC Steps for half a note 4096/120/2
 #define MAXCLIP 1.0 //0.9925 // Clip to maximum when close to it
@@ -124,7 +124,7 @@ class RangeConv {
         minD = minMIDI;
         RangeD = rangeMIDI;
     }
-//    void setMultiPointMode (boolean Mode) { UseMultiPoint = Mode; }
+//    void setMultiPointMode (bool Mode) { UseMultiPoint = Mode; }
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);

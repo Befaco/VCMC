@@ -71,7 +71,7 @@ MenuList BankFnListMenu(BankFnList, 4, ListLines);
 
 //////////////////////////
 // Main Menu entry function
-boolean gotoMenuBanks()
+bool gotoMenuBanks()
 {
     #ifdef CVTHING
     return SelectCVConfig();
@@ -115,7 +115,7 @@ boolean gotoMenuBanks()
 ////////////////////////////////
 // Bank configuration functions
 //Activate otr deactivate Gate menu items here.
-boolean SelectGateConfig()
+bool SelectGateConfig()
 {
     PortSelected = 1;
     myMenu.ClearArea();
@@ -154,19 +154,19 @@ boolean SelectGateConfig()
     return true;
 }
 
-boolean SelectAuxAConfig()
+bool SelectAuxAConfig()
 {
     PortSelected = 2;
     return SelectCVConfig();
 }
 
-boolean SelectAuxBConfig()
+bool SelectAuxBConfig()
 {
     PortSelected = 3;
     return SelectCVConfig();
 }
 
-boolean gotoMenuSettings()
+bool gotoMenuSettings()
 {
     fullCVDisplay = true;
     gotoGloblaMenu = false;
@@ -178,7 +178,7 @@ boolean gotoMenuSettings()
     return true;
 }
 
-boolean SelectCVConfig()
+bool SelectCVConfig()
 {
     if (BankSelected == 8)
     {
@@ -225,7 +225,7 @@ boolean SelectCVConfig()
     return true;
 }
 
-boolean SelectFaderConfig()
+bool SelectFaderConfig()
 {
     PortSelected = 3;
     listAnag2.disableItem(3);
@@ -252,7 +252,7 @@ boolean SelectFaderConfig()
     return true;
 }
 
-boolean SelectBankFunction()
+bool SelectBankFunction()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&BankFnListMenu);
@@ -262,7 +262,7 @@ boolean SelectBankFunction()
 
 ////////////////////////////////
 // Bank function configuration
-boolean SelectIndep() {
+bool SelectIndep() {
   CVControls[BankSelected].Config.Chanfunction = INDEP;
   return gotoMenuBanks();
   /*myMenu.ClearArea();
@@ -270,7 +270,7 @@ boolean SelectIndep() {
     return true;*/
 }
 
-boolean SelectNoteMode() {
+bool SelectNoteMode() {
   CVControls[BankSelected].Config.Chanfunction = NOTEMODE;
   // When NoteMode selected, CV use PITCHTRIG, Fader use Velocity and Gate is TRIGGER
   CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
@@ -283,7 +283,7 @@ boolean SelectNoteMode() {
     return true;*/
 }
 
-boolean SelectSum() {
+bool SelectSum() {
   CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction);
   CVControls[BankSelected].Config.Chanfunction = SUM;
   return gotoMenuBanks();
@@ -293,7 +293,7 @@ boolean SelectSum() {
 }
 
 
-boolean SelectMult() {
+bool SelectMult() {
   CVControls[BankSelected].Config.Chanfunction = MULTIPL;
   CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(PERCENT);
   return gotoMenuBanks();

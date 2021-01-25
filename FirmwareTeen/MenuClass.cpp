@@ -52,7 +52,7 @@ MenuClass::MenuClass(MenuList* aList) {
 
 }
 
-boolean MenuClass::runFunction(void) {
+bool MenuClass::runFunction(void) {
  Item_Function theFunc;
 
 #ifdef USING_PROGMEM
@@ -127,7 +127,7 @@ bool MenuClass::isEnabled(int aIndex)
 	return currentMenu->getItem(aIndex)->Status;
 }
 
-boolean MenuClass::checkForCancel() {
+bool MenuClass::checkForCancel() {
  return false;
 }
 
