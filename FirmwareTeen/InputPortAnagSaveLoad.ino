@@ -208,6 +208,11 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
             PortCfg.NRPNparLSB = buf[0];
             PortCfg.NRPNparMSB = buf[1];
             return buLen;
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
+            PortCfg.Options2 = buf[0];
+            return buLen;
         case PITCHTRIG:
         case VELOCITY:
         case PROGRAMCHANGE:
@@ -224,9 +229,6 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
         case NOANFFUNC:
         case PITCHLEVEL:
         case PITCH8TRIG:
-        case CHORDINVERSION: // TODO Save Chord/Scale type?
-        case CHORDTYPE_DEF:
-        case SCALE_DEF:
             return buLen;
     }
     return 0;
@@ -344,6 +346,11 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
             buf[0] = PortCfg.NRPNparLSB;
             buf[1] = PortCfg.NRPNparMSB;
             return buLen;
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
+            buf[0] = PortCfg.Options2;
+            return buLen;
         case ANAGCLOCK:
             //  Do nothing, clock info should already be on General config
         case PITCHTRIG:
@@ -362,9 +369,6 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
         case NOANFFUNC:
         case PITCHLEVEL:
         case PITCH8TRIG:
-        case CHORDINVERSION: // TODO Save Chord/Scale type?
-        case CHORDTYPE_DEF:
-        case SCALE_DEF:
             return buLen;
     }
     return 0;

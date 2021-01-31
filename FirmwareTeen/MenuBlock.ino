@@ -284,7 +284,7 @@ bool SelectNoteMode() {
 }
 
 bool SelectSum() {
-  CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction);
+  //CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction);
   CVControls[BankSelected].Config.Chanfunction = SUM;
   return gotoMenuBanks();
   /*  myMenu.ClearArea();

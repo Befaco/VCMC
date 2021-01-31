@@ -13,8 +13,7 @@
 
 enum
 {
-    DEF_SCALE = 0,
-    FULL_SCALE ,
+    FULL_SCALE = 0,
     Mpenta_SCALE,
     Ionian_SCALE,
     Mixolydian_SCALE,
@@ -24,13 +23,13 @@ enum
     mpenta_SCALE,
     Phrygian_SCALE,
     Locrian_SCALE,
-    LASTSCALE
+    LASTSCALE,
+    DEF_SCALE
 };
 
 // Representation of notes in the full 12 notes scale.
 // Please note tht the first (root note) have to be set to 1
 const bool ScaleNotes[][12] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0},
     {1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
@@ -41,12 +40,12 @@ const bool ScaleNotes[][12] = {
     {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
     {1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
     {1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}  // LAST SCALE
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  // LAST SCALE
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
 static const char * const ScaleShortNames[] =
     {
-        "Default",
         "Full",
         "M penta",
         "Ionian",
@@ -56,12 +55,13 @@ static const char * const ScaleShortNames[] =
         "Aeolian",
         "m penta",
         "Phrygian",
-        "Locrian"
+        "Locrian",
+        "Last",
+        "Default",
 };
 
 static const char * const ScaleLongNames[] =
     {
-        "Default",
         "Full Scale",
         "Major pentatonic scale",
         "Major / Ionian mode",
@@ -71,7 +71,9 @@ static const char * const ScaleLongNames[] =
         "Aeolian or natural minor",
         "Minor pentatonic scale",
         "Phrygian mode",
-        "Locrian mode"
+        "Locrian mode",
+        "Last, do not use",
+        "Default"
 };
 
 
@@ -88,7 +90,6 @@ public:
     ScaleDef{ID, ScaleShortNames[ID], ScaleLongNames[ID], ScaleNotes[ID]}
 
 const ScaleDef ScalesDefinition[] __attribute__((unused)) = {
-    DEF_SCALE(DEF_SCALE),
     DEF_SCALE(FULL_SCALE),
     DEF_SCALE(Mpenta_SCALE),
     DEF_SCALE(Ionian_SCALE),
@@ -99,7 +100,8 @@ const ScaleDef ScalesDefinition[] __attribute__((unused)) = {
     DEF_SCALE(mpenta_SCALE),
     DEF_SCALE(Phrygian_SCALE),
     DEF_SCALE(Locrian_SCALE),
-    DEF_SCALE(LASTSCALE)
+    DEF_SCALE(LASTSCALE),
+    DEF_SCALE(DEF_SCALE)
 };
 
 /*

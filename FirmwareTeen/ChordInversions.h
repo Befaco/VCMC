@@ -12,9 +12,7 @@
 
 enum
 {
-    DEF_INVDROP = 0,
-
-    NO_INVDROP ,
+    NO_INVDROP = 0,
     INV1_INVDROP,
     INV2_INVDROP,
     INV3_INVDROP,
@@ -27,13 +25,12 @@ enum
     DROP3INV2_INVDROP,
     DROP3INV3_INVDROP,
 
-    LAST_INVDROP
+    LAST_INVDROP,
+    DEF_INVDROP
 };
 
 static const char *const InvDropShortNames[] =
 {
-    "Default",
-
     "Root",
     "1st Inv",
     "2nd Inv",
@@ -47,12 +44,11 @@ static const char *const InvDropShortNames[] =
     "Drop 3 Inv 2",
     "Drop 3 Inv 3",
 
-    "Invalid Inv"
+    "Invalid Inv",
+    "Default"
 };
 
 const int8_t InversionDrop4[][4] __attribute__((unused)) = {
-    {0, 0, 0, 0},    // Defauly == root
-
     {0, 0, 0, 0},    // root (close voicing)
     {12, 0, 0, 0},   // 1st inv
     {12, 12, 0, 0},  // 2nd inv
@@ -66,12 +62,13 @@ const int8_t InversionDrop4[][4] __attribute__((unused)) = {
     {0, -12, 0, 0},   // root drop 3
     {12, 0, -12, 0},  // 1st inv drop 3
     {12, 12, 0, -12}, // 2nd inv drop 3
-    {0, 12, 12, 0}    // 3rd inv drop 3
+    {0, 12, 12, 0},    // 3rd inv drop 3
+
+    {0, 0, 0, 0},    // Invalid, do not use
+    {0, 0, 0, 0}    // Defauly == root
 };
 
 const int8_t InversionDrop3[][3] __attribute__((unused)) = {
-    {0, 0, 0}, //default = root
-
     {0, 0, 0}, //close voicing
     {12, 0, 0},
     {12, 12, 0},
@@ -87,6 +84,8 @@ const int8_t InversionDrop3[][3] __attribute__((unused)) = {
     {12, 12, -12},
     {-12, 0, 0}, // drop 3
 
+    {0, 0, 0}, //Invalid, do noy use
+    {0, 0, 0}  //default = root
 };
 
 /** @} */

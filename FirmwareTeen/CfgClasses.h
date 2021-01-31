@@ -232,9 +232,19 @@ class AnInputPortCfg : public InputPortCfg {
       struct {
         uint8_t MIDIfunction: 5; ///< MIDI function as defined on InputFunctions enumerator
         uint8_t RangeBipolar: 2; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2:
-        bool Use14bitsCC: 1;  ///< When set, if CC is in range 0-31 will send additional CC in actual CC+32 with LSB
+        bool IsParamFunction: 1;  ///< When set, use the parameter change function
       };
       uint8_t Options1;
+    };
+
+    union
+    {
+      struct {
+//          uint8_t RangeBipolar: 2; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2:
+          uint8_t DestPort : 2;      ///< Port to change parameter: Gate/Fader/CV
+          uint8_t DestCtrl : 4;     /// Control number: 0-8 + 9=Aux
+      };
+      uint8_t Options2=0;
     };
 
     RangeConv Ranges;      ///< Configuration for ADC and MIDI with conversion functions
@@ -254,7 +264,6 @@ class AnInputPortCfg : public InputPortCfg {
     AnInputPortCfg ():
       MIDIfunction (PITCHTRIG),
       RangeBipolar(NOOFFSET),
-      Use14bitsCC(0),
       ClipLow(0), ClipHigh(120),
       NRPNparMSB(0x7f), NRPNparLSB(0x7f),
       AutoOff(1000)
@@ -265,7 +274,6 @@ class AnInputPortCfg : public InputPortCfg {
       InputPortCfg( MIDIChan, CCN, nSend, ccVal, clkDiv, clkSh ),
       MIDIfunction (PITCHTRIG),
       RangeBipolar(RangeBip),
-      Use14bitsCC(0),
       NRPNparMSB(NRPNMSB), NRPNparLSB(NRPNLSB),
       AutoOff(1000)
     {

@@ -378,16 +378,19 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         }
         break;
     case CHORDTYPE_DEF:
-        theApp.DefaultChord.setChord(MIDIData);
+        theApp.Controls[PortCfg.DestCtrl].Chord.setChord(SendData);
+        //theApp.DefaultChord.setChord(MIDIData);
         break;
     case SCALE_DEF:
-        theApp.DefaultChord.setScale(MIDIData);
+        theApp.Controls[PortCfg.DestCtrl].Chord.setScale(SendData);
+        //theApp.DefaultChord.setScale(MIDIData);
         break;
     case CHORDINVERSION:
-        theApp.DefaultChord.setInvDrop(MIDIData);
+        theApp.Controls[PortCfg.DestCtrl].Chord.setInvDrop(SendData);
+        /* theApp.DefaultChord.setInvDrop(MIDIData);
         // Set also the Chord Inversion for control if not setup in default inversion
         if(theApp.Controls[PortNumber].Chord.getInvDrop()!= DEF_INVDROP)
-            theApp.Controls[PortNumber].Chord.setInvDrop(MIDIData);
+            theApp.Controls[PortNumber].Chord.setInvDrop(MIDIData); */
         break; 
     }
 	// Store current data

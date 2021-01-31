@@ -61,13 +61,13 @@ protected:
     uint8_t rootNote = 0;
     uint8_t Velocity = defVel;
     uint8_t MIDIChannel = 1;
-    // uint8_t Notes[NOTESCHORD+1] = {0};
-    bool isPlaying = false;
+    uint8_t NotesPlaying[NOTESCHORD+1] = {0};
+    uint8_t isPlaying = 0; //< number of notes playing
     NoteCallback NoteOn = nullptr;
     NoteCallback NoteOff = nullptr;
 
 public:
-    MIDIChord() : Scale(DEF_SCALE), ChordType(DEF_CHORD), InvDrop(DEF_INVDROP) {}
+    MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD), InvDrop(NO_INVDROP) {}
 
     // Returns note adjusted to selected scale
     uint8_t adjustNoteToScale(uint8_t note);

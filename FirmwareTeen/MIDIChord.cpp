@@ -48,8 +48,8 @@ uint8_t MIDIChord::setScale(uint8_t newscale){
 
     Scale = newscale;
     // Adjust rootNote to new scale and return new root 
-    // return setRootNote(rootNote); //Will stop playing current chord
-    return setRootNote(rootNote,Velocity,MIDIChannel,isPlaying); // Will stop playing current chord and play new one
+    return adjustNoteToScale(rootNote);
+    //return setRootNote(rootNote,Velocity,MIDIChannel,isPlaying); // Will stop playing current chord and play new one
 }
 
 /**
@@ -60,24 +60,24 @@ uint8_t MIDIChord::setScale(uint8_t newscale){
 void MIDIChord::setChord(uint8_t newchord){
     if( newchord>=LASTCHORD) // Incorrect scale, no change
         return;
-    bool wasPlaying = isPlaying;
-    if(isPlaying) noteoffChord();
+    //bool wasPlaying = isPlaying;
+    //if(isPlaying) noteoffChord();
 
     ChordType = newchord;
-    if(wasPlaying) // Play new chord it it was playing
-        setRootNote(rootNote, Velocity, MIDIChannel, true);
+    //if(wasPlaying) // Play new chord it it was playing
+    //    setRootNote(rootNote, Velocity, MIDIChannel, true);
 }
 
 
 void MIDIChord::setInvDrop(uint8_t newInv){ 
     if(newInv>=LAST_INVDROP)
         return;
-    bool wasPlaying = isPlaying;
-    if(isPlaying) noteoffChord();
+    //bool wasPlaying = isPlaying;
+    //if(isPlaying) noteoffChord();
 
     InvDrop = newInv;
-    if(wasPlaying) // Play new chord it it was playing
-        setRootNote(rootNote, Velocity, MIDIChannel, true);
+    //if(wasPlaying) // Play new chord it it was playing
+    //    setRootNote(rootNote, Velocity, MIDIChannel, true);
 }
 
 
@@ -150,11 +150,15 @@ uint8_t MIDIChord::playChord(void)
     for (int i = 0; i < chord[0]; i++){
         if(invTable){
             inv = invTable[i];
-            DP(inv);
+            //DP(inv);
             }
-        NoteOn(rootNote + chord[i + 1] + inv, Velocity, MIDIChannel);
+            int16_t playnote = rootNote + chord[i + 1] + inv;
+            playnote = (playnote < 0) ? 0 : playnote;
+            playnote = (playnote > 120) ? 120 : playnote;
+            NotesPlaying[i] = playnote;
+            NoteOn(playnote, Velocity, MIDIChannel);
     }
-    isPlaying = true;
+    isPlaying = chord[0];
     return rootNote;
 }
 
@@ -162,13 +166,13 @@ uint8_t MIDIChord::noteoffChord(void)
 {
     if( !NoteOff) return rootNote; // No NoteOff defined
     
-    uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
-    const int8_t *chord = chordNotesDef[chordtoPlay];
+    //uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
+    //const int8_t *chord = chordNotesDef[chordtoPlay];
 
-    for (int i = 0; i < chord[0]; i++){
-        NoteOff(rootNote + chord[i + 1], Velocity, MIDIChannel);
+    for (int i = 0; i < isPlaying; i++){
+        NoteOff(NotesPlaying[i] , Velocity, MIDIChannel);
     }
-    isPlaying = false;
+    isPlaying = 0;
     return rootNote;
 }
 

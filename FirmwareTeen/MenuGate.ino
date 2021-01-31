@@ -350,8 +350,47 @@ bool SelectGateStop()
 
 bool SelectChord()
 {
-    byte FIRSTBLK = (BankSelected==0)?0:4;
+    byte FIRSTBLK = BankSelected;
+
+    // First block: CV (Note V/Oct) + Fader (+/-1 Octave) + Gate (Trigger Note)
+    CVControls[FIRSTBLK].Config.Chanfunction = SUM;
+    CVControls[FIRSTBLK].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+    CVControls[FIRSTBLK].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
+    CVControls[FIRSTBLK].Slider.PortCfg.Ranges.SetMIDI(-24, 48); // +/- 2 Octaves
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipLow = -24;
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipHigh = 24;
+    CVControls[FIRSTBLK].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    // Second block: CV (CHORDINVERSION) + Fader (CHORDINVERSION)
+    CVControls[FIRSTBLK + 1].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 1].CVPort.PortCfg.SetMIDIFunc(CHORDINVERSION);
+    CVControls[FIRSTBLK + 1].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 1].Slider.PortCfg.SetMIDIFunc(CHORDINVERSION);
+    CVControls[FIRSTBLK + 1].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    // Second block: CV (CHORDTYPE_DEF) + Fader (CHORDTYPE_DEF)
+    CVControls[FIRSTBLK + 2].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 2].CVPort.PortCfg.SetMIDIFunc(CHORDTYPE_DEF);
+    CVControls[FIRSTBLK + 2].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 2].Slider.PortCfg.SetMIDIFunc(CHORDTYPE_DEF);
+    CVControls[FIRSTBLK + 2].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    // Second block: CV (SCALE_DEF) + Fader (SCALE_DEF)
+    CVControls[FIRSTBLK + 3].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 3].CVPort.PortCfg.SetMIDIFunc(SCALE_DEF);
+    CVControls[FIRSTBLK + 3].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 3].Slider.PortCfg.SetMIDIFunc(SCALE_DEF);
+    CVControls[FIRSTBLK + 3].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    /*     byte FIRSTBLK = (BankSelected==0)?0:4;
     byte LASTBLK = (BankSelected==0)?3:7;
+ 
     // Set banks 5, 6, 7, 8 to V/Oct input.
     for (int i=FIRSTBLK; i < LASTBLK; i++) {
      CVControls[i].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
@@ -359,6 +398,7 @@ bool SelectChord()
      //CVControls[i].GateBut.PortCfg.SetMIDIFunc(CHORD);
     }
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORD);
+ */
     SelectGateConfig();
     return true;
 }

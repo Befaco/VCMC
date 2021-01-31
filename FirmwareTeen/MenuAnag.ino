@@ -174,16 +174,45 @@ MenuItem StdNamesItems[] = {
 MenuList StdNameList(StdNamesItems, 1, ListLines);
 
 
+bool SelectChannel()
+{
+    long val = ((AnInputPortCfg *)GetPortCfg())->DestCtrl+1;
+    bool ret = EncoderchangeValue("Channel:", val, 1, 8, 1, 00, 45);
+    ((AnInputPortCfg *)GetPortCfg())->DestCtrl = val - 1;
+
+    return ret;
+}
 
 bool SelectDefChord()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDTYPE_DEF);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
     return gotoMenuAnag();
 }
 
 bool SelectDefScale()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(SCALE_DEF);
+
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
     return gotoMenuAnag();
 }
 
@@ -191,6 +220,16 @@ bool SelectDefScale()
 bool SelectInvDrop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDINVERSION);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
     return gotoMenuAnag();
 }
 

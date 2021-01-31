@@ -1,4 +1,13 @@
-Mostrat acordes en pantalla
+
+TODO New use Save defaults values to save EEPROM space
+TODO Assign function to analog port to change parameters in other ports
+    (version 1) change 1 destination
+    (version 2) change several destinations
+
+Modification in   ResponsiveAnalogRead.h  
+Change line 75 to initialize smoothValue parameter:
+    float smoothValue=0.;
+
 
 Scale Type
 Default scale in general options

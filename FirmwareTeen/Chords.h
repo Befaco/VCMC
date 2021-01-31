@@ -12,7 +12,6 @@
 
 const int8_t chordNotesDef[][9] = {
     {1, 0},
-    {1, 0},
 
     {2, 0, 7},
     {3, 0, 4, 8},
@@ -65,11 +64,11 @@ const int8_t chordNotesDef[][9] = {
     {6, 0, 1, 4, 6, 7, 10},
     {7, 0, 4, 7, 10, 14, 17, 21},
 
-    {0, 0, 0, 0, 0, 0, 0, 0, 0}
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {1, 0}
 };
 
 static const char *const ChordNames[] = {
-    "Default",
     "No Chord",
 
     "Power P5",
@@ -123,11 +122,11 @@ static const char *const ChordNames[] = {
     "Petrushka",
     "Dom 13th",
 
-    "Last Chord"
+    "Last Chord",
+    "Default"
 };
 
 static const char *const LongChordNames[] = {
-    "Default",
     "No Chord",
 
     "Power chord P5",
@@ -181,13 +180,13 @@ static const char *const LongChordNames[] = {
     "Petrushka chord",
     "Dominant thirteenth chord",
 
-    "Last Chord,do not use"
+    "Last Chord,do not use",
+    "Default",
 };
 
 enum
 {
-    DEF_CHORD = 0,
-    ONENOTECHORD,
+    ONENOTECHORD = 0,
 
     POWER_P5,
     AUGMENTED,
@@ -240,7 +239,9 @@ enum
     PETRUSHKA,
     DOM_13TH,
 
-    LASTCHORD
+    LASTCHORD,
+    DEF_CHORD
+
 };
 
 /** @} */

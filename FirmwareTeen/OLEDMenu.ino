@@ -436,35 +436,44 @@ void OLEDMenu::displayMenuCards () {
 
 
 #ifndef DEBUGMODE
-    int TrimCV;
-    TrimCV = CVControls[BankSelected].CVPort.TrimValue (-9999);
-    // Status of analog inputs
-    // CV Data
     theOLED->setCursor (POSXCARD + 0, posCursor);
     posCursor += 8;
 
+    int TrimCV = CVControls[BankSelected].CVPort.TrimValue (-9999);
+    AnInputPortCfg* theCfg = &CVControls[BankSelected].CVPort.PortCfg;
+    // Status of analog inputs
+    // CV Data
+
     theOLED->setCursor (POSXCARD + 0, posCursor);
     posCursor += 8;
-    if (CVControls[BankSelected].CVPort.PortCfg.textPort) // Has name
+    if (theCfg->textPort) // Has name
     {
         // Print Name
-        CVControls[BankSelected].CVPort.PortCfg.getName(name);
+        theCfg->getName(name);
         theOLED->print(name);
     } else{
-        PrintFunction(&(CVControls[BankSelected].CVPort.PortCfg));
+        PrintFunction(theCfg);
     }
     theOLED->setCursor (POSXCARD + 8, posCursor);
     posCursor += 8;
-    if(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == SCALE_DEF){
-        theOLED->print(ScaleShortNames[theApp.DefaultChord.getScale()]);
-    } else if(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == CHORDTYPE_DEF){
-        theOLED->print(ChordNames[theApp.DefaultChord.getChordType()]);
-    } else if(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == CHORDINVERSION){
-        theOLED->print(InvDropShortNames[theApp.DefaultChord.getInvDrop()]);
-    } else theOLED->print (TrimCV);
+    char dataToShow[20]={0};
+    uint8_t TRIMSTRING = 8;
 
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG ||
-        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH8TRIG) {
+    if(theCfg->MIDIfunction == SCALE_DEF){
+        sprintf(dataToShow, "%s", 
+            ScaleShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getScale()]);
+    } else if(theCfg->MIDIfunction == CHORDTYPE_DEF){
+        sprintf(dataToShow, "%s", 
+            ChordNames[theApp.Controls[theCfg->DestCtrl].Chord.getChordType()]);
+    } else if(theCfg->MIDIfunction == CHORDINVERSION){
+        sprintf(dataToShow, "%s", 
+            InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+    } else theOLED->print (TrimCV);
+    dataToShow[TRIMSTRING] = 0; // Trim string
+    theOLED->print(dataToShow);
+
+    if (theCfg->MIDIfunction == PITCHTRIG ||
+        theCfg->MIDIfunction == PITCH8TRIG) {
         if (TrimCV > 0) {
             theOLED->print (" ");
             theOLED->print (NotesNames[TrimCV]);
@@ -476,6 +485,7 @@ void OLEDMenu::displayMenuCards () {
     #ifndef CVTHING
     // Fader Data
     int TrimFader = CVControls[BankSelected].Slider.TrimValue (-9999);
+    theCfg = &CVControls[BankSelected].Slider.PortCfg;
 
     if( CVControls[BankSelected].Config.Chanfunction != INDEP) {
         if (BankSelected == 8) {
@@ -483,25 +493,33 @@ void OLEDMenu::displayMenuCards () {
         } else {
             theOLED->print ("FAD ");
         }
+        TRIMSTRING = 5;
+        sprintf(dataToShow,"%d", TrimFader);
     } else {
-        if (CVControls[BankSelected].Slider.PortCfg.textPort) // Has name
+        if (theCfg->textPort) // Has name
         {
             // Print Name
-            CVControls[BankSelected].Slider.PortCfg.getName(name);
+            theCfg->getName(name);
             theOLED->print(name);
         } else{
-                PrintFunction(&(CVControls[BankSelected].Slider.PortCfg));
+                PrintFunction(theCfg);
         }
         theOLED->setCursor (POSXCARD + 8, posCursor);
         posCursor += 8;
+        if(theCfg->MIDIfunction == SCALE_DEF){
+            sprintf(dataToShow, "%s", 
+                ScaleShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getScale()]);
+        } else if(theCfg->MIDIfunction == CHORDTYPE_DEF){
+            sprintf(dataToShow, "%s", 
+                ChordNames[theApp.Controls[theCfg->DestCtrl].Chord.getChordType()]);
+        } else if(theCfg->MIDIfunction == CHORDINVERSION){
+            sprintf(dataToShow, "%s", 
+                InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+        } else sprintf(dataToShow,"%d", TrimFader);
     }
-    if(CVControls[BankSelected].Slider.PortCfg.MIDIfunction == SCALE_DEF){
-        theOLED->print(ScaleShortNames[theApp.DefaultChord.getScale()]);
-    } else if(CVControls[BankSelected].Slider.PortCfg.MIDIfunction == CHORDTYPE_DEF){
-        theOLED->print(ChordNames[theApp.DefaultChord.getChordType()]);
-    } else if(CVControls[BankSelected].Slider.PortCfg.MIDIfunction == CHORDINVERSION){
-        theOLED->print(InvDropShortNames[theApp.DefaultChord.getInvDrop()]);
-    } else theOLED->println (TrimFader);
+    
+    dataToShow[TRIMSTRING] = 0; // Trim string
+    theOLED->print(dataToShow);
  
     //posCursor += 8;
     if( CVControls[BankSelected].Config.Chanfunction != INDEP){
