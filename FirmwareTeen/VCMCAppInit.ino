@@ -213,7 +213,7 @@ void VCMCApp::initdisplay(void)
  */
 void VCMCApp::initEncoder(void)
 {
-    myTimer.begin(timerIsr, 1000);
+    myTimer.begin(timerIsr, TIMERENCSERVICE);
     // Setup the button with an internal pull-up :
     pinMode(PINENCBUT, INPUT_PULLUP);
     // After setting up the button, setup the Bounce instance :

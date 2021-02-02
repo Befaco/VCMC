@@ -57,6 +57,7 @@ public:
     void sendControlChange(byte Ctrler, byte Value, byte Chann);
     void sendPitchBend(int Value, byte Chann);
     void sendProgramChange(byte program, byte channel);
+    void sendAfterTouch(byte Value, byte Chann);
     void sendRealTime(byte Value);
     void endNrpn(uint8_t channel);
     void sendNrpnValue(uint16_t value, uint8_t channel);

@@ -53,8 +53,10 @@
 #define FILTEREDANAGINPUT   /// Filter analog inputs
 #ifdef DEBUGMODE
 const int TIMERINTSERVICE = 250; /// Microseconds between call to read ports service function servicePorts()
+const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder service function
 #else
 const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports service function servicePorts()
+const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder service function
 #endif
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1

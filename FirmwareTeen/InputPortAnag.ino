@@ -289,6 +289,9 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
     case PROGRAMCHANGE:
         MidiMerge.sendProgramChange (SendData, PortCfg.MIDIChannel);
         break;
+    case AFTERTOUCH:
+        MidiMerge.sendAfterTouch (SendData, PortCfg.MIDIChannel);
+        break;
     case PITCHBEND:
         MidiMerge.sendPitchBend (SendData, PortCfg.MIDIChannel);
         break;

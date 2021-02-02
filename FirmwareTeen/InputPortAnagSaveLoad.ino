@@ -216,6 +216,7 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
         case PITCHTRIG:
         case VELOCITY:
         case PROGRAMCHANGE:
+        case AFTERTOUCH:
         case PITCHBEND:
         case PERCENT:
         case ANAGSTARTSTOP:
@@ -356,6 +357,7 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
         case PITCHTRIG:
         case VELOCITY:
         case PROGRAMCHANGE:
+        case AFTERTOUCH:
         case PITCHBEND:
         case PERCENT:
         case ANAGSTARTSTOP:

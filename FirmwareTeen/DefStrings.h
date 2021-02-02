@@ -56,7 +56,7 @@ static const char PortNames[][SIZEPORTNAMES+1] = {
 
 /// Analog Functions names
 static const char * const PortFuncStr[] = {
-	"V/Oct", "Note", "CC#", "Vel", "Prog", "Bend", "Perc",
+	"V/Oct", "Note", "CC#", "Vel", "Prog", "After", "Bend", "Perc",
 	"Clock", "ST/SP", "ST/PA", "ST/SP", "ST/PA",
 	"Free", "NRPN7", "NRPN14", "No Func",
 	"Gate", "Start", "Stop", "Cont", "CC Tr", "CC Lt", "Trig","Latch","V/O Pol","CC14b",

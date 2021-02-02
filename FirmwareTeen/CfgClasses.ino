@@ -117,6 +117,7 @@ void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case ANAGCLOCK:
     case ANAGSTARTSTOP:
     case ANAGPAUSECONT:
@@ -192,6 +193,7 @@ bool AnInputPortCfg::IsDigitalFunc(void)
     case CONTROLCHANGE:
     case CC14BITS:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case PITCHBEND:
     case PERCENT:
     case ANAGFREEVALUE:
@@ -263,6 +265,7 @@ void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case ANAGCLOCK:
     case ANAGSTARTSTOP:
     case ANAGPAUSECONT:

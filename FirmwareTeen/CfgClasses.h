@@ -135,6 +135,7 @@ typedef enum IPFun_e {
   CONTROLCHANGE,     ///< MIDI Control Change message
   VELOCITY,          ///< Velocity Mode. Will be used when sending a Note On on the same channel.
   PROGRAMCHANGE,     ///< MIDI Program Change message
+  AFTERTOUCH,        ///< MIDI After Pressure message
   PITCHBEND,         ///< MIDI Pitch Bend message
   PERCENT,           ///< Set value to be between 0 and 100. This apply to the slider value only when the function of the Bank is Multiply
   ANAGCLOCK,         ///< Send MIDI clock
