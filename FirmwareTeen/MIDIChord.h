@@ -72,6 +72,7 @@ public:
     // Returns note adjusted to selected scale
     uint8_t adjustNoteToScale(uint8_t note);
     uint8_t playChord(void);
+    uint8_t getChordToPlay(void);
     uint8_t noteoffChord(void);
     // Set new scale and adjust rootNote accordingly. Returns new rootNote
     uint8_t setScale(uint8_t newscale);

@@ -136,11 +136,26 @@ const int8_t*  MIDIChord::getInvTable(uint8_t chordtoPlay)
     return pretVal;
 }
 
+
+uint8_t MIDIChord::getChordToPlay(void)
+{
+    uint8_t retVal = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
+    uint8_t scale = getScale();
+    if( retVal>0 && scale>FULL_SCALE){ // Check diatonic chords
+        if(retVal>diatonicNumberOfChords) retVal = 1; // If chord is not defined, use triads
+        D(Serial.printf("In %d,%d,%d: Out %d\n", scale, retVal-1, rootNote%12, diatonicChords[scale-1][retVal-1][rootNote%12]));
+        retVal = diatonicChords[scale-1][retVal-1][rootNote%12];
+    }
+    D(Serial.printf("Root note %d Chord selected: %s\n", rootNote, LongChordNames[retVal]));
+    return retVal;
+}
+
+
 uint8_t MIDIChord::playChord(void)
 {
     if( !NoteOn) return rootNote; // No NoteOn defined
 
-    uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
+    uint8_t chordtoPlay = getChordToPlay();
     const int8_t *chord = chordNotesDef[chordtoPlay];
 
     if(isPlaying) noteoffChord();

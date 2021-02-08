@@ -14,65 +14,66 @@
 enum
 {
     FULL_SCALE = 0,
-    Mpenta_SCALE,
+    Lydian_SCALE,
     Ionian_SCALE,
     Mixolydian_SCALE,
-    Lydian_SCALE,
     Dorian_SCALE,
     Aeolian_SCALE,
-    mpenta_SCALE,
     Phrygian_SCALE,
     Locrian_SCALE,
     LASTSCALE,
+    Mpenta_SCALE,
+    mpenta_SCALE,
     DEF_SCALE
 };
 
 // Representation of notes in the full 12 notes scale.
+// First scales are the seven western modes sorted from "Brighter" to "Darker"
 // Please note tht the first (root note) have to be set to 1
 const bool ScaleNotes[][12] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0},
-    {1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
-    {1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0},
-    {1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1},
-    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0},
-    {1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-    {1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0},
-    {1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
-    {1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0},
+    {1, 2, 3, 4, 5, 6, 7, 7, 9,10,11,12},
+    {1, 0, 2, 0, 3, 0, 4, 5, 0, 6, 0, 7},
+    {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7},
+    {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 7, 0},
+    {1, 0, 2, 3, 0, 4, 0, 5, 0, 6, 7, 0},
+    {1, 0, 2, 3, 0, 4, 0, 5, 6, 0, 7, 0},
+    {1, 2, 0, 3, 0, 4, 0, 5, 6, 0, 7, 0},
+    {1, 2, 0, 3, 0, 4, 5, 0, 6, 0, 7, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},  // LAST SCALE
+    {1, 0, 2, 0, 3, 0, 0, 4, 0, 5, 0, 0},
+    {1, 0, 0, 2, 0, 3, 0, 4, 0, 0, 5, 0},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
 static const char * const ScaleShortNames[] =
     {
         "Full",
-        "M penta",
-        "Ionian",
-        "Mixolydian",
         "Lydian",
+        "Major",
+        "Mixolydian",
         "Dorian",
-        "Aeolian",
-        "m penta",
+        "Minor",
         "Phrygian",
         "Locrian",
         "Last",
+        "M penta",
+        "m penta",
         "Default",
 };
 
 static const char * const ScaleLongNames[] =
     {
         "Full Scale",
-        "Major pentatonic scale",
+        "Lydian mode",
         "Major / Ionian mode",
         "Mixolydian mode",
-        "Lydian mode",
         "Dorian mode",
-        "Aeolian or natural minor",
-        "Minor pentatonic scale",
+        "Minor / Aeolian mode",
         "Phrygian mode",
         "Locrian mode",
         "Last, do not use",
+        "Major pentatonic scale",
+        "Minor pentatonic scale",
         "Default"
 };
 
@@ -91,16 +92,16 @@ public:
 
 const ScaleDef ScalesDefinition[] __attribute__((unused)) = {
     DEF_SCALE(FULL_SCALE),
-    DEF_SCALE(Mpenta_SCALE),
+    DEF_SCALE(Lydian_SCALE),
     DEF_SCALE(Ionian_SCALE),
     DEF_SCALE(Mixolydian_SCALE),
-    DEF_SCALE(Lydian_SCALE),
     DEF_SCALE(Dorian_SCALE),
     DEF_SCALE(Aeolian_SCALE),
-    DEF_SCALE(mpenta_SCALE),
     DEF_SCALE(Phrygian_SCALE),
     DEF_SCALE(Locrian_SCALE),
     DEF_SCALE(LASTSCALE),
+    DEF_SCALE(Mpenta_SCALE),
+    DEF_SCALE(mpenta_SCALE),
     DEF_SCALE(DEF_SCALE)
 };
 

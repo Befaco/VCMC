@@ -13,20 +13,26 @@
 const int8_t chordNotesDef[][9] = {
     {1, 0},
 
-    {2, 0, 7},
-    {3, 0, 4, 8},
-    {3, 0, 3, 6},
     {3, 0, 4, 7},
-    {3, 0, 3, 7},
-    {3, 0, 5, 7},
-    {4, 0, 4, 8, 10},
-    {4, 0, 4, 8, 11},
-    {4, 0, 4, 7, 10},
-    {4, 0, 5, 6, 7},
-    {4, 0, 4, 7, 9},
     {4, 0, 4, 7, 11},
-    {4, 0, 3, 7, 9},
+
+    {3, 0, 3, 7},
+    {3, 0, 3, 6},
+    {3, 0, 4, 8},
+    {3, 0, 5, 7},
+
+    {4, 0, 4, 7, 10},
     {4, 0, 3, 7, 10},
+    {4, 0, 3, 6, 9},
+    {4, 0, 4, 8, 10},
+    {4, 0, 3, 6, 10},
+
+    {4, 0, 4, 7, 9},
+
+    {2, 0, 7},
+    {4, 0, 4, 8, 11},
+    {4, 0, 5, 6, 7},
+    {4, 0, 3, 7, 9},
     {5, 0, 4, 7, 11, 14},
     {5, 0, 3, 7, 10, 14},
     {7, 0, 4, 7, 11, 14, 18, 21},
@@ -36,10 +42,8 @@ const int8_t chordNotesDef[][9] = {
     {3, 0, 5, 8},
     {3, 0, 1, 6},
     {4, 0, 5, 7, 10},
-    {4, 0, 3, 6, 9},
     {4, 0, 3, 6, 11},
     {4, 0, 4, 6, 10},
-    {4, 0, 3, 6, 10},
     {4, 0, 3, 7, 11},
     {4, 0, 2, 4, 7},
     {5, 0, 4, 7, 10, 15},
@@ -71,20 +75,26 @@ const int8_t chordNotesDef[][9] = {
 static const char *const ChordNames[] = {
     "No Chord",
 
-    "Power P5",
-    "Augmented",
-    "Diminished",
     "Major",
-    "Minor",
-    "Suspended",
-    "Aug 7th",
-    "Aug major 7th",
-    "Dom 7th",
-    "Dream",
-    "Major 6th",
     "Major 7th",
-    "Minor 6th",
+
+    "Minor",
+    "Diminished",
+    "Augmented",
+    "Suspended",
+
+    "Dom 7th",
     "Minor 7th",
+    "Dim 7th ",
+    "Aug 7th",
+    "HalfDim 7th",
+
+    "Major 6th",
+
+    "Power P5",
+    "Aug major 7th",
+    "Dream",
+    "Minor 6th",
     "Major 9th",
     "Minor 9h",
     "Major 13th",
@@ -94,10 +104,8 @@ static const char *const ChordNames[] = {
     "Neapolitan",
     "Viennese trichord",
     "7th suspension four",
-    "Dim 7th ",
     "Dim major 7th",
     "Dom 7th flat five",
-    "HalfDim 7th",
     "Minor major 7th",
     "Mu",
     "Dom 7th sharp nine",
@@ -129,20 +137,26 @@ static const char *const ChordNames[] = {
 static const char *const LongChordNames[] = {
     "No Chord",
 
-    "Power chord P5",
-    "Augmented chord",
-    "Diminished chord",
     "Major chord",
-    "Minor chord",
-    "Suspended chord",
-    "Augmented seventh chord",
-    "Augmented major seventh chord",
-    "Dominant seventh chord",
-    "Dream chord",
-    "Major sixth chord",
     "Major seventh chord",
-    "Minor sixth chord",
+
+    "Minor chord",
+    "Diminished chord",
+    "Augmented chord",
+    "Suspended chord",
+
+    "Dominant seventh chord",
     "Minor seventh chord",
+    "Diminished seventh chord ",
+    "Augmented seventh chord",
+    "Half-diminished seventh chord",
+
+    "Major sixth chord",
+
+    "Power chord P5",
+    "Augmented major seventh chord",
+    "Dream chord",
+    "Minor sixth chord",
     "Major ninth chord",
     "Minor ninth chord",
     "Major thirteenth chord",
@@ -152,10 +166,8 @@ static const char *const LongChordNames[] = {
     "Neapolitan chord",
     "Viennese trichord",
     "Seventh suspension four chord",
-    "Diminished seventh chord ",
     "Diminished major seventh chord",
     "Dominant seventh flat five chord",
-    "Half-diminished seventh chord",
     "Minor major seventh chord",
     "Mu chord",
     "Dominant seventh sharp nine / Hendrix chord",
@@ -188,20 +200,26 @@ enum
 {
     ONENOTECHORD = 0,
 
-    POWER_P5,
-    AUGMENTED,
-    DIMINISHED,
     MAJOR,
-    MINOR,
-    SUSPENDED,
-    AUG_7TH,
-    AUG_MAJOR_7TH,
-    DOM_7TH,
-    DREAM,
-    MAJOR_6TH,
     MAJOR_7TH,
-    MINOR_6TH,
+
+    MINOR,
+    DIMINISHED,
+    AUGMENTED,
+    SUSPENDED,
+
+    DOM_7TH,
     MINOR_7TH,
+    DIM_7TH,
+    AUG_7TH,
+    HALFDIM_7TH,
+
+    MAJOR_6TH,
+
+    POWER_P5,
+    AUG_MAJOR_7TH,
+    DREAM,
+    MINOR_6TH,
     MAJOR_NINTH,
     MINOR_NINTH,
     MAJOR_13TH,
@@ -211,10 +229,8 @@ enum
     NEAPOLITAN,
     VIENNESE_TRICHORD,
     SEVTH_SUSPENSION_FOUR,
-    DIM_7TH,
     DIM_MAJOR_7TH,
     DOM_7TH_FLAT_FIVE,
-    HALFDIM_7TH,
     MINOR_MAJOR_7TH,
     MU,
     DOM_7TH_SHARP_NINE,
@@ -242,6 +258,92 @@ enum
     LASTCHORD,
     DEF_CHORD
 
+};
+
+
+// diatonic chords
+const uint8_t diatonicNumberOfChords = 2;
+const int8_t diatonicChords[][diatonicNumberOfChords][12] = {
+    { // Lydian {1, 0, 2, 0, 3, 0, 4, 5, 0, 6, 0, 7},
+    {MAJOR, 0, MAJOR, 0, MINOR, 0, DIMINISHED, MAJOR, 0, MINOR, 0, MINOR},
+    {MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH}
+    },
+    
+    { // Major/Ionian {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7},
+    {MAJOR, 0, MINOR, 0, MINOR, MAJOR, 0, MAJOR, 0, MINOR, 0, DIMINISHED},
+    {MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH}
+    },
+    
+    { // Mixolydian {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 7, 0}
+    {MAJOR, 0, MINOR, 0, DIMINISHED, MAJOR, 0, MINOR, 0, MINOR, MAJOR, 0},
+    {MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH, MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0}
+    },
+
+    {// Dorian {1, 0, 2, 3, 0, 4, 0, 5, 0, 6, 7, 0}
+    {MINOR, 0, MINOR, MAJOR, 0, MAJOR, 0, MINOR, 0, DIMINISHED, MAJOR,0},
+    {MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH, MAJOR_7TH,0}
+    },
+
+    {// Minor {1, 0, 2, 3, 0, 4, 0, 5, 6, 0, 7, 0}
+    {MINOR, 0, DIMINISHED, MAJOR, 0, MINOR, 0, MINOR, MAJOR, 0, MAJOR, 0},
+    {MINOR_7TH, 0, HALFDIM_7TH, MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0}
+    },
+
+    {// Phrygian {1, 2, 0, 3, 0, 4, 0, 5, 6, 0, 7, 0}
+    {MINOR, MAJOR, 0, MAJOR, 0, MINOR, 0, DIMINISHED, MAJOR, 0, MINOR, 0},
+    {MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH, MAJOR_7TH, 0, MINOR_7TH, 0}
+    },
+
+    {// Locrian {1, 2, 0, 3, 0, 4, 5, 0, 6, 0, 7, 0}
+    {DIMINISHED, MAJOR, 0, MINOR, 0, MINOR, MAJOR, 0, MAJOR, 0, MINOR, 0},
+    {HALFDIM_7TH, MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0},
+    }
+};
+
+
+const int8_t allDiatonicChords[][2][7][9] = {
+    // Major/Ionian
+    { 
+        { // C Major Triad
+        {3, 0, 4, 7},
+        {3, 0, 3, 7},
+        {3, 0, 3, 7},
+        {3, 0, 4, 7},
+        {3, 0, 4, 7},
+        {3, 0, 3, 7},
+        {3, 0, 3, 6}
+        },
+        { // Cmajor-7
+        {4, 0, 4, 7, 11},
+        {4, 0, 3, 7, 10},
+        {4, 0, 3, 7, 10},
+        {4, 0, 4, 7, 11},
+        {4, 0, 4, 7, 10},
+        {4, 0, 3, 7, 10},
+        {4, 0, 3, 6, 10}
+        },
+    },
+    // Minor
+    { 
+        { // C Minor Triad
+        {3,0,3,7},
+        {3,0,3,6},
+        {3,0,4,7},
+        {3,0,3,7},
+        {3,0,3,7},
+        {3,0,4,7},
+        {3,0,4,7}
+        },
+        { // C Minor 7th
+        {4,0,3,7,10},
+        {4,0,3,6,10},
+        {4,0,4,7,11},
+        {4,0,3,7,10},
+        {4,0,3,7,10},
+        {4,0,4,7,11},
+        {4,0,4,7,10}
+        }
+    }
 };
 
 /** @} */
