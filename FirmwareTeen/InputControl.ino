@@ -529,6 +529,14 @@ int InputControl::SaveCfg (int addr) {
   // Bank function
   EEPROM.put (MemPointer, (uint8_t)Config.Chanfunction);
   MemPointer += sizeof (uint8_t);
+  // Chords and Scales
+  EEPROM.put (MemPointer, (uint8_t)Chord.getScaleId());
+  MemPointer += sizeof (uint8_t);
+  EEPROM.put (MemPointer, (uint8_t)Chord.getChordType());
+  MemPointer += sizeof (uint8_t);
+  EEPROM.put (MemPointer, (uint8_t)Chord.getInvDrop());
+  MemPointer += sizeof (uint8_t);
+
   // Reserved BANKGENERALeeSize for general data
   MemPointer += BANKGENERALeeSize - (MemPointer - addr);
 
@@ -569,6 +577,17 @@ int InputControl::LoadCfg (int addr) {
 
   Config.Chanfunction = (CtrlFunctions)EEPROM.read (MemPointer);
   MemPointer += sizeof (uint8_t);
+  // Chords and Scales
+  uint8_t read = EEPROM.read (MemPointer);
+  Chord.setScaleId(read);
+  MemPointer += sizeof (uint8_t);
+  read = EEPROM.read (MemPointer);
+  Chord.setChord(read);
+  MemPointer += sizeof (uint8_t);
+  read = EEPROM.read (MemPointer);
+  Chord.setInvDrop(read);
+  MemPointer += sizeof (uint8_t);
+
   // Reserved BANKGENERALeeSize for general data
   MemPointer += BANKGENERALeeSize - (MemPointer - addr);
 

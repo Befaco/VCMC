@@ -52,12 +52,17 @@ class MIDIChord
 protected:
     union {
         struct {
-        uint8_t Scale;      // Scale 0 is all notes iun scale
+        uint8_t Scale:4;      // Scale 0 is all notes iun scale
+        uint8_t ScaleRoot:4;  // Scale root note: 0-11
+        };
+        uint8_t ScaleId = 0;
+    };
+    union {
+        struct{
         uint8_t ChordType;  // Chord 0 is only 1 note without offset
         uint8_t InvDrop;
-        uint8_t ScaleRoot;  // Scale root note: 0-11
         };
-        uint32_t Type=0;
+        uint16_t ChordId=0;
     };
     uint8_t rootNote = 0;
     uint8_t Velocity = defVel;
@@ -87,11 +92,13 @@ public:
     }
     void setInvDrop(uint8_t newInv);
     void setScaleRoot(uint8_t newroot) { ScaleRoot=newroot; }
+    void setScaleId(uint8_t scid) { ScaleId = scid; }
     // get func
     uint8_t getScale(void) { return Scale; }
     uint8_t getChordType(void) { return ChordType; }
     uint8_t getInvDrop(void) { return InvDrop; }
-    uint16_t getType(void) { return Type; }
+    //uint16_t getType(void) { return Type; }
+    uint8_t getScaleId(void) { return ScaleId; }
     const int8_t *getInvTable(uint8_t chordtoPlay);
     uint8_t getScaleRoot(void) { return ScaleRoot; }
 };

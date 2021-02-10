@@ -195,9 +195,11 @@ bool SelectCVConfig()
     else
         PortSelected = 2;
 
-    //#ifdef CVTHING
-    //    listAnag.disableItem(4);
-    //#endif
+    #ifdef CVTHING
+        listAnag.enableItem(14);
+        listAnag.enableItem(15);
+        listAnag.enableItem(16);
+    #endif
     if( CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
             CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
         listAnag.enableItem(4);

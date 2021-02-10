@@ -74,8 +74,11 @@ MenuItem AnagList[] = {
     {"AUTO OFF", AutoOffFn, 0},
     {"NRPN Val", SelectNRPNval, 1},
     {"PORT NAME", SelectNameMenu, 1},
+    {"SCALE MODE", SelectScale, 0},
+    {"CHORD TYPE", SelectChordType, 0},
+    {"SCALE ROOT", selectRootScale, 0},
     {" CV CONFIG ", NULL, 1}};
-MenuList listAnag(AnagList, 14, ListLines);
+MenuList listAnag(AnagList, 17, ListLines);
 
 // Fader configuration menu
 MenuItem AnagList2[] = {
@@ -108,8 +111,8 @@ MenuItem AnagFnList[] = {
     {"CC 14BITS", SelectCC14b, 1},
     {"AFTER TOUCH", SelectAfterT, 1},
     {"CHORD TYPE", SelectDefChord, 1},
-    {"SCALE", SelectDefScale, 1},
-    {"SCALE", SelectScaleRoot, 1},
+    {"SCALE MODE", SelectDefScale, 1},
+    {"SCALE ROOT", SelectScaleRoot, 1},
     {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}

@@ -4,6 +4,7 @@
   Poner la opción macro en menu de bloque
   Función nota base de la escala (offset)
 Definir acordes de dos Notas
+Salvar datos de acordes y escala
 
 Hacer pruebas en CVThing
 

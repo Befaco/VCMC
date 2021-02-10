@@ -65,6 +65,7 @@ int AnalogPort::SaveCfg (int addr) {
 	Serial.print( lenMem);
 	Serial.print( "/");
 	Serial.println( fixLen);
+    delay(10);
     #endif
     return fixLen;//MemPointer - addr;
 }
