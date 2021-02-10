@@ -395,6 +395,9 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         if(theApp.Controls[PortNumber].Chord.getInvDrop()!= DEF_INVDROP)
             theApp.Controls[PortNumber].Chord.setInvDrop(MIDIData); */
         break; 
+    case SCALEROOT:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setScaleRoot(SendData);
+        break;
     }
 	// Store current data
     LastSentMIDIData = SendData;

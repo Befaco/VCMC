@@ -55,6 +55,7 @@ protected:
         uint8_t Scale;      // Scale 0 is all notes iun scale
         uint8_t ChordType;  // Chord 0 is only 1 note without offset
         uint8_t InvDrop;
+        uint8_t ScaleRoot;  // Scale root note: 0-11
         };
         uint32_t Type=0;
     };
@@ -85,12 +86,14 @@ public:
         NoteOff = nof;
     }
     void setInvDrop(uint8_t newInv);
+    void setScaleRoot(uint8_t newroot) { ScaleRoot=newroot; }
     // get func
     uint8_t getScale(void) { return Scale; }
     uint8_t getChordType(void) { return ChordType; }
     uint8_t getInvDrop(void) { return InvDrop; }
     uint16_t getType(void) { return Type; }
     const int8_t *getInvTable(uint8_t chordtoPlay);
+    uint8_t getScaleRoot(void) { return ScaleRoot; }
 };
 
 /** @} */

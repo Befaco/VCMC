@@ -109,11 +109,12 @@ MenuItem AnagFnList[] = {
     {"AFTER TOUCH", SelectAfterT, 1},
     {"CHORD TYPE", SelectDefChord, 1},
     {"SCALE", SelectDefScale, 1},
+    {"SCALE", SelectScaleRoot, 1},
     {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}
     };
-MenuList listAnagFn(AnagFnList, 19, ListLines);
+MenuList listAnagFn(AnagFnList, 20, ListLines);
 
 MenuItem AnagFnList2[] = {
     {"<-BACK", SelectFaderConfig, 1},
@@ -132,10 +133,11 @@ MenuItem AnagFnList2[] = {
     {"AFTER TOUCH", SelectAfterT, 1},
     {"CHORD TYPE", SelectDefChord, 1},
     {"SCALE", SelectDefScale, 1},
+    {"SCALE", SelectScaleRoot, 1},    
     {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 18, ListLines);
+MenuList listAnagFn2(AnagFnList2, 19, ListLines);
 
 MenuItem AnagDigFnList[8] = {
     {"<-BACK", gotoMenuAnag, 1},
@@ -222,6 +224,23 @@ bool SelectDefScale()
 bool SelectInvDrop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDINVERSION);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectScaleRoot()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(SCALEROOT);
     if (SetValState == 0)
         SetValState++;
     if (SetValState == 1)

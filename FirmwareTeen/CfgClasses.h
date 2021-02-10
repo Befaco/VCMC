@@ -160,7 +160,8 @@ typedef enum IPFun_e {
 
   SCALE_DEF,
   CHORDTYPE_DEF,
-  CHORDINVERSION
+  CHORDINVERSION,
+  SCALEROOT
 } InputFunctions;
 
 /// MIDI Functions for digital ports

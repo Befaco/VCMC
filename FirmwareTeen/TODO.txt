@@ -1,9 +1,19 @@
+  Por defecto al cambiar de escala, escoger acordes de 3 Notas
+  Al elegir una escala, el menú de acordes limitar a No Chords, Major, Major 7th
+  Crear Voicings con 2ª y 3ª abiertas hacia arriba
+  Poner la opción macro en menu de bloque
+  Función nota base de la escala (offset)
+Definir acordes de dos Notas
+
+Hacer pruebas en CVThing
+
 
 TODO New use Save defaults values to save EEPROM space
 TODO Assign function to analog port to change parameters in other ports
     (version 1) change 1 destination
     (version 2) change several destinations
 
+TODO Include in documentation:
 Modification in   ResponsiveAnalogRead.h  
 Change line 75 to initialize smoothValue parameter:
     float smoothValue=0.;

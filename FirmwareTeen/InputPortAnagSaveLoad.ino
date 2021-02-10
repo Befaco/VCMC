@@ -211,6 +211,7 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
         case CHORDINVERSION: // TODO Save Chord/Scale type?
         case CHORDTYPE_DEF:
         case SCALE_DEF:
+        case SCALEROOT:
             PortCfg.Options2 = buf[0];
             return buLen;
         case PITCHTRIG:
@@ -350,6 +351,7 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
         case CHORDINVERSION: // TODO Save Chord/Scale type?
         case CHORDTYPE_DEF:
         case SCALE_DEF:
+        case SCALEROOT:
             buf[0] = PortCfg.Options2;
             return buLen;
         case ANAGCLOCK:

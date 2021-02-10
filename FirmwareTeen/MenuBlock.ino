@@ -42,11 +42,13 @@ MenuItem BankList[] = {
     {"FADER", SelectFaderConfig, 1}, // Shown only in Indep mode
     {"GATE", SelectGateConfig, 1},   // Hidden on Note MODE
     {"CV-FDR LINK", SelectBankFunction, 1},
-    {"NOTE SCALE", SelectScale, 1},
+    {"SCALE MODE", SelectScale, 1},
     {"CHORD TYPE", SelectChordType, 1},
+    {"CHORD PRESET", SelectChordPreset, 1},
+    {"SCALE ROOT", selectRootScale, 0},
     {"   CONFIG   ", NULL, 1} //Name changed!!
 };
-MenuList listBanks(BankList, 7, ListLines);
+MenuList listBanks(BankList, 9, ListLines);
 
 // Bank configuration menu
 MenuItem AuxList[] = {
@@ -86,6 +88,11 @@ bool gotoMenuBanks()
         mSelected = &listAux; // Elige menu Aux
     else
         mSelected = &listBanks; // Elige menu normal
+
+    if (BankSelected % 4 != 0)
+        listButFn.disableItem(7); // Chords triggered in gates 1 and 5
+    else
+        listButFn.enableItem(7);
 
     #ifdef CVTHING
     listBanks.disableItem(2);
@@ -310,24 +317,114 @@ bool setActiveChord()
     return gotoMenuBanks();
 }
 
+// Fiil in note name in text
+void DrawNoteSelection(char *outb, long val, uint16_t padpos)
+{
+    strncpy(outb, NotesNamesScale[val], padpos);
+    //for (size_t i = strlen(NotesNamesScale[val]); i < padpos; i++){
+    //    outb[i] = 0;
+    //}
+    outb[padpos] = 0;
+    theOLED->println(outb);
+}
+
+bool selectRootScale()
+{
+    long val = CVControls[BankSelected].Chord.getScaleRoot();
+    bool ret = myMenu.EncoderChangeLong("Scale Root:", val, 0, 11, 2, 0, 45, DrawNoteSelection);
+    CVControls[BankSelected].Chord.setScaleRoot( val);
+    return ret;
+}
+
 
 bool setActiveScale()
 {
-    CVControls[BankSelected].Chord.setScale(myMenu.getItemStatus());
-    return gotoMenuBanks();
+
+    if (SetValState == 0){
+        SetValState++;
+        CVControls[BankSelected].Chord.setScale(myMenu.getItemStatus());
+        if(myMenu.getItemStatus()!=0) // When non full Scale selected, set major triad chord by defaut 
+            CVControls[BankSelected].Chord.setChord(MAJOR);
+        //myMenu.ClearArea();
+        }
+    if (SetValState == 1)
+    {
+        if (!selectRootScale())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    myMenu.ClearArea();
+    return SelectChordType();
 }
 
 
 bool SelectScale()
 {
-    myMenu.setCurrentMenu("NOTE SCALE", ScaleLongNames, LASTSCALE-1, setActiveScale);
+    myMenu.setCurrentMenu("SCALE MODE", ScaleLongNames, LASTSCALE-1, setActiveScale);
     return true;
 }
 
 bool SelectChordType()
 {
-    myMenu.setCurrentMenu("CHORD", ChordNames, LASTCHORD-1, setActiveChord);
+    myMenu.ClearArea();
+    if(CVControls[BankSelected].Chord.getScale()==FULL_SCALE)
+        myMenu.setCurrentMenu("CHORD", ChordNames, LASTCHORD-1, setActiveChord);
+    else
+        myMenu.setCurrentMenu("CHORD", ChordNames, diatonicNumberOfChords+1, setActiveChord);
     return true;
 }
+
+
+bool SelectChordPreset()
+{
+    byte FIRSTBLK = BankSelected;
+
+    // First block: CV (Note V/Oct) + Fader (+/-1 Octave) + Gate (Trigger Note)
+    CVControls[FIRSTBLK].Config.Chanfunction = SUM;
+    CVControls[FIRSTBLK].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+    CVControls[FIRSTBLK].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
+    CVControls[FIRSTBLK].Slider.PortCfg.Ranges.SetMIDI(-12, 24); // +/- 1 Octave
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipLow = -12;
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipHigh = 12;
+    CVControls[FIRSTBLK].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+    // Default CScale/Chord configuration
+    CVControls[FIRSTBLK].Chord.setScale(Ionian_SCALE); // Major scale
+    CVControls[FIRSTBLK].Chord.setScaleRoot(0);        // C-major scale
+    CVControls[FIRSTBLK].Chord.setChord(MAJOR);        // Major triad
+    CVControls[FIRSTBLK].Chord.setInvDrop(NO_INVDROP); // root voicing
+
+
+    // Block: CV (CHORDINVERSION) + Fader (CHORDINVERSION)
+    CVControls[FIRSTBLK + 1].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 1].CVPort.PortCfg.SetMIDIFunc(CHORDINVERSION);
+    CVControls[FIRSTBLK + 1].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 1].Slider.PortCfg.SetMIDIFunc(CHORDINVERSION);
+    CVControls[FIRSTBLK + 1].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    // Block: CV (SCALEROOT) + Fader (SCALEROOT)
+    CVControls[FIRSTBLK + 2].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 2].CVPort.PortCfg.SetMIDIFunc(SCALEROOT);
+    CVControls[FIRSTBLK + 2].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 2].Slider.PortCfg.SetMIDIFunc(SCALEROOT);
+    CVControls[FIRSTBLK + 2].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    // Block: CV (SCALE_DEF) + Fader (SCALE_DEF)
+    CVControls[FIRSTBLK + 3].Config.Chanfunction = INDEP;
+    CVControls[FIRSTBLK + 3].CVPort.PortCfg.SetMIDIFunc(SCALE_DEF);
+    CVControls[FIRSTBLK + 3].CVPort.PortCfg.DestCtrl = FIRSTBLK;
+    CVControls[FIRSTBLK + 3].Slider.PortCfg.SetMIDIFunc(SCALE_DEF);
+    CVControls[FIRSTBLK + 3].Slider.PortCfg.DestCtrl = FIRSTBLK;
+    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
+    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+
+    return gotoMenuBanks();
+}
+
 
 /** @} */

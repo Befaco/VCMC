@@ -52,7 +52,7 @@ MenuItem DigFnList[] = {
     {"CC LATCH", SelectButCCLATCH, 1},
     {"CLOCK", SelectButClock, 1},
     {"ST/SP", SelectGatSTSPFn, 1}, // Antes SelectButStartStop
-    {"CHORD", SelectChord, 1},
+    {"CHORD", SelectChordPreset, 0},
     {"PANIC", SelectGatePanic, 1},
     {"NO FUNCTION", SelectNoDifFunc, 1},
     {" GATE FUNCTION ", NULL, 1} // the algorithm
@@ -68,8 +68,7 @@ MenuItem STSPGatFnList[] = {
     {"START(ST)", SelectGateStart, 1},
     {"STOP(SP)", SelectGateStop, 1},
     {"CONTINUE", SelectGateCont, 1},
-    {" ST/SP MODE ", NULL, 1}
-};
+    {" ST/SP MODE ", NULL, 1}};
 MenuList listGatSTSPFn(STSPGatFnList, 8, ListLines);
 
 // GATE Menu. Poner el valor del CC#
@@ -84,8 +83,7 @@ MenuItem GateList[13] = {
     {"CLOCK SHIFT", SelectClockShift, 0},    // Shown only when Clock
     {"CLOCK SET", SetClockMenu, 1},          // Shown only when Clock
     {"PORT NAME", SelectNameMenu, 1},
-    {"GATE CONFIG", NULL, 1}
-};
+    {"GATE CONFIG", NULL, 1}};
 MenuList listGate(GateList, 10, ListLines);
 
 // Gate Cfg Mode ??? Only needed if menu needed. Might add CC latch and CC Gate in main menu
@@ -93,8 +91,7 @@ MenuItem SelectGateModeCfgList[4] = {
     {"<-BACK", gotoMenuDig, 1},
     {"NOTE", DoNothing, 1},
     {"CC", DoNothing, 1},
-    {" GATE MODE ", NULL, 1}
-};
+    {" GATE MODE ", NULL, 1}};
 
 /*****************************
  ******************************
@@ -156,9 +153,7 @@ bool SelectGain () {
 bool SelectGateFn()
 {
     //if (BankSelected != 7) listButFn.disableItem(7);
-    if (BankSelected%4 != 0) listButFn.disableItem(7); // Chords triggered in gates 1 and 5
-    else listButFn.enableItem(7);
-    
+
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listButFn);
     return true;
@@ -193,7 +188,7 @@ bool SelectClockShift()
 bool SelectDelay()
 {
     uint16_t *vdir;
-    if( CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
         vdir = &CVControls[BankSelected].GateBut.PortCfg.DelayGate; // debounceDelay;//
     else
         vdir = &CVControls[BankSelected].CVPort.PortCfg.DelayGate;
@@ -344,61 +339,6 @@ bool SelectGateCont()
 bool SelectGateStop()
 {
     ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(GATESTOP);
-    SelectGateConfig();
-    return true;
-}
-
-bool SelectChord()
-{
-    byte FIRSTBLK = BankSelected;
-
-    // First block: CV (Note V/Oct) + Fader (+/-1 Octave) + Gate (Trigger Note)
-    CVControls[FIRSTBLK].Config.Chanfunction = SUM;
-    CVControls[FIRSTBLK].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
-    CVControls[FIRSTBLK].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
-    CVControls[FIRSTBLK].Slider.PortCfg.Ranges.SetMIDI(-12, 24); // +/- 1 Octave
-    CVControls[FIRSTBLK].Slider.PortCfg.ClipLow = -12;
-    CVControls[FIRSTBLK].Slider.PortCfg.ClipHigh = 12;
-    CVControls[FIRSTBLK].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
-
-    // Second block: CV (CHORDINVERSION) + Fader (CHORDINVERSION)
-    CVControls[FIRSTBLK + 1].Config.Chanfunction = INDEP;
-    CVControls[FIRSTBLK + 1].CVPort.PortCfg.SetMIDIFunc(CHORDINVERSION);
-    CVControls[FIRSTBLK + 1].CVPort.PortCfg.DestCtrl = FIRSTBLK;
-    CVControls[FIRSTBLK + 1].Slider.PortCfg.SetMIDIFunc(CHORDINVERSION);
-    CVControls[FIRSTBLK + 1].Slider.PortCfg.DestCtrl = FIRSTBLK;
-    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
-    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
-
-    // Second block: CV (CHORDTYPE_DEF) + Fader (CHORDTYPE_DEF)
-    CVControls[FIRSTBLK + 2].Config.Chanfunction = INDEP;
-    CVControls[FIRSTBLK + 2].CVPort.PortCfg.SetMIDIFunc(CHORDTYPE_DEF);
-    CVControls[FIRSTBLK + 2].CVPort.PortCfg.DestCtrl = FIRSTBLK;
-    CVControls[FIRSTBLK + 2].Slider.PortCfg.SetMIDIFunc(CHORDTYPE_DEF);
-    CVControls[FIRSTBLK + 2].Slider.PortCfg.DestCtrl = FIRSTBLK;
-    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
-    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
-
-    // Second block: CV (SCALE_DEF) + Fader (SCALE_DEF)
-    CVControls[FIRSTBLK + 3].Config.Chanfunction = INDEP;
-    CVControls[FIRSTBLK + 3].CVPort.PortCfg.SetMIDIFunc(SCALE_DEF);
-    CVControls[FIRSTBLK + 3].CVPort.PortCfg.DestCtrl = FIRSTBLK;
-    CVControls[FIRSTBLK + 3].Slider.PortCfg.SetMIDIFunc(SCALE_DEF);
-    CVControls[FIRSTBLK + 3].Slider.PortCfg.DestCtrl = FIRSTBLK;
-    //CVControls[FIRSTBLK+1].Slider.PortCfg.Ranges.SetMIDI(-12, 24);
-    //CVControls[FIRSTBLK+1].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
-
-    /*     byte FIRSTBLK = (BankSelected==0)?0:4;
-    byte LASTBLK = (BankSelected==0)?3:7;
- 
-    // Set banks 5, 6, 7, 8 to V/Oct input.
-    for (int i=FIRSTBLK; i < LASTBLK; i++) {
-     CVControls[i].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
-     CVControls[i].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
-     //CVControls[i].GateBut.PortCfg.SetMIDIFunc(CHORD);
-    }
-    ((DigPortCfg *)GetPortCfg())->SetMIDIFunc(CHORD);
- */
     SelectGateConfig();
     return true;
 }

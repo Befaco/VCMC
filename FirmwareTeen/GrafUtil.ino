@@ -169,7 +169,7 @@ bool OLEDMenu::EncoderselDigitVal(long &value, long minv, long maxv, uint16_t pa
  * \param posy Popuo position Y
  * \return bool 
  */
-bool OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy)
+bool OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy, void (*DispFunc)(char *outb, long val,uint16_t padpos))
 {
 	char outBuf[17];
 
@@ -177,7 +177,10 @@ bool OLEDMenu::EncoderChangeLong(const char *title, long &value, long minv, long
 	DrawInputArea(title, padPos, posx, posy);  // Draw Input area
 
 	//get value string
-	printStrInput((char*)outBuf, value, padPos);
+	if(DispFunc)
+		DispFunc((char*)outBuf, value, padPos);
+	else
+		printStrInput((char*)outBuf, value, padPos);
 	// theOLED->display();
 
 	// Read encoder and change the value

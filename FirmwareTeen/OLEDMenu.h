@@ -133,7 +133,7 @@ public:
         InitMessageTime = millis();
     }
     bool EncoderPopupMsg(const char *title, unsigned long milTime, uint16_t posx, uint16_t posy, uint8_t xwidth = 0);
-    bool EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
+    bool EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy, void (*DispFunc)(char *outb, long val,uint16_t padpos)=nullptr);
     bool EncoderselDigitLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
     
     bool EncoderChangeVal(long &value, long minv, long maxv, float inc, void (*DispFunc)(long val));

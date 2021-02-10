@@ -88,15 +88,18 @@ void MIDIChord::setInvDrop(uint8_t newInv){
  * \return note adjusted to current scale
  */
 uint8_t MIDIChord::adjustNoteToScale(uint8_t note){
-    uint8_t notepos = note % 12;
+    // Get note octave position and shift based on scale root
+    uint8_t notepos = (note < 12) ? note + 12 : note; // For notes 0-11 chose next octave
+    notepos = (notepos - getScaleRoot()) % 12;
     uint8_t scaletoUse = (Scale == DEF_SCALE) ? theApp.DefaultChord.getScale() : Scale;
     uint8_t retVal = note;
-    //D(Serial.printf("Scale (%s), recv note %d", ScaleShortNames[scaletoUse], note));
+    //D(Serial.printf("Scale (%s-%s), recv note %d/%d", 
+    //    NotesNamesScale[getScaleRoot()], ScaleShortNames[scaletoUse], note, notepos));
     for (size_t i = notepos; i >= 0 && note >0; i--,note--)
     {
-        retVal=note; // Note in scale
         if(ScalesDefinition[scaletoUse].Notes[i]){ break; }
     }
+    retVal=note; // Note in scale
     //D(Serial.printf(": %d\n",retVal));
     return retVal;
 }
@@ -126,11 +129,11 @@ const int8_t*  MIDIChord::getInvTable(uint8_t chordtoPlay)
     uint8_t invtoPlay = (InvDrop == DEF_CHORD) ? theApp.DefaultChord.getInvDrop() : InvDrop;
     if(chordNotesDef[chordtoPlay][0]==4){
         pretVal = InversionDrop4[invtoPlay];
-        D(Serial.printf("4 Notes Chord, Inversion %d\n",invtoPlay));
+        //D(Serial.printf("4 Notes Chord, Inversion %d\n",invtoPlay));
         }
     else if(chordNotesDef[chordtoPlay][0]==3){
         pretVal = InversionDrop3[invtoPlay];
-        D(Serial.printf("3 Notes Chord, Inversion %d\n",invtoPlay));
+        //D(Serial.printf("3 Notes Chord, Inversion %d\n",invtoPlay));
         }
 
     return pretVal;
@@ -143,10 +146,13 @@ uint8_t MIDIChord::getChordToPlay(void)
     uint8_t scale = getScale();
     if( retVal>0 && scale>FULL_SCALE){ // Check diatonic chords
         if(retVal>diatonicNumberOfChords) retVal = 1; // If chord is not defined, use triads
-        D(Serial.printf("In %d,%d,%d: Out %d\n", scale, retVal-1, rootNote%12, diatonicChords[scale-1][retVal-1][rootNote%12]));
-        retVal = diatonicChords[scale-1][retVal-1][rootNote%12];
+        //D(Serial.printf("In %d,%d,%d: Out %d\n", scale, retVal-1, rootNote%12, diatonicChords[scale-1][retVal-1][rootNote%12]));
+        uint8_t root = (rootNote < 12) ? rootNote + 12 : rootNote;
+        retVal = diatonicChords[scale-1][retVal-1][(root-getScaleRoot())%12];
+        if(!retVal)
+            retVal = LASTCHORD; // Selected chord is not in scale
     }
-    D(Serial.printf("Root note %d Chord selected: %s\n", rootNote, LongChordNames[retVal]));
+    //D(Serial.printf("Root note %d Chord selected: %s\n", rootNote, LongChordNames[retVal]));
     return retVal;
 }
 

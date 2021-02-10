@@ -468,6 +468,9 @@ void OLEDMenu::displayMenuCards () {
     } else if(theCfg->MIDIfunction == CHORDINVERSION){
         sprintf(dataToShow, "%s", 
             InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+    } else if(theCfg->MIDIfunction == SCALEROOT){
+        sprintf(dataToShow, "%s", 
+            NotesNamesScale[theApp.Controls[theCfg->DestCtrl].Chord.getScaleRoot()]);
     } else theOLED->print (TrimCV);
     dataToShow[TRIMSTRING] = 0; // Trim string
     theOLED->print(dataToShow);
@@ -515,6 +518,9 @@ void OLEDMenu::displayMenuCards () {
         } else if(theCfg->MIDIfunction == CHORDINVERSION){
             sprintf(dataToShow, "%s", 
                 InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+        } else if(theCfg->MIDIfunction == SCALEROOT){
+            sprintf(dataToShow, "%s", 
+                NotesNamesScale[theApp.Controls[theCfg->DestCtrl].Chord.getScaleRoot()]);
         } else sprintf(dataToShow,"%d", TrimFader);
     }
     

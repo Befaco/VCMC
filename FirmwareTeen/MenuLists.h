@@ -85,6 +85,7 @@ bool SelectCVConfig();
 bool setActiveChord();
 bool SelectChordType();
 bool SelectScale();
+bool SelectChordPreset();
 // Defined on MenuMode
 bool SelectNameMenu();
 bool selectMenuPortName();

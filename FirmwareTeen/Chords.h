@@ -62,21 +62,22 @@ const int8_t chordNotesDef[][9] = {
     {6, 0, 4, 7, 10, 14, 18},
     {6, 0, 4, 7, 10, 14, 17},
     {6, 0, 1, 4, 5, 8, 9},
-    {6, 0, 4, 7, 11, 14, 17},
+    {6, 0, 4, 7, 11, 14, 18},
     {6, 0, 3, 7, 10, 14, 17},
     {6, 0, 6, 10, 16, 21, 14},
     {6, 0, 1, 4, 6, 7, 10},
     {7, 0, 4, 7, 10, 14, 17, 21},
 
     {0, 0, 0, 0, 0, 0, 0, 0, 0},
+
     {1, 0}
 };
 
 static const char *const ChordNames[] = {
     "No Chord",
 
-    "Major",
-    "Major 7th",
+    "Triad Major",
+    "Triad+7th Major",
 
     "Minor",
     "Diminished",
@@ -96,7 +97,7 @@ static const char *const ChordNames[] = {
     "Dream",
     "Minor 6th",
     "Major 9th",
-    "Minor 9h",
+    "Minor 9th",
     "Major 13th",
     "Minor 13th",
     "Magic",
@@ -272,6 +273,7 @@ const int8_t diatonicChords[][diatonicNumberOfChords][12] = {
     { // Major/Ionian {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 0, 7},
     {MAJOR, 0, MINOR, 0, MINOR, MAJOR, 0, MAJOR, 0, MINOR, 0, DIMINISHED},
     {MAJOR_7TH, 0, MINOR_7TH, 0, MINOR_7TH, MAJOR_7TH, 0, MAJOR_7TH, 0, MINOR_7TH, 0, HALFDIM_7TH}
+    //{POWER_P5, 0, POWER_P5, 0, POWER_P5, POWER_P5, 0, POWER_P5, 0, POWER_P5, 0, DIM_DIAD}
     },
     
     { // Mixolydian {1, 0, 2, 0, 3, 4, 0, 5, 0, 6, 7, 0}
@@ -301,7 +303,7 @@ const int8_t diatonicChords[][diatonicNumberOfChords][12] = {
 };
 
 
-const int8_t allDiatonicChords[][2][7][9] = {
+/* const int8_t allDiatonicChords[][2][7][9] = {
     // Major/Ionian
     { 
         { // C Major Triad
@@ -345,7 +347,7 @@ const int8_t allDiatonicChords[][2][7][9] = {
         }
     }
 };
-
+ */
 /** @} */
 
 #endif
