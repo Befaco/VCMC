@@ -225,14 +225,22 @@ void OLEDMenu::setCurrentMenu (MenuList *aMenu) {
 /**
  * \brief Updates items list for new menu
  * 
- * \param aMenu 
+ * \param title to show in menu header
+ * \param listStr List of strings for menu items
+ * \param numitems Number of items from the string list to show
+ * \param fun Callback function for item selection
+ * \param initItem item selected initially
+ * \param startIem first item from the list of strings to use as menu item (default 0)
  */
-void OLEDMenu::setCurrentMenu (const char *title, const char * const* listStr, uint8_t numitems, Item_Function fun) {
+void OLEDMenu::setCurrentMenu (
+    const char *title, const char * const* listStr, 
+    uint8_t numitems, Item_Function fun, uint8_t initItem, uint8_t startItem) 
+{
     uint8_t posMenu = 0;
     firstVisibleLine = 0;
 
     // Create Menu with visible list items
-    for (int i = 0; i < numitems; i++) {
+    for (int i = startItem; i < startItem+numitems; i++) {
         //DP(listStr[i]);
         CurrentMenuItems[posMenu].func = fun;
         CurrentMenuItems[posMenu].Status = i;
@@ -253,6 +261,15 @@ void OLEDMenu::setCurrentMenu (const char *title, const char * const* listStr, u
     updateText = -1;
 
     MenuClass::setCurrentMenu (&CurrentMenuList);
+    if( initItem!=0xff){
+        firstVisibleLine = 0;
+        uint8_t cur = 0;
+        while( cur < initItem){
+            if (firstVisibleLine < currentMenu->getSize () - MaxLines) firstVisibleLine++;
+            cur++;
+        }
+        setCurrentItem(initItem);
+    }
 }
 
 
@@ -457,7 +474,7 @@ void OLEDMenu::displayMenuCards () {
     theOLED->setCursor (POSXCARD + 8, posCursor);
     posCursor += 8;
     char dataToShow[20]={0};
-    uint8_t TRIMSTRING = 8;
+    uint8_t TRIMSTRING = 7;
 
     if(theCfg->MIDIfunction == SCALE_DEF){
         sprintf(dataToShow, "%s", 

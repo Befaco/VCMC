@@ -75,6 +75,7 @@ public:
  virtual int updateSelection() = 0;
  virtual bool selectionMade() = 0;
  byte getItemStatus() { return currentMenu->getItem(currentItemIndex)->Status; };
+ void setCurrentItem(uint8_t itnum);
 };
 
 /** @} */

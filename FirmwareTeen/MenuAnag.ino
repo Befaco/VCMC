@@ -135,8 +135,8 @@ MenuItem AnagFnList2[] = {
     {"CC 14BITS", SelectCC14b, 1},
     {"AFTER TOUCH", SelectAfterT, 1},
     {"CHORD TYPE", SelectDefChord, 1},
-    {"SCALE", SelectDefScale, 1},
-    {"SCALE", SelectScaleRoot, 1},    
+    {"SCALE MODE", SelectDefScale, 1},
+    {"SCALE ROOT", SelectScaleRoot, 1},    
     {"INV/DROP", SelectInvDrop, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}};

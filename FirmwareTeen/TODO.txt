@@ -6,7 +6,8 @@
 Definir acordes de dos Notas
 Salvar datos de acordes y escala
 
-Hacer pruebas en CVThing
+  Hacer pruebas en CVThing
+Mostrar valor actual al entrar en menu selección texto
 
 
 TODO New use Save defaults values to save EEPROM space

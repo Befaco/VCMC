@@ -136,5 +136,7 @@ void MenuClass::setCurrentMenu(MenuList* aMenu) {
  currentItemIndex = 0;
 }
 
-
+void MenuClass::setCurrentItem(uint8_t itnum) {
+	currentItemIndex = (itnum>currentMenu->getSize()-1)?currentMenu->getSize()-1:itnum;
+}
 /** @} */

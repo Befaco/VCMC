@@ -43,42 +43,39 @@ MenuItem BankList[] = {
     {"GATE", SelectGateConfig, 1},   // Hidden on Note MODE
     {"CV-FDR LINK", SelectBankFunction, 1},
     {"SCALE MODE", SelectScale, 1},
+    {"SCALE ROOT", selectRootScale, 1},
     {"CHORD TYPE", SelectChordType, 1},
     {"CHORD PRESET", SelectChordPreset, 1},
-    {"SCALE ROOT", selectRootScale, 0},
     {"   CONFIG   ", NULL, 1} //Name changed!!
 };
 MenuList listBanks(BankList, 9, ListLines);
 
 // Bank configuration menu
 MenuItem AuxList[] = {
-  { "<-BACK" , gotoMenuSettings,1   }
-   , {"AUX A" , SelectAuxAConfig,1   } // Hidden in Note mode
-   , {"AUX B", SelectAuxBConfig,1} // SelectCVConfig,1   } //  Shown only in Indep mode
-   , {"CONFIG", NULL,1} //Name changed!!
+    {"<-BACK", gotoMenuSettings, 1},
+    {"AUX A", SelectAuxAConfig, 1}, // Hidden in Note mode
+    {"AUX B", SelectAuxBConfig, 1}, // SelectCVConfig,1   } //  Shown only in Indep mode
+    {"CONFIG", NULL, 1}             //Name changed!!
 };
 MenuList listAux(AuxList, 3, ListLines);
 
-
 // Function menu. REMOVED NOTE ENTRY   , {"Note" , SelectNoteMode,1   }
 MenuItem BankFnList[] = {
-  { "<-BACK" , gotoMenuBanks, 1   }
-  , {"INDEP." , SelectIndep, 1   }
-  , {"SUM" , SelectSum, 1   }
-  , {"ATTE", SelectMult, 1}
-  , {" CV/FAD LINK ", NULL, 1}
-};
+    {"<-BACK", gotoMenuBanks, 1},
+    {"INDEP.", SelectIndep, 1},
+    {"SUM", SelectSum, 1},
+    {"ATTE", SelectMult, 1},
+    {" CV/FAD LINK ", NULL, 1}};
 MenuList BankFnListMenu(BankFnList, 4, ListLines);
-
 
 //////////////////////////
 // Main Menu entry function
 bool gotoMenuBanks()
 {
-    #ifdef CVTHING
+#ifdef CVTHING
     return SelectCVConfig();
-    #else
-    #endif
+#else
+#endif
 
     MenuList *mSelected = NULL;
 
@@ -89,14 +86,14 @@ bool gotoMenuBanks()
     else
         mSelected = &listBanks; // Elige menu normal
 
-    if (BankSelected % 4 != 0)
-        listButFn.disableItem(7); // Chords triggered in gates 1 and 5
+    if (BankSelected  > 4)
+        listBanks.disableItem(8); // Chords triggered in gates 1 and 5
     else
-        listButFn.enableItem(7);
+        listBanks.enableItem(8);
 
-    #ifdef CVTHING
+#ifdef CVTHING
     listBanks.disableItem(2);
-    #else
+#else
     // Hide Fader when in SUM or MULTIPL
     if (CVControls[BankSelected].Config.Chanfunction == SUM ||
         CVControls[BankSelected].Config.Chanfunction == MULTIPL)
@@ -105,7 +102,7 @@ bool gotoMenuBanks()
     }
     else
         listBanks.enableItem(2);
-    #endif
+#endif
 
     // Hide Gate when CV is in Note mode
     /*if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG) {
@@ -117,7 +114,6 @@ bool gotoMenuBanks()
     myMenu.setCurrentMenu(mSelected);
     return true;
 }
-
 
 ////////////////////////////////
 // Bank configuration functions
@@ -195,15 +191,16 @@ bool SelectCVConfig()
     else
         PortSelected = 2;
 
-    #ifdef CVTHING
-        listAnag.enableItem(14);
-        listAnag.enableItem(15);
-        listAnag.enableItem(16);
-    #endif
-    if( CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
-            CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
+#ifdef CVTHING
+    listAnag.enableItem(14);
+    listAnag.enableItem(15);
+    listAnag.enableItem(16);
+#endif
+    if (CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
         listAnag.enableItem(4);
-    else listAnag.disableItem(4);
+    else
+        listAnag.disableItem(4);
 
     listAnag.disableItem(6);
     listAnag.disableItem(7);
@@ -268,45 +265,47 @@ bool SelectBankFunction()
     return true;
 }
 
-
 ////////////////////////////////
 // Bank function configuration
-bool SelectIndep() {
-  CVControls[BankSelected].Config.Chanfunction = INDEP;
-  return gotoMenuBanks();
-  /*myMenu.ClearArea();
+bool SelectIndep()
+{
+    CVControls[BankSelected].Config.Chanfunction = INDEP;
+    return gotoMenuBanks();
+    /*myMenu.ClearArea();
     myMenu.setCurrentMenu(&listBanks);
     return true;*/
 }
 
-bool SelectNoteMode() {
-  CVControls[BankSelected].Config.Chanfunction = NOTEMODE;
-  // When NoteMode selected, CV use PITCHTRIG, Fader use Velocity and Gate is TRIGGER
-  CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
-  CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(VELOCITY);
-  CVControls[BankSelected].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
+bool SelectNoteMode()
+{
+    CVControls[BankSelected].Config.Chanfunction = NOTEMODE;
+    // When NoteMode selected, CV use PITCHTRIG, Fader use Velocity and Gate is TRIGGER
+    CVControls[BankSelected].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
+    CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(VELOCITY);
+    CVControls[BankSelected].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
 
-  return gotoMenuBanks();
-  /*myMenu.ClearArea();
+    return gotoMenuBanks();
+    /*myMenu.ClearArea();
     myMenu.setCurrentMenu(&listBanks);
     return true;*/
 }
 
-bool SelectSum() {
-  CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction);
-  CVControls[BankSelected].Config.Chanfunction = SUM;
-  return gotoMenuBanks();
-  /*  myMenu.ClearArea();
+bool SelectSum()
+{
+    CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(CVControls[BankSelected].CVPort.PortCfg.MIDIfunction);
+    CVControls[BankSelected].Config.Chanfunction = SUM;
+    return gotoMenuBanks();
+    /*  myMenu.ClearArea();
     myMenu.setCurrentMenu(&listBanks);
     return true;*/
 }
 
-
-bool SelectMult() {
-  CVControls[BankSelected].Config.Chanfunction = MULTIPL;
-  CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(PERCENT);
-  return gotoMenuBanks();
-  /*  myMenu.ClearArea();
+bool SelectMult()
+{
+    CVControls[BankSelected].Config.Chanfunction = MULTIPL;
+    CVControls[BankSelected].Slider.PortCfg.SetMIDIFunc(PERCENT);
+    return gotoMenuBanks();
+    /*  myMenu.ClearArea();
     myMenu.setCurrentMenu(&listBanks);
     return true;*/
 }
@@ -334,21 +333,25 @@ bool selectRootScale()
 {
     long val = CVControls[BankSelected].Chord.getScaleRoot();
     bool ret = myMenu.EncoderChangeLong("Scale Root:", val, 0, 11, 2, 0, 45, DrawNoteSelection);
-    CVControls[BankSelected].Chord.setScaleRoot( val);
+    CVControls[BankSelected].Chord.setScaleRoot(val);
     return ret;
 }
-
 
 bool setActiveScale()
 {
 
-    if (SetValState == 0){
+    if (SetValState == 0)
+    {
         SetValState++;
         CVControls[BankSelected].Chord.setScale(myMenu.getItemStatus());
-        if(myMenu.getItemStatus()!=0) // When non full Scale selected, set major triad chord by defaut 
+        if (myMenu.getItemStatus() != 0) // When non full Scale selected, set major triad chord by defaut
             CVControls[BankSelected].Chord.setChord(MAJOR);
+        else{ // Full scale selected, no chord selection required
+            SetValState = 0;
+            return gotoMenuBanks();
+        } 
         //myMenu.ClearArea();
-        }
+    }
     if (SetValState == 1)
     {
         if (!selectRootScale())
@@ -357,31 +360,33 @@ bool setActiveScale()
             SetValState = 0;
     }
 
-    myMenu.ClearArea();
-    return SelectChordType();
+    //myMenu.ClearArea();
+    //return SelectChordType();
+    return gotoMenuBanks();
 }
-
 
 bool SelectScale()
 {
-    myMenu.setCurrentMenu("SCALE MODE", ScaleLongNames, LASTSCALE-1, setActiveScale);
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu("SCALE MODE", ScaleLongNames, LASTSCALE - 1, setActiveScale,
+        CVControls[BankSelected].Chord.getScale());
     return true;
 }
 
 bool SelectChordType()
 {
     myMenu.ClearArea();
-    if(CVControls[BankSelected].Chord.getScale()==FULL_SCALE)
-        myMenu.setCurrentMenu("CHORD", ChordNames, LASTCHORD-1, setActiveChord);
+    uint8_t chord = CVControls[BankSelected].Chord.getChordType();
+    if (CVControls[BankSelected].Chord.getScale() == FULL_SCALE)
+        myMenu.setCurrentMenu("CHORD", ChordNames, LASTCHORD - 1, setActiveChord,chord);
     else
-        myMenu.setCurrentMenu("CHORD", ChordNames, diatonicNumberOfChords+1, setActiveChord);
+        myMenu.setCurrentMenu("CHORD", ChordNames, diatonicNumberOfChords + 1, setActiveChord, chord);
     return true;
 }
 
-
 bool SelectChordPreset()
 {
-    byte FIRSTBLK = BankSelected;
+    byte FIRSTBLK = (BankSelected > 4) ? 4 : BankSelected;
 
     // First block: CV (Note V/Oct) + Fader (+/-1 Octave) + Gate (Trigger Note)
     CVControls[FIRSTBLK].Config.Chanfunction = SUM;
@@ -396,7 +401,6 @@ bool SelectChordPreset()
     CVControls[FIRSTBLK].Chord.setScaleRoot(0);        // C-major scale
     CVControls[FIRSTBLK].Chord.setChord(MAJOR);        // Major triad
     CVControls[FIRSTBLK].Chord.setInvDrop(NO_INVDROP); // root voicing
-
 
     // Block: CV (CHORDINVERSION) + Fader (CHORDINVERSION)
     CVControls[FIRSTBLK + 1].Config.Chanfunction = INDEP;
@@ -427,6 +431,5 @@ bool SelectChordPreset()
 
     return gotoMenuBanks();
 }
-
 
 /** @} */

@@ -198,7 +198,7 @@ class InputPortCfg {
     uint8_t     charPrefix = 0;
     uint8_t     textPort = 0;
     uint8_t     charSufix = 0;
-    uint16_t    DelayGate = 1;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
+    uint16_t    DelayGate = 3;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
