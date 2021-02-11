@@ -91,6 +91,18 @@ bool gotoMenuBanks()
     else
         listBanks.enableItem(8);
 
+    if (CVControls[BankSelected].GateBut.PortCfg.MIDIfunction == TRIGGER || CVControls[BankSelected].GateBut.PortCfg.MIDIfunction == LATCH){
+        listBanks.enableItem(5);
+        listBanks.enableItem(6);
+        listBanks.enableItem(7);
+        listBanks.enableItem(8);
+    } else{
+        listBanks.disableItem(5);
+        listBanks.disableItem(6);
+        listBanks.disableItem(7);
+        listBanks.disableItem(8);
+    }
+
 #ifdef CVTHING
     listBanks.disableItem(2);
 #else

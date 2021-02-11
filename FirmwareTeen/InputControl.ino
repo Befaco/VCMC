@@ -399,7 +399,7 @@ void InputControl::ProcessGateNotes(void)
   bool GateStat = GetGateState ();
 
     if (GateStat == true) { // Send Note On
-      GateBut.setBlink(100, 100, 1);
+      //GateBut.setBlink(100, 100, 1);
       
       // Independ channels
       bool played = false;
