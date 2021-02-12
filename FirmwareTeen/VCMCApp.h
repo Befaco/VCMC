@@ -36,6 +36,11 @@
  */
 
 //#define DEPR_CONS
+// Interrput handling definitions
+extern volatile bool servicingPorts;
+void timerIsr();
+void servicePorts();
+
 /// Main Class for the VCMC Application
 class VCMCApp
 {
@@ -81,6 +86,9 @@ public:
         disp= new Adafruit_SSD1306(128, 64, &SPI, OLED_DC, OLED_RESET, OLED_CS);
     }
     void setup(void);
+    void beginPortsTimer(){ PortsTimer.begin(servicePorts, TIMERINTSERVICE);}
+    void stopPortsTimer(){ PortsTimer.end();}
+
     void ApplyFilters(){
         for (int i = 0; i < NUMCHAN-1;i++){
             Controls[i].Slider.setFilter(theGlobalCfg.filterFader, theGlobalCfg.ActThrFader);
@@ -124,10 +132,7 @@ private:
     void initADC(void);
 };
 
-// Interrput handling definitions
-extern volatile bool servicingPorts;
-void timerIsr();
-void servicePorts();
+
 // Main object definition
 extern VCMCApp theApp;
 // Callbacks

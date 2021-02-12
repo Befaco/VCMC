@@ -91,7 +91,8 @@ void VCMCApp::setup(void)
 #endif
 // Ports reading interrupt
 #ifdef USEREADINTERR
-    PortsTimer.begin(servicePorts, TIMERINTSERVICE);
+    //PortsTimer.begin(servicePorts, TIMERINTSERVICE);
+    beginPortsTimer();
 #endif
 
     // Init Menu

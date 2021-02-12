@@ -76,6 +76,7 @@ bool FactoryReset();
 bool CreditsScreen();
 bool DoNothing();
 bool ResetCPU();
+bool FreqMeas();
 // Defined on MenuBlock
 bool gotoMenuBanks();
 bool gotoMenuSettings();

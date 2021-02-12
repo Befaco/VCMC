@@ -61,7 +61,7 @@ const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder 
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1
 #endif
-//#define CVTHING 1
+#define CVTHING 1
 //#define USEOSC
 //#define USECONFIGOSC
 //#define USEI2C
@@ -142,7 +142,7 @@ const int16_t COLUMNW = 8;
 /// Divider from input clacks to MIDI clicks
 #define INPUTCLKDIVIDER 6
 /// Calibration modes
-typedef enum { NoCalMode, MatrixCalMode, SetRangeMode, TwoPointCalMode, FadersCalMode, SetClockMode } CalModes;
+typedef enum { NoCalMode, MatrixCalMode, SetRangeMode, TwoPointCalMode, FadersCalMode, SetClockMode, FreqMeasure } CalModes;
 
 /// Screen refresh rates
 const uint32_t REFRESH_RATE  = 30000;	  /// Refresh screen portion every REFRESH_RATE usec
