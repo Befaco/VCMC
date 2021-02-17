@@ -56,7 +56,7 @@ MenuItem GlobalconfigList[] = {
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
-    {"FREQUENCY", FreqMeas, 1},
+    {"FREQUENCY", FreqMeas, 0},
     {" GLOBAL CFG ", NULL, 1}};
 MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
 

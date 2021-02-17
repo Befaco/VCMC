@@ -95,7 +95,7 @@ bool gotoMenuBanks()
         listBanks.enableItem(5);
         listBanks.enableItem(6);
         listBanks.enableItem(7);
-        listBanks.enableItem(8);
+        //listBanks.enableItem(8);
     } else{
         listBanks.disableItem(5);
         listBanks.disableItem(6);

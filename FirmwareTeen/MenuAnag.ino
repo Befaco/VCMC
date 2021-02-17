@@ -94,53 +94,60 @@ MenuItem AnagList2[] = {
     {"FADER CONFIG", NULL, 1}};
 MenuList listAnag2(AnagList2, 9, ListLines);
 
-MenuItem AnagFnList[] = {
+MenuItem AnagChordFnList[] = {
     {"<-BACK", gotoMenuAnag, 1},
-    {"V/OC TO NOTE", SelectTrig, 1},
-    {"V/OC POLY", SelectTrig8Level, 1},
-    {"CC", SelectCC, 1},
-    {"VELOCITY", SelectVel, 1},
-    {"PITCH BEND", SelectBend, 1},
-    {"PROG CHANGE", SelectProgCha, 1},
-    {"DIG FUNC", SelectAngDigFN, 1},
-    {"ST/SP", SelectAnaSTSPFn, 0}, //Before was calling SelectAnagStartStop
-    {"NOTES", SelectNoteDud, 1},
-    {"NOTE GATE", SelectTrigLevel, 0},
-    {"NRPN 7BIT", SelectNRPN7, 1},
-    {"NRPN 14BITS", SelectNRPN14, 1},
-    {"CC 14BITS", SelectCC14b, 1},
-    {"AFTER TOUCH", SelectAfterT, 1},
     {"CHORD TYPE", SelectDefChord, 1},
     {"SCALE MODE", SelectDefScale, 1},
     {"SCALE ROOT", SelectScaleRoot, 1},
     {"INV/DROP", SelectInvDrop, 1},
-    {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}
-    };
-MenuList listAnagFn(AnagFnList, 20, ListLines);
+    {"CHORD FUNC", NULL, 1}
+};
+MenuList AnagChordFn(AnagChordFnList, 5, ListLines);
 
-MenuItem AnagFnList2[] = {
-    {"<-BACK", SelectFaderConfig, 1},
-    {"V/OC TO NOTE", SelectTrig, 1},
+
+MenuItem HiResFnList[] = {
+    {"<-BACK", gotoMenuAnag, 1},
+    {"NRPN 7BIT", SelectNRPN7, 1},
+    {"NRPN 14BITS", SelectNRPN14, 1},
+    {"CC 14BITS", SelectCC14b, 1},
+    {"CHORD FUNC", NULL, 1}
+};
+MenuList HiResFn(HiResFnList, 4, ListLines);
+
+
+MenuItem AnagFnList[] = {
+    {"<-BACK", gotoMenuAnag, 1},
     {"CC", SelectCC, 1},
+    {"V/OC TO NOTE", SelectTrig, 1},
+    {"V/OC POLY", SelectTrig8Level, 1},
+    {"NOTES", SelectNoteDud, 1},
     {"VELOCITY", SelectVel, 1},
     {"PITCH BEND", SelectBend, 1},
     {"PROG CHANGE", SelectProgCha, 1},
-    {"DIG FUNC", SelectAngDigFN, 0},
-    {"ST/SP", SelectAnaSTSPFn, 0}, //Before was calling SelectAnagStartStop
-    {"NOTES", SelectNoteDud, 1},
-    {"NOTE GATE", SelectTrigLevel, 0},
-    {"NRPN 7BITS", SelectNRPN7, 1},
-    {"NRPN 14BITS", SelectNRPN14, 1},
-    {"CC 14BITS", SelectCC14b, 1},
     {"AFTER TOUCH", SelectAfterT, 1},
-    {"CHORD TYPE", SelectDefChord, 1},
-    {"SCALE MODE", SelectDefScale, 1},
-    {"SCALE ROOT", SelectScaleRoot, 1},    
-    {"INV/DROP", SelectInvDrop, 1},
+    {"DIG FUNC->", SelectAngDigFN, 1},
+    {"CHORD FUNC->", SelectChordFN, 1},
+    {"HiRES MIDI->", SelectHiresFN, 1},
+    {"NO FUNC", SelectNoFunc, 1},
+    {"MIDI MAPPING", NULL, 1}
+    };
+MenuList listAnagFn(AnagFnList, 13, ListLines);
+
+MenuItem AnagFnList2[] = {
+    {"<-BACK", SelectFaderConfig, 1},
+    {"CC", SelectCC, 1},
+    {"V/OC TO NOTE", SelectTrig, 1},
+    {"NOTES", SelectNoteDud, 1},
+    {"VELOCITY", SelectVel, 1},
+    {"PITCH BEND", SelectBend, 1},
+    {"PROG CHANGE", SelectProgCha, 1},
+    {"AFTER TOUCH", SelectAfterT, 1},
+    {"DIG FUNC->", SelectAngDigFN, 0},
+    {"CHORD FUNC->", SelectChordFN, 1},
+    {"HiRES MIDI->", SelectHiresFN, 1},
     {"NO FUNC", SelectNoFunc, 1},
     {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 19, ListLines);
+MenuList listAnagFn2(AnagFnList2, 12, ListLines);
 
 MenuItem AnagDigFnList[8] = {
     {"<-BACK", gotoMenuAnag, 1},
@@ -180,6 +187,19 @@ MenuItem StdNamesItems[] = {
     {"Name", selectMenuPortName, 1}};
 MenuList StdNameList(StdNamesItems, 1, ListLines);
 
+
+bool SelectChordFN()
+{
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&AnagChordFn);
+    return true;
+}
+
+bool SelectHiresFN(){
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&HiResFn);
+    return true;
+}
 
 bool SelectChannel()
 {
@@ -464,25 +484,17 @@ bool SelectAnagRange()
 // Analog functions menu
 bool SelectAnagFn()
 {
-    /*
-    listAnagFn.disableItem(6+1);
-    listAnagFn.disableItem(7+1);
-    if(BankSelected==8){
-        listAnagFn.enableItem(6+1);
-        listAnagFn.enableItem(7+1);        
-    }
-    */
    #ifdef CVTHING
-    listAnagFn.disableItem(1);
-    //listAnagFn.disableItem(9+1);
+    // Disable V/Oct in even ports
     if(BankSelected%2==1){
-        //listAnagFn.enableItem(9+1);
+        listAnagFn.disableItem(2);
     } else
     {
-        listAnagFn.enableItem(1);
+        listAnagFn.enableItem(2);
     }
+    // Disable V/Oct Poly in ports 8
     if( BankSelected ==7)
-      listAnagFn.disableItem(2);    
+      listAnagFn.disableItem(2);  
     #endif
 
     myMenu.ClearArea();
@@ -492,16 +504,18 @@ bool SelectAnagFn()
 
 bool SelectAnagFn2()
 {
-    listAnagFn2.disableItem(6);
-    listAnagFn2.disableItem(7);
+    // Enable Dig Functions for AuxB
+    listAnagFn2.disableItem(8);
+    //listAnagFn2.disableItem(7);
     if(BankSelected==8){
-        listAnagFn2.enableItem(6);
-        listAnagFn2.enableItem(7);        
+        listAnagFn2.enableItem(8);
+        //listAnagFn2.enableItem(7);        
     }
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnagFn2);
     return true;
 }
+
 
 bool SelectMIDIChan()
 {
