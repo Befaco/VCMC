@@ -36,37 +36,38 @@
  */
 
 // Bank configuration menu. CHANGED FUNCTION NAME AND ORDER.
-MenuItem BankList[] = {
+DEF_MENULIST (listBanks, CONFIG, ListLines,
     {"<-BACK", gotoMenuSettings, 1},
     {"CV", SelectCVConfig, 1},       // Hidden in Note mode
     {"FADER", SelectFaderConfig, 1}, // Shown only in Indep mode
     {"GATE", SelectGateConfig, 1},   // Hidden on Note MODE
     {"CV-FDR LINK", SelectBankFunction, 1},
+    {"SCALE/CHORDS", SelectChordMenu, 1}
+)
+
+// Chord Mode Menu
+DEF_MENULIST (mChords, SCALE/CHORDS, ListLines,
+    {"<-BACK", gotoMenuBanks, 1},
     {"SCALE MODE", SelectScale, 1},
     {"SCALE ROOT", selectRootScale, 1},
     {"CHORD TYPE", SelectChordType, 1},
-    {"CHORD PRESET", SelectChordPreset, 1},
-    {"   CONFIG   ", NULL, 1} //Name changed!!
-};
-MenuList listBanks(BankList, 9, ListLines);
-
+    {"CHORD VOICING", SelectChordInv, 1},
+    {"CHORD PRESET", SelectChordPreset, 1}
+)
 // Bank configuration menu
-MenuItem AuxList[] = {
+DEF_MENULIST (listAux, CONFIG, ListLines,
     {"<-BACK", gotoMenuSettings, 1},
     {"AUX A", SelectAuxAConfig, 1}, // Hidden in Note mode
-    {"AUX B", SelectAuxBConfig, 1}, // SelectCVConfig,1   } //  Shown only in Indep mode
-    {"CONFIG", NULL, 1}             //Name changed!!
-};
-MenuList listAux(AuxList, 3, ListLines);
+    {"AUX B", SelectAuxBConfig, 1} // SelectCVConfig,1   } //  Shown only in Indep mode
+)
 
 // Function menu. REMOVED NOTE ENTRY   , {"Note" , SelectNoteMode,1   }
-MenuItem BankFnList[] = {
+DEF_MENULIST (BankFnListMenu, CV/FAD LINK, ListLines,
     {"<-BACK", gotoMenuBanks, 1},
     {"INDEP.", SelectIndep, 1},
     {"SUM", SelectSum, 1},
-    {"ATTE", SelectMult, 1},
-    {" CV/FAD LINK ", NULL, 1}};
-MenuList BankFnListMenu(BankFnList, 4, ListLines);
+    {"ATTE.", SelectMult, 1}
+)
 
 //////////////////////////
 // Main Menu entry function
@@ -86,21 +87,10 @@ bool gotoMenuBanks()
     else
         mSelected = &listBanks; // Elige menu normal
 
-    if (BankSelected  > 4)
-        listBanks.disableItem(8); // Chords triggered in gates 1 and 5
-    else
-        listBanks.enableItem(8);
-
     if (CVControls[BankSelected].GateBut.PortCfg.MIDIfunction == TRIGGER || CVControls[BankSelected].GateBut.PortCfg.MIDIfunction == LATCH){
         listBanks.enableItem(5);
-        listBanks.enableItem(6);
-        listBanks.enableItem(7);
-        //listBanks.enableItem(8);
     } else{
         listBanks.disableItem(5);
-        listBanks.disableItem(6);
-        listBanks.disableItem(7);
-        listBanks.disableItem(8);
     }
 
 #ifdef CVTHING
@@ -395,6 +385,36 @@ bool SelectChordType()
         myMenu.setCurrentMenu("CHORD", ChordNames, diatonicNumberOfChords + 1, setActiveChord, chord);
     return true;
 }
+
+
+bool SelectChordInv()
+{
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu("CHORD VOICING", InvDropShortNames, LAST_INVDROP - 1, setActiveInv,
+        CVControls[BankSelected].Chord.getInvDrop());
+    return true;
+}
+
+
+bool setActiveInv()
+{
+    CVControls[BankSelected].Chord.setInvDrop(myMenu.getItemStatus());
+    return gotoMenuBanks();
+}
+
+
+bool SelectChordMenu()
+{
+    if (BankSelected  > 4)
+        mChords.disableItem(5); // Chords triggered in gates 1 and 5
+    else
+        mChords.enableItem(5);
+
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&mChords);
+    return true;
+}
+
 
 bool SelectChordPreset()
 {

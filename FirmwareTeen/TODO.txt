@@ -1,13 +1,14 @@
+NOANFFUNC que admita rangos negativos
   Por defecto al cambiar de escala, escoger acordes de 3 Notas
   Al elegir una escala, el menú de acordes limitar a No Chords, Major, Major 7th
   Crear Voicings con 2ª y 3ª abiertas hacia arriba
   Poner la opción macro en menu de bloque
   Función nota base de la escala (offset)
 Definir acordes de dos Notas
-Salvar datos de acordes y escala
+  Salvar datos de acordes y escala
 
   Hacer pruebas en CVThing
-Mostrar valor actual al entrar en menu selección texto
+  Mostrar valor actual al entrar en menu selección texto
 
 
 TODO New use Save defaults values to save EEPROM space

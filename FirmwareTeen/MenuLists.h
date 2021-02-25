@@ -88,6 +88,7 @@ bool SelectChordType();
 bool SelectScale();
 bool SelectChordPreset();
 bool selectRootScale();
+bool SelectChordInv();
 // Defined on MenuMode
 bool SelectNameMenu();
 bool selectMenuPortName();

@@ -22,6 +22,14 @@
 
 typedef bool (*Item_Function)();
 
+enum ItemStatus : uint8_t
+{
+	ITEM_DIS = 0,
+	ITEM_EN = 1,
+	ITEM_LINK
+};
+
+
 const uint8_t MENUITEMTEXTSIZE=16;
 /*const */typedef struct MenuItem_t {
  char text[MENUITEMTEXTSIZE];
@@ -35,6 +43,12 @@ enum MenuListStyles{
 	ListLinesSimple, // Classical menu with several options shown at the same time, no info
 	ListCards  // This type will show only one item
 } ;
+
+#define DEF_MENULIST(name, title, style, ItList...) \
+	MenuItem name##List[]{                          \
+		ItList,                                     \
+		{#title, NULL, ITEM_EN}};                   \
+	MenuList name(name##List, sizeof(name##List) / sizeof(MenuItem) - 1, style);
 
 class MenuList {
 private:
