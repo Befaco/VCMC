@@ -47,7 +47,11 @@ DEF_MENULIST (listBanks, CONFIG, ListLines,
 
 // Chord Mode Menu
 DEF_MENULIST (mChords, SCALE/CHORDS, ListLines,
+    #ifdef CVTHING
+    {"<-BACK", gotoMenuAnag, 1},
+    #else
     {"<-BACK", gotoMenuBanks, 1},
+    #endif
     {"SCALE MODE", SelectScale, 1},
     {"SCALE ROOT", selectRootScale, 1},
     {"CHORD TYPE", SelectChordType, 1},
@@ -183,55 +187,6 @@ bool gotoMenuSettings()
     return true;
 }
 
-bool SelectCVConfig()
-{
-    if (BankSelected == 8)
-    {
-        if (PortSelected < 2)
-            return true;
-    }
-    else
-        PortSelected = 2;
-
-#ifdef CVTHING
-    listAnag.enableItem(14);
-    listAnag.enableItem(15);
-    listAnag.enableItem(16);
-#endif
-    if (CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
-        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
-        listAnag.enableItem(4);
-    else
-        listAnag.disableItem(4);
-
-    listAnag.disableItem(6);
-    listAnag.disableItem(7);
-    listAnag.disableItem(8);
-    listAnag.disableItem(9);
-    listAnag.disableItem(10);
-    listAnag.disableItem(11);
-    listAnag.disableItem(12);
-    // Show clock Div
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGCLOCK)
-    {
-        listAnag.enableItem(8);
-    }
-    // Show NRPN
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN14bits ||
-        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN7bits)
-    {
-        listAnag.enableItem(12);
-        listAnag.enableItem(10);
-        listAnag.enableItem(9);
-    }
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH)
-    {
-        listAnag.enableItem(11);
-    }
-    myMenu.ClearArea();
-    myMenu.setCurrentMenu(&listAnag);
-    return true;
-}
 
 bool SelectFaderConfig()
 {
@@ -409,6 +364,10 @@ bool SelectChordMenu()
         mChords.disableItem(5); // Chords triggered in gates 1 and 5
     else
         mChords.enableItem(5);
+
+    #ifdef CVTHING
+    mChords.disableItem(5);
+    #endif
 
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&mChords);

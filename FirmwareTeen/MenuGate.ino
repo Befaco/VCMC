@@ -113,15 +113,6 @@ bool SelectGatSTSPFn()
     return true;
 }
 
-/*
-bool SelectGateModeCfg () {
-    PortSelected = 2;
-    myMenu.ClearArea ();
-    myMenu.setCurrentMenu (&listAnag);
-
-    return true;
-}
-*/
 
 bool SelectNoteNmbr()
 {

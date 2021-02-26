@@ -35,27 +35,19 @@
  *  \brief Defines Menu functions callbacks response for Analog Ports configuration 
  */
 
-// Gate Mode. NOT IN USE?
-MenuItem GateModelist[4] = {
-    {"<-BACK", gotoMenuBanks, 1},
-    {"GATE", SelectGateModeGate, 1},
-    {"TRIGG", SelectGateModeTrigger, 1},
-    {"Bank Function", NULL, 1}};
-MenuList listGateMode(GateModelist, 4, ListLines);
 
 // Name selection Menu
-MenuItem NameList[] = {
+DEF_MENULIST (listName, PORT NAME, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"SELECT NAME", SelectStdName, 1},
     {"PREFIX", SelectPrefix, 0},
     {"SUFIX", SelectSufix, 1},
-    {"EDIT USER DEF", selectUserNames, 1},
-    {"PORT NAME", NULL, 1}};
-MenuList listName(NameList, 5, ListLines);
+    {"EDIT USER DEF", selectUserNames, 1}
+)
 
 
 // CV configuration menu
-MenuItem AnagList[] = {
+DEF_MENULIST (listAnag, CV CONFIG, ListLines,
     #ifdef CVTHING
     {"<-BACK", gotoMenuSettings, 1},
     #else
@@ -74,14 +66,11 @@ MenuItem AnagList[] = {
     {"AUTO OFF", AutoOffFn, 0},
     {"NRPN Val", SelectNRPNval, 1},
     {"PORT NAME", SelectNameMenu, 1},
-    {"SCALE MODE", SelectScale, 0},
-    {"CHORD TYPE", SelectChordType, 0},
-    {"SCALE ROOT", selectRootScale, 0},
-    {" CV CONFIG ", NULL, 1}};
-MenuList listAnag(AnagList, 17, ListLines);
+    {"SCALE/CHORDS", SelectChordMenu, 0}
+)
 
 // Fader configuration menu
-MenuItem AnagList2[] = {
+DEF_MENULIST (listAnag2, FADER CONFIG, ListLines,
     {"<-BACK", gotoMenuBanks, 1},
     {"FUNCTION", SelectAnagFn2, 1},
     {"MIDI CH", SelectMIDIChan, 1},
@@ -90,32 +79,27 @@ MenuItem AnagList2[] = {
     {"NRPN LSB", SelectNRPNLSB, 1},
     {"AUTO OFF", AutoOffFn, 0},
     {"OUT RANGE", SetRangeMenu, 1},
-    {"PORT NAME", SelectNameMenu, 1},
-    {"FADER CONFIG", NULL, 1}};
-MenuList listAnag2(AnagList2, 9, ListLines);
+    {"PORT NAME", SelectNameMenu, 1}
+)
 
-MenuItem AnagChordFnList[] = {
+
+DEF_MENULIST (AnagChordFn, CHORD FUNC, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"CHORD TYPE", SelectDefChord, 1},
     {"SCALE MODE", SelectDefScale, 1},
     {"SCALE ROOT", SelectScaleRoot, 1},
-    {"INV/DROP", SelectInvDrop, 1},
-    {"CHORD FUNC", NULL, 1}
-};
-MenuList AnagChordFn(AnagChordFnList, 5, ListLines);
+    {"INV/DROP", SelectInvDrop, 1}
+)
 
-
-MenuItem HiResFnList[] = {
+DEF_MENULIST (HiResFn, HI-RES MIDI, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"NRPN 7BIT", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
-    {"CC 14BITS", SelectCC14b, 1},
-    {"CHORD FUNC", NULL, 1}
-};
-MenuList HiResFn(HiResFnList, 4, ListLines);
+    {"CC 14BITS", SelectCC14b, 1}
+)
 
 
-MenuItem AnagFnList[] = {
+DEF_MENULIST (listAnagFn, MIDI MAPPING, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"CC", SelectCC, 1},
     {"V/OC TO NOTE", SelectTrig, 1},
@@ -128,12 +112,10 @@ MenuItem AnagFnList[] = {
     {"DIG FUNC->", SelectAngDigFN, 1},
     {"CHORD FUNC->", SelectChordFN, 1},
     {"HiRES MIDI->", SelectHiresFN, 1},
-    {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}
-    };
-MenuList listAnagFn(AnagFnList, 13, ListLines);
+    {"NO FUNC", SelectNoFunc, 1}
+)
 
-MenuItem AnagFnList2[] = {
+DEF_MENULIST (listAnagFn2, MIDI MAPPING, ListLines,
     {"<-BACK", SelectFaderConfig, 1},
     {"CC", SelectCC, 1},
     {"V/OC TO NOTE", SelectTrig, 1},
@@ -145,22 +127,21 @@ MenuItem AnagFnList2[] = {
     {"DIG FUNC->", SelectAngDigFN, 0},
     {"CHORD FUNC->", SelectChordFN, 1},
     {"HiRES MIDI->", SelectHiresFN, 1},
-    {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 12, ListLines);
+    {"NO FUNC", SelectNoFunc, 1}
+)
 
-MenuItem AnagDigFnList[8] = {
+DEF_MENULIST (listAnagDigFn, MIDI MAPPING, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"NOTE GATE", SelectAnagNote, 1},
     {"NOTE LATCH", SelectAnagLatchNote, 1},
     {"CC GATE", SelectAnagCC, 1},
     {"CC LATCH", SelectAnagLatchCC, 1},
     {"CLOCK", SelectAngClock, 1},
-    {"ST/SP", SelectAnaSTSPFn, 1}, //Before was calling SelectAnagStartStop
-    {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagDigFn(AnagDigFnList, 7, ListLines);
+    {"ST/SP", SelectAnaSTSPFn, 1}
+)
 
-MenuItem STSPAnaFnList[] = {
+
+DEF_MENULIST (listAnaSTSPFn, ST/SP MODE, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"ST/SP GATE", SelectAnagStartStop, 1},
     {"ST/SP LATCH", SelectAnagLatchStartStop, 1},
@@ -168,26 +149,97 @@ MenuItem STSPAnaFnList[] = {
     {"CONT/SP LATCH", SelectAnagLatchContStop, 1},
     {"START", SelectAnagStart, 1},
     {"STOP", SelectAnagStop, 1},
-    {"CONTINUE", SelectAnagCont, 1},
-    {"ST/SP MODE", NULL, 1}};
-MenuList listAnaSTSPFn(STSPAnaFnList, 8, ListLines);
+    {"CONTINUE", SelectAnagCont, 1}
+)
 
-MenuItem AutoOffOptionsList[8] = {
+DEF_MENULIST (ListAutoOffOptions, AUTO OFF, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"NO AUTO OFF", AutoOff0, 1},
     {"0500ms OFF", AutoOff0500, 1}, 
     {"1000ms OFF", AutoOff1000, 1}, 
     {"1500ms OFF", AutoOff1500, 1}, 
     {"3000ms OFF", AutoOff3000, 1}, 
-    {"Edit AUTOOFF", AutoOffEdit, 1}, 
-    {"AUTO OFF", NULL, 1}};
-MenuList ListAutoOffOptions(AutoOffOptionsList, 7, ListLinesSimple);
+    {"Edit AUTOOFF", AutoOffEdit, 1}
+)
 
 MenuItem StdNamesItems[] = {
     {"Name", selectMenuPortName, 1}};
 MenuList StdNameList(StdNamesItems, 1, ListLines);
 
 
+
+// Gate Mode. NOT IN USE?
+DEF_MENULIST (listGateMode, Bank Function, ListLines,
+    {"<-BACK", gotoMenuBanks, 1},
+    {"GATE", SelectGateModeGate, 1},
+    {"TRIGG", SelectGateModeTrigger, 1}
+)
+
+/*****************************
+ ******************************
+   Define the functions you want your menu to call
+   They can be blocking or non-blocking
+   They should take no arguments and return a bool
+   true if the function is finished and doesn't want to run again
+   false if the function is not done and wants to be called again
+ ******************************
+ *****************************/
+
+//////////////////////////////////////////
+
+bool SelectCVConfig()
+{
+    if (BankSelected == 8)
+    {
+        if (PortSelected < 2)
+            return true;
+    }
+    else
+        PortSelected = 2;
+
+#ifdef CVTHING
+    // Enable Scale / Chord Menu
+    listAnag.enableItem(14);
+#endif
+
+    if (CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
+        listAnag.enableItem(4);
+    else
+        listAnag.disableItem(4);
+
+    listAnag.disableItem(6);
+    listAnag.disableItem(7);
+    listAnag.disableItem(8);
+    listAnag.disableItem(9);
+    listAnag.disableItem(10);
+    listAnag.disableItem(11);
+    listAnag.disableItem(12);
+    // Show clock Div
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGCLOCK)
+    {
+        listAnag.enableItem(8);
+    }
+    // Show NRPN
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN14bits ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN7bits)
+    {
+        listAnag.enableItem(12);
+        listAnag.enableItem(10);
+        listAnag.enableItem(9);
+    }
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH)
+    {
+        listAnag.enableItem(11);
+    }
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&listAnag);
+    return true;
+}
+
+
+////////////////////////////////////////////////
+// Scale / Chord functions
 bool SelectChordFN()
 {
     myMenu.ClearArea();
@@ -278,15 +330,6 @@ bool SelectScaleRoot()
 }
 
 
-/*****************************
- ******************************
-   Define the functions you want your menu to call
-   They can be blocking or non-blocking
-   They should take no arguments and return a bool
-   true if the function is finished and doesn't want to run again
-   false if the function is not done and wants to be called again
- ******************************
- *****************************/
 
 //////////////////////
 // Port name selection
