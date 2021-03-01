@@ -1,3 +1,4 @@
+Fader pueda tocar notas poly
 NOANFFUNC que admita rangos negativos
   Por defecto al cambiar de escala, escoger acordes de 3 Notas
   Al elegir una escala, el menú de acordes limitar a No Chords, Major, Major 7th

@@ -197,11 +197,6 @@ bool SelectCVConfig()
     else
         PortSelected = 2;
 
-#ifdef CVTHING
-    // Enable Scale / Chord Menu
-    listAnag.enableItem(14);
-#endif
-
     if (CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
         CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
         listAnag.enableItem(4);
@@ -232,6 +227,18 @@ bool SelectCVConfig()
     {
         listAnag.enableItem(11);
     }
+
+    #ifdef CVTHING
+    // Show Chord option for CVThing
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG 
+        || CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH8TRIG){
+        listAnag.enableItem(14);
+    } else{
+        listAnag.disableItem(14);
+    }
+    #endif
+
+
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnag);
     return true;
