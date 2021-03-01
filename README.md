@@ -1,16 +1,22 @@
-# VCMC v1.2.3 / CV Thing v1.2.3 Chords Branch
-This Branch is the Work in progress of Chords feature by Tony Fleig.
-
+# VCMC v1.3 / CV Thing v1.3 
+This Branch is the Work in progress of Chords feature and other improvements.
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
 This code will work in any hardware revision from PCB v1
 
 The code will also run with CV Thing module. See below install options for details. Find further information about CV Thing [here](https://www.befaco.org/CV_thing/)
 
-If you are updating version is always recommended a factory reset and save.
+If you are updating version, it´s always recommended a factory reset and save. Also keep in mind that old saves will not be valid in the new version.
 
 
 ## Changelog/ Bug Fixes:
+
+### v1.3
+- Chord mode implemented.
+- Aftertouch implemented.
+- Improved compatibility with iConnectivity devices
+
+Chord mode idea and original code was implemented by Tony Fleigh
 
 ### v1.2.3
 - Bug fix: POLY mode now works in VCMC when cv and fader is set to sum.   
