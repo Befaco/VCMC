@@ -124,7 +124,7 @@ Make sure you have version 1.53.
 6. Connecting the module
   Connect teensy or the module to the computer using USB connector.  If you are programming with Teensy connected to the module, please make sure the module is powered on. 
 
-7. In  Arduino software Tools > USB Type submenu  choose **Serial + MIDI**
+7. In  Arduino software Tools > USB Type submenu  choose **MIDI**
 
 8. Upgrading
   Press "Open" and search the file "Firmwareteen.ino" located on the "VCMC" folder. 
