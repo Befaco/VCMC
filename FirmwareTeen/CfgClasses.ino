@@ -146,7 +146,7 @@ void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
         maxv = MIDI_PITCHBEND_MAX;
         break;
     case PERCENT:
-        minv = -100;
+        minv = 0; //-100;
         maxv = 100;
         break;
     case ANAGFREEVALUE:
