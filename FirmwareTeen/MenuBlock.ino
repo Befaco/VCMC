@@ -383,9 +383,9 @@ bool SelectChordPreset()
     CVControls[FIRSTBLK].Config.Chanfunction = SUM;
     CVControls[FIRSTBLK].CVPort.PortCfg.SetMIDIFunc(PITCHTRIG);
     CVControls[FIRSTBLK].Slider.PortCfg.SetMIDIFunc(NOANFFUNC);
-    CVControls[FIRSTBLK].Slider.PortCfg.Ranges.SetMIDI(-12, 24); // +/- 1 Octave
-    CVControls[FIRSTBLK].Slider.PortCfg.ClipLow = -12;
-    CVControls[FIRSTBLK].Slider.PortCfg.ClipHigh = 12;
+    CVControls[FIRSTBLK].Slider.PortCfg.Ranges.SetMIDI(-24, 48); // +/- 1 Octave
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipLow = -24;
+    CVControls[FIRSTBLK].Slider.PortCfg.ClipHigh = 24;
     CVControls[FIRSTBLK].GateBut.PortCfg.SetMIDIFunc(TRIGGER);
     // Default CScale/Chord configuration
     CVControls[FIRSTBLK].Chord.setScale(Ionian_SCALE); // Major scale
