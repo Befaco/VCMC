@@ -36,6 +36,7 @@
  *  \file PrjIncludes.h
  *  \brief Includes for the project come here 
  */
+#include <Arduino.h>
 #include "Definitions.h"
 
 #include <Adafruit_GFX.h>
@@ -90,6 +91,8 @@
 #include <OSCMessage.h>
 #include "OSCMerge.h"
 #endif
+
+#include "MIDIChord.h"
 
 #include "Blinker.h"
 #include "MultiPointConv.h"

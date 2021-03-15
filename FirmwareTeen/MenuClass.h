@@ -20,10 +20,19 @@
  *  \brief Defines Base Menu class
  */
 
-typedef boolean (*Item_Function)();
+typedef bool (*Item_Function)();
 
+enum ItemStatus : uint8_t
+{
+	ITEM_DIS = 0,
+	ITEM_EN = 1,
+	ITEM_LINK
+};
+
+
+const uint8_t MENUITEMTEXTSIZE=16;
 /*const */typedef struct MenuItem_t {
- char text[16];
+ char text[MENUITEMTEXTSIZE];
  Item_Function func;
  byte Status; // Use for enable/disable option. This function is not used in the base MenuList class and should be implemented on derived classes
 } MenuItem;
@@ -34,6 +43,12 @@ enum MenuListStyles{
 	ListLinesSimple, // Classical menu with several options shown at the same time, no info
 	ListCards  // This type will show only one item
 } ;
+
+#define DEF_MENULIST(name, title, style, ItList...) \
+	MenuItem name##List[]{                          \
+		ItList,                                     \
+		{#title, NULL, ITEM_EN}};                   \
+	MenuList name(name##List, sizeof(name##List) / sizeof(MenuItem) - 1, style);
 
 class MenuList {
 private:
@@ -53,8 +68,8 @@ public:
 class MenuClass {
 private:
 
- boolean cancelFlag;
- boolean runningFunction;
+ bool cancelFlag;
+ bool runningFunction;
 public:
  MenuList *currentMenu;
  int currentItemIndex;
@@ -68,12 +83,13 @@ public:
  void enableItem(int);
  void disableItem(int);
  bool isEnabled(int);
- boolean runFunction(void);
+ bool runFunction(void);
  virtual void displayMenu() = 0;
- virtual boolean checkForCancel();
+ virtual bool checkForCancel();
  virtual int updateSelection() = 0;
- virtual boolean selectionMade() = 0;
+ virtual bool selectionMade() = 0;
  byte getItemStatus() { return currentMenu->getItem(currentItemIndex)->Status; };
+ void setCurrentItem(uint8_t itnum);
 };
 
 /** @} */

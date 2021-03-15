@@ -65,6 +65,7 @@ int AnalogPort::SaveCfg (int addr) {
 	Serial.print( lenMem);
 	Serial.print( "/");
 	Serial.println( fixLen);
+    delay(10);
     #endif
     return fixLen;//MemPointer - addr;
 }
@@ -102,7 +103,7 @@ int AnalogPort::LoadCfg (int addr) {
 int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
     int Initbuf = (int)buf;
     int cont;
-    SysExDataStruct *pDataStr;
+    const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
     int32_t minDAC, rDAC;
 
@@ -208,9 +209,16 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
             PortCfg.NRPNparLSB = buf[0];
             PortCfg.NRPNparMSB = buf[1];
             return buLen;
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
+        case SCALEROOT:
+            PortCfg.Options2 = buf[0];
+            return buLen;
         case PITCHTRIG:
         case VELOCITY:
         case PROGRAMCHANGE:
+        case AFTERTOUCH:
         case PITCHBEND:
         case PERCENT:
         case ANAGSTARTSTOP:
@@ -240,7 +248,7 @@ int AnalogPort::parseFunctionData(uint8_t *buf, int buLen){
 int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
     int Initbuf = (int)buf;
     int cont;
-    SysExDataStruct *pDataStr;
+    const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
     int32_t minDAC, rDAC;
 
@@ -341,11 +349,18 @@ int AnalogPort::fillFunctionData(uint8_t *buf, int buLen){
             buf[0] = PortCfg.NRPNparLSB;
             buf[1] = PortCfg.NRPNparMSB;
             return buLen;
+        case CHORDINVERSION: // TODO Save Chord/Scale type?
+        case CHORDTYPE_DEF:
+        case SCALE_DEF:
+        case SCALEROOT:
+            buf[0] = PortCfg.Options2;
+            return buLen;
         case ANAGCLOCK:
             //  Do nothing, clock info should already be on General config
         case PITCHTRIG:
         case VELOCITY:
         case PROGRAMCHANGE:
+        case AFTERTOUCH:
         case PITCHBEND:
         case PERCENT:
         case ANAGSTARTSTOP:

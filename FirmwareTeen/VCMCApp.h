@@ -36,6 +36,11 @@
  */
 
 //#define DEPR_CONS
+// Interrput handling definitions
+extern volatile bool servicingPorts;
+void timerIsr();
+void servicePorts();
+
 /// Main Class for the VCMC Application
 class VCMCApp
 {
@@ -44,6 +49,7 @@ public:
     byte byPortSelected;            ///< Port selected in Menu (0= No port selected, 1= Gate, 2= CV, 3= Fader, )
     InputControl Controls[NUMCHAN]; ///< Main Input controls variable. Will be used to store configuration and functionaly for each 8 input controls and Aux inputs
     uint16_t lastEnc = -1, valueEnc = 30000;
+    MIDIChord DefaultChord;
 
     /** @name Modules integration
      *  Accesors for the different modules integrated in the main application.  
@@ -69,23 +75,20 @@ public:
 
 public:
     VCMCApp() : byBankSelected(1), byPortSelected(0)
-    #ifdef DEPR_CONS
-        , disp(OLED_DC, OLED_RESET, OLED_CS)
-    #endif
     {
         padc = new ADC(); // adc object;
         pEncoder = new ClickEncoder(PINENCB, PINENCA, -1, 4);
         pEncButt = new Bounce();
 
-    #ifdef DEPR_CONS
-    #else
         SPI.begin();
         // Moce SCK from pin 13 to pin 14
         SPI.setSCK(14);
         disp= new Adafruit_SSD1306(128, 64, &SPI, OLED_DC, OLED_RESET, OLED_CS);
-    #endif
     }
     void setup(void);
+    void beginPortsTimer(){ PortsTimer.begin(servicePorts, TIMERINTSERVICE);}
+    void stopPortsTimer(){ PortsTimer.end();}
+
     void ApplyFilters(){
         for (int i = 0; i < NUMCHAN-1;i++){
             Controls[i].Slider.setFilter(theGlobalCfg.filterFader, theGlobalCfg.ActThrFader);
@@ -129,12 +132,12 @@ private:
     void initADC(void);
 };
 
-// Interrput handling definitions
-extern volatile bool servicingPorts;
-void timerIsr();
-void servicePorts();
+
 // Main object definition
 extern VCMCApp theApp;
+// Callbacks
+void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan);
+void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan);
 
 /** @} */ // end of Maingroup
 

@@ -41,35 +41,41 @@
  * \param name string to fill (should be able to contain SIZEPORTNAMES+3 characters) 
  * \return number of characters in string 
  */
-uint8_t InputPortCfg::getName(char*name)
+uint8_t InputPortCfg::getName(char *name)
 {
     uint8_t pos = 0;
-    if(textPort == 0 || textPort > 200+NUMUSERNAMES-1){
+    if (textPort == 0 || textPort > 200 + NUMUSERNAMES - 1)
+    {
         *name = 0;
         return 0;
     }
-    if( charPrefix){ 
+    if (charPrefix)
+    {
         name[pos] = charPrefix;
-        pos++;}
-    if(textPort){
-        if(textPort>199){
+        pos++;
+    }
+    if (textPort)
+    {
+        if (textPort > 199)
+        {
             uint8_t userindex = textPort - 200;
-            strcpy( name + pos, theApp.theGlobalCfg.UserNames[userindex]);
-            pos += strlen(theApp.theGlobalCfg.UserNames[userindex]);               
+            strcpy(name + pos, theApp.theGlobalCfg.UserNames[userindex]);
+            pos += strlen(theApp.theGlobalCfg.UserNames[userindex]);
         }
-        else{
-            strncpy( name + pos, PortNames[textPort], SIZEPORTNAMES);
+        else
+        {
+            strncpy(name + pos, PortNames[textPort], SIZEPORTNAMES);
             pos += strlen(PortNames[textPort]);
         }
     }
-    if( charSufix){ 
+    if (charSufix)
+    {
         name[pos] = charSufix;
         pos++;
-        }
+    }
     name[pos] = 0;
     return pos;
 }
-
 
 // Return min and max values depending on MIDI function
 /**
@@ -79,21 +85,29 @@ uint8_t InputPortCfg::getName(char*name)
  *  \param [in] maxv Max value
 
  */
-void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
-    switch (MIDIfunction) {
+void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
+{
+    switch (MIDIfunction)
+    {
+    case NOANFFUNC:
     case ANAGTRIGGER:
-    case ANAGLATCH:  
+    case ANAGLATCH:
     case PITCHTRIG:
     case PITCH:
-	case PITCHLEVEL:
-	case PITCH8TRIG:
-        if (getInputRange()==MINUSPLUS5V) {
+    case PITCHLEVEL:
+    case PITCH8TRIG:
+        if (getInputRange() == MINUSPLUS5V)
+        {
             minv = -128;
             maxv = 256;
-        } else if(getInputRange()==ZEROTO5V){
+        }
+        else if (getInputRange() == ZEROTO5V)
+        {
             minv = 0;
-            maxv = 60;        
-        }else {
+            maxv = 60;
+        }
+        else
+        {
             minv = 0;
             maxv = 127;
         }
@@ -103,18 +117,22 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case ANAGCLOCK:
     case ANAGSTARTSTOP:
     case ANAGPAUSECONT:
     case ANAGTRIGSTARTSTOP:
     case ANAGTRIGPAUSECONT:
-    case ANAGSTART:  
+    case ANAGSTART:
     case ANAGSTOP:
     case ANAGCONTINUE:
-        if (getInputRange()==MINUSPLUS5V) {
+        if (getInputRange() == MINUSPLUS5V)
+        {
             minv = -128;
             maxv = 256;
-        } else {
+        }
+        else
+        {
             minv = 0;
             maxv = 127;
         }
@@ -128,20 +146,36 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
         maxv = MIDI_PITCHBEND_MAX;
         break;
     case PERCENT:
-        minv = -100;
+        minv = 0; //-100;
         maxv = 100;
         break;
     case ANAGFREEVALUE:
         minv = SHRT_MIN;
         maxv = SHRT_MAX;
         break;
-	case ANAGNRPN7bits:
-		minv = 0;
-		maxv = 127;
+    case ANAGNRPN7bits:
+        minv = 0;
+        maxv = 127;
         break;
-	case ANAGNRPN14bits:
-		minv = 0;
-		maxv = 16383;
+    case ANAGNRPN14bits:
+        minv = 0;
+        maxv = 16383;
+        break;
+    case SCALE_DEF:
+        minv = FULL_SCALE;
+        maxv = LASTSCALE-1;
+        break;
+    case CHORDTYPE_DEF:
+        minv = ONENOTECHORD;
+        maxv = LASTCHORD;
+        break;
+    case CHORDINVERSION:
+        minv = NO_INVDROP;
+        maxv = LAST_INVDROP-1;
+        break;
+    case SCALEROOT:
+        minv = 0;
+        maxv = 11;
         break;
     }
 }
@@ -149,68 +183,84 @@ void AnInputPortCfg::LimitValues (int &minv, int &maxv) {
 /**
  * \brief Check if the config is a digital function
  * 
- * \return boolean 
+ * \return bool 
  */
-boolean AnInputPortCfg::IsDigitalFunc(void){
-  switch (MIDIfunction) {
+bool AnInputPortCfg::IsDigitalFunc(void)
+{
+    switch (MIDIfunction)
+    {
+    case NOANFFUNC:
     case PITCHTRIG:
     case PITCH:
-	case PITCH8TRIG:
+    case PITCH8TRIG:
     case VELOCITY:
     case CONTROLCHANGE:
     case CC14BITS:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case PITCHBEND:
     case PERCENT:
     case ANAGFREEVALUE:
-	case ANAGNRPN7bits:
-	case ANAGNRPN14bits:
+    case ANAGNRPN7bits:
+    case ANAGNRPN14bits:
+    case SCALE_DEF:
+    case CHORDTYPE_DEF:
+    case CHORDINVERSION:
+    case SCALEROOT:
         return false;
-	case PITCHLEVEL:
+    case PITCHLEVEL:
     case ANAGCLOCK:
     case ANAGSTARTSTOP:
     case ANAGPAUSECONT:
     case ANAGTRIGSTARTSTOP:
     case ANAGTRIGPAUSECONT:
-    case ANAGSTART:  
+    case ANAGSTART:
     case ANAGSTOP:
     case ANAGCONTINUE:
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case ANAGTRIGGER:
-    case ANAGLATCH:  
+    case ANAGLATCH:
         return true;
-	}
+    }
     return false;
 }
 
 /// Set new MIDI Function
-void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
+void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
+{
     MIDIfunction = Func;
 
-    switch (MIDIfunction) {
+    switch (MIDIfunction)
+    {
+    case NOANFFUNC:
     case ANAGTRIGGER:
-    case ANAGLATCH:  
+    case ANAGLATCH:
     case PITCHTRIG:
-	case PITCHLEVEL:
-	case PITCH8TRIG:
+    case PITCHLEVEL:
+    case PITCH8TRIG:
     case PITCH:
-        if (getInputRange()==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
-        #ifndef CVTHING
-            Ranges.SetMIDI (-60, 120);
-            ClipLow = -120;//60;
-            ClipHigh = 120;//60;
-        #else
-            Ranges.SetMIDI (0, 120);
+        if (getInputRange() == MINUSPLUS5V)
+        { // Set 10 Octaves range (+5/-5 Oct)
+            #ifndef CVTHING
+            Ranges.SetMIDI(-60, 120);
+            ClipLow = -120; //60;
+            ClipHigh = 120; //60;
+            #else
+            Ranges.SetMIDI(0, 120);
             ClipLow = 0;
             ClipHigh = 120;
-        #endif
-        } else if(getInputRange()==ZEROTO5V){
-            Ranges.SetMIDI (0, 60);
+            #endif
+        }
+        else if (getInputRange() == ZEROTO5V)
+        {
+            Ranges.SetMIDI(0, 60);
             ClipLow = 0;
-            ClipHigh = 120;    
-        } else { // Set 10 Octaves range
-            Ranges.SetMIDI (0, 120);
+            ClipHigh = 120;
+        }
+        else
+        { // Set 10 Octaves range
+            Ranges.SetMIDI(0, 120);
             ClipLow = 0;
             ClipHigh = 120;
         }
@@ -220,68 +270,52 @@ void AnInputPortCfg::SetMIDIFunc (uint8_t Func) {
     case ANAGCCBUT:
     case ANAGCCLATCH:
     case PROGRAMCHANGE:
+    case AFTERTOUCH:
     case ANAGCLOCK:
     case ANAGSTARTSTOP:
     case ANAGPAUSECONT:
     case ANAGTRIGSTARTSTOP:
     case ANAGTRIGPAUSECONT:
-    case ANAGSTART:  
+    case ANAGSTART:
     case ANAGSTOP:
     case ANAGCONTINUE:
-        if (getInputRange()==MINUSPLUS5V) { // Set 10 Octaves range (+5/-5 Oct)
-        #ifndef CVTHING
-            Ranges.SetMIDI (0, 127);
-            ClipLow = -127;//64;
-            ClipHigh = 127;//64;
-        #else
-            Ranges.SetMIDI (0, 127);
+        if (getInputRange() == MINUSPLUS5V)
+        { // Set 10 Octaves range (+5/-5 Oct)
+            #ifndef CVTHING
+            Ranges.SetMIDI(0, 127);
+            ClipLow = -127; //64;
+            ClipHigh = 127; //64;
+            #else
+            Ranges.SetMIDI(0, 127);
             ClipLow = 0;
             ClipHigh = 127;
-        #endif
-        } else { // Set standard MIDI range 0 to 127
-            Ranges.SetMIDI (0, 127);
+            #endif
+        }
+        else
+        { // Set standard MIDI range 0 to 127
+            Ranges.SetMIDI(0, 127);
             ClipLow = 0;
             ClipHigh = 127;
         }
         break;
     case CC14BITS:
-        // Set extended 14 bits MIDI range 0 to MIDI_PITCHBEND_MAX
-        Ranges.SetMIDI (0, 16383);
-        ClipLow = 0;
-        ClipHigh = 16383;
-        break;
     case PITCHBEND:
-        // Set extended Pitch Bend MIDI range -MIDI_PITCHBEND_MIN to MIDI_PITCHBEND_MAX
-        Ranges.SetMIDI (MIDI_PITCHBEND_MIN, MIDI_PITCHBEND_MAX - MIDI_PITCHBEND_MIN);
-        ClipLow = MIDI_PITCHBEND_MIN;
-        ClipHigh = MIDI_PITCHBEND_MAX;
-        break;
     case PERCENT:
-        // Set to percentage range -100 to 100
-        Ranges.SetMIDI (0, 100);
-        ClipLow = 0;
-        ClipHigh = 100;
-        break;
     case ANAGFREEVALUE:
-        Ranges.SetMIDI (SHRT_MIN, SHRT_MAX);
-        ClipLow = SHRT_MIN;
-        ClipHigh = SHRT_MAX;
+    case ANAGNRPN7bits:
+    case ANAGNRPN14bits:
+    case CHORDINVERSION:
+    case CHORDTYPE_DEF:
+    case SCALE_DEF:
+    case SCALEROOT:
+        LimitValues(ClipLow, ClipHigh);
+        Ranges.SetMIDI(ClipLow, ClipHigh-ClipLow);
         break;
-	case ANAGNRPN7bits:
-            Ranges.SetMIDI (0, 127);
-            ClipLow = 0;
-            ClipHigh = 127;
-        break;
-	case ANAGNRPN14bits:
-            Ranges.SetMIDI (0, 16383);
-            ClipLow = 0;
-            ClipHigh = 16383;
-        break;    
-	}
+    }
 }
 
 /// Set new MIDI Function
-void DigPortCfg::SetMIDIFunc (uint8_t Func) { MIDIfunction = Func; }
+void DigPortCfg::SetMIDIFunc(uint8_t Func) { MIDIfunction = Func; }
 /*
 /// Return the global config minimum DAC value
 int32_t getInitMinDAC () { return theApp.theGlobalCfg.InitMinDAC; }
@@ -295,19 +329,19 @@ int32_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
  *
  *  \details 
  */
-int GlobalCfg::SetPage(int page){
-    int MemPointer = 0;//addr;
-	initPage = page;
-	
+int GlobalCfg::SetPage(int page)
+{
+    int MemPointer = 0; //addr;
+    initPage = page;
+
     // Mark the mem as containing Cfg data
-    EEPROM.put (MemPointer, (uint16_t)CFGDATATAG);
-    MemPointer += sizeof (uint16_t);    
-	EEPROM.put (MemPointer, initPage);
-    MemPointer += sizeof (initPage);
+    EEPROM.put(MemPointer, (uint16_t)CFGDATATAG);
+    MemPointer += sizeof(uint16_t);
+    EEPROM.put(MemPointer, initPage);
+    MemPointer += sizeof(initPage);
 
     return MemPointer;
 }
-
 
 /**
  *  \brief Save Control configuration to EEPROM
@@ -317,87 +351,86 @@ int GlobalCfg::SetPage(int page){
  *
  *  \details Will save Global config
  */
-int GlobalCfg::SaveCfg (/*int addr*/) 
+int GlobalCfg::SaveCfg(/*int addr*/)
 {
-    int MemPointer = 0;//addr;
+    int MemPointer = 0; //addr;
 
     // Mark the mem as containing Cfg data
     MemPointer += SetPage(initPage);
-	
-    EEPROM.put (MemPointer, InitMinDAC);
-    MemPointer += sizeof (InitMinDAC);
-    EEPROM.put (MemPointer, InitRangeDAC);
-    MemPointer += sizeof (InitRangeDAC);
 
-    EEPROM.put (MemPointer, FaderMinDAC);
-    MemPointer += sizeof (FaderMinDAC);
-    EEPROM.put (MemPointer, FaderRangeDAC);
-    MemPointer += sizeof (FaderRangeDAC);
+    EEPROM.put(MemPointer, InitMinDAC);
+    MemPointer += sizeof(InitMinDAC);
+    EEPROM.put(MemPointer, InitRangeDAC);
+    MemPointer += sizeof(InitRangeDAC);
 
-    EEPROM.put (MemPointer, AuxAMinDAC);
-    MemPointer += sizeof (AuxAMinDAC);
-    EEPROM.put (MemPointer, AuxARangeDAC);
-    MemPointer += sizeof (AuxARangeDAC);
+    EEPROM.put(MemPointer, FaderMinDAC);
+    MemPointer += sizeof(FaderMinDAC);
+    EEPROM.put(MemPointer, FaderRangeDAC);
+    MemPointer += sizeof(FaderRangeDAC);
 
-    EEPROM.put (MemPointer, AuxBMinDAC);
-    MemPointer += sizeof (AuxBMinDAC);
-    EEPROM.put (MemPointer, AuxBRangeDAC);
-    MemPointer += sizeof (AuxBRangeDAC);
+    EEPROM.put(MemPointer, AuxAMinDAC);
+    MemPointer += sizeof(AuxAMinDAC);
+    EEPROM.put(MemPointer, AuxARangeDAC);
+    MemPointer += sizeof(AuxARangeDAC);
 
-    EEPROM.put (MemPointer, UserNames);
-    MemPointer += sizeof (UserNames);
+    EEPROM.put(MemPointer, AuxBMinDAC);
+    MemPointer += sizeof(AuxBMinDAC);
+    EEPROM.put(MemPointer, AuxBRangeDAC);
+    MemPointer += sizeof(AuxBRangeDAC);
 
-    EEPROM.put (MemPointer, ClockDivider);
-    MemPointer += sizeof (ClockDivider);
-    EEPROM.put (MemPointer, ClockShift);
-    MemPointer += sizeof (ClockShift);
+    EEPROM.put(MemPointer, UserNames);
+    MemPointer += sizeof(UserNames);
 
-    EEPROM.put (MemPointer, filterFader);
-    MemPointer += sizeof (filterFader);
-    EEPROM.put (MemPointer, ActThrFader);
-    MemPointer += sizeof (ActThrFader);
+    EEPROM.put(MemPointer, ClockDivider);
+    MemPointer += sizeof(ClockDivider);
+    EEPROM.put(MemPointer, ClockShift);
+    MemPointer += sizeof(ClockShift);
+
+    EEPROM.put(MemPointer, filterFader);
+    MemPointer += sizeof(filterFader);
+    EEPROM.put(MemPointer, ActThrFader);
+    MemPointer += sizeof(ActThrFader);
 
     /* EEPROM.put (MemPointer, GenOptions1);
     MemPointer += sizeof (GenOptions1);
  */
 #ifdef PRINTDEBUG
-	Serial.print( "Saved Global ");
-	Serial.print( initPage);
-	Serial.print( ": ");
-	Serial.print( InitMinDAC);
-	Serial.print( "/");
-	Serial.print( InitRangeDAC);
-	Serial.print( "/");	
-	Serial.print( FaderMinDAC);
-	Serial.print( "/");
-	Serial.print( FaderRangeDAC);
-	Serial.print( "/");	
-	Serial.print( AuxAMinDAC);
-	Serial.print( "/");
-	Serial.print( AuxARangeDAC);
-	Serial.print( "/");	
-	Serial.print( AuxBMinDAC);
-	Serial.print( "/");
-	Serial.print( AuxBRangeDAC);
-	Serial.print( "/");	
-    Serial.print( ClockDivider);
-	Serial.print( "/");
-	Serial.print( ClockShift);
-	Serial.print( "/");
-	Serial.print( ActThrFader);
-	Serial.print( "/");
-    Serial.print( filterFader);
-	Serial.print( "/");
-    Serial.println( MemPointer);
+    Serial.print("Saved Global ");
+    Serial.print(initPage);
+    Serial.print(": ");
+    Serial.print(InitMinDAC);
+    Serial.print("/");
+    Serial.print(InitRangeDAC);
+    Serial.print("/");
+    Serial.print(FaderMinDAC);
+    Serial.print("/");
+    Serial.print(FaderRangeDAC);
+    Serial.print("/");
+    Serial.print(AuxAMinDAC);
+    Serial.print("/");
+    Serial.print(AuxARangeDAC);
+    Serial.print("/");
+    Serial.print(AuxBMinDAC);
+    Serial.print("/");
+    Serial.print(AuxBRangeDAC);
+    Serial.print("/");
+    Serial.print(ClockDivider);
+    Serial.print("/");
+    Serial.print(ClockShift);
+    Serial.print("/");
+    Serial.print(ActThrFader);
+    Serial.print("/");
+    Serial.print(filterFader);
+    Serial.print("/");
+    Serial.println(MemPointer);
 #endif
 #ifdef USECONFIGOSC
-	char msgTxt[120];
-    sprintf (msgTxt, "/VCMC/Config/Global");
-    SaveCfgOSC (msgTxt);
+    char msgTxt[120];
+    sprintf(msgTxt, "/VCMC/Config/Global");
+    SaveCfgOSC(msgTxt);
 #endif
-    return GLOBALeeSize;//MemPointer - addr;
+    return GLOBALeeSize; //MemPointer - addr;
 }
-
 
 /**
  *  \brief Load Control configuration from EEPROM
@@ -407,95 +440,95 @@ int GlobalCfg::SaveCfg (/*int addr*/)
  *
  *  \details Will load Global config
  */
-int GlobalCfg::LoadCfg (/*int addr*/) {
-    int MemPointer = 0;//addr;
-	uint16_t CfgDataCheck;
+int GlobalCfg::LoadCfg(/*int addr*/)
+{
+    int MemPointer = 0; //addr;
+    uint16_t CfgDataCheck;
 
-    EEPROM.get (MemPointer, CfgDataCheck);
-    if (CfgDataCheck != CFGDATATAG) {
+    EEPROM.get(MemPointer, CfgDataCheck);
+    if (CfgDataCheck != CFGDATATAG)
+    {
         //myMenu.setupPopup ("Incorrect config data", 5000, 0, 17);
-		DP( "Error Loading Global Config");
+        DP("Error Loading Global Config");
         return 0;
     }
-	MemPointer += sizeof (uint16_t);  
+    MemPointer += sizeof(uint16_t);
 
-    EEPROM.get (MemPointer, initPage);
-    if (initPage < 0 || initPage > MAXSAVEPAGES - 1){
-		initPage=-1;
-		//return 0;
-		}
-    MemPointer += sizeof (initPage);
+    EEPROM.get(MemPointer, initPage);
+    if (initPage < 0 || initPage > MAXSAVEPAGES - 1)
+    {
+        initPage = -1;
+        //return 0;
+    }
+    MemPointer += sizeof(initPage);
 
-    EEPROM.get (MemPointer, InitMinDAC);
-    MemPointer += sizeof (InitMinDAC);
-    EEPROM.get (MemPointer, InitRangeDAC);
-    MemPointer += sizeof (InitRangeDAC);
+    EEPROM.get(MemPointer, InitMinDAC);
+    MemPointer += sizeof(InitMinDAC);
+    EEPROM.get(MemPointer, InitRangeDAC);
+    MemPointer += sizeof(InitRangeDAC);
 
-    EEPROM.get (MemPointer, FaderMinDAC);
-    MemPointer += sizeof (FaderMinDAC);
-    EEPROM.get (MemPointer, FaderRangeDAC);
-    MemPointer += sizeof (FaderRangeDAC);
+    EEPROM.get(MemPointer, FaderMinDAC);
+    MemPointer += sizeof(FaderMinDAC);
+    EEPROM.get(MemPointer, FaderRangeDAC);
+    MemPointer += sizeof(FaderRangeDAC);
 
-    EEPROM.get (MemPointer, AuxAMinDAC);
-    MemPointer += sizeof (AuxAMinDAC);
-    EEPROM.get (MemPointer, AuxARangeDAC);
-    MemPointer += sizeof (AuxARangeDAC);
+    EEPROM.get(MemPointer, AuxAMinDAC);
+    MemPointer += sizeof(AuxAMinDAC);
+    EEPROM.get(MemPointer, AuxARangeDAC);
+    MemPointer += sizeof(AuxARangeDAC);
 
-    EEPROM.get (MemPointer, AuxBMinDAC);
-    MemPointer += sizeof (AuxBMinDAC);
-    EEPROM.get (MemPointer, AuxBRangeDAC);
-    MemPointer += sizeof (AuxBRangeDAC);
- 
-    EEPROM.get (MemPointer, UserNames);
-    MemPointer += sizeof (UserNames);
+    EEPROM.get(MemPointer, AuxBMinDAC);
+    MemPointer += sizeof(AuxBMinDAC);
+    EEPROM.get(MemPointer, AuxBRangeDAC);
+    MemPointer += sizeof(AuxBRangeDAC);
 
-    EEPROM.get (MemPointer, ClockDivider);
-    MemPointer += sizeof (ClockDivider);
-    EEPROM.get (MemPointer, ClockShift);
-    MemPointer += sizeof (ClockShift);
+    EEPROM.get(MemPointer, UserNames);
+    MemPointer += sizeof(UserNames);
 
-    EEPROM.get (MemPointer, filterFader);
-    MemPointer += sizeof (filterFader);
-    EEPROM.get (MemPointer, ActThrFader);
-    MemPointer += sizeof (ActThrFader);
+    EEPROM.get(MemPointer, ClockDivider);
+    MemPointer += sizeof(ClockDivider);
+    EEPROM.get(MemPointer, ClockShift);
+    MemPointer += sizeof(ClockShift);
+
+    EEPROM.get(MemPointer, filterFader);
+    MemPointer += sizeof(filterFader);
+    EEPROM.get(MemPointer, ActThrFader);
+    MemPointer += sizeof(ActThrFader);
 
     /* EEPROM.get (MemPointer, GenOptions1);
     MemPointer += sizeof (GenOptions1); */
 
 #ifdef PRINTDEBUG
-	Serial.print( "Load Global ");
-	Serial.print( initPage);
-	Serial.print( ": ");
-	Serial.print( InitMinDAC);
-	Serial.print( "/");
-	Serial.print( InitRangeDAC);
-	Serial.print( "/");	
-	Serial.print( FaderMinDAC);
-	Serial.print( "/");
-	Serial.print( FaderRangeDAC);
-	Serial.print( "/");	
-	Serial.print( AuxAMinDAC);
-	Serial.print( "/");
-	Serial.print( AuxARangeDAC);
-	Serial.print( "/");	
-	Serial.print( AuxBMinDAC);
-	Serial.print( "/");
-	Serial.print( AuxBRangeDAC);
-	Serial.print( "/");
-    Serial.print( ClockDivider);
-	Serial.print( "/");
-	Serial.print( ClockShift);
-	Serial.print( "/");
-	Serial.print( ActThrFader);
-	Serial.print( "/");
-    Serial.print( filterFader);
-	Serial.print( "/");
-    Serial.println( MemPointer);
-#endif 
-	return GLOBALeeSize;//MemPointer - addr;
+    Serial.print("Load Global ");
+    Serial.print(initPage);
+    Serial.print(": ");
+    Serial.print(InitMinDAC);
+    Serial.print("/");
+    Serial.print(InitRangeDAC);
+    Serial.print("/");
+    Serial.print(FaderMinDAC);
+    Serial.print("/");
+    Serial.print(FaderRangeDAC);
+    Serial.print("/");
+    Serial.print(AuxAMinDAC);
+    Serial.print("/");
+    Serial.print(AuxARangeDAC);
+    Serial.print("/");
+    Serial.print(AuxBMinDAC);
+    Serial.print("/");
+    Serial.print(AuxBRangeDAC);
+    Serial.print("/");
+    Serial.print(ClockDivider);
+    Serial.print("/");
+    Serial.print(ClockShift);
+    Serial.print("/");
+    Serial.print(ActThrFader);
+    Serial.print("/");
+    Serial.print(filterFader);
+    Serial.print("/");
+    Serial.println(MemPointer);
+#endif
+    return GLOBALeeSize; //MemPointer - addr;
 }
 
-
-
 /**@}*/
-

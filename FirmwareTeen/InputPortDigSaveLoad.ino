@@ -160,6 +160,7 @@ int DigitalPort::parseFunctionData(uint8_t *buf, int buLen){
             PortCfg.ClockDivider = theApp.theGlobalCfg.ClockDivider;
             PortCfg.ClockShift = theApp.theGlobalCfg.ClockShift;
             return buLen;
+        case CHORD:
         case GATESTARTSTOP:
         case GATEPAUSECONT:
         case GATETRIGSTARTSTOP:
@@ -240,6 +241,7 @@ int DigitalPort::fillFunctionData(uint8_t *buf, int buLen){
             buf[0] = PortCfg.ControllerNumber;
             buf[1] = PortCfg.ControllerValue;
             return buLen;
+        case CHORD:
         case GATECLOCK:
             //  Do nothing, clock info should already be on General config
         case GATESTARTSTOP:

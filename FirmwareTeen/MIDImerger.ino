@@ -199,6 +199,13 @@ void MIDImerger::sendProgramChange (byte Value, byte Chann) {
     midiJack->sendProgramChange (Value, Chann);
 }
 
+
+void MIDImerger::sendAfterTouch (byte Value, byte Chann) {
+    usbMIDI.sendAfterTouch (Value, Chann);
+    midiJack->sendAfterTouch (Value, Chann);
+}
+
+
 void MIDImerger::sendRealTime (byte Value) {
     switch (Value) {
     case usbMIDI.Start:

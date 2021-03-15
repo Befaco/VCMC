@@ -53,9 +53,11 @@ class InputControl {
     DemuxAnalogPort Slider; /**< \brief Control the Fader port*/
     DigitalPort GateBut; /**< \brief Control the Gate port*/
     InputCtrlCfg Config; /**< \brief Var to store the configuration for the Input Controls*/
+    MIDIChord Chord;
+    
     #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
-	void ReadCfgOSC(OSCMessage *pMsg);
+	  void ReadCfgOSC(OSCMessage *pMsg);
     #endif
     void SaveCfgSysEx (uint8_t par=0);
     bool ReadCfgSysEx(VCMCSysExPacket *SysExPacket, byte *DecodedData, unsigned int decLen);
@@ -75,6 +77,10 @@ class InputControl {
     bool ReadPorts (bool readDig, bool readCV, bool readFader);
     bool DoChanges (void);
     void OnDataChange (void);
+    void ProcessGateNotes(void);
+    void ProcessGateChord(void);
+    void SendNoteOn(byte controlNumber, InputPort &port, byte chan, int datatosend, bool chord=true);
+    void SendLastNoteOff(byte controlNumber, InputPort& port, byte chan, bool chord=true);
     int DataCalc (void);
     bool GetGateState ();
     void Blink ();

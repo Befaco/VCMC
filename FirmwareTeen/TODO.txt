@@ -1,3 +1,41 @@
+Fader pueda tocar notas poly
+NOANFFUNC que admita rangos negativos
+  Por defecto al cambiar de escala, escoger acordes de 3 Notas
+  Al elegir una escala, el menú de acordes limitar a No Chords, Major, Major 7th
+  Crear Voicings con 2ª y 3ª abiertas hacia arriba
+  Poner la opción macro en menu de bloque
+  Función nota base de la escala (offset)
+Definir acordes de dos Notas
+  Salvar datos de acordes y escala
+
+  Hacer pruebas en CVThing
+  Mostrar valor actual al entrar en menu selección texto
+
+
+TODO New use Save defaults values to save EEPROM space
+TODO Assign function to analog port to change parameters in other ports
+    (version 1) change 1 destination
+    (version 2) change several destinations
+
+TODO Include in documentation:
+Modification in   ResponsiveAnalogRead.h  
+Change line 75 to initialize smoothValue parameter:
+    float smoothValue=0.;
+
+
+Scale Type
+Default scale in general options
+Anag Function to select default scale. When changing, affects all selected.
+
+Chord:
+Default chord
+Chord Type
+Chord inversion
+Anag Function to change Chord Type or chord inversion
+
+In \Arduino\libraries\ResponsiveAnalogRead\src\ResponsiveAnalogRead.h
+Line 75: float smoothValue=0.;
+
 
 1. Modify boards.txt in folder <Arduino folder>/hardware/teensy/avr
 Add at line 871 aprox.

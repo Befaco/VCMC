@@ -85,9 +85,9 @@ enum typesEnum
     si32TYPE,     // int32_t
     floaTYPE      // float
 };
-uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
+const uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
 
-SysExDataStruct DATA_General[] = {
+static const SysExDataStruct DATA_General[] = {
     {44, ui16TYPE, PAR_Size},
 
     { 4, si32TYPE, PAR_DefMinDAC},
@@ -104,7 +104,7 @@ SysExDataStruct DATA_General[] = {
     {43, si08TYPE, PAR_GENOptions},
 };
 
-SysExDataStruct DATA_Analog[] = {
+static const SysExDataStruct DATA_Analog[] = {
     {24, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -121,7 +121,7 @@ SysExDataStruct DATA_Analog[] = {
     {20, si16TYPE, PAR_ClipHigh},
     {22, ui16TYPE, PAR_FunctionData}};
 
-SysExDataStruct DATA_Fader[] = {
+static const SysExDataStruct DATA_Fader[] = {
     {14, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -135,7 +135,7 @@ SysExDataStruct DATA_Fader[] = {
     {10, si16TYPE, PAR_ClipHigh},
     {12, ui16TYPE, PAR_FunctionData}};
 
-SysExDataStruct DATA_Digital[] = {
+static const SysExDataStruct DATA_Digital[] = {
     { 8, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_GateMIDIChannel},
@@ -146,73 +146,9 @@ SysExDataStruct DATA_Digital[] = {
     { 5, ui08TYPE, PAR_GateFunction},
     { 6, ui16TYPE, PAR_GateFunctionData}};
 
-SysExDataStruct DATA_Bank[] = {
+static const SysExDataStruct DATA_Bank[] = {
     { 1, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_ChannelFunction}};
-
-
-/*
-#include "PrjIncludes.h"
-
-union VCMCParData
-{
-    float fData;
-    uint32_t lData;
-    uint16_t sData[2];
-    uint8_t bytes[4]="";
-};
-
-
-
-class TypePar{
-    private:
-        uint16_t parId=0;   // Parameter id
-        uint8_t typeDesc=ui8TYPE;   // Parameter Type (see enumerator) 
-        uint16_t incrInObj=0; // Incremental Position of parameter in the destination object
-        char *sDescr=nullptr;   // Parameter text description
-        // void *pointr;   
-        //VCMCParData dataCopy = VCMCParData(); // ?? TODO check if neccesary
-    public:
-        TypePar(uint16_t pId, uint8_t tD, uint16_t iObj, char* sD){ 
-            parId= pId;
-            typeDesc = tD;
-            incrInObj = iObj;
-            sDescr = sD;
-         };
-};
-
-
-#define MAX_STRING_SIZE 16
-const char VCMCParNames[][16]={
-    //GlobalCfg
-    "InitPage",
-    "DefMinDAC",
-    "DefRangeDAC",
-    "DefMinFader",
-    "DefRangeFader",
-    "DefMinAux",
-    "DefRangeAux",
-    "DefMinAuxB",
-    "DefRangeAuxB",
-    "AutoOff",
-    // InputCtrlCfg
-    "ChannelFunction"
-};
-
-enum VCMCParIds
-{
-
-};
-
-TypePar GlobalCfgPar[] = {
-{(uint16_t)0,ui8TYPE,(uint16_t) offsetof(GlobalCfg,initPage),(char*)VCMCParNames[0]}
-};
-
-
-0TypePar InputCtrlCfgPar[] = {
-{16,ui8TYPE,0,VCMCParNames[10]}
-};
-*/
 
 #endif

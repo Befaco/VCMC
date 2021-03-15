@@ -46,14 +46,15 @@
 class InputPort {
     public:
     byte PortNumber;                 ///< Pin for input
+    InputPortCfg PortCfg;
     uint16_t PortValue;              ///< Last value read from port
     int16_t MIDIData;                ///< Input data converted to MIDI
     int16_t LastSentMIDIData = -999; ///< Last data sent to MIDI port
     bool GateStatus;                 ///< Current status of Gate for Digital. Used for triggered values in Anag
-	long msecLastMIDISent = 0;           ///< Time in msecs last MIDI message was sent
+	  long msecLastMIDISent = 0;           ///< Time in msecs last MIDI message was sent
     // Clock vars
     unsigned long IntervalMIDIClock = 0, ///<
-	IntervalClock = 0,                   ///<
+	  IntervalClock = 0,                   ///<
     CurrentClock = 0,                    ///<
     PreviousClock = 0,                   ///<
     PreviousMIDIClock = 0;               ///<

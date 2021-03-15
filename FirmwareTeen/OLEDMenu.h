@@ -76,9 +76,9 @@ public:
     uint8_t MultiValState = 0;          ///< Used for multi - selection menus
 
     // Calibration menus
-    boolean FactoryCal = false;         ///< Factory calibration flag
+    bool FactoryCal = false;         ///< Factory calibration flag
     unsigned long FactoryCalTimer = 0;  ///< Factory calibration timer
-    boolean GlobalCalEn = false;        ///< Global calibration flag
+    bool GlobalCalEn = false;        ///< Global calibration flag
 
     // Digit selection option
     byte digSel=255;
@@ -92,8 +92,11 @@ public:
     void setupPopupBMP(int16_t xp, int16_t yp, const uint8_t *bmp, int16_t xW, int16_t yW, uint16_t Color);
 
     int updateSelection();
-    boolean selectionMade();
+    bool selectionMade();
     void setCurrentMenu(MenuList *aMenu);
+    void setCurrentMenu(
+        const char *title, const char * const*listStr, 
+        uint8_t numitems, Item_Function fun, uint8_t initItem=0xff, uint8_t startItem=0);
     uint8_t FillNameMenuList();
     uint8_t FillUserNameMenuList(bool fillEmpty=true);
 
@@ -131,18 +134,19 @@ public:
         MessageTimer = milTime;
         InitMessageTime = millis();
     }
-    boolean EncoderPopupMsg(const char *title, unsigned long milTime, uint16_t posx, uint16_t posy, uint8_t xwidth = 0);
-    boolean EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
-    boolean EncoderselDigitLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
+    bool EncoderPopupMsg(const char *title, unsigned long milTime, uint16_t posx, uint16_t posy, uint8_t xwidth = 0);
+    bool EncoderChangeLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy, void (*DispFunc)(char *outb, long val,uint16_t padpos)=nullptr);
+    bool EncoderselDigitLong(const char *title, long &value, long minv, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
     
-    boolean EncoderChangeVal(long &value, long minv, long maxv, float inc, void (*DispFunc)(long val));
-    boolean EncoderselDigitVal(long &value, long minv, long maxv, uint16_t padPos, char *outBuf);
-    
-    boolean EncoderChangeValFloat(float &value, float minv, float maxv, float inc, void (*DispFunc)(long val));
+    bool EncoderChangeVal(long &value, long minv, long maxv, float inc, void (*DispFunc)(long val));
+    bool EncoderselDigitVal(long &value, long minv, long maxv, uint16_t padPos, char *outBuf);
+    bool EncoderSelectStr(const char *title, long &value, long maxv, uint16_t padPos, uint16_t posx, uint16_t posy);
 
-    boolean EncoderselDigitStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy);
-    boolean EncoderChangeStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy);
-    boolean EncoderselStrChar(char *str, uint16_t padPos);
+    bool EncoderChangeValFloat(float &value, float minv, float maxv, float inc, void (*DispFunc)(long val));
+
+    bool EncoderselDigitStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy);
+    bool EncoderChangeStr(const char *title, char *str, uint16_t padPos, uint16_t posx, uint16_t posy);
+    bool EncoderselStrChar(char *str, uint16_t padPos);
 
     void printStrInput(char *outBuf, long vale, uint16_t padPos);
     void ClearInputArea(const char *title, uint16_t padPos, uint16_t posx, uint16_t posy);

@@ -116,6 +116,13 @@ InputPortCfg *VCMCApp::GetPortConfig (void) {
 }
 
 
+// Calbbacks
+void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan){
+    MidiMerge.sendNoteOn( note,   vel, chan);
+}
+void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan){
+    MidiMerge.sendNoteOff( note,   vel, chan);
+}
 
 
 /**@}*/

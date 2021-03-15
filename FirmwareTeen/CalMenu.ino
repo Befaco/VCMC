@@ -39,14 +39,14 @@ DemuxAnalogPort *PortInUse = NULL;
 Item_Function runFunc = NULL;
 
 uint32_t calPoints[21];
-boolean pointChanged[21];
+bool pointChanged[21];
 RangeConv *rangeData = NULL;
 long PortData = -1;
 int noteRec = -1;
-boolean InitCal = false;
+bool InitCal = false;
 int PointSelected = 0;
 // Store values for cancel option
-boolean oldBipolar;
+bool oldBipolar;
 int32_t OldminD, OldRangeD;
 int32_t DAC1 = 0, DAC2 = 0;
 int16_t OldClipLow = 0, OldClipHigh = 120;
@@ -71,7 +71,7 @@ int noteFadersRec[8];
 // MenuList CalMenuList(NULL, 0, ListCards);
 
 // Base Calibration  functions
-boolean selectionCalMode () {
+bool selectionCalMode () {
     if (EncButton->rose ()) {
         EncButton->update ();
         return true;
@@ -108,7 +108,7 @@ void ClearCalArea () {
 }
 
 
-boolean InitCalibration (void) {
+bool InitCalibration (void) {
     byte UsePort = PortSelected;
 
 	runFunc = NULL;
@@ -167,7 +167,7 @@ boolean InitCalibration (void) {
 
 ////////////////////////////////////////
 // Auto calibration
-boolean AutoCalCV () {
+bool AutoCalCV () {
 
     if (calMode == TwoPointCalMode) {
         if (TwoPointsCal ()) {
@@ -239,7 +239,7 @@ void displayCalibrationCV () {
 }
 
 
-boolean CalibrateCV () 
+bool CalibrateCV () 
 {
     calMode = MatrixCalMode;
 
@@ -392,7 +392,7 @@ void displayTwoPoints () {
 }
 
 /// Two point calibration entry function
-boolean TwoPointsCal () {
+bool TwoPointsCal () {
     calMode = TwoPointCalMode;
 
     // Init Calibration
@@ -458,7 +458,7 @@ boolean TwoPointsCal () {
 }
 
 
-boolean CVTwoPointsCal ()
+bool CVTwoPointsCal ()
 {
     PortSelected = 2; // Select CV
 	BankSelected = 0; // Calibrate on Bank 1
@@ -483,7 +483,7 @@ boolean CVTwoPointsCal ()
     return true;
 }
 
-boolean AuxATwoPointsCal () 
+bool AuxATwoPointsCal () 
 {
     PortSelected = 2; // Select CV
 	BankSelected = 8; // Calibrate on Aux
@@ -504,7 +504,7 @@ boolean AuxATwoPointsCal ()
     return true;
 }
 
-boolean AuxBTwoPointsCal () 
+bool AuxBTwoPointsCal () 
 {
     PortSelected = 3; // Select CV
 	BankSelected = 8; // Calibrate on Aux
@@ -525,7 +525,7 @@ boolean AuxBTwoPointsCal ()
     return true;
 }
 
-boolean AuxTwoPointsCal () {
+bool AuxTwoPointsCal () {
 
     if (!TwoPointsCal ()) return false; // Wait for calibration to end
  /*   if (PointSelected) { // OK pressed
@@ -545,7 +545,7 @@ boolean AuxTwoPointsCal () {
 
 /////////////////////////////////////////////////////////
 // Fader calibration
-boolean FadersCal () 
+bool FadersCal () 
 {
     calMode = FadersCalMode;
 
@@ -638,7 +638,7 @@ void displayFadersCal () {
 }
 
 
-boolean InitFadersCal () {
+bool InitFadersCal () {
 
     for (int i = 0; i < 8; i++) {
         MinFadersData[i] = 2048;
@@ -659,7 +659,7 @@ boolean InitFadersCal () {
 // Set Range Mode
 Item_Function SetFuns[] = { SelectMin,    SelectMax,      SetLowLimit,
                             SetHighLimit, SelectMinInput, SelectMaxInput };
-boolean SetRangeMenu () {
+bool SetRangeMenu () {
 
     calMode = SetRangeMode;
 
@@ -824,7 +824,7 @@ void getClkValues(float &ClkDiv, int8_t &ClkShift, unsigned long &IntMIDIClk){
 
 }
 
-boolean SetClockMenu ()
+bool SetClockMenu ()
 {
 
     calMode = SetClockMode;
@@ -967,7 +967,7 @@ static long disptim=0;
         }
 }
 
-boolean ChangeClockDiv () {
+bool ChangeClockDiv () {
     float *ck= &(((InputPortCfg *)GetPortCfg())->ClockDivider);
     float val = *ck;
 
@@ -978,7 +978,7 @@ boolean ChangeClockDiv () {
 }
 
 
-boolean ChangeClockBPM () {
+bool ChangeClockBPM () {
     float *ClkDiv;
     unsigned long *NewInterval;
     
@@ -1005,7 +1005,7 @@ boolean ChangeClockBPM () {
 }
 
 
-boolean ChangeClockShift () {
+bool ChangeClockShift () {
     int8_t *ClkShift;
     ClkShift = &(((InputPortCfg *)GetPortCfg())->ClockShift);
 
