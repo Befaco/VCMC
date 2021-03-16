@@ -16,7 +16,7 @@ If you are updating version, it´s always recommended a factory reset and save. 
 - Aftertouch implemented.
 - Improved compatibility with iConnectivity devices (But disabled OSC)
 
-*Chord mode idea and original code was implemented by Tony Fleigh
+*Chord mode idea and original code was implemented by Tony Fleig.
 
 ### v1.2.3
 - Bug fix: POLY mode now works in VCMC when cv and fader is set to sum.   
