@@ -6,7 +6,7 @@ This code will work in any hardware revision from PCB v1
 
 The code will also run with CV Thing module. See below install options for details. Find further information about CV Thing [here](https://www.befaco.org/CV_thing/)
 
-If you are updating version, it´s MANDATORY to do a Factory callibration (Read Below). Also it is recommended a factory reset and save. Also keep in mind that old saves will not be valid in the new version.
+If you are updating version, it´s **MANDATORY**  to do a Factory callibration (Read Below). Also it is recommended a factory reset and save. Also keep in mind that old saves will not be valid in the new version.
 
 
 ## Changelog/ Bug Fixes:
