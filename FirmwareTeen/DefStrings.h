@@ -77,7 +77,7 @@ static const char CreditText[] =
 	"                    "
 	"                    "
 	"      CV Thing      "
-	"     v1.3.0 1Mar    "
+	"       v1.3.0       "
 	"   www.befaco.org";
 #else
 static const char CreditText[] =
@@ -85,7 +85,7 @@ static const char CreditText[] =
 	"                    "
 	"                    "
 	"       VCMC         "
-	"    v1.3.0 1Mar     "
+	"      v1.3.0        "
 	"   www.befaco.org";
 #endif
 
