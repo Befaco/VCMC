@@ -88,6 +88,7 @@ class InputPort {
     // void SendMIDI(int MidiData=-9999, bool GateStat=false)=0;// {}
     bool ClockReceived (float clkDiv, int8_t clkShift);
 	void ProcessClock(void);
+    virtual InputPortCfg *getCfg() { return &PortCfg; }
 };
 
 /// Class for digital ports (Gates)
@@ -115,6 +116,8 @@ class DigitalPort : public InputPort {
     int parseFunctionData(uint8_t *buf, int buLen);
     int fill(uint8_t type, uint8_t *buf, int buLen);
     int fillFunctionData(uint8_t *buf, int buLen);
+    
+    virtual InputPortCfg *getCfg() { return &PortCfg; }
 };
 
 
@@ -163,6 +166,8 @@ class AnalogPort : public InputPort {
     int parseFunctionData(uint8_t *buf, int buLen);
     int fill(uint8_t type, uint8_t *buf, int buLen);
     int fillFunctionData(uint8_t *buf, int buLen);
+
+    virtual InputPortCfg *getCfg() { return &PortCfg; }
 };
 
 
