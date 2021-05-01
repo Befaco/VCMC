@@ -107,7 +107,6 @@ void displayFreqMeas()
         if (cents > 50.)
         {
             posN = posN + 23;
-            cents = 100 - cents;
             //theOLED->printf(" %s -%02.0f c\n", NotesNames[posN + 23], 100 - cents);
         }
         else
@@ -117,7 +116,11 @@ void displayFreqMeas()
         }
         theOLED->printf("%3s", NotesNames[posN]);
         theOLED->setTextSize(2);
-        theOLED->printf(" -%02.0f c\n", cents);
+        if (cents > 50.){
+            cents = 100 - cents;
+            theOLED->printf(" -%02.0f c\n", cents);
+        } else
+            theOLED->printf(" +%02.0f c\n", cents);
 
         theOLED->setTextSize(1);
         theOLED->setCursor(posx, posy + 55);

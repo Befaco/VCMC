@@ -56,7 +56,7 @@ MenuItem GlobalconfigList[] = {
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
-    {"FREQUENCY", FreqMeas, 0},
+    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
     {" GLOBAL CFG ", NULL, 1}};
 MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
 
@@ -69,7 +69,7 @@ MenuItem GlobalCalList[] = {
     {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
-    {"FREQUENCY", FreqMeas, 0},
+    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
     {"GLOBAL CAL", NULL, 1}};
 MenuList listGlobalCal(GlobalCalList, 9, ListLines);//ListLinesSimple);
 

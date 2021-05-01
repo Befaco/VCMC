@@ -65,6 +65,7 @@ const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder 
 //#define USEOSC
 //#define USECONFIGOSC
 //#define USEI2C
+const uint8_t FREQMEASUREACTIVE = 0;
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
