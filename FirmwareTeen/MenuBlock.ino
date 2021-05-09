@@ -56,7 +56,9 @@ DEF_MENULIST (mChords, SCALE/CHORDS, ListLines,
     {"SCALE ROOT", selectRootScale, 1},
     {"CHORD TYPE", SelectChordType, 1},
     {"CHORD VOICING", SelectChordInv, 1},
-    {"CHORD PRESET", SelectChordPreset, 1}
+    {"CHORD PRESET", SelectChordPreset, 1},
+    {"STEP FIX", selectFixStep, 1},
+    {"STEP RAND", selectFixRand, 1}
 )
 // Bank configuration menu
 DEF_MENULIST (listAux, CONFIG, ListLines,
@@ -293,6 +295,25 @@ bool selectRootScale()
     CVControls[BankSelected].Chord.setScaleRoot(val);
     return ret;
 }
+
+
+bool selectFixStep()
+{
+    long val = CVControls[BankSelected].Chord.getdelayFix();
+    bool ret = myMenu.EncoderChangeLong("Fix Step:", val, 0, 999, 3, 0, 45);
+    CVControls[BankSelected].Chord.setdelayFix(val);
+    return ret;
+}
+
+
+bool selectFixRand()
+{
+    long val = CVControls[BankSelected].Chord.getdelayRand();
+    bool ret = myMenu.EncoderChangeLong("Rand Step:", val, 0, 300, 3, 0, 45);
+    CVControls[BankSelected].Chord.setdelayRand(val);
+    return ret;
+}
+
 
 bool setActiveScale()
 {

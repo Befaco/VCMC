@@ -119,7 +119,8 @@ public:
     uint8_t getScaleId(void) { return ScaleId; }
     const int8_t *getInvTable(uint8_t chordtoPlay);
     uint8_t getScaleRoot(void) { return ScaleRoot; }
-};
+    uint16_t  getdelayFix(void) { return delayFix; }
+    uint16_t  getdelayRand(void) { return delayRnd; }};
 
 /** @} */
 
