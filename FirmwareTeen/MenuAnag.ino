@@ -88,8 +88,11 @@ DEF_MENULIST (AnagChordFn, CHORD FUNC, ListLines,
     {"CHORD TYPE", SelectDefChord, 1},
     {"SCALE MODE", SelectDefScale, 1},
     {"SCALE ROOT", SelectScaleRoot, 1},
-    {"INV/DROP", SelectInvDrop, 1}
+    {"INV/DROP", SelectInvDrop, 1},
+    {"TIME STEP", SelectFixDelay, 1},
+    {"RANDOM STEP", SelectFixRand, 1}
 )
+
 
 DEF_MENULIST (HiResFn, HI-RES MIDI, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
@@ -336,6 +339,39 @@ bool SelectScaleRoot()
     return gotoMenuAnag();
 }
 
+
+bool SelectFixDelay()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDDELAYFIX);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectFixRand()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDDELAYRAND);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
 
 
 //////////////////////

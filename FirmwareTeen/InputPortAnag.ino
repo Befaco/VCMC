@@ -143,9 +143,9 @@ bool AnalogPort::ReadPort (long &NewData) {
             // If the switch changed, due to noise or pressing:
             if (readGate != lastButtonState) {
                 // reset the debouncing timer
-                lastDebounceTime = millis ();
+                lastDebounceTime = micros ();
             }
-            if ((millis () - lastDebounceTime) > PortCfg.DelayGate) {
+            if ((micros () - lastDebounceTime) > debounceDelay) { //PortCfg.DelayGate) {
                 // whatever the reading is at, it's been there for longer
                 // than the debounce delay, so take it as the actual current state:
                 newGate = readGate;
@@ -397,6 +397,12 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         break; 
     case SCALEROOT:
         theApp.Controls[PortCfg.DestCtrl].Chord.setScaleRoot(SendData);
+        break;
+    case CHORDDELAYFIX:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setdelayFix(SendData);
+        break;
+    case CHORDDELAYRAND:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setdelayRand(SendData);
         break;
     }
 	// Store current data

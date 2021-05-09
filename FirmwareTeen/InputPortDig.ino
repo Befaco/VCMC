@@ -77,6 +77,21 @@ bool DigitalPort::ReadPort (long &NewData) {
 		ProcessClock();
     }
 
+    // Process Trigger
+    if( trigTime && micros()>trigTime){
+        trigTime = 0; // reset trigger
+        GateStatus = trigStatus;
+        NewData = GateStatus;
+        // Lit LED based on gate status
+        digitalWrite(LedPort, GateStatus);
+
+        // Process Clock
+        if (PortCfg.MIDIfunction == GATECLOCK)
+            if (GateStatus)
+                ClockReceived();
+        return true;
+    }
+
     // read the state of the switch into a local variable:
     unsigned reading = digitalRead (PortNumber);
     int newGate = 2;
@@ -88,10 +103,10 @@ bool DigitalPort::ReadPort (long &NewData) {
         // If the switch changed, due to noise or pressing:
         if (reading != lastButtonState) {
             // reset the debouncing timer
-            lastDebounceTime = millis ();
+            lastDebounceTime = micros ();
         }
 
-        if ((millis () - lastDebounceTime) > PortCfg.DelayGate) {
+        if ((micros () - lastDebounceTime) > debounceDelay) { //PortCfg.DelayGate) {
             // whatever the reading is at, it's been there for longer
             // than the debounce delay, so take it as the actual current state:
             newGate = reading;
@@ -101,6 +116,7 @@ bool DigitalPort::ReadPort (long &NewData) {
         newGate = reading;
 
     if (newGate == 2) return false; // No lecture (debouncing)
+
     // PortValue = reading;
     if (newGate != PortValue) { // Gate changed
         PortValue = newGate;
@@ -110,19 +126,14 @@ bool DigitalPort::ReadPort (long &NewData) {
         // Latch management: switch gate with edge up
         if (PortCfg.MIDIfunction == LATCH || PortCfg.MIDIfunction == CCLATCH) {
             if (newGate) {
-                GateStatus = !GateStatus;
+                newGate = !GateStatus;
             } else
-                return false;
-        } else
-            GateStatus = newGate;
-        NewData = GateStatus;
-        // Lit LED based on gate status
-        digitalWrite (LedPort, GateStatus);
-		
-		// Process Clock
-		if (PortCfg.MIDIfunction == GATECLOCK)
-			if( GateStatus) ClockReceived();
-        return true;
+                return false; // Low status in latch mode = do nothing
+        }
+        
+        // Prepare delay
+        //if(newGate)
+        setTrigger(PortCfg.DelayGate, newGate);
     }
 
     return false;

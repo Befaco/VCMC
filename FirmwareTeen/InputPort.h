@@ -51,7 +51,7 @@ class InputPort {
     int16_t MIDIData;                ///< Input data converted to MIDI
     int16_t LastSentMIDIData = -999; ///< Last data sent to MIDI port
     bool GateStatus;                 ///< Current status of Gate for Digital. Used for triggered values in Anag
-	  long msecLastMIDISent = 0;           ///< Time in msecs last MIDI message was sent
+	long msecLastMIDISent = 0;           ///< Time in msecs last MIDI message was sent
     // Clock vars
     unsigned long IntervalMIDIClock = 0, ///<
 	  IntervalClock = 0,                   ///<
@@ -65,8 +65,8 @@ class InputPort {
 
     bool debounceGate;              ///< True to debounce gate
     bool lastButtonState;           ///< Previous reading from the input pin
-    unsigned long lastDebounceTime; ///< Last time the output pin was toggled (in usecs)
-    // unsigned debounceDelay = 5;  ///< the debounce time in msecs ; increase if the output flickers
+    uint32_t lastDebounceTime; ///< Last time the output pin was toggled (in usecs)
+    uint32_t debounceDelay = 0;  ///< the debounce time in usecs ; increase if the output flickers
 
     InputPort () {
         PortNumber = 0;
@@ -77,7 +77,9 @@ class InputPort {
         FilteredInterval->setAnalogResolution (65535);
         FilteredInterval->setActivityThreshold(56.0);//256.0);//
 
-        lastButtonState = LOW; // debounceDelay = 5;
+        // Debounce digital inputs parameters 
+        debounceDelay = 500;
+        lastButtonState = LOW;
         lastDebounceTime = 99999;
         debounceGate = true;
     }
@@ -89,6 +91,16 @@ class InputPort {
     bool ClockReceived (float clkDiv, int8_t clkShift);
 	void ProcessClock(void);
     virtual InputPortCfg *getCfg() { return &PortCfg; }
+
+    uint32_t trigTime = 0; //< Time set for trigger
+    bool trigStatus = 0; //< Status to set after trigger
+    // Trigger change in input (delay in msecs)
+    uint32_t setTrigger( uint16_t del, bool newstatus)
+    {
+        trigTime = micros() + del*1000;
+        trigStatus = newstatus;
+        return trigTime;
+    }
 };
 
 /// Class for digital ports (Gates)

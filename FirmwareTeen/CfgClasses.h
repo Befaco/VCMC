@@ -161,7 +161,9 @@ typedef enum IPFun_e {
   SCALE_DEF,
   CHORDTYPE_DEF,
   CHORDINVERSION,
-  SCALEROOT
+  SCALEROOT,
+  CHORDDELAYFIX,
+  CHORDDELAYRAND
 } InputFunctions;
 
 /// MIDI Functions for digital ports
@@ -198,7 +200,7 @@ class InputPortCfg {
     uint8_t     charPrefix = 0;
     uint8_t     textPort = 0;
     uint8_t     charSufix = 0;
-    uint16_t    DelayGate = 3;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
+    uint16_t    DelayGate = 0;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
@@ -232,9 +234,9 @@ class AnInputPortCfg : public InputPortCfg {
     union
     {
       struct {
-        uint8_t MIDIfunction: 5; ///< MIDI function as defined on InputFunctions enumerator
+        uint8_t MIDIfunction: 6; ///< MIDI function as defined on InputFunctions enumerator
         uint8_t RangeBipolar: 2; ///< Apply -5Volts pffset to input amplifier: 0 No Offset, 1: -5/5 V, 2:
-        bool IsParamFunction: 1;  ///< When set, use the parameter change function
+        //bool IsParamFunction: 1;  ///< When set, use the parameter change function
       };
       uint8_t Options1;
     };

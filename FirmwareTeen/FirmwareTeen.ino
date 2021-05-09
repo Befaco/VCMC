@@ -112,4 +112,16 @@ void loop () {
     #ifdef USEOSC
     theApp.OSCMerge.poll();
     #endif
+
+    // Process event List
+    for( NoteEvent*pEv= theApp.eventList.front(); pEv; ){
+        if(getClock()>pEv->timestamp){
+            MidiMerge.sendNoteOn(pEv->pitch, pEv->velocity, pEv->chann);
+            NoteEvent *pNext = (NoteEvent *)pEv->next();
+            theApp.eventList.remove(pEv);
+            pEv = pNext;
+            //theApp.eventList.print("Note sent ");
+        } else
+            pEv = (NoteEvent *)pEv->next();
+    }
 }

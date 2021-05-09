@@ -51,6 +51,8 @@ public:
     uint16_t lastEnc = -1, valueEnc = 30000;
     MIDIChord DefaultChord;
 
+    FixList<NoteEvent, 50> eventList; ///<Note Events to play at timestamp
+
     /** @name Modules integration
      *  Accesors for the different modules integrated in the main application.  
      */

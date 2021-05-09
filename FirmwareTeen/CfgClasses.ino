@@ -177,6 +177,14 @@ void AnInputPortCfg::LimitValues(int16_t &minv, int16_t &maxv)
         minv = 0;
         maxv = 11;
         break;
+    case CHORDDELAYFIX:
+        minv = 0;
+        maxv = 1000;
+        break;
+    case CHORDDELAYRAND:
+        minv = 0;
+        maxv = 300;
+        break;
     }
 }
 
@@ -207,6 +215,8 @@ bool AnInputPortCfg::IsDigitalFunc(void)
     case CHORDTYPE_DEF:
     case CHORDINVERSION:
     case SCALEROOT:
+    case CHORDDELAYFIX:
+    case CHORDDELAYRAND:
         return false;
     case PITCHLEVEL:
     case ANAGCLOCK:
@@ -308,6 +318,8 @@ void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
     case CHORDTYPE_DEF:
     case SCALE_DEF:
     case SCALEROOT:
+    case CHORDDELAYFIX:
+    case CHORDDELAYRAND:
         LimitValues(ClipLow, ClipHigh);
         Ranges.SetMIDI(ClipLow, ClipHigh-ClipLow);
         break;

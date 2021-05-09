@@ -180,11 +180,11 @@ bool SelectDelay()
 {
     uint16_t *vdir;
     if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
-        vdir = &CVControls[BankSelected].GateBut.PortCfg.DelayGate; // debounceDelay;//
+        vdir = &CVControls[BankSelected].GateBut.PortCfg.DelayGate; 
     else
         vdir = &CVControls[BankSelected].CVPort.PortCfg.DelayGate;
     long val = *vdir;
-    bool ret = myMenu.EncoderselDigitLong("Delay ms:", val, 0, 1000, 4, 0, 45);
+    bool ret = myMenu.EncoderselDigitLong("Delay us:", val, 0, 2000, 4, 0, 45);
     *vdir = val;
     // debounceDelay= val;
     return ret;

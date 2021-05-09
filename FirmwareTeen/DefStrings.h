@@ -60,7 +60,7 @@ static const char * const PortFuncStr[] = {
 	"Clock", "ST/SP", "ST/PA", "ST/SP", "ST/PA",
 	"Free", "NRPN7", "NRPN14", "No Func",
 	"Gate", "Start", "Stop", "Cont", "CC Tr", "CC Lt", "Trig","Latch","V/O Pol","CC14b",
-	"Scale","Chord","ChInv","ScRoot"};
+	"Scale","Chord","ChInv","ScRoot","Delay","Rand"};
 /// Digital Functions names
 static const char * const PortGateFuncStr[] = {"Note", "Latc", "CC", "CC"/*"CC Lt#"*/, "Clock", 
 	"ST/SP", "CNT/SP", "ST/SP Lt", "CNT/SP Lt", "Start", "Stop", "Continue",

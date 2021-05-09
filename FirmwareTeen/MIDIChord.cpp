@@ -166,18 +166,25 @@ uint8_t MIDIChord::playChord(void)
 
     if(isPlaying) noteoffChord();
 
+    noteOnTime = getClock();
     int8_t inv = 0;
     const int8_t *invTable = getInvTable(chordtoPlay);
+    uint32_t del = 0;
     for (int i = 0; i < chord[0]; i++){
         if(invTable){
             inv = invTable[i];
             //DP(inv);
             }
-            int16_t playnote = rootNote + chord[i + 1] + inv;
-            playnote = (playnote < 0) ? 0 : playnote;
-            playnote = (playnote > 120) ? 120 : playnote;
-            NotesPlaying[i] = playnote;
-            NoteOn(playnote, Velocity, MIDIChannel);
+        int16_t playnote = rootNote + chord[i + 1] + inv;
+        playnote = (playnote < 0) ? 0 : playnote;
+        playnote = (playnote > 120) ? 120 : playnote;
+        NotesPlaying[i] = playnote;
+        NoteEvent ev;
+        
+        ev.fill(MIDIChannel, playnote, Velocity, noteOnTime + del);
+        NoteOn(&ev);//playnote, Velocity, MIDIChannel);
+        del += delayFix * 10;
+        del += (delayRnd) ? (rand() % delayRnd) * 10 : 0;
     }
     isPlaying = chord[0];
     return rootNote;
@@ -190,8 +197,10 @@ uint8_t MIDIChord::noteoffChord(void)
     //uint8_t chordtoPlay = (ChordType == DEF_CHORD) ? theApp.DefaultChord.getChordType() : ChordType;
     //const int8_t *chord = chordNotesDef[chordtoPlay];
 
+    NoteEvent ev;
     for (int i = 0; i < isPlaying; i++){
-        NoteOff(NotesPlaying[i] , Velocity, MIDIChannel);
+        ev.fill(MIDIChannel, NotesPlaying[i], Velocity, getClock()-noteOnTime);
+        NoteOff(&ev);//NotesPlaying[i] , Velocity, MIDIChannel);
     }
     isPlaying = 0;
     return rootNote;

@@ -39,11 +39,13 @@
 #include "Scales.h"
 #include "Chords.h"
 #include "ChordInversions.h"
+#include "src/MidiThing/MIDITools/NoteEvent.h"
 
 const size_t NOTESCHORD = 8; // Number of maximum notes in chord
 const uint8_t defVel = 60;
 
-using NoteCallback  = void (*)(uint8_t  note, uint8_t  vel, uint8_t  chan);
+//using NoteCallback  = void (*)(uint8_t  note, uint8_t  vel, uint8_t  chan);
+using NoteCallback  = void (*)(NoteEvent* pEV);
 
 /// Class support for Serial MIDI and USB MIDI
 class MIDIChord
@@ -72,8 +74,22 @@ protected:
     NoteCallback NoteOn = nullptr;
     NoteCallback NoteOff = nullptr;
 
+    // delays in msecs
+    union 
+    {
+        struct{
+            uint16_t delayFix;
+            uint16_t delayRnd;
+        };
+        uint32_t delayChord=0;
+    };
+    uint32_t noteOnTime = 0;
+
 public:
-    MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD), InvDrop(NO_INVDROP) {}
+    MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD), InvDrop(NO_INVDROP) {
+        delayFix=0;
+        delayRnd=500;
+    }
 
     // Returns note adjusted to selected scale
     uint8_t adjustNoteToScale(uint8_t note);
@@ -93,6 +109,8 @@ public:
     void setInvDrop(uint8_t newInv);
     void setScaleRoot(uint8_t newroot) { ScaleRoot=newroot; }
     void setScaleId(uint8_t scid) { ScaleId = scid; }
+    void setdelayFix(uint16_t nv) { delayFix = nv; }
+    void setdelayRand(uint16_t nv) { delayRnd = nv; }
     // get func
     uint8_t getScale(void) { return Scale; }
     uint8_t getChordType(void) { return ChordType; }
