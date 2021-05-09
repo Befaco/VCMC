@@ -88,7 +88,7 @@ protected:
 public:
     MIDIChord() : Scale(FULL_SCALE), ChordType(ONENOTECHORD), InvDrop(NO_INVDROP) {
         delayFix=0;
-        delayRnd=500;
+        delayRnd=0;
     }
 
     // Returns note adjusted to selected scale
