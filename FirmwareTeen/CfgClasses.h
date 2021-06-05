@@ -114,6 +114,9 @@ typedef enum ICFun_e {
 class InputCtrlCfg {
   public:
     CtrlFunctions Chanfunction; ///< Function selected for the input control
+    uint8_t ScaleId;
+    uint8_t ChordType;
+    uint8_t InvDrop;
 
     InputCtrlCfg (): Chanfunction (INDEP) {}
     InputCtrlCfg (int chanF) {

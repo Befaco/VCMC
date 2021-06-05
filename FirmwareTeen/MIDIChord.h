@@ -69,6 +69,7 @@ protected:
     uint8_t rootNote = 0;
     uint8_t Velocity = defVel;
     uint8_t MIDIChannel = 1;
+    
     uint8_t NotesPlaying[NOTESCHORD+1] = {0};
     uint8_t isPlaying = 0; //< number of notes playing
     NoteCallback NoteOn = nullptr;

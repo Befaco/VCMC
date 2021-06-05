@@ -138,8 +138,10 @@ private:
 // Main object definition
 extern VCMCApp theApp;
 // Callbacks
-void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan);
-void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan);
+void sendNoteOn(NoteEvent *pEv);
+//void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan);
+void sendNoteOff(NoteEvent *pEv);
+//void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan);
 
 /** @} */ // end of Maingroup
 
