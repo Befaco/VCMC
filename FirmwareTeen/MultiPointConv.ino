@@ -36,7 +36,7 @@
 
 /*
 // Make conversion interpolating between points. (TODO update using invintervalConvert as reference)
-int32_t RangeConv::intervalConvert (int inp) {
+int16_t RangeConv::intervalConvert (int inp) {
     int val = inp - minMIDI; // Adjust learnt zero value
 
     // Look for interval
@@ -46,7 +46,7 @@ int32_t RangeConv::intervalConvert (int inp) {
     int B = DACPoints[interv + 1]; // high output interpolation point
 
     // get value
-    int32_t outp = A + (val - interv * rangeMIDI / 20) * (B - A) * 20 / rangeMIDI;
+    int16_t outp = A + (val - interv * rangeMIDI / 20) * (B - A) * 20 / rangeMIDI;
     // if( outp < 0) outp = 0; else if(outp >ANRANGEMAX) outp = ANRANGEMAX;
     #ifdef PRINTDEBUG
       Serial.print("Int: ");
@@ -67,7 +67,7 @@ int32_t RangeConv::intervalConvert (int inp) {
 }
 
 
-int RangeConv::invintervalConvert (int32_t inp) {
+int RangeConv::invintervalConvert (int16_t inp) {
     int i;
 
     // Convert input into standard DAC range
@@ -78,8 +78,8 @@ int RangeConv::invintervalConvert (int32_t inp) {
         found = ((inp - DACPoints[i] - HALFNOTERANGE) * rangeDAC < 0) ? true : false;
     }
     i = i - 2;
-    int32_t A = DACPoints[i]; // low output interpolation point
-    int32_t B = DACPoints[i + 1]; // high output interpolation point
+    int16_t A = DACPoints[i]; // low output interpolation point
+    int16_t B = DACPoints[i + 1]; // high output interpolation point
     float interv = (float)(inp - A) / (B - A);
 
     // get value
@@ -107,11 +107,11 @@ int RangeConv::invintervalConvert (int32_t inp) {
 }
 */
 
-void RangeConv::SetDAC (int32_t minD, int32_t RangeD) {
+void RangeConv::SetDAC (int16_t minD, int16_t RangeD) {
     minDAC = minD;
     rangeDAC = RangeD;
-    /*	int32_t oldMin = DACPoints[0];
-        int32_t oldRange = DACPoints[20]-DACPoints[0];
+    /*	int16_t oldMin = DACPoints[0];
+        int16_t oldRange = DACPoints[20]-DACPoints[0];
 
         // Scale current calibration to new rangeDAC
         if(UseMultiPoint){

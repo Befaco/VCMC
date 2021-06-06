@@ -122,7 +122,7 @@ bool AnalogPort::ReadPort (long &NewData) {
     if( PortCfg.IsDigitalFunc())
     {
         //unsigned reading = digitalRead (PortNumber);
-        int32_t mindac,rangedac;
+        int16_t mindac,rangedac;
         PortCfg.Ranges.getDAC(mindac,rangedac);
         // Read as digital input
         bool readGate = GateStatus;        

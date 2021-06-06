@@ -136,7 +136,7 @@ bool SetRangeDAC()
 
 bool SelectMinInput()
 {
-	int32_t min, range;
+	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getDAC(min, range);
 	long val = min;
 	bool ret = EncoderchangeValue("Min:", val, -16387, 16386, 6, 0, 45); // *** TODO ***
@@ -146,7 +146,7 @@ bool SelectMinInput()
 
 bool SelectMaxInput()
 {
-	int32_t min, range;
+	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getDAC(min, range);
 	long max = min + range;
 	bool ret = EncoderchangeValue("Max:", max, -16387, 16386, 6, 0, 45); // *** TODO ***
@@ -225,8 +225,8 @@ bool SetRange10()
 	if( BankSelected > 7 && PortSelected==3)
 		Cfg = &CVControls[BankSelected].Slider.PortCfg;
 	
-	int32_t MinDAC = INITMINDAC;
-	int32_t MidRange = INITRANGEDAC;
+	int16_t MinDAC = INITMINDAC;
+	int16_t MidRange = INITRANGEDAC;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
 	if( Cfg->getInputRange() == ZEROTO5V) // If it was in 0-5 v double the range
 		MidRange = MidRange * 2;
@@ -254,8 +254,8 @@ bool SetRange5()
 	if( BankSelected > 7 && PortSelected==3)  // Aux B 
 		Cfg = &CVControls[BankSelected].Slider.PortCfg;
 	
-	int32_t MinDAC;
-	int32_t MidRange;
+	int16_t MinDAC;
+	int16_t MidRange;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
 	if( Cfg->getInputRange() != ZEROTO5V) // If it was 0-10 v halve the range
 		MidRange = MidRange / 2;
@@ -286,8 +286,8 @@ bool SetRangeBipolar()
 	if( BankSelected > 7 && PortSelected==3)  // Aux B 
 		Cfg = &CVControls[BankSelected].Slider.PortCfg;
 	
-	int32_t MinDAC;
-	int32_t MidRange;
+	int16_t MinDAC;
+	int16_t MidRange;
 	Cfg->Ranges.getDAC(MinDAC,MidRange);
 	if( Cfg->getInputRange() == ZEROTO5V) // If it was 0-10 v halve the range
 		MidRange = MidRange * 2;

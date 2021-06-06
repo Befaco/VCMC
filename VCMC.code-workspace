@@ -9,6 +9,8 @@
 			"*.tcc": "cpp",
 			"string": "cpp",
 			"unordered_map": "cpp"
-		}
+		},
+		"cortex-debug.armToolchainPath": "D:\\PROG\\GITHUB\\TOOLCHAIN\\GCC-ARM-NONE-EABI-10-2020-Q4-MAJOR\\BIN",
+		"cortex-debug.openocdPath": "D:\\PROG\\GITHUB\\TOOLCHAIN\\OPENOCD-20201228-0.10.0\\BIN\\OPENOCD.EXE"
 	}
 }

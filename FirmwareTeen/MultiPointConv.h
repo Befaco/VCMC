@@ -37,8 +37,8 @@
 /////////////////////////////////
 // External references
 //extern uint16_t DACPoints[21];
-//int32_t getInitMinDAC ();
-//int32_t getInitRangeDAC ();
+//int16_t getInitMinDAC ();
+//int16_t getInitRangeDAC ();
 //bool UseMultiPoint = false;
 
 #define HALFNOTERANGE 17 // DAC Steps for half a note 4096/120/2
@@ -50,10 +50,10 @@ class RangeConv {
     private:
     // byte DACnum = 0;
     int16_t minMIDI, rangeMIDI;
-    int32_t minDAC, rangeDAC;
+    int16_t minDAC, rangeDAC;
 
     public:
-    RangeConv (int16_t minM, int16_t rangeM)://, int32_t minD, int32_t rangeD):
+    RangeConv (int16_t minM, int16_t rangeM)://, int16_t minD, int16_t rangeD):
 		minMIDI(minM), rangeMIDI(rangeM), minDAC(DEFMINDAC), rangeDAC(DEFRANGEDAC)
 		{ResetCalPoints ();}
 	
@@ -66,12 +66,12 @@ class RangeConv {
 		}
 
     // Make conversion
-    int32_t Convert (int inp) {
+    int16_t Convert (int inp) {
         /*if(UseMultiPoint) return intervalConvert(inp);
         else*/
         return linealConvert (inp);
     }
-    int invConvert (int32_t inp) {
+    int invConvert (int16_t inp) {
         /*if (UseMultiPoint)
             return invintervalConvert (inp);
         else*/
@@ -81,7 +81,7 @@ class RangeConv {
     {
         return (inp - minMIDI) / (float)rangeMIDI;
     }
-    float invPercentScale (int32_t inp) // Return a value from 0 to 1.0 to indicate inp position on the DAC scale
+    float invPercentScale (int16_t inp) // Return a value from 0 to 1.0 to indicate inp position on the DAC scale
     {
 		//float result =((float)inp - minDAC) / rangeDAC;
 		float result =((float)inp - minDAC) / rangeDAC + 0.5/rangeMIDI;
@@ -91,32 +91,32 @@ class RangeConv {
         //return ((float)inp - minDAC) / rangeDAC;
     }
     ///< Return Max value for the DAC
-    int32_t getMaxDAC(void) {return minDAC+rangeDAC;}
+    int16_t getMaxDAC(void) {return minDAC+rangeDAC;}
     int16_t getMaxMIDI(void) {return minMIDI+rangeMIDI;}     ///< Return Max value for the MIDI
     // Conversion functions
     private:
-    int32_t linealConvert (int inp) { // Convert MIDI to DAC
+    int16_t linealConvert (int inp) { // Convert MIDI to DAC
         return (minDAC + PercentScale (inp) * rangeDAC);
     }
 	
-    int invlinealConvert (int32_t inp) { // Convert DAC to MIDI
+    int invlinealConvert (int16_t inp) { // Convert DAC to MIDI
         return (minMIDI + invPercentScale (inp) * rangeMIDI);
     }
 	
-    //int32_t intervalConvert (int inp);
-    //int invintervalConvert (int32_t inp);
+    //int16_t intervalConvert (int inp);
+    //int invintervalConvert (int16_t inp);
 
     public:
     void ResetCalPoints (void) {
         //for (int i = 0; i < 21; i++) DACPoints[i] = minDAC + ((float)i) / 20 * rangeDAC;
     }
     // Set/get DATA
-    void SetDAC (int32_t minD, int32_t RangeD);
+    void SetDAC (int16_t minD, int16_t RangeD);
     void SetMIDI (int16_t minD, int16_t RangeD) {
         minMIDI = minD;
         rangeMIDI = RangeD;
     }
-    void getDAC (int32_t &minD, int32_t &RangeD) {
+    void getDAC (int16_t &minD, int16_t &RangeD) {
         minD = minDAC;
         RangeD = rangeDAC;
     }
@@ -142,11 +142,11 @@ class MultiPointConv:public RangeConv{
     ResetCalPoints();
   }
   // Make conversion
-  int32_t intervalConvert( int inp);
-  int invintervalConvert( int32_t inp);
+  int16_t intervalConvert( int inp);
+  int invintervalConvert( int16_t inp);
   void ResetCalPoints(void) { for( int i=0; i<21; i++) DACPoints[i]= minDAC+ ((float)i)/20*rangeDAC;}
   // Set DATA
-  void SetDAC( int32_t minD, int32_t RangeD) { minDAC= minD; rangeDAC= RangeD; ResetCalPoints();}
+  void SetDAC( int16_t minD, int16_t RangeD) { minDAC= minD; rangeDAC= RangeD; ResetCalPoints();}
 };
 */
 

@@ -330,9 +330,9 @@ void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
 void DigPortCfg::SetMIDIFunc(uint8_t Func) { MIDIfunction = Func; }
 /*
 /// Return the global config minimum DAC value
-int32_t getInitMinDAC () { return theApp.theGlobalCfg.InitMinDAC; }
+int16_t getInitMinDAC () { return theApp.theGlobalCfg.InitMinDAC; }
 /// Return the global config minimum DAC range
-int32_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
+int16_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
 */
 /**
  *  \brief Save Page  to EEPROM

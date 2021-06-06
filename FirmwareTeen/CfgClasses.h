@@ -43,14 +43,14 @@
 class GlobalCfg {
   public:
     uint8_t initPage;
-    int32_t InitMinDAC;   ///< Minimum default CV DAC value
-    int32_t InitRangeDAC; ///< Minimum default CV DAC range
-    int32_t FaderMinDAC;   ///< Minimum default Fader DAC value
-    int32_t FaderRangeDAC; ///< Minimum default Fader DAC range
-    int32_t AuxAMinDAC;   ///< Minimum default Aux A DAC value
-    int32_t AuxARangeDAC; ///< Minimum default Aux A DAC range
-    int32_t AuxBMinDAC;   ///< Minimum default Aux B DAC value
-    int32_t AuxBRangeDAC; ///< Minimum default Aux B DAC range
+    int16_t InitMinDAC;   ///< Minimum default CV DAC value
+    int16_t InitRangeDAC; ///< Minimum default CV DAC range
+    int16_t FaderMinDAC;   ///< Minimum default Fader DAC value
+    int16_t FaderRangeDAC; ///< Minimum default Fader DAC range
+    int16_t AuxAMinDAC;   ///< Minimum default Aux A DAC value
+    int16_t AuxARangeDAC; ///< Minimum default Aux A DAC range
+    int16_t AuxBMinDAC;   ///< Minimum default Aux B DAC value
+    int16_t AuxBRangeDAC; ///< Minimum default Aux B DAC range
     uint16_t AutoOff;      ///< Note Off after n milliseconds
     float       ClockDivider = 1.2;         ///< Clack divider: Divides the interval by this number for fine clock adjustment
     int8_t      ClockShift = 0;         ///< Clack multiplier: Multiplies(+) / Divides(-) by power of 2

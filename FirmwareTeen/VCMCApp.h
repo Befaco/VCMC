@@ -109,12 +109,12 @@ public:
     //void readOSC();
     //void ProcessOscMsg(OSCMessage *pMsg);
     #endif
-    int32_t getInitMinDAC() { return theGlobalCfg.InitMinDAC; }     ///< Return the global config minimum DAC value
-    int32_t getInitRangeDAC() { return theGlobalCfg.InitRangeDAC; } ///< Return the global config minimum DAC range
-    int32_t getInitAuxAMinDAC() { return theGlobalCfg.AuxAMinDAC; }     ///< Return the global config minimum DAC value for Aux A
-    int32_t getInitAuxARangeDAC() { return theGlobalCfg.AuxARangeDAC; } ///< Return the global config minimum DAC range for Aux A
-    int32_t getInitAuxBMinDAC() { return theGlobalCfg.AuxBMinDAC; }     ///< Return the global config minimum DAC value for Aux B
-    int32_t getInitAuxBRangeDAC() { return theGlobalCfg.AuxBRangeDAC; } ///< Return the global config minimum DAC range for Aux B
+    int16_t getInitMinDAC() { return theGlobalCfg.InitMinDAC; }     ///< Return the global config minimum DAC value
+    int16_t getInitRangeDAC() { return theGlobalCfg.InitRangeDAC; } ///< Return the global config minimum DAC range
+    int16_t getInitAuxAMinDAC() { return theGlobalCfg.AuxAMinDAC; }     ///< Return the global config minimum DAC value for Aux A
+    int16_t getInitAuxARangeDAC() { return theGlobalCfg.AuxARangeDAC; } ///< Return the global config minimum DAC range for Aux A
+    int16_t getInitAuxBMinDAC() { return theGlobalCfg.AuxBMinDAC; }     ///< Return the global config minimum DAC value for Aux B
+    int16_t getInitAuxBRangeDAC() { return theGlobalCfg.AuxBRangeDAC; } ///< Return the global config minimum DAC range for Aux B
     SaveLoadClass *getFlashAccess() { return &FlashAcc; }
     Adafruit_SSD1306 *getDisplay() { 
         #ifdef DEPR_CONS

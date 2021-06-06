@@ -105,7 +105,7 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
     int cont;
     const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
-    int32_t minDAC, rDAC;
+    int16_t minDAC, rDAC;
 
     if(typeSlider){
         cont = sizeof(DATA_Fader) / sizeof(SysExDataStruct);
@@ -152,11 +152,11 @@ int AnalogPort::parse (uint8_t type, uint8_t *buf, int buLen) {
         return buLen;
     case PAR_Range_minDAC:
         PortCfg.Ranges.getDAC(minDAC, rDAC);
-        PortCfg.Ranges.SetDAC(*((int32_t *)buf),rDAC);
+        PortCfg.Ranges.SetDAC(*((int16_t *)buf),rDAC);
         return buLen;
     case PAR_Range_rangeDAC:
         PortCfg.Ranges.getDAC(minDAC, rDAC);
-        PortCfg.Ranges.SetDAC(minDAC, *((int32_t *)buf));
+        PortCfg.Ranges.SetDAC(minDAC, *((int16_t *)buf));
         return buLen;
     case PAR_ClipLow:
         PortCfg.ClipLow = *((int16_t*)buf);
@@ -250,7 +250,7 @@ int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
     int cont;
     const SysExDataStruct *pDataStr;
     int16_t minMIDI, rMIDI;
-    int32_t minDAC, rDAC;
+    int16_t minDAC, rDAC;
 
     if(typeSlider){
         cont = sizeof(DATA_Fader) / sizeof(SysExDataStruct);
@@ -297,11 +297,11 @@ int AnalogPort::fill (uint8_t type, uint8_t *buf, int buLen) {
         return buLen;
     case PAR_Range_minDAC:
         PortCfg.Ranges.getDAC(minDAC, rDAC);
-        *((int32_t *)buf) = minDAC;
+        *((int16_t *)buf) = minDAC;
         return buLen;
     case PAR_Range_rangeDAC:
         PortCfg.Ranges.getDAC(minDAC, rDAC);
-        *((int32_t *)buf) = rDAC;
+        *((int16_t *)buf) = rDAC;
         return buLen;
     case PAR_ClipLow:
         *((int16_t*)buf) = PortCfg.ClipLow;
