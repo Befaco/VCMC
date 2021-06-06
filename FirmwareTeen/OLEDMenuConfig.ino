@@ -87,7 +87,6 @@ void OLEDMenu::displayGenCal(void){
         }
 }
 
-
 /**
  * \brief Display in OLED the configuration for Bank (CV+Fader+Gate)
  * 
@@ -146,9 +145,8 @@ void OLEDMenu::PrintGateFunction(DigPortCfg *cfgSel)
     theOLED->print (PortGateFuncStr[cfgSel->MIDIfunction]);
     switch (cfgSel->MIDIfunction) {
     case TRIGGER:
-        theOLED->print (cfgSel->NoteToSend);
-        break;
     case LATCH:
+    case CHORD:
         theOLED->print (cfgSel->NoteToSend);
         break;
     case CCLATCH:
@@ -287,13 +285,7 @@ void OLEDMenu::displayGateConfig (int posCursor) {
     theOLED->print(" ");
     theOLED->println (SelCfg->MIDIChannel);
 
-    /* theOLED->setTextColor (BLACK, WHITE);
-    theOLED->print ("MIDI CH.");
-    theOLED->setTextColor (WHITE, BLACK);
-    theOLED->setCursor (POSXCARD + 0, posCursor);
-    posCursor += 8;
-    theOLED->println (SelCfg->MIDIChannel);
-    theOLED->setCursor (POSXCARD + 0, posCursor); */
+
     char name[24];
     if( SelCfg->getName(name)){
         theOLED->setCursor (POSXCARD + 0, posCursor);
@@ -312,8 +304,8 @@ void OLEDMenu::displayGateConfig (int posCursor) {
 	
     switch (SelCfg->MIDIfunction) {
     case TRIGGER:
-        break;
     case LATCH:
+    case CHORD:
         break;
     case CCLATCH:
     case CCBUT:
@@ -346,61 +338,6 @@ void OLEDMenu::displayGateConfig (int posCursor) {
     }
 }
 
-
-/*
-// If any Port selected, print MIDI channel and function
-theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-theOLED->setTextColor(BLACK,WHITE);
-switch(PortSelected){
-    case 1: theOLED->println("Gate "); break;
-    case 2: theOLED->println("CV "); break;
-    case 3: theOLED->println("Fader "); break;
-}
-theOLED->setTextColor(WHITE, BLACK);
-theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-theOLED->print("Ch");
-theOLED->println(SelCfg->MIDIChannel);
-// Print details if CV or slider selected
-if(PortSelected==1){
-    // Gate config data
-    theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->println(PortGateFuncStr[((DigPortCfg*)SelCfg)->MIDIfunction]);
-
-    theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->print("Contr:");
-    theOLED->println(((DigPortCfg*)SelCfg)->ControllerNumber);
-
-theOLED->
-    theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->print("CC Val:");
-    display.println(((DigPortCfg*)SelCfg)->ControllerValue);
-theOLED->
-theOLED->
-    theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    display.print("Clk Div:");
-    display.println(((DigPortCfg*)SelCfg)->ClockDivider);
-} eltheOLED->
-    theOLED->analog port selected menu
-    display.setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->println(PortFuncStr[((AnInputPortCfg*)SelCfg)->MIDIfunction]);
-theOLED->
-theOLED->
-    display.setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->print("Contr:");
-    theOLED->println(((AnInputPortCfg*)SelCfg)->ControllerNumber);
-theOLED->
-
-    theOLED->setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    theOLED->print("Off:");
-    theOLED->println(((AnInputPortCfg*)SelCfg)->Offset);
-
-
-    display.setCursor(POSXCARD+0, posCursor); posCursor+=8;
-    display.print("Amp:");
-    display.println(((AnInputPortCfg*)SelCfg)->Amp);
-
-}
-*/
 
 
 /** @} */

@@ -20,7 +20,7 @@
         "LAYOUT_US_ENGLISH",
         "ARDUINO"
       ],
-      "compilerPath": "D:/apl/Arduino/hardware/tools/arm/bin/arm-none-eabi-gcc.exe",
+      "compilerPath": "D:/Prog/Github/toolchain/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc",
       "intelliSenseMode": "gcc-arm"
     }
   ],

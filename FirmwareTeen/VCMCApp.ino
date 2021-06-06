@@ -145,5 +145,57 @@ InputPort *VCMCApp::GetPort (int8_t Bank, int8_t Port)
 }
 
 
+//#include "src/MidiThing/MIDITools/NoteEvent.h"
+// Callbacks
+void sendNoteOn(NoteEvent *pEv){
+    if(!pEv->timestamp)
+        MidiMerge.sendNoteOn( pEv->pitch, pEv->velocity, pEv->chann);
+    else{
+        NoteEvent *pnew = theApp.eventList.push_back();
+        if (!pnew) return;
+        // Check if note on event present on the list
+        for( NoteEvent*pNon= theApp.eventList.front(); /* pNon &&  */pNon!=pnew; ){
+            if(pEv->chann==pNon->chann && pEv->pitch==pNon->pitch ){
+                // Remove previous events
+                NoteEvent *pn = (NoteEvent *)pNon->next();
+                theApp.eventList.remove(pNon);
+                pNon = pn;
+                MidiMerge.sendNoteOff( pEv->pitch, pEv->velocity, pEv->chann); // Note off previous
+                // break;
+            } else
+                pNon = (NoteEvent *)pNon->next();
+        }
+        pnew->fill(pEv);
+        //theApp.eventList.print("Note on added ");
+        }
+}
+
+void sendNoteOff(NoteEvent *pEv){
+    if(!pEv->timestamp)
+        MidiMerge.sendNoteOff( pEv->pitch, pEv->velocity, pEv->chann);
+    else{
+        if(!pEv->pitch){
+            DP("No pitch");
+            return;
+        }
+        NoteEvent *pnew = theApp.eventList.push_back();
+        if(!pnew)
+            return;  // List full
+        // Check if note on event present on the list
+        for( NoteEvent*pNon= theApp.eventList.front(); pNon!=pnew;/* pNon; */ pNon = (NoteEvent *)pNon->next()){
+            if(pEv->chann==pNon->chann && pEv->pitch==pNon->pitch ){
+                pEv->timestamp = pNon->timestamp + pEv->timestamp; // Add delay to NoteOn event
+                break;
+            }
+        }
+        if(pEv->timestamp < getClock())
+            pEv->timestamp = 0;
+        pnew->fill(pEv);
+        pnew->velocity = 0; // mark as note off
+        //pnew->print("Note off: ");
+        //theApp.eventList.print("notes in list: ");
+        }
+}
+
 
 /**@}*/

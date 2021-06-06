@@ -61,6 +61,11 @@ DEF_MENULIST(mGlobalConfig, GLOBAL CFG ,ListLinesSimple,
 
 
 DEF_MENULIST(mGlobalCal,GLOBAL CAL,ListLines,
+    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
+    {" GLOBAL CFG ", NULL, 1}
+    )
+
+MenuItem GlobalCalList[] = {
     {"<-BACK", gotoMenuSettings, 1},
     {"MATRIX CAL", CalibrateCV, 0},       //Global config?
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
@@ -69,13 +74,15 @@ DEF_MENULIST(mGlobalCal,GLOBAL CAL,ListLines,
     {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
-    {"FREQUENCY", FreqMeas, 1}
-    )
+    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
+    {"GLOBAL CAL", NULL, 1}};
+MenuList listGlobalCal(GlobalCalList, 9, ListLines);//ListLinesSimple);
 
 // Received SysEx Menu
 DEF_MENULIST(mRecSysEx,RECEIVED SYSEX,ListLinesSimple,
     {"DISCARD", gotoMenuSettings, 1},
-    {"LOAD SYSEX", SelectSysExLoadPage, 1})
+    {"LOAD SYSEX", SelectSysExLoadPage, 1}
+    )
 
 // Save Config Menu
 MenuItem BankSaveSelList[] = {
@@ -115,12 +122,12 @@ MenuList UserNameList(UserNamesItems, 1, ListLines);
  ******************************
  * Define the functions you want your menu to call
  * They can be blocking or non-blocking
- * They should take no arguments and return a boolean
+ * They should take no arguments and return a bool
  * true if the function is finished and doesn't want to run again
  * false if the function is not done and wants to be called again
  ******************************
  *****************************/
-boolean DoNothing()
+bool DoNothing()
 {
     return true;
 }
@@ -135,7 +142,7 @@ bool changeUserNames()
 }
 
 //Main Menu entry function
-boolean gotoMenuGlobalCfg()
+bool gotoMenuGlobalCfg()
 {
     fullCVDisplay = false;
     if (AutoCal)
@@ -158,12 +165,13 @@ boolean gotoMenuGlobalCfg()
     return true;
 }
 
-boolean gotoMenuGlobalCal()
+bool gotoMenuGlobalCal()
 {
     #ifdef CVTHING
-    mGlobalCal.disableItem(3);
-    mGlobalCal.disableItem(4);
-    mGlobalCal.disableItem(5);
+    listGlobalCal.disableItem(3);
+    listGlobalCal.disableItem(4);
+    listGlobalCal.disableItem(5);
+    listGlobalCal.enableItem(8);
     #endif
     
     myMenu.ClearArea();
@@ -172,7 +180,7 @@ boolean gotoMenuGlobalCal()
 }
 
 /*
-boolean SelectGateMode() {
+bool SelectGateMode() {
   PortSelected=2;
   myMenu.ClearArea();
   myMenu.setCurrentMenu(&listGateMode);	
@@ -185,8 +193,7 @@ boolean SelectGateMode() {
 #define CPU_RESTART_VAL 0x5FA0004
 #define CPU_RESTART (*CPU_RESTART_ADDR = CPU_RESTART_VAL);
 
-
-boolean SelectFaderFilter()
+bool SelectFaderFilter()
 {
     long val = theApp.theGlobalCfg.filterFader*100000;
     bool ret = myMenu.EncoderselDigitLong("Filter: 0.", val, 0, 999999, 5, 0, 45);
@@ -196,7 +203,7 @@ boolean SelectFaderFilter()
     return ret;
 }
 
-boolean SelectFaderThres()
+bool SelectFaderThres()
 {
     long val = theApp.theGlobalCfg.ActThrFader;
     bool ret = EncoderchangeValue("Thresh:", val, 0, 256, 4, 0, 45);
@@ -207,7 +214,9 @@ boolean SelectFaderThres()
 }
 
 
-boolean PanicFn()
+
+
+bool PanicFn()
 {
     // MIDI Panic
     MidiMerge.Panic();
@@ -215,25 +224,25 @@ boolean PanicFn()
 }
 
 
-boolean makeFadersCal()
+bool makeFadersCal()
 {
     // Fader calibration
     return FadersCal();
 }
 
-boolean gotoListFactReset()
+bool gotoListFactReset()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&ListFactReset);
     return true;
 }
 
-boolean ResetCPU(){
+bool ResetCPU(){
     CPU_RESTART
     return true;
 }
 
-boolean FactoryReset()
+bool FactoryReset()
 {
     // Panic
     MidiMerge.Panic();
@@ -243,15 +252,15 @@ boolean FactoryReset()
     return true;
 }
 
-boolean SelectClockRes()
+bool SelectClockRes()
 {
     //Send 24, 12 or 6 midi clicks per pulse received.
     // possible via a numeric field or need a menu?
     return true;
 }
 
-boolean dimStatus = false;
-boolean SetScreenLight()
+bool dimStatus = false;
+bool SetScreenLight()
 {
     //Set screen luminosity
     dimStatus = !dimStatus;
@@ -264,9 +273,9 @@ boolean SetScreenLight()
  * 
  * It will also reset the timer for Factory calibration menu
  * 
- * \return boolean 
+ * \return bool 
  */
-boolean CreditsScreen()
+bool CreditsScreen()
 {
     AutoCal = true;
     CalTimer = millis();
@@ -282,21 +291,21 @@ boolean CreditsScreen()
 //////////////////////////////////////////////////
 // Save and Load functions
 
-boolean gotoListBankSaveSel()
+bool gotoListBankSaveSel()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&ListBankSaveSel);
     return true;
 }
 
-boolean gotoListBankLoadSel()
+bool gotoListBankLoadSel()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&ListBankLoadSel);
     return true;
 }
 
-boolean SaveSlotCurrent(){
+bool SaveSlotCurrent(){
     if (!FlashAccess->SetCurrentPage(FlashAccess->CurrentPage))
     {
         SetMessageText("Error Save");
@@ -305,37 +314,37 @@ boolean SaveSlotCurrent(){
     return true;
 
 }
-boolean SaveSlot1()
+bool SaveSlot1()
 {
     FlashAccess->CurrentPage = 0;
     return SaveSlotCurrent();
 }
 
-boolean SaveSlot2()
+bool SaveSlot2()
 {
     FlashAccess->CurrentPage = 1;
     return SaveSlotCurrent();
 }
 
-boolean SaveSlot3()
+bool SaveSlot3()
 {
     FlashAccess->CurrentPage = 2;
     return SaveSlotCurrent();
 }
 
-boolean SaveSlot4()
+bool SaveSlot4()
 {
     FlashAccess->CurrentPage = 3;
     return SaveSlotCurrent();
 }
 
-boolean SaveViaSysEx()
+bool SaveViaSysEx()
 {
     FlashAccess->SaveCfgSysEx ();
     return true;
 }
 
-boolean LoadSlotCurrentPage(){
+bool LoadSlotCurrentPage(){
     if (!FlashAccess->LoadCfg())
     {
         SetMessageText("Error Load");
@@ -344,31 +353,31 @@ boolean LoadSlotCurrentPage(){
     return true;
 }
 
-boolean LoadSlot1()
+bool LoadSlot1()
 {
     FlashAccess->CurrentPage = 0;
     return LoadSlotCurrentPage();
 }
 
-boolean LoadSlot2()
+bool LoadSlot2()
 {
     FlashAccess->CurrentPage = 1;
     return LoadSlotCurrentPage();
 }
 
-boolean LoadSlot3()
+bool LoadSlot3()
 {
     FlashAccess->CurrentPage = 2;
     return LoadSlotCurrentPage();
 }
 
-boolean LoadSlot4()
+bool LoadSlot4()
 {
     FlashAccess->CurrentPage = 3;
     return LoadSlotCurrentPage();
 }
 
-boolean SelectSavePage()
+bool SelectSavePage()
 {
     long val = FlashAccess->CurrentPage + 1;
     bool ret = EncoderchangeValue("Save Page", val, 1, MAXSAVEPAGES, 3, 0, 45);
@@ -382,7 +391,7 @@ boolean SelectSavePage()
     return true;
 }
 
-boolean SelectLoadPage()
+bool SelectLoadPage()
 {
     long val = FlashAccess->CurrentPage + 1;
     bool ret = EncoderchangeValue("Load Page", val, 1, MAXSAVEPAGES, 3, 0, 45);
@@ -396,7 +405,7 @@ boolean SelectLoadPage()
     return true;
 }
 
-boolean SelectSysExLoadPage()
+bool SelectSysExLoadPage()
 {
     long val = FlashAccess->CurrentPage + 1;
     bool ret = EncoderchangeValue("Load Page", val, 1, MAXSAVEPAGES, 3, 0, 45);

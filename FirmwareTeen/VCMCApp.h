@@ -41,6 +41,11 @@ void timerIsr();
 void servicePorts();
 
 //#define DEPR_CONS
+// Interrput handling definitions
+extern volatile bool servicingPorts;
+void timerIsr();
+void servicePorts();
+
 /// Main Class for the VCMC Application
 class VCMCApp
 {
@@ -49,6 +54,9 @@ public:
     byte byPortSelected;            ///< Port selected in Menu (0= No port selected, 1= Gate, 2= CV, 3= Fader, )
     InputControl Controls[NUMCHAN]; ///< Main Input controls variable. Will be used to store configuration and functionaly for each 8 input controls and Aux inputs
     uint16_t lastEnc = -1, valueEnc = 30000;
+    MIDIChord DefaultChord;
+
+    FixList<NoteEvent, 50> eventList; ///<Note Events to play at timestamp
 
     /** @name Modules integration
      *  Accesors for the different modules integrated in the main application.  
@@ -85,25 +93,15 @@ public:
 
 public:
     VCMCApp() : byBankSelected(1), byPortSelected(0)
-    #ifdef DEPR_CONS
-        , disp(OLED_DC, OLED_RESET, OLED_CS)
-    #endif
     {
         padc = new ADC(); // adc object;
         pEncoder = new ClickEncoder(PINENCB, PINENCA, -1, 4);
         pEncButt = new Bounce();
 
-    #ifdef DEPR_CONS
-    #else
-    #ifdef ST3375SCR
-        disp = new ST7735_t3(OLED_CS, OLED_DC, 11, 14, OLED_RESET);
-    #else
         SPI.begin();
         // Moce SCK from pin 13 to pin 14
         SPI.setSCK(14);
         disp= new Adafruit_SSD1306(128, 64, &SPI, OLED_DC, OLED_RESET, OLED_CS);
-    #endif
-    #endif
     }
     void setup(void);
     void beginPortsTimer(){ PortsTimer.begin(servicePorts, TIMERINTSERVICE);}
@@ -155,6 +153,11 @@ private:
 
 // Main object definition
 extern VCMCApp theApp;
+// Callbacks
+void sendNoteOn(NoteEvent *pEv);
+//void sendNoteOn(uint8_t  note, uint8_t  vel, uint8_t  chan);
+void sendNoteOff(NoteEvent *pEv);
+//void sendNoteOff(uint8_t  note, uint8_t  vel, uint8_t  chan);
 
 /** @} */ // end of Maingroup
 

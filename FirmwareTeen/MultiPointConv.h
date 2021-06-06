@@ -34,6 +34,14 @@
  */
 
 
+/////////////////////////////////
+// External references
+//extern uint16_t DACPoints[21];
+//int16_t getInitMinDAC ();
+//int16_t getInitRangeDAC ();
+//bool UseMultiPoint = false;
+
+#define HALFNOTERANGE 17 // DAC Steps for half a note 4096/120/2
 #define MAXCLIP 1.0 //0.9925 // Clip to maximum when close to it
 
 // Utility class to convert MIDI to CV Range
@@ -44,8 +52,8 @@ private:
     int16_t minMIDI, rangeMIDI;
     int16_t minDAC, rangeDAC;
 
-public:
-    RangeConv (int16_t minM, int16_t rangeM):
+    public:
+    RangeConv (int16_t minM, int16_t rangeM)://, int16_t minD, int16_t rangeD):
 		minMIDI(minM), rangeMIDI(rangeM), minDAC(DEFMINDAC), rangeDAC(DEFRANGEDAC)
 		{
         }
@@ -58,9 +66,14 @@ public:
 
     // Make conversion
     int16_t Convert (int inp) {
+        /*if(UseMultiPoint) return intervalConvert(inp);
+        else*/
         return linealConvert (inp);
     }
     int invConvert (int16_t inp) {
+        /*if (UseMultiPoint)
+            return invintervalConvert (inp);
+        else*/
             return invlinealConvert (inp);
     }
     float PercentScale (int inp) // Return a value from 0 to 1.0 to indicate inp position on the MIDI scale
@@ -89,15 +102,12 @@ public:
         return (minMIDI + invPercentScale (inp) * rangeMIDI);
     }
 	
-
+    //int16_t intervalConvert (int inp);
+    //int invintervalConvert (int16_t inp);
 
     public:
     // Set/get DATA
-    void SetDAC (int16_t minD, int16_t RangeD){    
-        minDAC = minD;
-        rangeDAC = RangeD;
-    }
-
+    void SetDAC (int16_t minD, int16_t RangeD);
     void SetMIDI (int16_t minD, int16_t RangeD) {
         minMIDI = minD;
         rangeMIDI = RangeD;
@@ -110,11 +120,30 @@ public:
         minD = minMIDI;
         RangeD = rangeMIDI;
     }
-
+//    void setMultiPointMode (bool Mode) { UseMultiPoint = Mode; }
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
 	void ReadCfgOSC(OSCMessage *pMsg);
 #endif
 };
+
+/*
+// Utility class to convert MIDI to CV Range
+// Multi-Linear scale input to output (defined as 20 fix points and output as interpolation between each pair of fix points)
+class MultiPointConv:public RangeConv{
+ public:
+  MultiPointConv(){
+    // Default to 12 bits in the CV for 120 MIDI values;
+    minMIDI=0; rangeMIDI=120; minDAC = 0;rangeDAC = ANRANGEMAX;
+    ResetCalPoints();
+  }
+  // Make conversion
+  int16_t intervalConvert( int inp);
+  int invintervalConvert( int16_t inp);
+  void ResetCalPoints(void) { for( int i=0; i<21; i++) DACPoints[i]= minDAC+ ((float)i)/20*rangeDAC;}
+  // Set DATA
+  void SetDAC( int16_t minD, int16_t RangeD) { minDAC= minD; rangeDAC= RangeD; ResetCalPoints();}
+};
+*/
 
 /** @} */

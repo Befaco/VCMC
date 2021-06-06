@@ -78,55 +78,72 @@ bool selectI2CDevice(void);
 bool setI2CDevice(void);
 
 // Defined on MenuMain
-boolean gotoMenuGlobalCfg();
-boolean gotoMenuGlobalCal();
-boolean gotoListFactReset();
-boolean FactoryReset();
-boolean CreditsScreen();
-boolean DoNothing();
-boolean ResetCPU();
+bool gotoMenuGlobalCfg();
+bool gotoMenuGlobalCal();
+bool gotoListFactReset();
+bool FactoryReset();
+bool CreditsScreen();
+bool DoNothing();
+bool ResetCPU();
+bool FreqMeas();
 // Defined on MenuBlock
-boolean gotoMenuBanks();
-boolean gotoMenuSettings();
-boolean SelectGateConfig();
-boolean SelectFaderConfig();
-boolean SelectCVConfig();
+bool gotoMenuBanks();
+bool gotoMenuSettings();
+bool SelectGateConfig();
+bool SelectFaderConfig();
+bool SelectCVConfig();
+bool SelectChordMenu();
+bool setActiveChord();
+bool SelectChordType();
+bool SelectScale();
+bool SelectChordPreset();
+bool selectRootScale();
+bool SelectChordInv();
+bool SelectGateModeTrigger();
+bool SelectSufix();
+bool SelectPrefix();
+bool SelectStdName();
+bool selectUserNames();
+bool SelectNRPNval();
+bool SelectNRPNLSB();
+bool SelectNRPNMSB();
+bool SelectAnagClockShift();
+bool SelectAnagClockDiv();
+bool AutoOffFn();
 // Defined on MenuMode
 bool SelectNameMenu();
 bool selectMenuPortName();
 bool editUserNames();
-boolean SelectGateModeGate();
-boolean gotoMenuGate();
-boolean gotoMenuAnag();
-boolean SelectAnagRange();
-boolean SelectAnagFn();
-boolean SelectAnagFn2();
-boolean SelectMIDIChan();
-boolean SelectController();
+bool SelectGateModeGate();
+bool gotoMenuGate();
+bool gotoMenuAnag();
+bool SelectAnagRange();
+bool SelectAnagFn();
+bool SelectAnagFn2();
+bool SelectMIDIChan();
+bool SelectController();
 // Defined on MenuRange
-boolean SelectMin();
-boolean SelectMax();
-boolean SetLowLimit();
-boolean SetHighLimit();
-boolean SelectMinInput();
-boolean SelectMaxInput();
+bool SelectMin();
+bool SelectMax();
+bool SetLowLimit();
+bool SetHighLimit();
+bool SelectMinInput();
+bool SelectMaxInput();
 // Defined on MenuGate
-boolean SelectDelay();
-boolean SelectNoteNmbr();
-boolean SelectControllerValue();
+bool SelectDelay();
+bool SelectNoteNmbr();
+bool SelectControllerValue();
 // Defined on CalMenu
-boolean SetRangeMenu();
-boolean TwoPointsCal();
-boolean SetClockMenu();
-boolean CVTwoPointsCal();
-boolean CalibrateCV();
-boolean AuxATwoPointsCal();
-boolean AuxBTwoPointsCal();
-boolean FadersCal();
-// Defined on FreqMeasure
-boolean FreqMeas();
+bool SetRangeMenu();
+bool TwoPointsCal();
+bool SetClockMenu();
+bool CVTwoPointsCal();
+bool CalibrateCV();
+bool AuxATwoPointsCal();
+bool AuxBTwoPointsCal();
+bool FadersCal();
 // Defined on setValues
-boolean LoadPreset();
+bool LoadPreset();
 // Defined on GrafUtil
 void padvalue(long value, char *outBuf, int padPos);
 

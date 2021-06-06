@@ -35,27 +35,19 @@
  *  \brief Defines Menu functions callbacks response for Analog Ports configuration 
  */
 
-// Gate Mode. NOT IN USE?
-MenuItem GateModelist[4] = {
-    {"<-BACK", gotoMenuBanks, 1},
-    {"GATE", SelectGateModeGate, 1},
-    {"TRIGG", SelectGateModeTrigger, 1},
-    {"Bank Function", NULL, 1}};
-MenuList listGateMode(GateModelist, 4, ListLines);
 
 // Name selection Menu
-MenuItem NameList[] = {
+DEF_MENULIST (listName, PORT NAME, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"SELECT NAME", SelectStdName, 1},
     {"PREFIX", SelectPrefix, 0},
     {"SUFIX", SelectSufix, 1},
-    {"EDIT USER DEF", selectUserNames, 1},
-    {"PORT NAME", NULL, 1}};
-MenuList listName(NameList, 5, ListLines);
+    {"EDIT USER DEF", selectUserNames, 1}
+)
 
 
 // CV configuration menu
-MenuItem AnagList[] = {
+DEF_MENULIST (listAnag, CV CONFIG, ListLines,
     #ifdef CVTHING
     {"<-BACK", gotoMenuSettings, 1},
     #else
@@ -75,11 +67,12 @@ MenuItem AnagList[] = {
     {"NRPN Val", SelectNRPNval, 1},
     {"PORT NAME", SelectNameMenu, 1},
     {"I2C OPTIONS", selectI2CMenu, 1},
-    {" CV CONFIG ", NULL, 1}};
-MenuList listAnag(AnagList, 15, ListLines);
+    {" CV CONFIG ", NULL, 1},
+    {"SCALE/CHORDS", SelectChordMenu, 0}
+)
 
 // Fader configuration menu
-MenuItem AnagList2[] = {
+DEF_MENULIST (listAnag2, FADER CONFIG, ListLines,
     {"<-BACK", gotoMenuBanks, 1},
     {"FUNCTION", SelectAnagFn2, 1},
     {"MIDI CH", SelectMIDIChan, 1},
@@ -90,59 +83,73 @@ MenuItem AnagList2[] = {
     {"OUT RANGE", SetRangeMenu, 1},
     {"PORT NAME", SelectNameMenu, 1},
     {"I2C OPTIONS", selectI2CMenu, 1},
-    {"FADER CONFIG", NULL, 1}};
-MenuList listAnag2(AnagList2, 10, ListLines);
+    {"FADER CONFIG", NULL, 1},
+    {"PORT NAME", SelectNameMenu, 1}
+)
 
-MenuItem AnagFnList[] = {
+
+DEF_MENULIST (AnagChordFn, CHORD FUNC, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
-    {"V/OC TO NOTE", SelectTrig, 1},
-    {"V/OC POLY", SelectTrig8Level, 1},
-    {"CC", SelectCC, 1},
-    {"VELOCITY", SelectVel, 1},
-    {"PITCH BEND", SelectBend, 1},
-    {"PROG CHANGE", SelectProgCha, 1},
-    {"DIG FUNC", SelectAngDigFN, 1},
-    {"ST/SP", SelectAnaSTSPFn, 0}, //Before was calling SelectAnagStartStop
-    {"NOTES", SelectNoteDud, 1},
-    {"NOTE GATE", SelectTrigLevel, 0},
+    {"CHORD TYPE", SelectDefChord, 1},
+    {"SCALE MODE", SelectDefScale, 1},
+    {"SCALE ROOT", SelectScaleRoot, 1},
+    {"INV/DROP", SelectInvDrop, 1},
+    {"TIME STEP", SelectFixDelay, 1},
+    {"RANDOM STEP", SelectFixRand, 1}
+)
+
+
+DEF_MENULIST (HiResFn, HI-RES MIDI, ListLines,
+    {"<-BACK", gotoMenuAnag, 1},
     {"NRPN 7BIT", SelectNRPN7, 1},
     {"NRPN 14BITS", SelectNRPN14, 1},
-    {"CC 14BITS", SelectCC14b, 1},
-    {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}
-    };
-MenuList listAnagFn(AnagFnList, 14, ListLines);
+    {"CC 14BITS", SelectCC14b, 1}
+)
 
-MenuItem AnagFnList2[] = {
-    {"<-BACK", SelectFaderConfig, 1},
-    {"V/OC TO NOTE", SelectTrig, 1},
+
+DEF_MENULIST (listAnagFn, MIDI MAPPING, ListLines,
+    {"<-BACK", gotoMenuAnag, 1},
     {"CC", SelectCC, 1},
+    {"V/OC TO NOTE", SelectTrig, 1},
+    {"V/OC POLY", SelectTrig8Level, 1},
+    {"NOTES", SelectNoteDud, 1},
     {"VELOCITY", SelectVel, 1},
     {"PITCH BEND", SelectBend, 1},
     {"PROG CHANGE", SelectProgCha, 1},
-    {"DIG FUNC", SelectAngDigFN, 0},
-    {"ST/SP", SelectAnaSTSPFn, 0}, //Before was calling SelectAnagStartStop
-    {"NOTES", SelectNoteDud, 1},
-    {"NOTE GATE", SelectTrigLevel, 0},
-    {"NRPN 7BITS", SelectNRPN7, 1},
-    {"NRPN 14BITS", SelectNRPN14, 1},
-    {"CC 14BITS", SelectCC14b, 1},
-    {"NO FUNC", SelectNoFunc, 1},
-    {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagFn2(AnagFnList2, 14, ListLines);
+    {"CH PRESSURE", SelectAfterT, 1},
+    {"DIG FUNC->", SelectAngDigFN, 1},
+    {"CHORD FUNC->", SelectChordFN, 1},
+    {"HiRES MIDI->", SelectHiresFN, 1},
+    {"NO FUNC", SelectNoFunc, 1}
+)
 
-MenuItem AnagDigFnList[8] = {
+DEF_MENULIST (listAnagFn2, MIDI MAPPING, ListLines,
+    {"<-BACK", SelectFaderConfig, 1},
+    {"CC", SelectCC, 1},
+    {"V/OC TO NOTE", SelectTrig, 1},
+    {"NOTES", SelectNoteDud, 1},
+    {"VELOCITY", SelectVel, 1},
+    {"PITCH BEND", SelectBend, 1},
+    {"PROG CHANGE", SelectProgCha, 1},
+    {"CH PRESSURE", SelectAfterT, 1},
+    {"DIG FUNC->", SelectAngDigFN, 0},
+    {"CHORD FUNC->", SelectChordFN, 1},
+    {"HiRES MIDI->", SelectHiresFN, 1},
+    {"NO FUNC", SelectNoFunc, 1}
+)
+
+DEF_MENULIST (listAnagDigFn, MIDI MAPPING, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"NOTE GATE", SelectAnagNote, 1},
     {"NOTE LATCH", SelectAnagLatchNote, 1},
     {"CC GATE", SelectAnagCC, 1},
     {"CC LATCH", SelectAnagLatchCC, 1},
     {"CLOCK", SelectAngClock, 1},
-    {"ST/SP", SelectAnaSTSPFn, 1}, //Before was calling SelectAnagStartStop
-    {"MIDI MAPPING", NULL, 1}};
-MenuList listAnagDigFn(AnagDigFnList, 7, ListLines);
+    {"ST/SP", SelectAnaSTSPFn, 1}
+)
 
-MenuItem STSPAnaFnList[] = {
+
+DEF_MENULIST (listAnaSTSPFn, ST/SP MODE, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"ST/SP GATE", SelectAnagStartStop, 1},
     {"ST/SP LATCH", SelectAnagLatchStartStop, 1},
@@ -150,34 +157,227 @@ MenuItem STSPAnaFnList[] = {
     {"CONT/SP LATCH", SelectAnagLatchContStop, 1},
     {"START", SelectAnagStart, 1},
     {"STOP", SelectAnagStop, 1},
-    {"CONTINUE", SelectAnagCont, 1},
-    {"ST/SP MODE", NULL, 1}};
-MenuList listAnaSTSPFn(STSPAnaFnList, 8, ListLines);
+    {"CONTINUE", SelectAnagCont, 1}
+)
 
-MenuItem AutoOffOptionsList[8] = {
+DEF_MENULIST (ListAutoOffOptions, AUTO OFF, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"NO AUTO OFF", AutoOff0, 1},
     {"0500ms OFF", AutoOff0500, 1}, 
     {"1000ms OFF", AutoOff1000, 1}, 
     {"1500ms OFF", AutoOff1500, 1}, 
     {"3000ms OFF", AutoOff3000, 1}, 
-    {"Edit AUTOOFF", AutoOffEdit, 1}, 
-    {"AUTO OFF", NULL, 1}};
-MenuList ListAutoOffOptions(AutoOffOptionsList, 7, ListLinesSimple);
+    {"Edit AUTOOFF", AutoOffEdit, 1}
+)
 
 MenuItem StdNamesItems[] = {
     {"Name", selectMenuPortName, 1}};
 MenuList StdNameList(StdNamesItems, 1, ListLines);
 
+
+
+// Gate Mode. NOT IN USE?
+DEF_MENULIST (listGateMode, Bank Function, ListLines,
+    {"<-BACK", gotoMenuBanks, 1},
+    {"GATE", SelectGateModeGate, 1},
+    {"TRIGG", SelectGateModeTrigger, 1}
+)
+
 /*****************************
  ******************************
    Define the functions you want your menu to call
    They can be blocking or non-blocking
-   They should take no arguments and return a boolean
+   They should take no arguments and return a bool
    true if the function is finished and doesn't want to run again
    false if the function is not done and wants to be called again
  ******************************
  *****************************/
+
+//////////////////////////////////////////
+
+bool SelectCVConfig()
+{
+    if (BankSelected == 8)
+    {
+        if (PortSelected < 2)
+            return true;
+    }
+    else
+        PortSelected = 2;
+
+    if (CVControls[BankSelected].CVPort.PortCfg.IsDigitalFunc() ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG)
+        listAnag.enableItem(4);
+    else
+        listAnag.disableItem(4);
+
+    listAnag.disableItem(6);
+    listAnag.disableItem(7);
+    listAnag.disableItem(8);
+    listAnag.disableItem(9);
+    listAnag.disableItem(10);
+    listAnag.disableItem(11);
+    listAnag.disableItem(12);
+    // Show clock Div
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGCLOCK)
+    {
+        listAnag.enableItem(8);
+    }
+    // Show NRPN
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN14bits ||
+        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == ANAGNRPN7bits)
+    {
+        listAnag.enableItem(12);
+        listAnag.enableItem(10);
+        listAnag.enableItem(9);
+    }
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH)
+    {
+        listAnag.enableItem(11);
+    }
+
+    #ifdef CVTHING
+    // Show Chord option for CVThing
+    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG 
+        || CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH8TRIG){
+        listAnag.enableItem(14);
+    } else{
+        listAnag.disableItem(14);
+    }
+    #endif
+
+
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&listAnag);
+    return true;
+}
+
+
+////////////////////////////////////////////////
+// Scale / Chord functions
+bool SelectChordFN()
+{
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&AnagChordFn);
+    return true;
+}
+
+bool SelectHiresFN(){
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&HiResFn);
+    return true;
+}
+
+bool SelectChannel()
+{
+    long val = ((AnInputPortCfg *)GetPortCfg())->DestCtrl+1;
+    bool ret = EncoderchangeValue("Channel:", val, 1, 8, 1, 00, 45);
+    ((AnInputPortCfg *)GetPortCfg())->DestCtrl = val - 1;
+
+    return ret;
+}
+
+bool SelectDefChord()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDTYPE_DEF);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+bool SelectDefScale()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(SCALE_DEF);
+
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectInvDrop()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDINVERSION);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectScaleRoot()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(SCALEROOT);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectFixDelay()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDDELAYFIX);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
+
+bool SelectFixRand()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CHORDDELAYRAND);
+    if (SetValState == 0)
+        SetValState++;
+    if (SetValState == 1)
+    {
+        if (!SelectChannel())
+            return false; // Select MSB
+        else
+            SetValState = 0;
+    }
+
+    return gotoMenuAnag();
+}
+
 
 //////////////////////
 // Port name selection
@@ -267,14 +467,14 @@ bool SelectSufix()
 
 
 // GATE Mode configuration
-boolean SelectGateModeGate()
+bool SelectGateModeGate()
 {
     // TODO
     //Sends Note on on rise and note off on fall
     return true;
 }
 
-boolean SelectGateModeTrigger()
+bool SelectGateModeTrigger()
 {
     // TODO
     //Sends Note on on rise and note off ~3 milliseconds after
@@ -282,7 +482,7 @@ boolean SelectGateModeTrigger()
 }
 
 // Back to Gate function Menu
-boolean gotoMenuGate()
+bool gotoMenuGate()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnag);
@@ -291,7 +491,7 @@ boolean gotoMenuGate()
 ////////////////////////////////
 // CV/Fader configuration menu
 
-boolean AutoOffFn()
+bool AutoOffFn()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&ListAutoOffOptions);
@@ -299,37 +499,37 @@ boolean AutoOffFn()
 }
 
 
-boolean AutoOff0(){
+bool AutoOff0(){
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = 0;
     gotoMenuAnag();
     return true;
 }
 
-boolean AutoOff0500(){
+bool AutoOff0500(){
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = 500;
     gotoMenuAnag();
     return true;    
 }
 
-boolean AutoOff1000(){
+bool AutoOff1000(){
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = 1000;
     gotoMenuAnag();
     return true;
 }
 
-boolean AutoOff1500(){
+bool AutoOff1500(){
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = 1500;
     gotoMenuAnag();
     return true;
 }
 
-boolean AutoOff3000(){
+bool AutoOff3000(){
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = 3000;
     gotoMenuAnag();
     return true;
 }
 
-boolean AutoOffEdit()
+bool AutoOffEdit()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->AutoOff; // theApp.theGlobalCfg.AutoOff;
     bool ret = EncoderchangeValue("Auto Off ms:", val, 0, 5000, 4, 00, 45);
@@ -340,7 +540,7 @@ boolean AutoOffEdit()
 }
 
 
-boolean SelectController()
+bool SelectController()
 {
     long val = GetPortCfg()->ControllerNumber;
     bool ret = EncoderchangeValue("Controller ", val, 0, 127, 3, 0, 45);
@@ -351,7 +551,7 @@ boolean SelectController()
 // Analog options menu
 
 // Back to CV config
-boolean gotoMenuAnag()
+bool gotoMenuAnag()
 {
 
     if (PortSelected == 2)
@@ -364,7 +564,7 @@ boolean gotoMenuAnag()
 }
 
 // Analog Range menu
-boolean SelectAnagRange()
+bool SelectAnagRange()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnagRange);
@@ -373,27 +573,19 @@ boolean SelectAnagRange()
 
 ////////////////////////
 // Analog functions menu
-boolean SelectAnagFn()
+bool SelectAnagFn()
 {
-    /*
-    listAnagFn.disableItem(6+1);
-    listAnagFn.disableItem(7+1);
-    if(BankSelected==8){
-        listAnagFn.enableItem(6+1);
-        listAnagFn.enableItem(7+1);        
-    }
-    */
    #ifdef CVTHING
-    listAnagFn.disableItem(1);
-    //listAnagFn.disableItem(9+1);
+    // Disable V/Oct in even ports
     if(BankSelected%2==1){
-        //listAnagFn.enableItem(9+1);
+        listAnagFn.disableItem(2);
     } else
     {
-        listAnagFn.enableItem(1);
+        listAnagFn.enableItem(2);
     }
+    // Disable V/Oct Poly in ports 8
     if( BankSelected ==7)
-      listAnagFn.disableItem(2);    
+      listAnagFn.disableItem(2);  
     #endif
 
     myMenu.ClearArea();
@@ -401,20 +593,22 @@ boolean SelectAnagFn()
     return true;
 }
 
-boolean SelectAnagFn2()
+bool SelectAnagFn2()
 {
-    listAnagFn2.disableItem(6);
-    listAnagFn2.disableItem(7);
+    // Enable Dig Functions for AuxB
+    listAnagFn2.disableItem(8);
+    //listAnagFn2.disableItem(7);
     if(BankSelected==8){
-        listAnagFn2.enableItem(6);
-        listAnagFn2.enableItem(7);        
+        listAnagFn2.enableItem(8);
+        //listAnagFn2.enableItem(7);        
     }
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnagFn2);
     return true;
 }
 
-boolean SelectMIDIChan()
+
+bool SelectMIDIChan()
 {
     long val = GetPortCfg()->MIDIChannel; //((AnInputPortCfg*)GetPortCfg())->MIDIChannel;
     bool ret = EncoderchangeValue("MIDI Channel:", val, 1, 16, 3, 00, 45);
@@ -423,7 +617,7 @@ boolean SelectMIDIChan()
     return ret;
 }
 
-boolean SelectTrig()
+bool SelectTrig()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCHTRIG);
     CVControls[BankSelected].GateBut.PortCfg.MIDIfunction = TRIGGER;
@@ -440,7 +634,7 @@ boolean SelectTrig()
 
 
 
-boolean SelectTrig8Level()
+bool SelectTrig8Level()
 {
     //if( BankSelected == 7)
     //    return true; // Not applicable for Bank 8
@@ -457,7 +651,7 @@ boolean SelectTrig8Level()
 }
 
 
-boolean SelectTrigLevel()
+bool SelectTrigLevel()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCHLEVEL);
     CVControls[BankSelected].GateBut.PortCfg.MIDIfunction = TRIGGER;
@@ -468,7 +662,7 @@ boolean SelectTrigLevel()
 
 
 
-boolean SelectNoteDud()
+bool SelectNoteDud()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCH);
     //return gotoMenuAnag();
@@ -479,13 +673,13 @@ boolean SelectNoteDud()
 
 }
 
-/*boolean SelectNRPN7 () {
+/*bool SelectNRPN7 () {
     ((AnInputPortCfg *)GetPortCfg ())->SetMIDIFunc (ANAGNRPN7bits);
   if ( !SelectNRPNMSB()) return false;
   //return gotoMenuAnag();
   return true;
 }
-boolean SelectNRPN14 () {
+bool SelectNRPN14 () {
     ((AnInputPortCfg *)GetPortCfg ())->SetMIDIFunc (ANAGNRPN14bits);
   if ( !SelectNRPNMSB()) return false;
   //return gotoMenuAnag();
@@ -493,7 +687,7 @@ boolean SelectNRPN14 () {
 }
 */
 
-boolean SelectNRPN7()
+bool SelectNRPN7()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGNRPN7bits);
     if (SetValState == 0)
@@ -518,7 +712,7 @@ boolean SelectNRPN7()
     return true;
 }
 
-boolean SelectNRPN14()
+bool SelectNRPN14()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGNRPN14bits);
     if (SetValState == 0)
@@ -544,13 +738,13 @@ boolean SelectNRPN14()
 }
 
 
-boolean SelectVel()
+bool SelectVel()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(VELOCITY);
     return gotoMenuAnag();
 }
 
-boolean SelectCC()
+bool SelectCC()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CONTROLCHANGE);
     if (!SelectController())
@@ -558,7 +752,7 @@ boolean SelectCC()
     return gotoMenuAnag();
 }
 
-boolean SelectCC14b()
+bool SelectCC14b()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(CC14BITS);
     if (!SelectController())
@@ -567,25 +761,31 @@ boolean SelectCC14b()
 }
 
 
-boolean SelectBend()
+bool SelectBend()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PITCHBEND);
     return gotoMenuAnag();
 }
 
-boolean SelectProgCha()
+bool SelectProgCha()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PROGRAMCHANGE);
     return gotoMenuAnag();
 }
 
-boolean SelectPercent()
+bool SelectAfterT()
+{
+    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(AFTERTOUCH);
+    return gotoMenuAnag();
+}
+
+bool SelectPercent()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(PERCENT);
     return gotoMenuAnag();
 }
 
-boolean SelectAngClock()
+bool SelectAngClock()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGCLOCK);
     if (!SetClockMenu())
@@ -594,14 +794,14 @@ boolean SelectAngClock()
     return gotoMenuAnag();
 }
 
-boolean SelectNoFunc()
+bool SelectNoFunc()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(NOANFFUNC);
     return gotoMenuAnag();
 }
 
 // Modify Clock parameters
-boolean SelectAnagClockDiv()
+bool SelectAnagClockDiv()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->ClockDivider;
     bool ret = EncoderchangeValue("Clock Div:", val, 1, 255, 3, 0, 45);
@@ -610,7 +810,7 @@ boolean SelectAnagClockDiv()
     return ret;
 }
 
-boolean SelectAnagClockShift()
+bool SelectAnagClockShift()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->ClockShift;
     bool ret = EncoderchangeValue("Clock Shift:", val, -120, 120, 4, 0, 45);
@@ -620,7 +820,7 @@ boolean SelectAnagClockShift()
 }
 
 // Modify NRPN channel
-boolean SelectNRPNMSB()
+bool SelectNRPNMSB()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->NRPNparMSB;
     bool ret = EncoderchangeValue("NRPN MSB:", val, 0, 127, 3, 0, 45);
@@ -628,7 +828,7 @@ boolean SelectNRPNMSB()
     return ret;
 }
 
-boolean SelectNRPNLSB()
+bool SelectNRPNLSB()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->NRPNparLSB;
     bool ret = EncoderchangeValue("NRPN LSB:", val, 0, 127, 3, 0, 45);
@@ -636,7 +836,7 @@ boolean SelectNRPNLSB()
     return ret;
 }
 
-boolean SelectNRPNval()
+bool SelectNRPNval()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->NRPNparMSB*128+((AnInputPortCfg *)GetPortCfg())->NRPNparLSB;
     bool ret = myMenu.EncoderselDigitLong("NRPN:", val, 0, 16383, 5, 0, 45);
@@ -648,14 +848,14 @@ boolean SelectNRPNval()
 
 /////////////////////////////////////////////
 // Analog Ch Digital Func
-boolean SelectAngDigFN()
+bool SelectAngDigFN()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnagDigFn);
     return true;
 }
 
-boolean SelectAnagNote()
+bool SelectAnagNote()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGTRIGGER);
 
@@ -665,7 +865,7 @@ boolean SelectAnagNote()
     return gotoMenuAnag();
 }
 
-boolean SelectAnagLatchNote()
+bool SelectAnagLatchNote()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGLATCH);
     
@@ -675,7 +875,7 @@ boolean SelectAnagLatchNote()
     return gotoMenuAnag();
 }
 
-boolean SelectAnagCC()
+bool SelectAnagCC()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGCCBUT);
 
@@ -701,7 +901,7 @@ boolean SelectAnagCC()
     return true;
 }
 
-boolean SelectAnagLatchCC()
+bool SelectAnagLatchCC()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGCCLATCH);
 
@@ -730,50 +930,50 @@ boolean SelectAnagLatchCC()
 /////////////////////////////////////////////
 // STart Stop Func
 // NEW ST SP functions menu for analogue menu
-boolean SelectAnaSTSPFn()
+bool SelectAnaSTSPFn()
 {
     myMenu.ClearArea();
     myMenu.setCurrentMenu(&listAnaSTSPFn);
     return true;
 }
 
-boolean SelectAnagStartStop()
+bool SelectAnagStartStop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGSTARTSTOP);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagContStop()
+bool SelectAnagContStop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGPAUSECONT);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagLatchStartStop()
+bool SelectAnagLatchStartStop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGTRIGSTARTSTOP);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagLatchContStop()
+bool SelectAnagLatchContStop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGTRIGPAUSECONT);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagStart()
+bool SelectAnagStart()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGSTART);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagCont()
+bool SelectAnagCont()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGCONTINUE);
     return gotoMenuAnag();
 }
 
-boolean SelectAnagStop()
+bool SelectAnagStop()
 {
     ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(ANAGSTOP);
     return gotoMenuAnag();

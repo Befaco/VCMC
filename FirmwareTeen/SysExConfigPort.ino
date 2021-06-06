@@ -110,6 +110,10 @@ const uint8_t DELAYTOWRITE = 20;
 void InputControl::SaveCfgSysEx (uint8_t par)
 {
     // Send Control Config
+    Config.ChordType = Chord.getChordType();
+    Config.InvDrop = Chord.getInvDrop();
+    Config.ScaleId = Chord.getScaleId();
+
     Config.SaveCfgSysEx(0, ControlNumber + 1);
     delay(DELAYTOWRITE);
 
@@ -128,13 +132,18 @@ void InputControl::SaveCfgSysEx (uint8_t par)
 
 bool InputControl::ReadCfgSysEx(VCMCSysExPacket *SysExPacket, byte* DecodedData,unsigned int  decLen)
 {
-  byte bPort = (SysExPacket->Slot>>4);
-  //byte bParam = SysExPacket->Slot & 0xf;
+    byte bPort = (SysExPacket->Slot>>4);
+    //byte bParam = SysExPacket->Slot & 0xf;
+    bool ret;
 
     switch(bPort)
     {
         case GENSLOT:
-            return Config.ReadCfgSysEx(DecodedData, decLen);
+            ret =  Config.ReadCfgSysEx(DecodedData, decLen);
+            Chord.setChord( Config.ChordType);
+            Chord.setInvDrop( Config.InvDrop);
+            Chord.setScaleId( Config.ScaleId);
+            return ret;
         case CVSLOT:
             return CVPort.PortCfg.ReadCfgSysEx(DecodedData, decLen);
         case FADERSLOT:

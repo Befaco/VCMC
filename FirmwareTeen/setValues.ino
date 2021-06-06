@@ -419,7 +419,7 @@ DigPortCfg configGate[][8] ={
 };
 
 long int valPreset = 0;
-boolean LoadPreset()
+bool LoadPreset()
 {	
 	//bool ret= EncoderchangeValue( "Load Preset :", valPreset, 1, MAXPRESETPAGES, 3, 0, 45);
 	bool ret= EncChangeVal(valPreset, 0, MAXPRESETPAGES, 1.0, DisplaySelectPresetStr);

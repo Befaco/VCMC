@@ -87,62 +87,27 @@ enum typesEnum
     si32TYPE,     // int32_t
     floaTYPE      // float
 };
-
 const uint8_t sizeTypes[] = {1, 1, 1, 2, 2, 4, 4, 4};
 
-const SysExDataStruct DATA_General[] = {
-    {27, ui16TYPE, PAR_Size},
-    { 2, si16TYPE, PAR_DefMinDAC},
-    { 4, si16TYPE, PAR_DefRangeDAC},
-    { 6, si16TYPE, PAR_DefMinFader},
-    { 8, si16TYPE, PAR_DefRangeFader},
-    {10, si16TYPE, PAR_DefMinAux},
-    {12, si16TYPE, PAR_DefRangeAux},
-    {14, si16TYPE, PAR_DefMinAuxB},
-    {16, si16TYPE, PAR_DefRangeAuxB},
-    {18, si16TYPE, PAR_AutoOff},
-    {20, floaTYPE, PAR_ClockDivider},
-    {24, si08TYPE, PAR_ClockShift},
-    {26, si08TYPE, PAR_GENOptions},
+static const SysExDataStruct DATA_General[] = {
+    {28, ui16TYPE, PAR_Size},
+
+    { 4, si16TYPE, PAR_DefMinDAC},
+    { 6, si16TYPE, PAR_DefRangeDAC},
+    { 8, si16TYPE, PAR_DefMinFader},
+    {10, si16TYPE, PAR_DefRangeFader},
+    {12, si16TYPE, PAR_DefMinAux},
+    {14, si16TYPE, PAR_DefRangeAux},
+    {16, si16TYPE, PAR_DefMinAuxB},
+    {18, si16TYPE, PAR_DefRangeAuxB},
+    {20, si16TYPE, PAR_AutoOff},
+    {22, floaTYPE, PAR_ClockDivider},
+    {26, si08TYPE, PAR_ClockShift},
+    {27, si08TYPE, PAR_GENOptions},
 };
 
-const SysExDataStruct DATA_General_1_1[] = {
-    {44, ui16TYPE, PAR_Size},
-    { 4, si32TYPE, PAR_DefMinDAC},
-    { 8, si32TYPE, PAR_DefRangeDAC},
-    {12, si32TYPE, PAR_DefMinFader},
-    {16, si32TYPE, PAR_DefRangeFader},
-    {20, si32TYPE, PAR_DefMinAux},
-    {24, si32TYPE, PAR_DefRangeAux},
-    {28, si32TYPE, PAR_DefMinAuxB},
-    {32, si32TYPE, PAR_DefRangeAuxB},
-    {36, si16TYPE, PAR_AutoOff},
-    {38, floaTYPE, PAR_ClockDivider},
-    {42, si08TYPE, PAR_ClockShift},
-    {43, si08TYPE, PAR_GENOptions},
-};
-
-const SysExDataStruct DATA_Analog[] = {
-    {23, ui16TYPE, PAR_Size},
-    // Base Port Data
-    { 0, ui08TYPE, PAR_MIDIChannel},
-    { 1, ui08TYPE, PAR_PortName},
-    { 2, charTYPE, PAR_NameSufix},
-    { 3, ui08TYPE, PAR_DelayGate},
-    // Analog Data
-    { 4, ui08TYPE, PAR_Option1},
-    { 5, si16TYPE, PAR_Range_minMIDI},
-    { 7, si16TYPE, PAR_Range_rangeMIDI},
-    { 9, si16TYPE, PAR_Range_minDAC},
-    {11, si16TYPE, PAR_Range_rangeDAC},
-    {13, si16TYPE, PAR_ClipLow},
-    {15, si16TYPE, PAR_ClipHigh},
-    {17, ui16TYPE, PAR_FunctionData},
-    {19, ui32TYPE, PAR_AnagOptionsI2C}
-    };
-
-const SysExDataStruct DATA_Analog_1_2[] = {
-    {20, ui16TYPE, PAR_Size},
+static const SysExDataStruct DATA_Analog[] = {
+    {24, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
     { 1, ui08TYPE, PAR_PortName},
@@ -156,29 +121,11 @@ const SysExDataStruct DATA_Analog_1_2[] = {
     {12, si16TYPE, PAR_Range_rangeDAC},
     {14, si16TYPE, PAR_ClipLow},
     {16, si16TYPE, PAR_ClipHigh},
-    {18, ui16TYPE, PAR_FunctionData}
+    {18, ui16TYPE, PAR_FunctionData},
+    {20, ui32TYPE, PAR_AnagOptionsI2C}
     };
 
-const SysExDataStruct DATA_Analog_1_1[] = {
-    {24, ui16TYPE, PAR_Size},
-    // Base Port Data
-    { 0, ui08TYPE, PAR_MIDIChannel},
-    { 1, ui08TYPE, PAR_PortName},
-    { 2, charTYPE, PAR_NameSufix},
-    { 3, ui16TYPE, PAR_DelayGate},
-    // Analog Data
-    { 5, ui08TYPE, PAR_Option1},
-    { 6, si16TYPE, PAR_Range_minMIDI},
-    { 8, si16TYPE, PAR_Range_rangeMIDI},
-    {10, si32TYPE, PAR_Range_minDAC},
-    {14, si32TYPE, PAR_Range_rangeDAC},
-    {18, si16TYPE, PAR_ClipLow},
-    {20, si16TYPE, PAR_ClipHigh},
-    {22, ui16TYPE, PAR_FunctionData}
-    };
-
-
-const SysExDataStruct DATA_Fader[] = {
+static const SysExDataStruct DATA_Fader[] = {
     {18, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_MIDIChannel},
@@ -193,20 +140,6 @@ const SysExDataStruct DATA_Fader[] = {
     {12, ui16TYPE, PAR_FunctionData},
     {14, ui32TYPE, PAR_AnagOptionsI2C}
     };
-
-const SysExDataStruct DATA_Fader_1_2[] = {
-    {14, ui16TYPE, PAR_Size},
-    // Base Port Data
-    { 0, ui08TYPE, PAR_MIDIChannel},
-    { 1, ui08TYPE, PAR_PortName},
-    { 2, charTYPE, PAR_NameSufix},
-    // Analog Data
-    { 3, ui08TYPE, PAR_Function},
-    { 4, si16TYPE, PAR_Range_minMIDI},
-    { 6, si16TYPE, PAR_Range_rangeMIDI},
-    { 8, si16TYPE, PAR_ClipLow},
-    {10, si16TYPE, PAR_ClipHigh},
-    {12, ui16TYPE, PAR_FunctionData}};
 
 const SysExDataStruct DATA_Digital[] = {
     { 10, ui16TYPE, PAR_Size},
@@ -232,7 +165,7 @@ const SysExDataStruct DATA_Digital_1_2[] = {
     { 5, ui08TYPE, PAR_GateFunction},
     { 6, ui16TYPE, PAR_GateFunctionData}};
 
-const SysExDataStruct DATA_Bank[] = {
+static const SysExDataStruct DATA_Bank[] = {
     { 1, ui16TYPE, PAR_Size},
     // Base Port Data
     { 0, ui08TYPE, PAR_ChannelFunction}};

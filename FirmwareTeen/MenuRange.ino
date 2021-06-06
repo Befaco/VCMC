@@ -66,7 +66,7 @@ MenuList InRangeListMenu(InRangeList, 4, ListLines);
  ******************************
  * Define the functions you want your menu to call
  * They can be blocking or non-blocking
- * They should take no arguments and return a boolean
+ * They should take no arguments and return a bool
  * true if the function is finished and doesn't want to run again
  * false if the function is not done and wants to be called again
  ******************************
@@ -77,7 +77,7 @@ MenuList InRangeListMenu(InRangeList, 4, ListLines);
 byte MultiSel = 0;
 
 // MIDI Limits
-boolean SetLimitMIDI()
+bool SetLimitMIDI()
 {
 	switch (MultiSel)
 	{
@@ -95,9 +95,9 @@ boolean SetLimitMIDI()
 	return false;
 }
 
-boolean SetLowLimit()
+bool SetLowLimit()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	long val = ((AnInputPortCfg *)GetPortCfg())->ClipLow;
 	((AnInputPortCfg *)GetPortCfg())->LimitValues(minv, maxv);
 	bool ret = EncoderchangeValue("Clip Low:", val, minv, maxv, 5, 00, 45);
@@ -105,9 +105,9 @@ boolean SetLowLimit()
 	return ret;
 }
 
-boolean SetHighLimit()
+bool SetHighLimit()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	long val = ((AnInputPortCfg *)GetPortCfg())->ClipHigh;
 	((AnInputPortCfg *)GetPortCfg())->LimitValues(minv, maxv);
 	bool ret = EncoderchangeValue("Clip High:", val, minv, maxv, 5, 00, 45);
@@ -116,7 +116,7 @@ boolean SetHighLimit()
 }
 
 // DAC Ranges
-boolean SetRangeDAC()
+bool SetRangeDAC()
 {
 	switch (MultiSel)
 	{
@@ -134,7 +134,7 @@ boolean SetRangeDAC()
 	return false;
 }
 
-boolean SelectMinInput()
+bool SelectMinInput()
 {
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getDAC(min, range);
@@ -144,7 +144,7 @@ boolean SelectMinInput()
 	return ret;
 }
 
-boolean SelectMaxInput()
+bool SelectMaxInput()
 {
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getDAC(min, range);
@@ -155,7 +155,7 @@ boolean SelectMaxInput()
 }
 
 // MIDI Ranges
-boolean SetRangeMIDI()
+bool SetRangeMIDI()
 {
 	switch (MultiSel)
 	{
@@ -173,9 +173,9 @@ boolean SetRangeMIDI()
 	return false;
 }
 
-boolean SelectMin()
+bool SelectMin()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getMIDI(min, range);
 	long val = min;
@@ -185,9 +185,9 @@ boolean SelectMin()
 	return ret;
 }
 
-boolean SelectMax()
+bool SelectMax()
 {
-	int minv = 0, maxv = 127;
+	int16_t minv = 0, maxv = 127;
 	int16_t min, range;
 	((AnInputPortCfg *)GetPortCfg())->Ranges.getMIDI(min, range);
 	long max = min + range;
@@ -200,7 +200,7 @@ boolean SelectMax()
 ////////////////////////////////
 // Input range selection
 
-boolean InRange()
+bool InRange()
 {
 	if (BankSelected == 8)
 		InRangeListMenu.disableItem(3);
@@ -211,7 +211,7 @@ boolean InRange()
 	return true;
 }
 
-boolean SetRange10()
+bool SetRange10()
 {
 	// CV port uses reversed values
 	//0 - 10v  -> ANRANGEMAX-0 -> minMIDI-m
@@ -241,7 +241,7 @@ boolean SetRange10()
 	return true;
 }
 
-boolean SetRange5()
+bool SetRange5()
 {
 	//Set input range to 0 - 5
 	//0 - 5v  -> 0-ANRANGEMAX -> 0 -127
@@ -269,7 +269,7 @@ boolean SetRange5()
 	return true;
 }
 
-boolean SetRangeBipolar()
+bool SetRangeBipolar()
 {
 	//Set input range to -5 +5
 	//Set pin6 to HIGH

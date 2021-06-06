@@ -386,9 +386,9 @@ bool SaveLoadClass::ReceivedSingleSysEx(unsigned SysExLength, const byte *RecArr
   byte bType = SysExPacket->Type>>4;
   byte bChannel = SysExPacket->Type & 0xf;
   byte bPort = (SysExPacket->Slot>>4);
-  byte bParam = SysExPacket->Slot &0xf;
 
 #ifdef PRINTDEBUG
+    byte bParam = SysExPacket->Slot &0xf;
     Serial.print("Single SysEx Message Receive: ");
     Serial.println(SysExPacket->ID, HEX);
     Serial.print(" Type: ");

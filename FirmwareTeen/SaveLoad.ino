@@ -54,8 +54,7 @@ SaveLoadClass::SaveLoadClass () {
  */
 bool SaveLoadClass::SetCurrentPage (int page) {
     if (page < 0 || page > MAXSAVEPAGES - 1) return false;
-    CurrentPage = page;
-	theApp.theGlobalCfg.initPage= page;
+	theApp.theGlobalCfg.initPage = CurrentPage = page;
     // Save current config
     if (SaveCfg (page)) {
         //EEPROM.put (0, CurrentPage);

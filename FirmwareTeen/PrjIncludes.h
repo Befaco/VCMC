@@ -36,7 +36,6 @@
  *  \file PrjIncludes.h
  *  \brief Includes for the project come here 
  */
-
 #include <Arduino.h>
 #include "Definitions.h"
 
@@ -113,6 +112,8 @@ extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
 #include "src/ops/I2CCore.h"
 #include "I2CMerge.h"
 #endif
+
+#include "MIDIChord.h"
 
 #include "Blinker.h"
 #include "MultiPointConv.h"

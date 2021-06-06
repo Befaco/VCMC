@@ -138,9 +138,9 @@ bool AnalogPort::ReadPort (long &NewData) {
             // If the switch changed, due to noise or pressing:
             if (readGate != lastButtonState) {
                 // reset the debouncing timer
-                lastDebounceTime = millis ();
+                lastDebounceTime = micros ();
             }
-            if ((millis () - lastDebounceTime) > PortCfg.DelayGate) {
+            if ((micros () - lastDebounceTime) > debounceDelay) { //PortCfg.DelayGate) {
                 // whatever the reading is at, it's been there for longer
                 // than the debounce delay, so take it as the actual current state:
                 newGate = readGate;
@@ -288,6 +288,9 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
     case PROGRAMCHANGE:
         MidiMerge.sendProgramChange (SendData, PortCfg.MIDIChannel);
         break;
+    case AFTERTOUCH:
+        MidiMerge.sendAfterTouch (SendData, PortCfg.MIDIChannel);
+        break;
     case PITCHBEND:
         MidiMerge.sendPitchBend (SendData, PortCfg.MIDIChannel);
         break;
@@ -376,11 +379,34 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
             MidiMerge.PitchData[PortCfg.MIDIChannel-1] = 0;
         }
         break;
+    case CHORDTYPE_DEF:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setChord(SendData);
+        //theApp.DefaultChord.setChord(MIDIData);
+        break;
+    case SCALE_DEF:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setScale(SendData);
+        //theApp.DefaultChord.setScale(MIDIData);
+        break;
+    case CHORDINVERSION:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setInvDrop(SendData);
+        /* theApp.DefaultChord.setInvDrop(MIDIData);
+        // Set also the Chord Inversion for control if not setup in default inversion
+        if(theApp.Controls[PortNumber].Chord.getInvDrop()!= DEF_INVDROP)
+            theApp.Controls[PortNumber].Chord.setInvDrop(MIDIData); */
+        break; 
+    case SCALEROOT:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setScaleRoot(SendData);
+        break;
+    case CHORDDELAYFIX:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setdelayFix(SendData);
+        break;
+    case CHORDDELAYRAND:
+        theApp.Controls[PortCfg.DestCtrl].Chord.setdelayRand(SendData);
+        break;
     }
 	// Store current data
     LastSentMIDIData = SendData;
 	msecLastMIDISent = millis();
-
 }
 
 
@@ -394,7 +420,7 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
  */
 int AnalogPort::TrimValue (int DatatoTrim) {
     int returnValue;
-    int minv = 0, maxv = 127;
+    int16_t minv = 0, maxv = 127;
 
     if (DatatoTrim == -9999) DatatoTrim = MIDIData;
 

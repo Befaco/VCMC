@@ -112,9 +112,9 @@ void OLEDMenu::ClearArea () {
 /**
  * \brief Updates states after the selection is made
  * 
- * \return boolean 
+ * \return bool 
  */
-boolean OLEDMenu::selectionMade () {
+bool OLEDMenu::selectionMade () {
 
     // if( EncButton->fell())
     if (!EncButton->read ()) msDurationButton = EncButton->duration ();
@@ -222,6 +222,58 @@ void OLEDMenu::setCurrentMenu (MenuList *aMenu) {
 
     MenuClass::setCurrentMenu (&CurrentMenuList);
     // MenuClass::setCurrentMenu(aMenu);
+}
+
+
+
+/**
+ * \brief Updates items list for new menu
+ * 
+ * \param title to show in menu header
+ * \param listStr List of strings for menu items
+ * \param numitems Number of items from the string list to show
+ * \param fun Callback function for item selection
+ * \param initItem item selected initially
+ * \param startIem first item from the list of strings to use as menu item (default 0)
+ */
+void OLEDMenu::setCurrentMenu (
+    const char *title, const char * const* listStr, 
+    uint8_t numitems, Item_Function fun, uint8_t initItem, uint8_t startItem) 
+{
+    uint8_t posMenu = 0;
+    firstVisibleLine = 0;
+
+    // Create Menu with visible list items
+    for (int i = startItem; i < startItem+numitems; i++) {
+        //DP(listStr[i]);
+        CurrentMenuItems[posMenu].func = fun;
+        CurrentMenuItems[posMenu].Status = i;
+        strncpy(CurrentMenuItems[posMenu].text, listStr[i], MENUITEMTEXTSIZE);
+        CurrentMenuItems[posMenu].text[MENUITEMTEXTSIZE-1] = 0;
+        posMenu++;
+    }
+    
+    strcpy(CurrentMenuItems[posMenu].text, title); // Copy menu title
+    CurrentMenuList.Style = ListLines;
+
+    // Create Menu List
+    CurrentMenuList.menuItems = CurrentMenuItems;
+    CurrentMenuList.listSize = posMenu;
+
+    // Update text
+    updatingText = true;
+    updateText = -1;
+
+    MenuClass::setCurrentMenu (&CurrentMenuList);
+    if( initItem!=0xff){
+        firstVisibleLine = 0;
+        uint8_t cur = 0;
+        while( cur < initItem){
+            if (firstVisibleLine < currentMenu->getSize () - MaxLines) firstVisibleLine++;
+            cur++;
+        }
+        setCurrentItem(initItem);
+    }
 }
 
 
@@ -409,28 +461,47 @@ void OLEDMenu::displayMenuCards () {
 
 
 #ifndef DEBUGMODE
-    int TrimCV;
-    TrimCV = CVControls[BankSelected].CVPort.TrimValue (-9999);
-    // Status of analog inputs
-    // CV Data
     theOLED->setCursor (POSXCARD + 0, posCursor);
     posCursor += 8;
 
+    int TrimCV = CVControls[BankSelected].CVPort.TrimValue (-9999);
+    AnInputPortCfg* theCfg = &CVControls[BankSelected].CVPort.PortCfg;
+    // Status of analog inputs
+    // CV Data
+
     theOLED->setCursor (POSXCARD + 0, posCursor);
     posCursor += 8;
-    if (CVControls[BankSelected].CVPort.PortCfg.textPort) // Has name
+    if (theCfg->textPort) // Has name
     {
         // Print Name
-        CVControls[BankSelected].CVPort.PortCfg.getName(name);
+        theCfg->getName(name);
         theOLED->print(name);
     } else{
-        PrintFunction(&(CVControls[BankSelected].CVPort.PortCfg));
+        PrintFunction(theCfg);
     }
     theOLED->setCursor (POSXCARD + 8, posCursor);
     posCursor += 8;
-    theOLED->print (TrimCV);
-    if (CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCHTRIG ||
-        CVControls[BankSelected].CVPort.PortCfg.MIDIfunction == PITCH8TRIG) {
+    char dataToShow[20]={0};
+    uint8_t TRIMSTRING = 7;
+
+    if(theCfg->MIDIfunction == SCALE_DEF){
+        sprintf(dataToShow, "%s", 
+            ScaleShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getScale()]);
+    } else if(theCfg->MIDIfunction == CHORDTYPE_DEF){
+        sprintf(dataToShow, "%s", 
+            ChordNames[theApp.Controls[theCfg->DestCtrl].Chord.getChordType()]);
+    } else if(theCfg->MIDIfunction == CHORDINVERSION){
+        sprintf(dataToShow, "%s", 
+            InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+    } else if(theCfg->MIDIfunction == SCALEROOT){
+        sprintf(dataToShow, "%s", 
+            NotesNamesScale[theApp.Controls[theCfg->DestCtrl].Chord.getScaleRoot()]);
+    } else theOLED->print (TrimCV);
+    dataToShow[TRIMSTRING] = 0; // Trim string
+    theOLED->print(dataToShow);
+
+    if (theCfg->MIDIfunction == PITCHTRIG ||
+        theCfg->MIDIfunction == PITCH8TRIG) {
         if (TrimCV > 0) {
             theOLED->print (" ");
             theOLED->print (NotesNames[TrimCV]);
@@ -442,6 +513,7 @@ void OLEDMenu::displayMenuCards () {
     #ifndef CVTHING
     // Fader Data
     int TrimFader = CVControls[BankSelected].Slider.TrimValue (-9999);
+    theCfg = &CVControls[BankSelected].Slider.PortCfg;
 
     if( CVControls[BankSelected].Config.Chanfunction != INDEP) {
         if (BankSelected == 8) {
@@ -449,19 +521,37 @@ void OLEDMenu::displayMenuCards () {
         } else {
             theOLED->print ("FAD ");
         }
+        TRIMSTRING = 5;
+        sprintf(dataToShow,"%d", TrimFader);
     } else {
-        if (CVControls[BankSelected].Slider.PortCfg.textPort) // Has name
+        if (theCfg->textPort) // Has name
         {
             // Print Name
-            CVControls[BankSelected].Slider.PortCfg.getName(name);
+            theCfg->getName(name);
             theOLED->print(name);
         } else{
-                PrintFunction(&(CVControls[BankSelected].Slider.PortCfg));
+                PrintFunction(theCfg);
         }
         theOLED->setCursor (POSXCARD + 8, posCursor);
         posCursor += 8;
+        if(theCfg->MIDIfunction == SCALE_DEF){
+            sprintf(dataToShow, "%s", 
+                ScaleShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getScale()]);
+        } else if(theCfg->MIDIfunction == CHORDTYPE_DEF){
+            sprintf(dataToShow, "%s", 
+                ChordNames[theApp.Controls[theCfg->DestCtrl].Chord.getChordType()]);
+        } else if(theCfg->MIDIfunction == CHORDINVERSION){
+            sprintf(dataToShow, "%s", 
+                InvDropShortNames[theApp.Controls[theCfg->DestCtrl].Chord.getInvDrop()]);
+        } else if(theCfg->MIDIfunction == SCALEROOT){
+            sprintf(dataToShow, "%s", 
+                NotesNamesScale[theApp.Controls[theCfg->DestCtrl].Chord.getScaleRoot()]);
+        } else sprintf(dataToShow,"%d", TrimFader);
     }
-    theOLED->println (TrimFader); // CVControls[BankSelected].Slider.MIDIData);
+    
+    dataToShow[TRIMSTRING] = 0; // Trim string
+    theOLED->print(dataToShow);
+ 
     //posCursor += 8;
     if( CVControls[BankSelected].Config.Chanfunction != INDEP){
         // Calculated Data

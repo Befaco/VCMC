@@ -102,6 +102,7 @@ void VCMCApp::setup(void)
 #endif
 // Ports reading interrupt
 #ifdef USEREADINTERR
+    //PortsTimer.begin(servicePorts, TIMERINTSERVICE);
     beginPortsTimer();
 #endif
 
@@ -116,6 +117,11 @@ void VCMCApp::setup(void)
  */
 void VCMCApp::initControls(void)
 {
+    //DefaultChord.setCallbacks(sendNoteOn, sendNoteOff); // Default Chord do not need to send Notes
+    DefaultChord.setScale(FULL_SCALE);
+    DefaultChord.setChord(ONENOTECHORD);
+    DefaultChord.setInvDrop(NO_INVDROP);
+
     for (int i = 0; i < NUMCHAN; i++)
     {
         CVControls[i].SetControlNumber(i);
@@ -131,6 +137,10 @@ void VCMCApp::initControls(void)
 
         CVControls[i].GateBut.PortCfg.MIDIChannel = 1;
         CVControls[i].GateBut.PortCfg.NoteToSend = 12 + i * 12;
+
+        CVControls[i].Chord.setCallbacks(sendNoteOn, sendNoteOff);
+        //CVControls[i].Chord.setScale(Ionian_SCALE);
+        //CVControls[i].Chord.setChord(CHORD_15);
     }
     CVControls[0].GateBut.PortCfg.NoteToSend = 60;
     CVControls[1].GateBut.PortCfg.NoteToSend = 62;
@@ -228,7 +238,7 @@ void VCMCApp::initdisplay(void)
  */
 void VCMCApp::initEncoder(void)
 {
-    myTimer.begin(timerIsr, 1000);
+    myTimer.begin(timerIsr, TIMERENCSERVICE);
     // Setup the button with an internal pull-up :
     pinMode(PINENCBUT, INPUT_PULLUP);
     // After setting up the button, setup the Bounce instance :

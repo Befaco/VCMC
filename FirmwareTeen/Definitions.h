@@ -40,7 +40,7 @@
 
 // Configuration flags
 //#define DEBUGMODE  1  /// Define to use Debug screen and messages
-#define PRINTDEBUG  /// Define to send debug messages n Serial port
+//#define PRINTDEBUG  /// Define to send debug messages n Serial port
 #ifdef PRINTDEBUG
 #define D(x) x		/// Shorthand for PRINTDEBUG
 #define DP(x) Serial.println(x)		/// Shorthand for Deug serial print
@@ -55,8 +55,10 @@
 #define FILTEREDANAGINPUT   /// Filter analog inputs
 #ifdef DEBUGMODE
 const int TIMERINTSERVICE = 250; /// Microseconds between call to read ports service function servicePorts()
+const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder service function
 #else
 const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports service function servicePorts()
+const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder service function
 #endif
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1
@@ -65,7 +67,7 @@ const int TIMERINTSERVICE = 125; /// Microseconds between call to read ports ser
 //#define USEOSC
 //#define USECONFIGOSC
 #define USEI2C
-//#define ST3375SCR
+const uint8_t FREQMEASUREACTIVE = 0;
 
 #ifdef CVTHING
 	const uint8_t SCREEN_OFFSET = 0xFF; /// Screen offset (Adjust based on screen manufacturer, lot, ...)
@@ -83,7 +85,6 @@ const int16_t DEFMINDAC = 4095;	/// Default CV Minimum DAC
 const int16_t DEFRANGEDAC = -4095; /// Default CV Range DAC
 const float DefFaderfilter = 0.00060; /// Filter for faders inputs
 const uint16_t DefActivityThreshold = 17; /// Activity detection for Faders
-
 #ifdef CVTHING
 const uint8_t PINENCA = 7;
 const uint8_t PINENCB = 6;

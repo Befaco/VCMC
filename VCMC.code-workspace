@@ -9,17 +9,11 @@
 	],
 	"settings": {
 		"files.associations": {
-			"array": "cpp",
 			"*.tcc": "cpp",
 			"string": "cpp",
-			"vector": "cpp",
-			"exception": "cpp",
-			"functional": "cpp",
-			"istream": "cpp",
-			"limits": "cpp",
-			"ostream": "cpp",
-			"sstream": "cpp",
-			"streambuf": "cpp"
-		}
+			"unordered_map": "cpp"
+		},
+		"cortex-debug.armToolchainPath": "D:\\PROG\\GITHUB\\TOOLCHAIN\\GCC-ARM-NONE-EABI-10-2020-Q4-MAJOR\\BIN",
+		"cortex-debug.openocdPath": "D:\\PROG\\GITHUB\\TOOLCHAIN\\OPENOCD-20201228-0.10.0\\BIN\\OPENOCD.EXE"
 	}
 }

@@ -1,6 +1,6 @@
 
 /////////////////Original file begins
-
+#ifdef USEOSC
 #include "SLIPEncodedUSBSerial.h"
 
 /** @addtogroup GeneralUtil
@@ -12,7 +12,7 @@
  *  \brief Support for SLIP encoded message input/output
  */
 
-#ifdef USEOSC
+
 /*
  CONSTRUCTOR
  */
@@ -245,7 +245,7 @@ byte slipescesc = 221;
 */
 byte previousByte;
 
-boolean serialBufferAdd(byte add)
+bool serialBufferAdd(byte add)
 {
 	serialBuffer[serPointer++] = add;
 	if( serPointer > MAXSLIPBUFSIZE){
