@@ -1,4 +1,4 @@
-# VCMC v1.3.1 / CV Thing v1.3.1 
+# VCMC v1.4 / CV Thing v1.4
 
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
@@ -11,8 +11,12 @@ If you are updating version, it´s **MANDATORY**  to do a Factory callibration (
 
 ## Changelog/ Bug Fixes:
 
+
+### v1.4
+- Strum mode added to Chords.
+
 ### v1.3.1
--Fixed Velocity bug.
+- Fixed Velocity bug.
 
 ### v1.3
 - Chord mode implemented.
