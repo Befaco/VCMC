@@ -89,8 +89,8 @@ DEF_MENULIST (AnagChordFn, CHORD FUNC, ListLines,
     {"SCALE MODE", SelectDefScale, 1},
     {"SCALE ROOT", SelectScaleRoot, 1},
     {"INV/DROP", SelectInvDrop, 1},
-    {"TIME STEP", SelectFixDelay, 1},
-    {"RANDOM STEP", SelectFixRand, 1}
+    {"STRUM", SelectFixDelay, 1},
+    {"HUMANIZE", SelectFixRand, 1}
 )
 
 

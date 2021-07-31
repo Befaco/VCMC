@@ -36,7 +36,7 @@
  */
 
 // CV/Fader configuration menu. SOBRAN ULTIMAS OPCIONES??
-MenuItem AnagRangeList[14] = {
+MenuItem AnagRangeList[] = {
 	{"<-BACK", gotoMenuAnag, 1}, 
 	{"IN RANGE", InRange, 1}, 
 	{"OUT RANGE", SetRangeMenu, 1}, 
@@ -54,7 +54,7 @@ MenuItem AnagRangeList[14] = {
 MenuList listAnagRange(AnagRangeList, 13, ListLines);
 
 // Input Range
-MenuItem InRangeList[5] = {
+MenuItem InRangeList[] = {
 	{"<-BACK", SelectAnagRange, 1}, 
 	{"0/+10V", SetRange10, 1}, 
 	{"0/+5V", SetRange5, 1}, 

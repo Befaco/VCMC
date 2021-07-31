@@ -57,8 +57,8 @@ DEF_MENULIST (mChords, SCALE/CHORDS, ListLines,
     {"CHORD TYPE", SelectChordType, 1},
     {"CHORD VOICING", SelectChordInv, 1},
     {"CHORD PRESET", SelectChordPreset, 1},
-    {"STEP FIX", selectFixStep, 1},
-    {"STEP RAND", selectFixRand, 1}
+    {"STRUM", selectFixStep, 1},
+    {"HUMANIZE", selectFixRand, 1}
 )
 // Bank configuration menu
 DEF_MENULIST (listAux, CONFIG, ListLines,
