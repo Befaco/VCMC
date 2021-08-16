@@ -143,16 +143,19 @@ bool InputControl::DoChanges (void) {
  	@note Deprecated, use InputControl::ReadPorts(bool readDig, bool readCV, bool readFader) instead
 */
 bool InputControl::ReadPorts (bool onlyDig) {
-  long CVData, SlidData, GateSt;
   bool changed;
 
   if (servicingPorts) {
+    long GateSt;
     if (!onlyDig) {
+      long CVData;
       CVchanged |= CVPort.ReadPort (CVData);
     }
     Gatechanged |= GateBut.ReadPort (GateSt);
-  } else
+  } else{
+    long SlidData;
     Slidchanged |= Slider.ReadPort (SlidData); // Service Fader out of interrupts
+  }
 
   changed = CVchanged | Slidchanged | Gatechanged;
 
@@ -171,12 +174,24 @@ bool InputControl::ReadPorts (bool onlyDig) {
 
     \details Send a Note On for the specified port, note, and MIDI channel.
 */
-void InputControl::SendNoteOn(byte controlNumber, InputPort* port, byte chan, int datatosend,bool chord, byte vel) {
-  SendLastNoteOff(controlNumber, port, chan);
+void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosend,bool chord, byte vel) {
+  byte chan = port->getCfg()->MIDIChannel;
+  SendLastNoteOff(controlNumber, port);
   port->LastSentMIDIData = datatosend;
   // If velocity info is received, use it instead of velocity channel info
-  if(vel>127)
-    vel = MidiMerge.VelData[port->getCfg()->MIDIChannel - 1];
+  if(vel>127){
+    vel = 127; //MidiMerge.VelData[port->getCfg()->MIDIChannel - 1];
+    #ifdef CVTHING
+    if(ControlNumber<7){ // Do not check last port
+      DemuxAnalogPort *pPort = &CVControls[ControlNumber+1].CVPort; // Next port
+      if(pPort->PortCfg.MIDIfunction == VELOCITY) // If next port is configured to velocity, use it for the note
+        vel = pPort->TrimValue(pPort->MIDIData);
+      else if(ControlNumber < 6 && pPort->PortCfg.MIDIfunction == PITCHLEVEL && // If next port is a gate 
+                CVControls[ControlNumber+2].CVPort.PortCfg.MIDIfunction == VELOCITY) // and the following is velocity
+                  vel = CVControls[ControlNumber+2].CVPort.MIDIData;
+      }
+    #endif
+    }
   if( chord){
     Chord.setRootNote(datatosend, vel, chan, true);
     }
@@ -189,7 +204,8 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort* port, byte chan, in
 
     \details Send a Note Off for any Note that is stll on on the specified port.
 */
-void InputControl::SendLastNoteOff(byte controlNumber, InputPort* port, byte chan,bool chord) {
+void InputControl::SendLastNoteOff(byte controlNumber, InputPort* port, bool chord) {
+  byte chan = port->getCfg()->MIDIChannel;
   if ( port->LastSentMIDIData >= 0 ) {
     if( chord)
       Chord.noteoffChord();
@@ -321,6 +337,17 @@ void InputControl::OnDataChange (void) {
           }
           //PITCH8TRIG
           #endif
+          if(CVPort.PortCfg.MIDIfunction == ANAGLATCH || CVPort.PortCfg.MIDIfunction == ANAGTRIGGER){
+            if (CVPort.IsHigh()) {
+              // Send new Note
+              SendNoteOn(ControlNumber, &CVPort, CVPort.PortCfg.NoteToSend, false);
+            }
+            else {
+              SendLastNoteOff(ControlNumber, &CVPort, false);
+              // MidiMerge.sendNoteOff( PortCfg.NoteToSend, 0, PortCfg.MIDIChannel);            
+              // MidiMerge.PitchData[PortCfg.MIDIChannel-1] = 0;
+            }
+          }
           CVPort.SendMIDI (-9999, GateStat);
         }
         if (Slidchanged) {
@@ -386,21 +413,22 @@ void InputControl::ProcessGateChord(void)
     if(CVControls[i].CVPort.PortCfg.MIDIfunction!=PITCHTRIG) // Play only notes on channels with PITCHTRIG
       continue;
     if (GateStat == true) {
-      SendNoteOn(i, &CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel, chord[i - FIRSTBLK], false);
+      SendNoteOn(i, &CVControls[i].CVPort, chord[i - FIRSTBLK], false);
       if(CVControls[i].GateBut.PortCfg.MIDIfunction == NODIGFUNC ||
         CVControls[i].GateBut.PortCfg.MIDIfunction == CHORD )
                 CVControls[i].GateBut.setBlink(100, 100, 1); // Blink only on NODIGFUNC or CHORD modes
     }
     else
-      SendLastNoteOff(i, &CVControls[i].CVPort, CVControls[i].CVPort.PortCfg.MIDIChannel, false);
+      SendLastNoteOff(i, &CVControls[i].CVPort, false);
   }
 }
 
 
-void InputControl::ProcessGateNotes(void)
+void InputControl::ProcessGateNotes(uint8_t GateStat)
 {
   int SendData = DataCalc ();
-  bool GateStat = GetGateState ();
+  
+    if( GateStat > 1) GateStat = GetGateState ();
 
     if (GateStat == true) { // Send Note On
       //GateBut.setBlink(100, 100, 1);
@@ -411,7 +439,7 @@ void InputControl::ProcessGateNotes(void)
         // If SUM or MULTIP send result through CV channel if it has the trigger option
         if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) { //TF
           byte datatosend = CVPort.TrimValue (SendData);
-          SendNoteOn(ControlNumber, &CVPort, CVPort.PortCfg.MIDIChannel, datatosend);
+          SendNoteOn(ControlNumber, &CVPort, datatosend);
           played = true;
           // GateBut.setBlink(100, 100, 1);
         }
@@ -425,18 +453,18 @@ void InputControl::ProcessGateNotes(void)
             vel = Slider.MIDIData;
           }
 
-          SendNoteOn(ControlNumber, &CVPort, CVPort.PortCfg.MIDIChannel, datatosend, true, vel);
+          SendNoteOn(ControlNumber, &CVPort, datatosend, true, vel);
           played = true;
         }
         if (Slider.PortCfg.MIDIfunction == PITCHTRIG) { // Fader triggered notes
           byte datatosend = Slider.TrimValue (Slider.MIDIData);
-          SendNoteOn(ControlNumber, &Slider, Slider.PortCfg.MIDIChannel, datatosend);
+          SendNoteOn(ControlNumber, &Slider, datatosend);
           played = true;
         }
       }
       if (!played) { // Gate play notes
         byte datatosend = GateBut.PortCfg.NoteToSend;
-        SendNoteOn(ControlNumber, &GateBut, GateBut.PortCfg.MIDIChannel, datatosend);
+        SendNoteOn(ControlNumber, &GateBut, datatosend);
         DP("GateBut");
       }
 
@@ -447,23 +475,23 @@ void InputControl::ProcessGateNotes(void)
       if (Config.Chanfunction != INDEP) {
                   
         if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) { //TF
-          SendLastNoteOff(ControlNumber, &CVPort, CVPort.PortCfg.MIDIChannel);
+          SendLastNoteOff(ControlNumber, &CVPort);
           played = true;
         }
       }
       // Independ channels
       else {
         if (CVPort.PortCfg.MIDIfunction == PITCHTRIG || CVPort.PortCfg.MIDIfunction == PITCH8TRIG) {
-          SendLastNoteOff(ControlNumber, &CVPort, CVPort.PortCfg.MIDIChannel);
+          SendLastNoteOff(ControlNumber, &CVPort);
           played = true;
         }
         if (Slider.PortCfg.MIDIfunction == PITCHTRIG) {
-          SendLastNoteOff(ControlNumber, &Slider, Slider.PortCfg.MIDIChannel);
+          SendLastNoteOff(ControlNumber, &Slider);
           played = true;
         }
       }
       if (!played) {
-        SendLastNoteOff(ControlNumber, &GateBut, GateBut.PortCfg.MIDIChannel);
+        SendLastNoteOff(ControlNumber, &GateBut);
       }
     }
 }

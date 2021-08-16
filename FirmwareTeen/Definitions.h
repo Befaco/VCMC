@@ -40,7 +40,7 @@
 
 // Configuration flags
 //#define DEBUGMODE  1  /// Define to use Debug screen and messages
-//#define PRINTDEBUG  /// Define to send debug messages n Serial port
+#define PRINTDEBUG  /// Define to send debug messages n Serial port
 #ifdef PRINTDEBUG
 #define D(x) x		/// Shorthand for PRINTDEBUG
 #define DP(x) Serial.println(x)		/// Shorthand for Deug serial print
@@ -61,7 +61,7 @@ const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder 
 #ifdef USB_MIDI_SERIAL2
 #define CVTHING 1
 #endif
-//#define CVTHING 1
+#define CVTHING 1
 //#define USEOSC
 //#define USECONFIGOSC
 //#define USEI2C

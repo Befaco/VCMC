@@ -367,7 +367,7 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
             MidiMerge.sendControlChange (PortCfg.ControllerNumber, 0, PortCfg.MIDIChannel);
         break;
     case ANAGLATCH:
-    case ANAGTRIGGER:
+    case ANAGTRIGGER:/*
         if (GateStatus == true)
         {
             // Send new Note
@@ -378,7 +378,7 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         {
 		    MidiMerge.sendNoteOff( PortCfg.NoteToSend, 0, PortCfg.MIDIChannel);            
             MidiMerge.PitchData[PortCfg.MIDIChannel-1] = 0;
-        }
+        } */
         break;
     case CHORDTYPE_DEF:
         theApp.Controls[PortCfg.DestCtrl].Chord.setChord(SendData);

@@ -48,7 +48,7 @@
  */
 class InputControl {
     public:
-    byte ControlNumber; /**< \brief Control Number in the rack. Valid numbers 0 to NUMCHAN-1  */
+    byte ControlNumber = -1; /**< \brief Control Number in the rack. Valid numbers 0 to NUMCHAN-1  */
     DemuxAnalogPort CVPort; /**< \brief Control the CV port*/
     DemuxAnalogPort Slider; /**< \brief Control the Fader port*/
     DigitalPort GateBut; /**< \brief Control the Gate port*/
@@ -68,7 +68,6 @@ class InputControl {
 		Gatechanged; /**< \brief True when the Gate port has changed from last call to function DoChanges*/
 
     InputControl () {
-        ControlNumber = -1;
         CVchanged = Slidchanged = Gatechanged = false;
     }
     bool SetControlNumber (byte CtrlNum);
@@ -77,10 +76,10 @@ class InputControl {
     bool ReadPorts (bool readDig, bool readCV, bool readFader);
     bool DoChanges (void);
     void OnDataChange (void);
-    void ProcessGateNotes(void);
+    void ProcessGateNotes(uint8_t GateStat = 2);
     void ProcessGateChord(void);
-    void SendNoteOn(byte controlNumber, InputPort* port, byte chan, int datatosend, bool chord=true, byte vel = 128);
-    void SendLastNoteOff(byte controlNumber, InputPort* port, byte chan, bool chord=true);
+    void SendNoteOn(byte controlNumber, InputPort* port, int datatosend, bool chord=true, byte vel = 128);
+    void SendLastNoteOff(byte controlNumber, InputPort* port, bool chord=true);
     int DataCalc (void);
     bool GetGateState ();
     void Blink ();
