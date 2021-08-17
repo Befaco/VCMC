@@ -113,6 +113,7 @@ bool SelectAnagFn();
 bool SelectAnagFn2();
 bool SelectMIDIChan();
 bool SelectController();
+bool SelectChannel(int inic=1);
 // Defined on MenuRange
 bool SelectMin();
 bool SelectMax();

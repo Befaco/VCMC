@@ -78,7 +78,7 @@ class InputControl {
     void OnDataChange (void);
     void ProcessGateNotes(uint8_t GateStat = 2);
     void ProcessGateChord(void);
-    void SendNoteOn(byte controlNumber, InputPort* port, int datatosend, bool chord=true, byte vel = 128);
+    void SendNoteOn(byte controlNumber, InputPort* port, int datatosend, bool chord=true, byte vel = 128, bool isAnalog = true);
     void SendLastNoteOff(byte controlNumber, InputPort* port, bool chord=true);
     int DataCalc (void);
     bool GetGateState ();

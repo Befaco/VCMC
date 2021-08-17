@@ -263,11 +263,11 @@ bool SelectHiresFN(){
     return true;
 }
 
-bool SelectChannel()
+bool SelectChannel(int inic)
 {
-    long val = ((AnInputPortCfg *)GetPortCfg())->DestCtrl+1;
-    bool ret = EncoderchangeValue("Channel:", val, 1, 8, 1, 00, 45);
-    ((AnInputPortCfg *)GetPortCfg())->DestCtrl = val - 1;
+    long val = ((AnInputPortCfg *)GetPortCfg())->DestCtrl+inic;
+    bool ret = EncoderchangeValue("Channel:", val, inic, 8, 1, 00, 45);
+    ((AnInputPortCfg *)GetPortCfg())->DestCtrl = val - inic;
 
     return ret;
 }
@@ -735,7 +735,26 @@ bool SelectNRPN14()
 
 bool SelectVel()
 {
-    ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(VELOCITY);
+    if (SetValState == 0){ // Init
+        ((AnInputPortCfg *)GetPortCfg())->SetMIDIFunc(VELOCITY);
+        SetValState++;
+        }
+    if (SetValState == 1)
+    {
+        if( PortSelected!= 2) // Select destination only for CV
+            return gotoMenuAnag();
+        if (!SelectChannel(0)){
+            return false;
+            }
+        else
+            SetValState = 0;
+        uint8_t dest = ((AnInputPortCfg *)GetPortCfg())->DestCtrl;
+        if(dest){ // Set destination reference to velocity channel
+            CVControls[dest - 1].CVPort.PortCfg.DestPort = PortSelected;
+            CVControls[dest - 1].CVPort.PortCfg.DestCtrl = BankSelected+1;
+            }
+    }
+
     return gotoMenuAnag();
 }
 

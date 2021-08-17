@@ -4,6 +4,16 @@
 #define __Intrusive_h
 #include "../ArduinoTools.h"
 
+
+#ifdef DEBUG_NOTEEVENT
+#define DEB(x) x		/// Shorthand for Debug Print
+#define DEBP(x) Serial.println(x)		/// Shorthand for Deug serial print
+#else
+#define DEB(x)
+#define DEBP(x)
+#endif
+
+
 const size_t MAX_ITEMS = 50;
 const uint8_t INVALIDIDX = 0xff;
 
@@ -99,7 +109,7 @@ public:
                 _pushIndex = 0;
             if (_pushIndex == saveIndex)
             {
-                DP("Event queue full!");
+                DEBP("Event queue full!");
                 return nullptr;
             }
         } while (!mIt[_pushIndex].isFree());
@@ -114,11 +124,11 @@ public:
         // Check validity of object: 
         //  object not null, item not in use, this collection is his container
         if (!it || it->isFree() || !it->isParent(this)){
-            DP("Not possible to release");
+            DEBP("Not possible to release");
             return false;}
         uint8_t index = it->getIdx();
         if(index==INVALIDIDX){
-            DP("Id not valid");
+            DEBP("Id not valid");
             return false;
         }
         mIt[index].free();
@@ -168,7 +178,7 @@ public:
         It *pnew = this->getItem();
         if (!pnew) // list full
         {
-            DP("List full");
+            DEBP("List full");
             return nullptr;
             }
         pnew->pPrev = nullptr;
@@ -187,7 +197,7 @@ public:
         It *pnew = this->getItem();
         if (!pnew) // list full
         {
-            DP("List full");
+            DEBP("List full");
             return nullptr;
             }
         pnew->pPrev = _last;
@@ -245,7 +255,7 @@ public:
             !rem->isParent(this) ||      // element not in this list
             rem->getIdx() == INVALIDIDX) // currently not in any collection`
             {
-                DP("Error removing from FixList");
+                DEBP("Error removing from FixList");
                 return false;
             }
         It *prev = (It*)rem->pPrev;
@@ -260,12 +270,12 @@ public:
             _last = prev;
         this->releaseItem(rem);
         if(!_count){
-            DP("          Error removing item");
+            DEBP("          Error removing item");
             return false;
         }
         _count--;
         if(!_count){
-            DP("          List empty");
+            DEBP("          List empty");
         }
 
         return true;
@@ -320,11 +330,11 @@ public:
     It *find(hash fkey)
     {
         if (!this->_count){ // table is empty
-            //DP("Table is empty, zero count");
+            //DEBP("Table is empty, zero count");
             return nullptr;}
         uint8_t fpos = findKey(fkey);
         if (fpos == INVALIDIDX){ // currently not in table
-            DP("Hash Key Not found in table");
+            DEBP("Hash Key Not found in table");
             return nullptr;}
         else
             return &this->mIt[fpos];
@@ -339,7 +349,7 @@ public:
         {                                  // currently not in table
             It *pIt = this->push_back();  // Reserve item in collection
             _keys[pIt->getIdx()] = newkey; // store key
-            //D(pIt->print("Insert hash key "));
+            //DEB(pIt->print("Insert hash key "));
             return pIt;
         }
         else
@@ -349,22 +359,22 @@ public:
     bool remove(hash oldkey)
     {
         if (this->_count == 0){ // table is empty
-            DP("Table is empty");
+            DEBP("Table is empty");
             return false;}
         uint8_t fpos = findKey(oldkey);
         if (fpos == INVALIDIDX){ // currently not in table
-            DP("Not removed. Key Not in table");
+            DEBP("Not removed. Key Not in table");
             return false;}
         else
         {
-            D(this->mIt[fpos].print("Remove hash key "));
+            DEB(this->mIt[fpos].print("Remove hash key "));
             _keys[fpos] = 0;
             if(FixList<It, maxItems>::remove(&this->mIt[fpos]))
-                DP("Removed hash key");
+                DEBP("Removed hash key");
             else
-                DP("Hash key Not removed");            
+                DEBP("Hash key Not removed");            
             //FixList<It, maxItems>::remove(&this->mIt[fpos]);
-            //D(this->mIt[fpos].print("Removed hash key "));
+            //DEB(this->mIt[fpos].print("Removed hash key "));
         }
         return true;
     }
@@ -373,26 +383,30 @@ public:
     {
         if (this->_count == 0 || // table is empty
             !pIt->isParent(this)){ // element doe not belong in this collection
-            DP("Error, element not removed");
+            DEBP("Error, element not removed");
             return false;}
 
         uint8_t fpos = pIt->getIdx();
         if (fpos == INVALIDIDX){ // currently not in table
-            DP("Object Key Not in table");
+            DEBP("Object Key Not in table");
             return false;}
         else
         {
-            //D(this->mIt[fpos].print("Remove hash key "));
-            //DP(fpos);
+            //DEB(this->mIt[fpos].print("Remove hash key "));
+            //DEBP(fpos);
             _keys[fpos] = 0;
             if(FixList<It, maxItems>::remove(&this->mIt[fpos]))
-                DP("");//"Removed hash key ");
+                DEBP("");//"Removed hash key ");
             else
-                DP("Hash key Not removed");
+                DEBP("Hash key Not removed");
         }
         return true;
     }
 
 };
+
+#undef DEB
+#undef DEBP
+
 
 #endif

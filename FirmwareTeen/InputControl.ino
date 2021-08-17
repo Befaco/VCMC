@@ -174,13 +174,25 @@ bool InputControl::ReadPorts (bool onlyDig) {
 
     \details Send a Note On for the specified port, note, and MIDI channel.
 */
-void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosend,bool chord, byte vel) {
+void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosend,bool chord, byte vel, bool isAnalog) {
   byte chan = port->getCfg()->MIDIChannel;
   SendLastNoteOff(controlNumber, port);
   port->LastSentMIDIData = datatosend;
   // If velocity info is received, use it instead of velocity channel info
   if(vel>127){
-    vel = 127; //MidiMerge.VelData[port->getCfg()->MIDIChannel - 1];
+    vel = MidiMerge.VelData[port->getCfg()->MIDIChannel - 1];
+    if( isAnalog){
+      uint8_t dport = ((AnalogPort *)port)->PortCfg.DestPort;
+      uint8_t dest = ((AnalogPort *)port)->PortCfg.DestCtrl;
+      if( dest>0 && dest <9 && dport>1){
+        if(dport == 2)
+          vel = CVControls[dest-1].CVPort.MIDIData;
+        else
+          vel = CVControls[dest-1].Slider.MIDIData;
+        debPrintf("Port %d Destination %d velocity %d\n", controlNumber, dest-1, vel);
+        }
+      }
+    /* 
     #ifdef CVTHING
     if(ControlNumber<7){ // Do not check last port
       DemuxAnalogPort *pPort = &CVControls[ControlNumber+1].CVPort; // Next port
@@ -191,6 +203,7 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosen
                   vel = CVControls[ControlNumber+2].CVPort.MIDIData;
       }
     #endif
+    */
     }
   if( chord){
     Chord.setRootNote(datatosend, vel, chan, true);
@@ -464,7 +477,7 @@ void InputControl::ProcessGateNotes(uint8_t GateStat)
       }
       if (!played) { // Gate play notes
         byte datatosend = GateBut.PortCfg.NoteToSend;
-        SendNoteOn(ControlNumber, &GateBut, datatosend);
+        SendNoteOn(ControlNumber, &GateBut, datatosend, true, 128, false);
         DP("GateBut");
       }
 

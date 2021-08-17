@@ -240,6 +240,7 @@ bool AnInputPortCfg::IsDigitalFunc(void)
 void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
 {
     MIDIfunction = Func;
+    Options2 = 0; // Reset destination ports
 
     switch (MIDIfunction)
     {
