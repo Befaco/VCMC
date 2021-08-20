@@ -124,6 +124,7 @@ public:
         #endif
      }
     InputPortCfg *GetPortConfig(void);
+    InputPort *GetPort(void);
 
     void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
 

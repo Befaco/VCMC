@@ -265,9 +265,17 @@ bool SelectHiresFN(){
 
 bool SelectChannel(int inic)
 {
-    long val = ((AnInputPortCfg *)GetPortCfg())->DestCtrl+inic;
+    static long val = -1;
+    AnInputPortCfg *pPort = ((AnInputPortCfg *)GetPortCfg());
+    if( val == -1) // Init value
+        val = pPort->DestCtrl+inic;
     bool ret = EncoderchangeValue("Channel:", val, inic, 8, 1, 00, 45);
-    ((AnInputPortCfg *)GetPortCfg())->DestCtrl = val - inic;
+    
+    if( ret){ // End selection
+        MidiMerge.VelData[pPort->MIDIChannel - 1] = 127; //Reset MIDI channel velocity
+        pPort->DestCtrl = val - inic;
+        val = -1;
+        }
 
     return ret;
 }
@@ -741,8 +749,8 @@ bool SelectVel()
         }
     if (SetValState == 1)
     {
-        if( PortSelected!= 2) // Select destination only for CV
-            return gotoMenuAnag();
+        //if( PortSelected!= 2) // Select destination only for CV
+        //    return gotoMenuAnag();
         if (!SelectChannel(0)){
             return false;
             }
@@ -750,8 +758,9 @@ bool SelectVel()
             SetValState = 0;
         uint8_t dest = ((AnInputPortCfg *)GetPortCfg())->DestCtrl;
         if(dest){ // Set destination reference to velocity channel
-            CVControls[dest - 1].CVPort.PortCfg.DestPort = PortSelected;
-            CVControls[dest - 1].CVPort.PortCfg.DestCtrl = BankSelected+1;
+            CVControls[dest - 1].GateBut.velOrigPort = BankSelected + 1;
+            //CVControls[dest - 1].CVPort.PortCfg.DestPort = PortSelected;
+            //CVControls[dest - 1].CVPort.PortCfg.DestCtrl = BankSelected+1;
             }
     }
 

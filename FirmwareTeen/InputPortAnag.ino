@@ -272,8 +272,10 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
         MidiMerge.sendNoteOn( SendData, MidiMerge.VelData[PortCfg.MIDIChannel-1], PortCfg.MIDIChannel);
 		break;
     case VELOCITY:
-        if(!PortCfg.DestCtrl)
-            MidiMerge.VelData[PortCfg.MIDIChannel - 1] = SendData;
+        if(!PortCfg.DestCtrl)   // Destination = 0 send to channel info
+            MidiMerge.VelData[PortCfg.MIDIChannel - 1] = SendData; 
+        else    // Send to destination gate port
+            CVControls[PortCfg.DestCtrl - 1].GateBut.velToPlay = SendData;
         break; // do not send MIDI, gate button or pitch change will trigger sending data
     case CC14BITS:
         if(PortCfg.ControllerNumber>32)

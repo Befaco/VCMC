@@ -110,12 +110,27 @@ InputPortCfg *VCMCApp::GetPortConfig (void) {
     case 3:
         SelCfg = &Controls[byBankSelected].Slider.PortCfg;
         break;
-        //default: return NULL;
     }
     return SelCfg;
 }
 
-//#include "src/MidiThing/MIDITools/NoteEvent.h"
+InputPort *VCMCApp::GetPort(void){
+    InputPort *SelCfg = NULL;
+
+    switch (byPortSelected) {
+    case 1:
+        SelCfg = &Controls[byBankSelected].GateBut;
+        break;
+    case 2:
+        SelCfg = &Controls[byBankSelected].CVPort;
+        break;
+    case 3:
+        SelCfg = &Controls[byBankSelected].Slider;
+        break;
+    }
+    return SelCfg;
+}
+
 // Callbacks
 void sendNoteOn(NoteEvent *pEv){
     if(!pEv->timestamp)

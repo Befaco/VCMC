@@ -110,6 +110,8 @@ class DigitalPort : public InputPort {
 
     byte LedPort = -1; ///< Pin Port for the Led
     Blinker blinkPort; ///< Used to blink led asssociated to the Gate
+    byte velToPlay= 127; ///< Velocity to play for notes
+    uint8_t velOrigPort = 0; ///< Port setting up velocity for this
 
     void setBlink (unsigned long periodon, unsigned long periodoff, int times);
     DigitalPort () {

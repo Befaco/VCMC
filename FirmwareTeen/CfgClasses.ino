@@ -240,7 +240,11 @@ bool AnInputPortCfg::IsDigitalFunc(void)
 void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
 {
     MIDIfunction = Func;
+    if(DestCtrl)
+        CVControls[DestCtrl - 1].GateBut.velOrigPort = 0; // Reset destination port link
     Options2 = 0; // Reset destination ports
+    if(MIDIfunction== VELOCITY && MIDIChannel>0) // If current function was velocity
+        MidiMerge.VelData[MIDIChannel - 1] = 127;  // Reset MIDI channel velocity
 
     switch (MIDIfunction)
     {

@@ -251,6 +251,15 @@ void OLEDMenu::displayCVConfig (int posCursor) {
         theOLED->setTextColor (WHITE, BLACK);
 		theOLED->println (((AnInputPortCfg *)SelCfg)->NRPNparLSB);
 		break;
+    default:
+        theOLED->setCursor (POSXCARD + 0, posCursor);
+        posCursor += 8;
+        theOLED->setTextColor (BLACK, WHITE);
+        theOLED->print ("VALUE");
+        theOLED->setTextColor (WHITE, BLACK);
+        theOLED->setCursor (POSXCARD + 0, posCursor);
+        theOLED->println(theApp.GetPort()->MIDIData);
+        break;
     }
 }
 
