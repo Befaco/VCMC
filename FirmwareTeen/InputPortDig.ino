@@ -174,7 +174,16 @@ void DigitalPort::setBlink (unsigned long periodon, unsigned long periodoff, int
  */
 void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
 	msecLastMIDISent = millis();
-	
+
+    if(MidiMerge.soloMode){ // Check if we are in solo Mode
+        if( theApp.GetPort() != (InputPort*)this){
+            DP("Solo mode: Digital message skip");
+            return;
+        } else
+            DP("Solo mode: Solo Digital Port selected");
+    }
+
+
     switch (PortCfg.MIDIfunction) {
     case TRIGGER:
     case LATCH:

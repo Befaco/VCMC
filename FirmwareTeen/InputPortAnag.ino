@@ -251,6 +251,14 @@ void DemuxAnalogPort::SetDemux (void) {
 void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
     int SendData;
 
+    if(MidiMerge.soloMode){ // Check if we are in solo Mode
+        if( theApp.GetPort() != (InputPort*)this){
+            DP("Solo mode: Analog message skip");
+            return;
+        } else
+            DP("Solo mode: Solo Analg Port selected");
+    }
+
     if (MidiData == -9999)
         SendData = TrimValue (MIDIData); // Use internal value
     else

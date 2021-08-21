@@ -148,7 +148,7 @@ bool SaveLoadClass::SaveCfg (int page) {
     #endif
     #ifdef DEBUGMODE
     char outBuf2[80];
-	sprintf(outBuf, "Saved: %1d/%4lu/%4d", page, PageBase[page], MemPointer);
+	sprintf(outBuf2, "Saved: %1d/%4lu/%4d", page, PageBase[page], MemPointer);
     SetMessageText (outBuf2);
     #endif
 
@@ -177,7 +177,7 @@ bool SaveLoadClass::LoadCfg (int page) {
     // Check if the page contains Cfg data
     EEPROM.get (MemPointer, CfgDataCheck);
     if (CfgDataCheck != CFGDATATAG) {
-        myMenu.setupPopup ("Incorrect config data", 5000, 0, 17);
+        D(myMenu.setupPopup ("Incorrect config data", 5000, 0, 17));
         DP("Incorrect config data");
         return false;
     }
@@ -216,7 +216,7 @@ bool SaveLoadClass::LoadSysExCfg (int page) {
     // Decode and get CheckSum
     unsigned csum = calcCSum ();
     if (!csum || csum != msgCsum) {
-        myMenu.setupPopup ("No valid SysEx", 5000, 0, 17);
+        D(myMenu.setupPopup ("No valid SysEx", 5000, 0, 17));
         return false; // CheckSum not OK
     }
     // Check Cfg data

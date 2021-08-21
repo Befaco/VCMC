@@ -85,6 +85,9 @@ class InputControl {
     void Blink ();
     int SaveCfg (int addr);
     int LoadCfg (int addr);
+    bool hasPort(InputPort *checkthis){
+      return (checkthis==&CVPort)||(checkthis==&Slider)||(checkthis==&GateBut);
+    }
 };
 
 /**@}*/

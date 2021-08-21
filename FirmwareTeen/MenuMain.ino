@@ -57,8 +57,9 @@ MenuItem GlobalconfigList[] = {
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
     {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
+    {"SOLO MODE", SoloMode, 1},
     {" GLOBAL CFG ", NULL, 1}};
-MenuList listGlobal(GlobalconfigList, 11, ListLinesSimple);
+MenuList listGlobal(GlobalconfigList, 12, ListLinesSimple);
 
 MenuItem GlobalCalList[] = {
     {"<-BACK", gotoMenuSettings, 1},
@@ -126,6 +127,14 @@ MenuList UserNameList(UserNamesItems, 1, ListLines);
 bool DoNothing()
 {
     return true;
+}
+
+bool SoloMode()
+{
+    MidiMerge.soloMode = !MidiMerge.soloMode;
+    if(MidiMerge.soloMode)
+        myMenu.setupPopup ("Solo ON", 120000, 1, 50); // Activate for two minutes
+    return gotoMenuSettings();
 }
 
 ////////////////////////////////

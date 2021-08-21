@@ -277,7 +277,7 @@ bool SaveLoadClass::ReceivedSysEx(unsigned SysExLength, const byte *RecArray)
     {
         DP("SysEx Received ID not valid ");
         //SetMessageText ("SysEx ID not valid");
-        myMenu.setupPopup("SysEx ID not valid", 1000, 10, 20, 0);
+        D(myMenu.setupPopup("SysEx ID not valid", 1000, 10, 20, 0));
         return false; // Not a config message, should begin with 0x60000000
     }
     RecPacketID = RecPacketID & 0x0FFFFFFF; // Remove check bits

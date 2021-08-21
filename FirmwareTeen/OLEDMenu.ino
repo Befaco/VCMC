@@ -326,6 +326,7 @@ void OLEDMenu::setupPopupBMP (int16_t xp, int16_t yp, const uint8_t *bmp, int16_
  */
 void OLEDMenu::displayMenu () {
     long microsdisp = micros ();
+    bool timeToUpdate = (microsdisp - disptimer3 >= REFRESH_RATE);
 
     if( currentMenu->Style==ListCards){
         // Performance screen: Columns and info card
@@ -340,7 +341,7 @@ void OLEDMenu::displayMenu () {
         }
 
     } else{
-        if (microsdisp - disptimer3 >= REFRESH_RATE) {
+        if (timeToUpdate) {
             updatingText = true;
             updateText = -1;
             if( currentMenu->Style==ListLinesSimple)
@@ -360,10 +361,12 @@ void OLEDMenu::displayMenu () {
     }
 
     // Show Popup messages
-    if (showPopUp) {
+    if (showPopUp && timeToUpdate) {
         if (EncoderPopupMsg (PopupMsg, PopupTime, PopupXpos, PopupYpos, PopupWidth)) { // True = end showing popup
             showPopUp = false;
             PopupUseBMP = false;
+            if(MidiMerge.soloMode)
+                MidiMerge.soloMode = false;
         }
     }
 }
@@ -446,13 +449,13 @@ extern int count, count2, count3;
  */
 void OLEDMenu::displayMenuCards () {
     int posCursor = 17;
-    char name[24];
 
     theOLED->fillRect (0, 0, POSXBARS - COLUMNW, 64, BLACK);
     displayMenuBankHeader (false);
 
 
 #ifndef DEBUGMODE
+    char name[24];
     theOLED->setCursor (POSXCARD + 0, posCursor);
     posCursor += 8;
 

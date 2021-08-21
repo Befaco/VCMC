@@ -759,8 +759,6 @@ bool SelectVel()
         uint8_t dest = ((AnInputPortCfg *)GetPortCfg())->DestCtrl;
         if(dest){ // Set destination reference to velocity channel
             CVControls[dest - 1].GateBut.velOrigPort = BankSelected + 1;
-            //CVControls[dest - 1].CVPort.PortCfg.DestPort = PortSelected;
-            //CVControls[dest - 1].CVPort.PortCfg.DestCtrl = BankSelected+1;
             }
     }
 

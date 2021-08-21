@@ -43,6 +43,7 @@
 
 #define HALFNOTERANGE 17 // DAC Steps for half a note 4096/120/2
 #define MAXCLIP 1.0 //0.9925 // Clip to maximum when close to it
+const float histeresysRange = 0.25; // Apply histeresys 1/4 MIDI individual range
 
 // Utility class to convert MIDI to CV Range
 // Linear scale input to output (defined as minimun/range)
@@ -51,79 +52,78 @@ class RangeConv {
     // byte DACnum = 0;
     int16_t minMIDI, rangeMIDI;
     int16_t minDAC, rangeDAC;
+    //int16_t currentMIDI, currentDAC;
+    //int16_t hysMargin;
 
     public:
     RangeConv (int16_t minM, int16_t rangeM)://, int16_t minD, int16_t rangeD):
 		minMIDI(minM), rangeMIDI(rangeM), minDAC(DEFMINDAC), rangeDAC(DEFRANGEDAC)
-		{ResetCalPoints ();}
+        //,currentMIDI(minM), currentDAC(rangeM), hysMargin(0)
+		{}
 	
     RangeConv ():
         // Default to 12 bits in the CV for 120 MIDI values; (10 octaves)
 		minMIDI(0), rangeMIDI(120), minDAC(DEFMINDAC), rangeDAC(DEFRANGEDAC)
-		{
-			ResetCalPoints (); 
-			//UseMultiPoint = 0;
-		}
+        //,currentMIDI(0), currentDAC(0), hysMargin(0)
+		{}
 
     // Make conversion
     int16_t Convert (int inp) {
-        /*if(UseMultiPoint) return intervalConvert(inp);
-        else*/
         return linealConvert (inp);
-    }
+        }
     int invConvert (int16_t inp) {
-        /*if (UseMultiPoint)
-            return invintervalConvert (inp);
-        else*/
-            return invlinealConvert (inp);
-    }
+        return invlinealConvert (inp);
+        }
     float PercentScale (int inp) // Return a value from 0 to 1.0 to indicate inp position on the MIDI scale
     {
         return (inp - minMIDI) / (float)rangeMIDI;
-    }
+        }
     float invPercentScale (int16_t inp) // Return a value from 0 to 1.0 to indicate inp position on the DAC scale
     {
-		//float result =((float)inp - minDAC) / rangeDAC;
-		float result =((float)inp - minDAC) / rangeDAC + 0.5/rangeMIDI;
-		if(result>MAXCLIP) return 1.0;
-		else if( result<0.0) return 0.0;
+        float result = ((float)inp - minDAC) / rangeDAC; // + .5/rangeMIDI;
+        if(result>MAXCLIP) return 1.0;
+        else if( result<0.0) return 0.0;
 		return result;
-        //return ((float)inp - minDAC) / rangeDAC;
-    }
+        }
     ///< Return Max value for the DAC
     int16_t getMaxDAC(void) {return minDAC+rangeDAC;}
     int16_t getMaxMIDI(void) {return minMIDI+rangeMIDI;}     ///< Return Max value for the MIDI
     // Conversion functions
     private:
     int16_t linealConvert (int inp) { // Convert MIDI to DAC
-        return (minDAC + PercentScale (inp) * rangeDAC);
-    }
+        //currentDAC = minDAC + PercentScale(inp) * rangeDAC;
+        //return currentDAC;
+        return (minDAC + PercentScale(inp) * rangeDAC);
+        }
 	
-    int invlinealConvert (int16_t inp) { // Convert DAC to MIDI
-        return (minMIDI + invPercentScale (inp) * rangeMIDI);
-    }
+    int16_t invlinealConvert (int16_t inp) { // Convert DAC to MIDI
+        //int16_t lb = linealConvert(currentMIDI)-hysMargin;
+        //int16_t ub = linealConvert(currentMIDI+1)+hysMargin;
+        //if(inp>lb && inp<ub) return currentMIDI; // value in histeresys bounds, do not change
+        //currentMIDI = minMIDI + round(invPercentScale(inp) * (float)rangeMIDI);
+        //return currentMIDI;
+        return (minMIDI + round(invPercentScale(inp) * (float)rangeMIDI));
+        }
 	
-    //int16_t intervalConvert (int inp);
-    //int invintervalConvert (int16_t inp);
-
     public:
-    void ResetCalPoints (void) {
-        //for (int i = 0; i < 21; i++) DACPoints[i] = minDAC + ((float)i) / 20 * rangeDAC;
-    }
     // Set/get DATA
-    void SetDAC (int16_t minD, int16_t RangeD);
+    void SetDAC (int16_t minD, int16_t RangeD){
+        minDAC = minD;
+        rangeDAC = RangeD;
+        }
     void SetMIDI (int16_t minD, int16_t RangeD) {
         minMIDI = minD;
         rangeMIDI = RangeD;
-    }
+        //hysMargin = rangeDAC / rangeMIDI * histeresysRange;
+        }
     void getDAC (int16_t &minD, int16_t &RangeD) {
         minD = minDAC;
         RangeD = rangeDAC;
-    }
+        }
     void getMIDI (int16_t &minD, int16_t &RangeD) {
         minD = minMIDI;
         RangeD = rangeMIDI;
-    }
+        }
 //    void setMultiPointMode (bool Mode) { UseMultiPoint = Mode; }
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
@@ -131,23 +131,5 @@ class RangeConv {
 #endif
 };
 
-/*
-// Utility class to convert MIDI to CV Range
-// Multi-Linear scale input to output (defined as 20 fix points and output as interpolation between each pair of fix points)
-class MultiPointConv:public RangeConv{
- public:
-  MultiPointConv(){
-    // Default to 12 bits in the CV for 120 MIDI values;
-    minMIDI=0; rangeMIDI=120; minDAC = 0;rangeDAC = ANRANGEMAX;
-    ResetCalPoints();
-  }
-  // Make conversion
-  int16_t intervalConvert( int inp);
-  int invintervalConvert( int16_t inp);
-  void ResetCalPoints(void) { for( int i=0; i<21; i++) DACPoints[i]= minDAC+ ((float)i)/20*rangeDAC;}
-  // Set DATA
-  void SetDAC( int16_t minD, int16_t RangeD) { minDAC= minD; rangeDAC= RangeD; ResetCalPoints();}
-};
-*/
 
 /** @} */

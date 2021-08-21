@@ -45,6 +45,8 @@ public:
     byte IsRunning = true;                         ///< True if start/contine real time message is received
     int tagProcessSysex = 0;                       ///< Mark Multi SysEx reception
 
+    bool soloMode = false;                          ///< set to true to activate Solo Mode 
+
     MIDImerger();
     bool poll(void);
     void begin(void);
@@ -62,6 +64,9 @@ public:
     void endNrpn(uint8_t channel);
     void sendNrpnValue(uint16_t value, uint8_t channel);
     void beginNrpn(uint16_t number, uint8_t channel);
+    // TODO Routing
+    bool generalRouting(byte Chann);
+
 private:
     midi::MidiInterface<midi::SerialMIDI<HardwareSerial>> *midiJack; ///< MIDI Interface pointers
     bool MIDIThru = false; 

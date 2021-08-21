@@ -175,6 +175,14 @@ bool InputControl::ReadPorts (bool onlyDig) {
     \details Send a Note On for the specified port, note, and MIDI channel.
 */
 void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosend,bool chord, byte vel, bool isAnalog) {
+  if(MidiMerge.soloMode){ // Check if we are in solo Mode
+      if( !hasPort(theApp.GetPort())){
+          DP("Solo mode: Note message skip");
+          return;
+      } else
+          DP("Solo mode: Solo Port selected");
+  }
+
   byte chan = port->getCfg()->MIDIChannel;
   SendLastNoteOff(controlNumber, port);
   port->LastSentMIDIData = datatosend;
@@ -199,6 +207,14 @@ void InputControl::SendNoteOn(byte controlNumber, InputPort* port, int datatosen
     \details Send a Note Off for any Note that is stll on on the specified port.
 */
 void InputControl::SendLastNoteOff(byte controlNumber, InputPort* port, bool chord) {
+  if(MidiMerge.soloMode){ // Check if we are in solo Mode
+      if( !hasPort(theApp.GetPort())){
+          DP("Solo mode: Note message skip");
+          return;
+      } else
+          DP("Solo mode: Solo Port selected");
+  }
+
   byte chan = port->getCfg()->MIDIChannel;
   if ( port->LastSentMIDIData >= 0 ) {
     if( chord)
@@ -459,7 +475,6 @@ void InputControl::ProcessGateNotes(uint8_t GateStat)
       if (!played) { // Gate play notes
         byte datatosend = GateBut.PortCfg.NoteToSend;
         SendNoteOn(ControlNumber, &GateBut, datatosend, true, 128, false);
-        DP("GateBut");
       }
 
     }

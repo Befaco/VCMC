@@ -172,6 +172,7 @@ void MIDImerger::Panic () {
 /////////////////////////////////////////////////////////////
 // Send MIDI messages to outputs
 void MIDImerger::sendNoteOn (byte Note, byte Veloc, byte Chann) {
+    if( !generalRouting(Chann))
     PitchData[Chann - 1] = Note;
     // VelData[Chann-1]= Veloc;
     usbMIDI.sendNoteOn (Note, Veloc, Chann);
@@ -237,6 +238,16 @@ void MIDImerger::sendRealTime (byte Value) {
 void MIDImerger::beginNrpn(uint16_t number, uint8_t channel){
  	usbMIDI.beginNrpn (number,channel);
 	midiJack->beginNrpn (number,channel);
+}
+
+/////////////////////////////////////////////////////////////
+// Routing options
+bool MIDImerger::generalRouting(byte Chann)
+{
+    /* if(soloMode){
+        InputPort *port = theApp.GetPort();
+    } */
+    return true;
 }
 
 /*

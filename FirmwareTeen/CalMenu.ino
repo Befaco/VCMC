@@ -465,7 +465,6 @@ bool CVTwoPointsCal ()
 
     if (!TwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
 		int16_t minD, rangeD;
 		rangeData->getDAC(minD, rangeD);
 		for(int i=0; i<8; i++){
@@ -489,7 +488,6 @@ bool AuxATwoPointsCal ()
 	BankSelected = 8; // Calibrate on Aux
 	if (!AuxTwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
 		int16_t minD, rangeD;
 		// Store on second Aux
 		rangeData->getDAC(minD, rangeD);
@@ -510,7 +508,6 @@ bool AuxBTwoPointsCal ()
 	BankSelected = 8; // Calibrate on Aux
 	if (!AuxTwoPointsCal ()) return false; // Wait for calibration to end
     if (PointSelected) { // OK pressed
-        rangeData->ResetCalPoints ();
 		int16_t minD, rangeD;
 		// Store on second Aux
 		rangeData->getDAC(minD, rangeD);
