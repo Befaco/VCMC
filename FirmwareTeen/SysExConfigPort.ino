@@ -113,6 +113,8 @@ void InputControl::SaveCfgSysEx (uint8_t par)
     Config.ChordType = Chord.getChordType();
     Config.InvDrop = Chord.getInvDrop();
     Config.ScaleId = Chord.getScaleId();
+    Config.delayFix = Chord.getdelayFix();
+    Config.delayRnd = Chord.getdelayRand();
 
     Config.SaveCfgSysEx(0, ControlNumber + 1);
     delay(DELAYTOWRITE);
@@ -143,6 +145,8 @@ bool InputControl::ReadCfgSysEx(VCMCSysExPacket *SysExPacket, byte* DecodedData,
             Chord.setChord( Config.ChordType);
             Chord.setInvDrop( Config.InvDrop);
             Chord.setScaleId( Config.ScaleId);
+            Chord.setdelayFix(Config.delayFix);
+            Chord.setdelayRand(Config.delayRnd);
             return ret;
         case CVSLOT:
             return CVPort.PortCfg.ReadCfgSysEx(DecodedData, decLen);

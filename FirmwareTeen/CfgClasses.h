@@ -117,6 +117,14 @@ class InputCtrlCfg {
     uint8_t ScaleId;
     uint8_t ChordType;
     uint8_t InvDrop;
+    union 
+    {
+        struct{
+            uint16_t delayFix;
+            uint16_t delayRnd;
+        };
+        uint32_t delayChord=0;
+    };    
 
     InputCtrlCfg (): Chanfunction (INDEP) {}
     InputCtrlCfg (int chanF) {
