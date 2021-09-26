@@ -268,6 +268,8 @@ class AnInputPortCfg : public InputPortCfg {
     uint8_t NRPNparMSB;
     uint8_t NRPNparLSB;
     uint16_t AutoOff = 1000;    ///< Note Off after n milliseconds
+    uint8_t TransposeOctave;    ///< Transpose V/Oct upwards by octaves      (-10 -> 10 octaves)
+    int8_t TransposeSemitones;  ///< Transpose V/Oct up or down by semitones (-12 -> +12 semitones)
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
     void ReadCfgOSC(OSCMessage *pMsg);

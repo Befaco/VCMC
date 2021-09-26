@@ -102,6 +102,13 @@ DEF_MENULIST (HiResFn, HI-RES MIDI, ListLines,
 )
 
 
+DEF_MENULIST (AnagTransposeFn, TRANSPOSE, ListLines,
+    {"<-BACK", gotoMenuAnag, 1},
+    {"OCTAVE", SelectTransposeOctave, 1},
+    {"SEMITONES", SelectTransposeSemitones, 1}
+)
+
+
 DEF_MENULIST (listAnagFn, MIDI MAPPING, ListLines,
     {"<-BACK", gotoMenuAnag, 1},
     {"CC", SelectCC, 1},
@@ -115,6 +122,7 @@ DEF_MENULIST (listAnagFn, MIDI MAPPING, ListLines,
     {"DIG FUNC->", SelectAngDigFN, 1},
     {"CHORD FUNC->", SelectChordFN, 1},
     {"HiRES MIDI->", SelectHiresFN, 1},
+    {"TRANSPOSE->", SelectTransposeFN, 1},
     {"NO FUNC", SelectNoFunc, 1}
 )
 
@@ -130,6 +138,7 @@ DEF_MENULIST (listAnagFn2, MIDI MAPPING, ListLines,
     {"DIG FUNC->", SelectAngDigFN, 0},
     {"CHORD FUNC->", SelectChordFN, 1},
     {"HiRES MIDI->", SelectHiresFN, 1},
+    {"TRANSPOSE->", SelectTransposeFN, 1},
     {"NO FUNC", SelectNoFunc, 1}
 )
 
@@ -247,6 +256,14 @@ bool SelectCVConfig()
     return true;
 }
 
+////////////////////////////////////////////////
+// Transpose functions
+bool SelectTransposeFN()
+{
+    myMenu.ClearArea();
+    myMenu.setCurrentMenu(&AnagTransposeFn);
+    return true;
+}
 
 ////////////////////////////////////////////////
 // Scale / Chord functions
@@ -381,6 +398,24 @@ bool SelectFixRand()
     return gotoMenuAnag();
 }
 
+
+//////////////////////
+// Transposition config
+bool SelectTransposeOctave(){
+    long val = ((AnInputPortCfg *)GetPortCfg())->TransposeOctave;
+    bool ret = EncoderchangeValue("OCTAVE:", val, -10, 10, 3, 0, 45);
+    ((AnInputPortCfg *)GetPortCfg())->TransposeOctave = val;
+    return ret;
+    return true;
+}
+
+bool SelectTransposeSemitones(){
+    long val = ((AnInputPortCfg *)GetPortCfg())->TransposeSemitones;
+    bool ret = EncoderchangeValue("SEMITONES:", val, -12, 12, 4, 0, 45);
+    ((AnInputPortCfg *)GetPortCfg())->TransposeSemitones = val;
+    return ret;
+    return true;
+}
 
 //////////////////////
 // Port name selection
