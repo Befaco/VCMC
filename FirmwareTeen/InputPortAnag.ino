@@ -437,7 +437,10 @@ int AnalogPort::TrimValue (int DatatoTrim) {
     if (DatatoTrim == -9999) DatatoTrim = MIDIData;
 
     returnValue = DatatoTrim;
-    
+
+    // apply transposition
+    returnValue += (12 * PortCfg.TransposeOctave) + PortCfg.TransposeSemitones;
+
     PortCfg.LimitValues (minv, maxv);
     // Limit Data to MIDI limits
     //returnValue = (DatatoTrim < minv) ? minv : (DatatoTrim > maxv) ? maxv : DatatoTrim;
