@@ -472,11 +472,11 @@ bool CVTwoPointsCal ()
 		}
 		if( GlobalCalEnabled){
 			// Save Global Config
-			theApp.theGlobalCfg.InitMinDAC = minD;
-			theApp.theGlobalCfg.InitRangeDAC = rangeD;
+			GlobalCfg.InitMinDAC = minD;
+			GlobalCfg.InitRangeDAC = rangeD;
 			FlashAccess->SetCurrentPage( 0);
 			FlashAccess->SetCurrentPage( 1);
-			theApp.theGlobalCfg.SaveCfg();
+			GlobalCfg.SaveCfg();
 			}
     }
     return true;
@@ -493,11 +493,11 @@ bool AuxATwoPointsCal ()
 		rangeData->getDAC(minD, rangeD);
 		CVControls[8].CVPort.PortCfg.Ranges.SetDAC (minD, rangeD);
 		// Save Global Config
-		theApp.theGlobalCfg.AuxAMinDAC = minD;
-		theApp.theGlobalCfg.AuxARangeDAC = rangeD;
+		GlobalCfg.AuxAMinDAC = minD;
+		GlobalCfg.AuxARangeDAC = rangeD;
 		FlashAccess->SetCurrentPage( 0);
 		FlashAccess->SetCurrentPage( 1);
-		theApp.theGlobalCfg.SaveCfg();
+		GlobalCfg.SaveCfg();
     }
     return true;
 }
@@ -513,11 +513,11 @@ bool AuxBTwoPointsCal ()
 		rangeData->getDAC(minD, rangeD);
 		CVControls[8].Slider.PortCfg.Ranges.SetDAC (minD, rangeD);
 		// Save Global Config
-		theApp.theGlobalCfg.AuxBMinDAC = minD;
-		theApp.theGlobalCfg.AuxBRangeDAC = rangeD;
+		GlobalCfg.AuxBMinDAC = minD;
+		GlobalCfg.AuxBRangeDAC = rangeD;
 		FlashAccess->SetCurrentPage( 0);
 		FlashAccess->SetCurrentPage( 1);
-		theApp.theGlobalCfg.SaveCfg();
+		GlobalCfg.SaveCfg();
     }
     return true;
 }
@@ -532,9 +532,9 @@ bool AuxTwoPointsCal () {
 		rangeData->getDAC(minD, rangeD);
 		CVControls[8].Slider.PortCfg.Ranges.SetDAC (minD, rangeD);
 		// Save Global Config
-		theApp.theGlobalCfg.AuxMinDAC = minD;
-		theApp.theGlobalCfg.AuxRangeDAC = rangeD;
-		theApp.theGlobalCfg.SaveCfg();
+		GlobalCfg.AuxMinDAC = minD;
+		GlobalCfg.AuxRangeDAC = rangeD;
+		GlobalCfg.SaveCfg();
     }*/
     return true;
 }
@@ -581,11 +581,11 @@ bool FadersCal ()
         }
         InitCal = false;
         calMode = NoCalMode;
-		theApp.theGlobalCfg.FaderMinDAC = GlobalminD;
-		theApp.theGlobalCfg.FaderRangeDAC = GlobalrangeD;
+		GlobalCfg.FaderMinDAC = GlobalminD;
+		GlobalCfg.FaderRangeDAC = GlobalrangeD;
 		FlashAccess->SetCurrentPage( 0);
 		FlashAccess->SetCurrentPage( 1);
-		theApp.theGlobalCfg.SaveCfg();
+		GlobalCfg.SaveCfg();
         return true;
     }
 
@@ -852,8 +852,8 @@ bool SetClockMenu ()
 	        int8_t ClkShift;
             unsigned long IntMIDIClk;
             getClkValues(ClkDiv, ClkShift, IntMIDIClk);
-            theApp.theGlobalCfg.ClockShift = ClkShift;
-            theApp.theGlobalCfg.ClockDivider = ClkDiv;
+            GlobalCfg.ClockShift = ClkShift;
+            GlobalCfg.ClockDivider = ClkDiv;
             return true;
         } else { // Accept input in point selected
             runFunc = SetClockFuns[PointSelected - 2];
@@ -969,7 +969,7 @@ bool ChangeClockDiv () {
     float val = *ck;
 
     editingPar = EncChangeValF (val, 0, 2, 0.001, displaySetClockMenu);
-    theApp.theGlobalCfg.ClockDivider = *ck = val;
+    GlobalCfg.ClockDivider = *ck = val;
 
     return editingPar;//ret;
 }
@@ -996,7 +996,7 @@ bool ChangeClockBPM () {
     editingPar = EncChangeValF (MIDIBPM, 0, 500, 1.0, displaySetClockMenu);
 
     *NewInterval= 60000.0/(MIDIBPM/1000.0)/24.0;
-    theApp.theGlobalCfg.ClockDivider= *ClkDiv = MIDIBPM / prevBPM * (*ClkDiv);
+    GlobalCfg.ClockDivider= *ClkDiv = MIDIBPM / prevBPM * (*ClkDiv);
 
     return editingPar;//ret;
 }
@@ -1009,7 +1009,7 @@ bool ChangeClockShift () {
     float val = *ClkShift;
 
     editingPar = EncChangeValF (val, -5, 5, 1.0, displaySetClockMenu);
-    theApp.theGlobalCfg.ClockShift = *ClkShift = val;
+    GlobalCfg.ClockShift = *ClkShift = val;
     return editingPar;//ret;
 }
 

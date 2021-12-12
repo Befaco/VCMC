@@ -435,12 +435,12 @@ bool LoadPreset()
 			
 			CVControls[i].Slider.PortCfg = configFader[valPreset-1][i];
 			CVControls[i].Slider.PortCfg.Ranges = FaderRanges[valPreset-1][i];
-			CVControls[i].Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.FaderMinDAC, theApp.theGlobalCfg.FaderRangeDAC);
+			CVControls[i].Slider.PortCfg.Ranges.SetDAC (GlobalCfg.FaderMinDAC, GlobalCfg.FaderRangeDAC);
 			
 			if(i<8) CVControls[i].GateBut.PortCfg = configGate[valPreset-1][i];
 		}
-		CVControls[8].CVPort.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.AuxAMinDAC, theApp.theGlobalCfg.AuxARangeDAC);
-		CVControls[8].Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.AuxBMinDAC, theApp.theGlobalCfg.AuxBRangeDAC);
+		CVControls[8].CVPort.PortCfg.Ranges.SetDAC (GlobalCfg.AuxAMinDAC, GlobalCfg.AuxARangeDAC);
+		CVControls[8].Slider.PortCfg.Ranges.SetDAC (GlobalCfg.AuxBMinDAC, GlobalCfg.AuxBRangeDAC);
 	}
 	ClearSelectArea();
 	gotoMenuSettings();

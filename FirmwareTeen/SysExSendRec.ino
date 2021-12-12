@@ -49,7 +49,7 @@ bool SaveLoadClass::SaveCfgSysEx(int page)
     {        
       //page = CurrentPage;
       // Send individual messages
-				theApp.theGlobalCfg.SaveCfgSysEx ();
+				GlobalCfg.SaveCfgSysEx ();
         for (int i = 0; i < 9; i++) {
           CVControls[i].SaveCfgSysEx ();
         }
@@ -411,7 +411,7 @@ bool SaveLoadClass::ReceivedSingleSysEx(unsigned SysExLength, const byte *RecArr
       myMenu.setupPopup("SysEx Received", 1000, 1, 50, 0);
     //Channhel Dump
     if(bChannel==0)
-      return theApp.theGlobalCfg.ReadCfgSysEx(DecodedData, decLen, bPort);
+      return GlobalCfg.ReadCfgSysEx(DecodedData, decLen, bPort);
     else if(bChannel<10)
       return theApp.Controls[bChannel-1].ReadCfgSysEx(SysExPacket, DecodedData, decLen);
   } else if(bType==SYSEXCOMMAND){ // SysEx Command received

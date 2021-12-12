@@ -37,31 +37,28 @@
  */
 
 // Main screen menu placeholder (This menu do not show )
-MenuItem firstList[3] = {
+DEF_MENULIST (list1, Channel Select, ListCards,
     {"Channel Cfg", gotoMenuBanks, 1},
-    {"Global Cfg", gotoMenuGlobalCfg, 0},
-    {"Channel Select", NULL, 0} // causa-efecto
-};
-MenuList list1(firstList, 2, ListCards); // (Nombre lista, numero items, Tipo de item)
+    {"Global Cfg", gotoMenuGlobalCfg, 0}
+)
 
 // global config menu. enters Button+encoder
-MenuItem GlobalconfigList[] = {
+DEF_MENULIST (listGlobal,  GLOBAL CFG , ListLinesSimple,
     {"<-BACK", gotoMenuSettings, 1},
     {"PANIC", PanicFn, 1},
     {"FACTORY RST", gotoListFactReset, 1},
     {"GLOBAL CV CAL", CVTwoPointsCal, 1},
     {"DIM SCREEN", SetScreenLight, 0},
-    {"SAVE CONF", gotoListBankSaveSel, 1}, //SelectSavePage, 1}
-    {"LOAD CONF", gotoListBankLoadSel, 1}, //SelectLoadPage, 1}
+    {"SAVE CONF", gotoListBankSaveSel, 1},
+    {"LOAD CONF", gotoListBankLoadSel, 1},
     {"CREDITS", CreditsScreen, 1},         //Show a screen with firmware version and credits
     {"FACTORY CAL", gotoMenuGlobalCal, 0},
     {"User Names", changeUserNames, 0},
     {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
-    {"SOLO MODE", SoloMode, 1},
-    {" GLOBAL CFG ", NULL, 1}};
-MenuList listGlobal(GlobalconfigList, 12, ListLinesSimple);
+    {"SOLO MODE", SoloMode, 1}
+)
 
-MenuItem GlobalCalList[] = {
+DEF_MENULIST (listGlobalCal, GLOBAL CAL, ListLines,
     {"<-BACK", gotoMenuSettings, 1},
     {"MATRIX CAL", CalibrateCV, 0},       //Global config?
     {"CV GLOBAL CAL", CVTwoPointsCal, 1}, //Global config?
@@ -70,45 +67,40 @@ MenuItem GlobalCalList[] = {
     {"FADER THR", SelectFaderThres, 0},
     {"AUX A CAL", AuxATwoPointsCal, 1},
     {"AUX B CAL", AuxBTwoPointsCal, 1},
-    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE},
-    {"GLOBAL CAL", NULL, 1}};
-MenuList listGlobalCal(GlobalCalList, 9, ListLines);//ListLinesSimple);
+    {"FREQUENCY", FreqMeas, FREQMEASUREACTIVE}
+)
 
 // Received SysEx Menu
-MenuItem RecSysExList[3] = {
+DEF_MENULIST (listLoadSysEx, RECEIVED SYSEX, ListLinesSimple,
     {"DISCARD", gotoMenuSettings, 1},
-    {"LOAD SYSEX", SelectSysExLoadPage, 1},
-    {"RECEIVED SYSEX", NULL, 1}};
-MenuList listLoadSysEx(RecSysExList, 2, ListLinesSimple);
+    {"LOAD SYSEX", SelectSysExLoadPage, 1}
+)
 
 // Save Config Menu
-MenuItem BankSaveSelList[] = {
+DEF_MENULIST (ListBankSaveSel, SAVE CONFIG, ListLinesSimple,
     {"CANCEL", gotoMenuGlobalCfg, 1},
     {"USER 1", SaveSlot1, 1},
     {"USER 2", SaveSlot2, 1},
     {"USER 3", SaveSlot3, 1},
     {"USER 4", SaveSlot4, 1},
-    {"SYSEX", SaveViaSysEx, 1},
-    {"SAVE CONFIG", NULL, 1}};
-MenuList ListBankSaveSel(BankSaveSelList, 6, ListLinesSimple);
+    {"SYSEX", SaveViaSysEx, 1}
+)
 
 // Load Config Menu
-MenuItem BankLoadSelList[] = {
+DEF_MENULIST (ListBankLoadSel, LOAD CONFIG, ListLinesSimple,
     {"CANCEL", gotoMenuGlobalCfg, 1},
     {"USER 1", LoadSlot1, 1},
     {"USER 2", LoadSlot2, 1},
     {"USER 3", LoadSlot3, 1},
     {"USER 4", LoadSlot4, 1},
-    {"PRESETS", LoadPreset, 1},
-    {"LOAD CONFIG", NULL, 1}};
-MenuList ListBankLoadSel(BankLoadSelList, 6, ListLinesSimple);
+    {"PRESETS", LoadPreset, 1}
+)
 
 // Factory Reset Menu
-MenuItem FactResetList[3] = {
+DEF_MENULIST (ListFactReset, FACTORY RESET, ListLinesSimple,
     {"CANCEL", gotoMenuGlobalCfg, 1},
-    {"RESET", FactoryReset, 1},
-    {"FACTORY RESET", NULL, 1}};
-MenuList ListFactReset(FactResetList, 2, ListLinesSimple);
+    {"RESET", FactoryReset, 1}
+)
 
 MenuItem UserNamesItems[] = {
     {"Name", selectMenuPortName, 1}};
@@ -202,9 +194,9 @@ bool SelectGateMode() {
 
 bool SelectFaderFilter()
 {
-    long val = theApp.theGlobalCfg.filterFader*100000;
+    long val = GlobalCfg.filterFader*100000;
     bool ret = myMenu.EncoderselDigitLong("Filter: 0.", val, 0, 999999, 5, 0, 45);
-    theApp.theGlobalCfg.filterFader = val/100000.0;
+    GlobalCfg.filterFader = val/100000.0;
     if( ret)
         theApp.ApplyFilters();
     return ret;
@@ -212,9 +204,9 @@ bool SelectFaderFilter()
 
 bool SelectFaderThres()
 {
-    long val = theApp.theGlobalCfg.ActThrFader;
+    long val = GlobalCfg.ActThrFader;
     bool ret = EncoderchangeValue("Thresh:", val, 0, 256, 4, 0, 45);
-    theApp.theGlobalCfg.ActThrFader = val;
+    GlobalCfg.ActThrFader = val;
     if( ret)
         theApp.ApplyFilters();
     return ret;

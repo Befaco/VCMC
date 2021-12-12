@@ -151,7 +151,7 @@ void OSCmerger::ProcessOscMsg (OSCMessage *pMsg) {
             pMsg->getString (0, msgTxt, 100); // Get command string
             if (strcmp (msgTxt, "FullConfig") == 0) { // Send Full Config command
 				sprintf (msgTxt, "/VCMC/Config/Global");
-				theApp.theGlobalCfg.SaveCfgOSC (msgTxt);
+				GlobalCfg.SaveCfgOSC (msgTxt);
                 for (i = 0; i < 9; i++) {
                     sprintf (msgTxt, "/VCMC/Config/%d", i + 1);
                     CVControls[i].SaveCfgOSC (msgTxt);
@@ -214,15 +214,6 @@ void OSCmerger::begin(void)
     //begin SLIPSerial just like Serial
     SLIPSerial.begin(115200); // set this as high as you can reliably run on your platform
 
-    // Begin I2C serial channel
-    // Setup for Slave mode, address 0x66, pins 18/19, external pullups, 400kHz
-    Wire1.begin(ClientPort);
-    Wire1.setSDA(I2C_SDA);
-    Wire1.setSCL(I2C_SCL);
-    // Wire1.begin(I2C_SLAVE, 0x66, I2C_PINS_29_30, I2C_PULLUP_EXT, 400000);
-    // register events
-    Wire1.onReceive(receiveEvent);
-    Wire1.onRequest(requestEvent);
     DP("Init OSC Merger"));
 }
 

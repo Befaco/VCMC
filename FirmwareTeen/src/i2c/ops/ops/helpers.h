@@ -24,20 +24,17 @@
 //
 // -----------------------------------------------------------------------------
 //
+// Adapted from TeleType source code.
+// See license on https://github.com/monome/teletype
 
-#ifndef I2CSendRec_H_
-#define I2CSendRec_H_
-/** @addtogroup InputPortsGroup
+#ifndef TeletypeHelpers_H_
+#define TeletypeHelpers_H_
+/** @addtogroup I2C
 * @{
 */
 
-void receiveEvent(int count);
-void requestEvent(void);
-
-class I2CPort {
-public:
-    void setI2CAddress(int addr);
-};
 /** @} */ 
 
-#endif /* I2CSendRec_H_ */
+#endif
+
+

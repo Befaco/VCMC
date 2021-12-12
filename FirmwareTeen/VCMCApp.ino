@@ -97,38 +97,55 @@ void servicePorts () {
  *  \return Currently selected config port pointer
  *
  */
-InputPortCfg *VCMCApp::GetPortConfig (void) {
+InputPortCfg *VCMCApp::GetPortConfig (int8_t Bank, int8_t Port) {
     InputPortCfg *SelCfg = NULL;
+    uint8_t banksel = byBankSelected;
+    uint8_t portsel = byPortSelected;
 
-    switch (byPortSelected) {
+    if( Port!=-1) portsel = Port;
+    if( Bank!=-1) banksel = Bank;
+
+    switch (portsel) {
     case 1:
-        SelCfg = &Controls[byBankSelected].GateBut.PortCfg;
+        SelCfg = &Controls[banksel].GateBut.PortCfg;
         break;
     case 2:
-        SelCfg = &Controls[byBankSelected].CVPort.PortCfg;
+        SelCfg = &Controls[banksel].CVPort.PortCfg;
         break;
     case 3:
-        SelCfg = &Controls[byBankSelected].Slider.PortCfg;
+        SelCfg = &Controls[banksel].Slider.PortCfg;
         break;
     }
     return SelCfg;
 }
 
-InputPort *VCMCApp::GetPort(void){
+InputPort *VCMCApp::GetPort (int8_t Bank, int8_t Port) {
     InputPort *SelCfg = NULL;
+    uint8_t banksel = byBankSelected;
+    uint8_t portsel = byPortSelected;
 
-    switch (byPortSelected) {
+    if( Port!=-1) portsel = Port;
+    if( Bank!=-1) banksel = Bank;
+
+    switch (portsel) {
     case 1:
-        SelCfg = &Controls[byBankSelected].GateBut;
+        SelCfg = &Controls[banksel].GateBut;
         break;
     case 2:
-        SelCfg = &Controls[byBankSelected].CVPort;
+        SelCfg = &Controls[banksel].CVPort;
         break;
     case 3:
-        SelCfg = &Controls[byBankSelected].Slider;
+        SelCfg = &Controls[banksel].Slider;
         break;
     }
     return SelCfg;
+}
+
+InputControl *VCMCApp::GetBank (int8_t Bank) {
+    if( Bank==-1)
+        return &Controls[byBankSelected];
+    else
+        return &Controls[Bank];
 }
 
 // Callbacks

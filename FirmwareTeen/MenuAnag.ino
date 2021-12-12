@@ -413,7 +413,7 @@ bool editUserNames()
     }
     if (SetValState > 0)
     {
-        if (!theApp.vMenu.EncoderselDigitStr("Name ", theApp.theGlobalCfg.UserNames[idx], SIZEPORTNAMES, 0, 45))
+        if (!theApp.vMenu.EncoderselDigitStr("Name ", GlobalCfg.UserNames[idx], SIZEPORTNAMES, 0, 45))
             return false; // Editing name
         SetValState = 0;
     }
@@ -534,7 +534,7 @@ bool AutoOff3000(){
 
 bool AutoOffEdit()
 {
-    long val = ((AnInputPortCfg *)GetPortCfg())->AutoOff; // theApp.theGlobalCfg.AutoOff;
+    long val = ((AnInputPortCfg *)GetPortCfg())->AutoOff; // GlobalCfg.AutoOff;
     bool ret = EncoderchangeValue("Auto Off ms:", val, 0, 5000, 4, 00, 45);
     ((AnInputPortCfg *)GetPortCfg())->AutoOff = val;
 
@@ -826,7 +826,7 @@ bool SelectAnagClockDiv()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->ClockDivider;
     bool ret = EncoderchangeValue("Clock Div:", val, 1, 255, 3, 0, 45);
-    theApp.theGlobalCfg.ClockDivider= 
+    GlobalCfg.ClockDivider= 
         ((AnInputPortCfg *)GetPortCfg())->ClockDivider = val;
     return ret;
 }
@@ -835,7 +835,7 @@ bool SelectAnagClockShift()
 {
     long val = ((AnInputPortCfg *)GetPortCfg())->ClockShift;
     bool ret = EncoderchangeValue("Clock Shift:", val, -120, 120, 4, 0, 45);
-    theApp.theGlobalCfg.ClockShift =
+    GlobalCfg.ClockShift =
         ((AnInputPortCfg *)GetPortCfg())->ClockShift = val;
     return ret;
 }

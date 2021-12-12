@@ -64,7 +64,7 @@ const int TIMERENCSERVICE = 1100; /// Microseconds between call to read encoder 
 //#define CVTHING 1
 //#define USEOSC
 //#define USECONFIGOSC
-//#define USEI2C
+#define USEI2C
 const uint8_t FREQMEASUREACTIVE = 0;
 
 #ifdef CVTHING
@@ -154,6 +154,11 @@ const uint32_t REFRESH_RATE2 = 20000; /// Refresh text screen portion every REFR
 const uint32_t OSCINTERVAL = 50000;
 const uint16_t TRIMOSC = 5; //10
 #endif
+#ifdef USEI2C
+/// I2C definitions
+const uint32_t I2CINTERVAL = 10000; // Limit sending every x us
+const uint16_t TRIMI2C = 16; // Change in input to consider it a new value
+#endif
 
 
 ///@{
@@ -197,9 +202,14 @@ const char LASTNAMECHAR = 127;
 *  Menu items definition and response functions for selections.
 */
 
-/** @defgroup OSC OSC/I2C Tools
+/** @defgroup OSC OSC Tools
 *  @ingroup GeneralUtil
-*  Classes and functions for OSC and I2C input/output
+*  Classes and functions for OSC input/output
+*/
+
+/** @defgroup I2C I2C Tools
+*  @ingroup GeneralUtil
+*  Classes and functions for I2C input/output
 */
 
 /** @defgroup MIDI MIDI Tools

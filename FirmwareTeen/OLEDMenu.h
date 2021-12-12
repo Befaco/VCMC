@@ -99,6 +99,8 @@ public:
         uint8_t numitems, Item_Function fun, uint8_t initItem=0xff, uint8_t startItem=0);
     uint8_t FillNameMenuList();
     uint8_t FillUserNameMenuList(bool fillEmpty=true);
+    uint8_t FillI2CDevList(void); // Definition on I2CDevice.cpp
+    uint8_t FillI2COpList(void);  // Definition on I2CDevice.cpp
 
     void displayMenu();
     void displayMenuListLines();
@@ -152,6 +154,9 @@ public:
     void ClearInputArea(const char *title, uint16_t padPos, uint16_t posx, uint16_t posy);
     void DrawInputArea(const char *title, uint16_t padPos, uint16_t posx, uint16_t posy);
 };
+
+extern MenuItem CurrentMenuItems[];
+extern MenuList CurrentMenuList;
 
 /** @} */
   

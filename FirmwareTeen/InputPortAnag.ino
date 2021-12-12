@@ -41,9 +41,10 @@
  *  \param [in] PortN Input port for analog reading
  *  
  */
-bool AnalogPort::SetPort (byte PortN) {
+bool AnalogPort::SetPort (byte PortN, InputControl *pP) {
     // if( PortN < 0 || PortN > 7) return false;
 
+    pParent = pP;
     PortNumber = PortN;
     pinMode (PortN, INPUT); // INPUT_ANALOG);
     PortValue = 0;
@@ -57,11 +58,12 @@ bool AnalogPort::SetPort (byte PortN) {
  *  \param [in] PortN Input port for analog reading
  *  
  */
-bool DemuxAnalogPort::SetPort (byte DemuxVal, byte PortN) {
+bool DemuxAnalogPort::SetPort (byte DemuxVal, byte PortN, InputControl *pP) {
+    pParent = pP;
     // Port to demux
     DemuxPort = DemuxVal;
     // call base class to setup analog input
-    return AnalogPort::SetPort (PortN);
+    return AnalogPort::SetPort (PortN, pP);
 }
 
 
@@ -112,16 +114,11 @@ bool AnalogPort::ReadPort (long &NewData) {
     else
         digitalWrite (PINOFFSET, LOW);
     // Read input
-    /* uint16_t reading = 0; // Test CV inputs
-    if(PortCfg.ControllerNumber<21) reading = myMenu.disptimer / 50 / PortCfg.ControllerNumber;
-    if(PortCfg.ControllerNumber==21) reading = ((myMenu.disptimer%5000000)<500000)?0:4095<<4;
-     */
     uint16_t reading = (uint16_t)adc->analogRead (PortNumber);//,adcNum);
 
     if (ANBITS > 12) reading >>= 4; // Filter first 4 bits
     if( PortCfg.IsDigitalFunc())
     {
-        //unsigned reading = digitalRead (PortNumber);
         int16_t mindac,rangedac;
         PortCfg.Ranges.getDAC(mindac,rangedac);
         // Read as digital input
@@ -266,6 +263,10 @@ void AnalogPort::SendMIDI (int MidiData, bool GateStat) {
 
     if (SendData == LastSentMIDIData) return; // Do not send the same data twice
 	
+    #ifdef USEI2C
+    if( pParent->Config.UseMIDII2C) SendI2C ( SendData, GateStat) ;
+    #endif
+
     switch (PortCfg.MIDIfunction) {
 	case PITCHTRIG:
 	case PITCHLEVEL:

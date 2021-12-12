@@ -40,7 +40,7 @@
 //////////////////////////////////////////
 // Configuration classes Input Control
 /// Global Configuration for VCMC module
-class GlobalCfg {
+class globalCfg {
   public:
     uint8_t initPage;
     int16_t InitMinDAC;   ///< Minimum default CV DAC value
@@ -59,20 +59,30 @@ class GlobalCfg {
     {
       struct {
         bool EncoderDir: 1; ///< Encder Diretion default=0, reversed = 1)
-        uint8_t Unused: 7;
+        bool masterI2C : 1;  ///< Device is in I2C Master(Leader) mode
+        uint8_t Unused: 6;
       };
-      uint8_t GenOptions1;
+      uint8_t GenOptions1 = 0;
     };
 
     float filterFader = DefFaderfilter;
     uint8_t ActThrFader = DefActivityThreshold;
-
     char UserNames[NUMUSERNAMES][SIZEPORTNAMES + 1] = { { 0 } };
+
+    //union {
+    struct {
+        //uint8_t I2CChannel;
+        uint8_t I2Cdev;
+        uint8_t I2CFollowerAddr;
+    };
+    //    uint16_t I2CGlobalOptions=0;
+    //};
+
     ////////////////////////////////
     // TODO Global Config Candidates
     // uint16_t DACPoints[21];
 
-    GlobalCfg ():
+    globalCfg ():
       initPage(0),
       InitMinDAC (ANRANGEMAX),
       InitRangeDAC (-ANRANGEMAX),
@@ -82,12 +92,17 @@ class GlobalCfg {
       AuxARangeDAC(-ANRANGEMAX),
       AuxBMinDAC (ANRANGEMAX),
       AuxBRangeDAC(-ANRANGEMAX),
-      AutoOff(1000),
-      EncoderDir(1)
+      AutoOff(1000)
     {
       filterFader = DefFaderfilter;
       ActThrFader = DefActivityThreshold;
+      EncoderDir = 1;
+      masterI2C = true;
+      //I2CChannel = 0;
+      I2Cdev = 0;
+      I2CFollowerAddr = 0;
     }
+
     int SaveCfg();//int addr);
     int LoadCfg();//int addr);
     int SetPage(int page);
@@ -113,7 +128,16 @@ typedef enum ICFun_e {
 /// InputControl configuration
 class InputCtrlCfg {
   public:
-    CtrlFunctions Chanfunction; ///< Function selected for the input control
+    // CtrlFunctions Chanfunction; ///< Function selected for the input control
+    union {
+        struct {
+        uint8_t Chanfunction : 2; ///< Function selected for the input control
+        uint8_t UseMIDII2C : 1;
+        uint8_t OptionsCtrl : 5;
+        //uint16_t OtherCtrlOptions : 10; 
+        };
+        uint8_t OptionsInputCtrl;
+    };
     uint8_t ScaleId;
     uint8_t ChordType;
     uint8_t InvDrop;
@@ -125,10 +149,25 @@ class InputCtrlCfg {
         };
         uint32_t delayChord=0;
     };    
+    /* struct {
+        uint16_t CVCommI2C;
+        uint16_t FadCommI2C;
+        uint16_t GtCommI2C;
+    }; */
 
-    InputCtrlCfg (): Chanfunction (INDEP) {}
+    InputCtrlCfg () {
+      OptionsInputCtrl = 0;
+      Chanfunction = INDEP;
+      //CVCommI2C = E_NOI2CFUNC; // Default
+      //FadCommI2C = E_NOI2CFUNC; // Default
+      //GtCommI2C = E_NOI2CFUNC; // Default
+    }
     InputCtrlCfg (int chanF) {
+      OptionsInputCtrl = 0;
       Chanfunction = (CtrlFunctions)chanF;
+      //CVCommI2C = E_NOI2CFUNC; // Default
+      //FadCommI2C = E_NOI2CFUNC; // Default
+      //GtCommI2C = E_NOI2CFUNC; // Default
     }
 
     void SaveCfgSysEx (uint8_t par = 0, uint8_t chan = 0);
@@ -213,13 +252,26 @@ class InputPortCfg {
     uint8_t     charSufix = 0;
     uint16_t    DelayGate = 0;          ///< Delay in msecs for gate change (minimu time to accept new value). Used for debouncing.
 
+    union{
+      struct {
+        uint16_t CommI2C : 10;
+        uint8_t I2CChannel : 6;
+        };
+      uint16_t OptionsI2C;
+    };
+
 #ifdef USECONFIGOSC
     void SaveCfgOSC (char *address);
     bool ReadCfgSysEx(byte *DecodedData, unsigned int decLen);
 #endif
     InputPortCfg ():
       ClockDivider (1.0)
-    {}
+    {
+      #ifdef USEI2C
+      I2CChannel = 0;
+      CommI2C = E_NOI2CFUNC; // Default
+      #endif
+    }
     InputPortCfg (byte MIDIChan, byte CCN, byte nSend = 60, byte ccVal = 40, float clkDiv = 1.0, int8_t clkSh = 0):
       MIDIChannel (MIDIChan),
       ControllerNumber (CCN),
@@ -227,7 +279,12 @@ class InputPortCfg {
       ControllerValue(ccVal),
       ClockDivider (clkDiv),
       ClockShift (clkSh)
-    {}
+    {
+      #ifdef USEI2C
+      I2CChannel = 0;
+      CommI2C = E_NOI2CFUNC; // Default
+      #endif
+    }
     uint8_t getName(char *name);
 };
 

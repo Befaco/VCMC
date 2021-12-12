@@ -63,28 +63,29 @@ bool InputControl::SetControlNumber (byte CtrlNum) {
 bool InputControl::SetPort (byte PortCV, byte PortSlid, byte PortGate, byte Ledp) {
 
   if (ControlNumber == 8) { // Aux inputs
-    CVPort.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.AuxAMinDAC, theApp.theGlobalCfg.AuxARangeDAC);
-    Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.AuxBMinDAC, theApp.theGlobalCfg.AuxBRangeDAC);
-    return CVPort.SetPort (PortCV, PINAUXA) & Slider.SetPort (PortSlid, PINAUXB) &
-           GateBut.SetPort (0, 0);
+    CVPort.PortCfg.Ranges.SetDAC (GlobalCfg.AuxAMinDAC, GlobalCfg.AuxARangeDAC);
+    Slider.PortCfg.Ranges.SetDAC (GlobalCfg.AuxBMinDAC, GlobalCfg.AuxBRangeDAC);
+    return CVPort.SetPort (PortCV, PINAUXA, this) & Slider.SetPort (PortSlid, PINAUXB, this) &
+           GateBut.SetPort (0, 0, this);
   } else { // CV and sliders
     // CV port uses reversed values
     //CVPort.PortCfg.Ranges.setMultiPointMode (true); // Use MultiPoint for CV
     // CVPort.PortCfg.Ranges.SetDAC( 4148, -4145);  // Hack for current values in DAC
-    CVPort.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.InitMinDAC, theApp.theGlobalCfg.InitRangeDAC);
+    CVPort.PortCfg.Ranges.SetDAC (GlobalCfg.InitMinDAC, GlobalCfg.InitRangeDAC);
     Slider.typeSlider = true;
-    Slider.PortCfg.Ranges.SetDAC (theApp.theGlobalCfg.FaderMinDAC, theApp.theGlobalCfg.FaderRangeDAC);
+    Slider.PortCfg.Ranges.SetDAC (GlobalCfg.FaderMinDAC, GlobalCfg.FaderRangeDAC);
 #ifdef FILTEREDANAGINPUT
     // Set parameters for FilteredInput
-    Slider.setFilter(theApp.theGlobalCfg.filterFader, theApp.theGlobalCfg.ActThrFader);
+    Slider.setFilter(GlobalCfg.filterFader, GlobalCfg.ActThrFader);
     //Slider.FilteredInput->setSnapMultiplier (0.0001);
     //Slider.FilteredInput->setActivityThreshold (17);
     //Slider.FilteredInput->enableEdgeSnap();
 #endif
   }
 
-  return CVPort.SetPort (PortCV, PINCVINPUT) & Slider.SetPort (PortSlid, PINSLIDERINPUT) &
-         GateBut.SetPort (PortGate, Ledp);
+  return CVPort.SetPort (PortCV, PINCVINPUT, this) 
+    & Slider.SetPort (PortSlid, PINSLIDERINPUT, this) 
+    & GateBut.SetPort (PortGate, Ledp, this);
 }
 
 

@@ -58,7 +58,7 @@ public:
      */
     ///@{
 public:
-    GlobalCfg theGlobalCfg;         ///< Global configuration data
+    globalCfg theGlobalCfg;         ///< Global configuration data
     OLEDMenu vMenu;                 ///< Menu to control the OLED display using quad encoder
     MIDImerger MidiMerg;            ///< Control both serial and USB MIDI outputs
 //private:
@@ -73,6 +73,15 @@ public:
     #endif
     SaveLoadClass FlashAcc; ///< Save/Load to EEPROM, SYSEX and OSC
     Bounce *pEncButt;       ///< Encoder Button handler
+
+    #ifdef USEOSC
+    OSCmerger OSCMerge;             ///< Control sending OSC through Serial USB and I2C outputs
+    SLIPEncodedUSBSerial *getSLIPSerial(void){ return OSCMerge.getSLIPSerial(); }
+    #endif
+    #ifdef USEI2C
+    I2Cmerger I2CMerge;             ///< Control I2C inputs / outputs
+    #endif
+
     ///@}
 
 public:
@@ -102,13 +111,7 @@ public:
     byte getPortSelected() { return byPortSelected; }
     ClickEncoder *getEncoder(void) { return pEncoder; }
     Bounce *getEncButton(void) { return pEncButt; }
-    #ifdef USEOSC
-    OSCmerger OSCMerge;             ///< Control sending OSC through Serial USB and I2C outputs
-    SLIPEncodedUSBSerial *getSLIPSerial(void){ return OSCMerge.getSLIPSerial(); }
-    //void sendOSC();
-    //void readOSC();
-    //void ProcessOscMsg(OSCMessage *pMsg);
-    #endif
+
     int16_t getInitMinDAC() { return theGlobalCfg.InitMinDAC; }     ///< Return the global config minimum DAC value
     int16_t getInitRangeDAC() { return theGlobalCfg.InitRangeDAC; } ///< Return the global config minimum DAC range
     int16_t getInitAuxAMinDAC() { return theGlobalCfg.AuxAMinDAC; }     ///< Return the global config minimum DAC value for Aux A
@@ -123,8 +126,9 @@ public:
             return disp;
         #endif
      }
-    InputPortCfg *GetPortConfig(void);
-    InputPort *GetPort(void);
+    InputPortCfg *GetPortConfig(int8_t Bank=-1, int8_t Port=-1);
+    InputPort *GetPort(int8_t Bank=-1, int8_t Port=-1);
+    InputControl *GetBank(int8_t Bank=-1);
 
     void ProcessSysExCommand(VCMCSysExPacket *SysExPacket); ///< Process Global SysEx commands
 

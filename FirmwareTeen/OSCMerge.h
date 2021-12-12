@@ -46,8 +46,6 @@ private:
     char charIn[260];
     bool OSCInput = true;
     bool OSCOutput = false;
-    bool I2cInput = true;
-    bool I2cOutput = true;
 
 public:
     SLIPEncodedUSBSerial SLIPSerial; ///< OSC Serial

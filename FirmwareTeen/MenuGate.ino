@@ -44,7 +44,7 @@
  *****************************/
 // Create Menu lists
 // Gate Function config.
-MenuItem DigFnList[] = {
+DEF_MENULIST (listButFn,  GATE FUNCTION , ListLines,
     {"<-BACK", gotoMenuDig, 1},
     {"NOTE GATE", SelectButTrig, 1}, // Revise for Gate behaviour
     {"NOTE LATCH", SelectButLatch, 1},
@@ -54,12 +54,10 @@ MenuItem DigFnList[] = {
     {"ST/SP", SelectGatSTSPFn, 1}, // Antes SelectButStartStop
     {"CHORD", SelectChordPreset, 0},
     {"PANIC", SelectGatePanic, 1},
-    {"NO FUNCTION", SelectNoDifFunc, 1},
-    {" GATE FUNCTION ", NULL, 1} // the algorithm
-};
-MenuList listButFn(DigFnList, 9, ListLines);
+    {"NO FUNCTION", SelectNoDifFunc, 1}
+)
 
-MenuItem STSPGatFnList[] = {
+DEF_MENULIST (listGatSTSPFn,  ST/SP MODE , ListLines,
     {"<-BACK", gotoMenuDig, 1},
     {"ST/SP GATE", SelectButStartStop, 1},
     {"ST/SP LATCH", SelectLatchStartStop, 1},
@@ -67,12 +65,11 @@ MenuItem STSPGatFnList[] = {
     {"CONT/SP LATCH", SelectLatchContStop, 1},
     {"START(ST)", SelectGateStart, 1},
     {"STOP(SP)", SelectGateStop, 1},
-    {"CONTINUE", SelectGateCont, 1},
-    {" ST/SP MODE ", NULL, 1}};
-MenuList listGatSTSPFn(STSPGatFnList, 8, ListLines);
+    {"CONTINUE", SelectGateCont, 1}
+)
 
 // GATE Menu. Poner el valor del CC#
-MenuItem GateList[13] = {
+DEF_MENULIST (listGate, GATE CONFIG, ListLines,
     {"<-BACK", gotoMenuBanks, 1},
     {"FUNCTION", SelectGateFn, 1},
     {"MIDI CH", SelectMIDIChan, 1},
@@ -82,9 +79,8 @@ MenuItem GateList[13] = {
     {"CLOCK DIV", SelectClockDiv, 0},        // Shown only when Clock
     {"CLOCK SHIFT", SelectClockShift, 0},    // Shown only when Clock
     {"CLOCK SET", SetClockMenu, 1},          // Shown only when Clock
-    {"PORT NAME", SelectNameMenu, 1},
-    {"GATE CONFIG", NULL, 1}};
-MenuList listGate(GateList, 10, ListLines);
+    {"PORT NAME", SelectNameMenu, 1}
+)
 
 // Gate Cfg Mode ??? Only needed if menu needed. Might add CC latch and CC Gate in main menu
 MenuItem SelectGateModeCfgList[4] = {
@@ -162,7 +158,7 @@ bool SelectClockDiv()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockDivider;
     bool ret = EncoderchangeValue("Clock Div:", val, 1, 255, 3, 0, 45);
-    theApp.theGlobalCfg.ClockDivider =
+    GlobalCfg.ClockDivider =
         ((DigPortCfg *)GetPortCfg())->ClockDivider = val;
     return ret;
 }
@@ -171,7 +167,7 @@ bool SelectClockShift()
 {
     long val = ((DigPortCfg *)GetPortCfg())->ClockShift;
     bool ret = EncoderchangeValue("Clock Shift:", val, -120, 120, 4, 0, 45);
-    theApp.theGlobalCfg.ClockShift =
+    GlobalCfg.ClockShift =
         ((DigPortCfg *)GetPortCfg())->ClockShift = val;
     return ret;
 }

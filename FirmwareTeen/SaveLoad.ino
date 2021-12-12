@@ -54,11 +54,11 @@ SaveLoadClass::SaveLoadClass () {
  */
 bool SaveLoadClass::SetCurrentPage (int page) {
     if (page < 0 || page > MAXSAVEPAGES - 1) return false;
-	theApp.theGlobalCfg.initPage = CurrentPage = page;
+	GlobalCfg.initPage = CurrentPage = page;
     // Save current config
     if (SaveCfg (page)) {
         //EEPROM.put (0, CurrentPage);
-		theApp.theGlobalCfg.SaveCfg();
+		GlobalCfg.SaveCfg();
         return true;
     }
 
@@ -74,7 +74,7 @@ bool SaveLoadClass::SetCurrentPage (int page) {
 bool SaveLoadClass::LoadInitialConfig(void) {
     DP("Load Initial config");
     CurrentPage = 0;
-    if(!theApp.theGlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
+    if(!GlobalCfg.LoadCfg()){ // Error loading config, save a new one and two standard pages
 		DP("Error loading. Saving std config");
         theApp.initControls();
         if( !SetCurrentPage(0)){
@@ -82,7 +82,7 @@ bool SaveLoadClass::LoadInitialConfig(void) {
         }
 		return false;
 		}
-	CurrentPage = theApp.theGlobalCfg.initPage;
+	CurrentPage = GlobalCfg.initPage;
 	return true;
 }
 
@@ -95,7 +95,7 @@ bool SaveLoadClass::LoadInitialConfig(void) {
 bool SaveLoadClass::LoadInitialPage (void) {
     byte initBank;
 
-	initBank = theApp.theGlobalCfg.initPage;
+	initBank = GlobalCfg.initPage;
     //EEPROM.get (0, initBank);
     if (initBank < 0 || initBank > MAXSAVEPAGES - 1){
 		return false;
@@ -153,7 +153,7 @@ bool SaveLoadClass::SaveCfg (int page) {
     #endif
 
 	CurrentPage= page;
-	theApp.theGlobalCfg.SetPage(page);
+	GlobalCfg.SetPage(page);
   
     return true;
 }
@@ -189,7 +189,7 @@ bool SaveLoadClass::LoadCfg (int page) {
         MemPointer += CVControls[i].LoadCfg (MemPointer);
     }
 	CurrentPage= page;
-	theApp.theGlobalCfg.SetPage(page);
+	GlobalCfg.SetPage(page);
 
 #ifdef DEBUGMODE
     char outBuf[80];

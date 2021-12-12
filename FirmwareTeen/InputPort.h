@@ -38,13 +38,15 @@
 
 /// Default analog input change threshold
 #define DEFTHERSHOLD 12
-
+class InputControl;
 
 //////////////////////////////
 // Input port management
 /// Base class for input ports (digital, analog,...)
 class InputPort {
+
     public:
+    InputControl *pParent= nullptr;
     byte PortNumber;                 ///< Pin for input
     InputPortCfg PortCfg;
     uint16_t PortValue;              ///< Last value read from port
@@ -84,7 +86,7 @@ class InputPort {
         debounceGate = true;
     }
     ///< Set Port. TBD in derived classes
-    bool SetPort (byte PortNumber) { return false; }
+    bool SetPort (byte PortNumber, InputControl *pP) { return false; }
     ///< Read port. TBD in derived classes
     bool ReadPort (long &NewData) { return false; }
     // void SendMIDI(int MidiData=-9999, bool GateStat=false)=0;// {}
@@ -116,7 +118,7 @@ class DigitalPort : public InputPort {
     void setBlink (unsigned long periodon, unsigned long periodoff, int times);
     DigitalPort () {
     }
-    bool SetPort (byte PortN, byte Ledp);
+    bool SetPort (byte PortN, byte Ledp, InputControl *pP);
     bool ReadPort (long &NewData);
     void SendMIDI (int MidiData = -9999, bool GateStat = false);
     ///< Return the member InputPortCfg::ClockDivider
@@ -130,6 +132,10 @@ class DigitalPort : public InputPort {
     int parseFunctionData(uint8_t *buf, int buLen);
     int fill(uint8_t type, uint8_t *buf, int buLen);
     int fillFunctionData(uint8_t *buf, int buLen);
+
+    #ifdef USEI2C
+    void SendI2C(int MidiData, bool GateStat); // Definition in I2CCommands.cpp
+    #endif
     
     virtual InputPortCfg *getCfg() { return &PortCfg; }
 };
@@ -160,7 +166,7 @@ class AnalogPort : public InputPort {
         #endif
         MIDIData = 0;
     }
-    bool SetPort (byte PortN);
+    bool SetPort (byte PortN, InputControl *pP);
     bool ReadPort (long &NewData);
     void SendMIDI (int MidiData = -9999, bool GateStat = false);
     int TrimValue (int DatatoTrim);
@@ -181,6 +187,10 @@ class AnalogPort : public InputPort {
     int fill(uint8_t type, uint8_t *buf, int buLen);
     int fillFunctionData(uint8_t *buf, int buLen);
 
+    #ifdef USEI2C
+    void SendI2C(int MidiData, bool GateStat); // Definition in I2CCommands.cpp
+    #endif
+
     virtual InputPortCfg *getCfg() { return &PortCfg; }
 };
 
@@ -194,7 +204,7 @@ class DemuxAnalogPort : public AnalogPort {
     uint8_t DemuxPort; ///<  3 bit value to select in Demux 4051 or similar*/
 
     DemuxAnalogPort () { DemuxPort = 0; }
-    bool SetPort (byte DemuxVal, byte PortN);
+    bool SetPort (byte DemuxVal, byte PortN, InputControl *pP);
     bool ReadPort (long &NewData);
     void SetDemux (void);
     ///< Call base AnalogPort::SendMIDI() function

@@ -80,6 +80,10 @@ void VCMCApp::setup(void)
     // Lod initial configutration from EEPROM
     FlashAccess->LoadInitialPage();
 
+    #ifdef USEI2C
+        I2CMerge.begin();
+    #endif
+
     // Init Menu
     gotoMenuSettings();
     theOLED->display();
@@ -148,6 +152,9 @@ void VCMCApp::initControls(void)
         CVControls[7].CVPort.PortCfg.Ranges.SetDAC(INITMINDAC, INITRANGEDAC);
         CVControls[7].CVPort.PortCfg.SetMIDIFunc(
             CVControls[7].CVPort.PortCfg.MIDIfunction); // Reset MIDI Function
+    #endif
+    #ifdef USEI2C
+    I2CMerge.InitDefControls();
     #endif
 }
 

@@ -134,6 +134,17 @@ bool CalibrateCV();
 bool AuxATwoPointsCal();
 bool AuxBTwoPointsCal();
 bool FadersCal();
+// Defined on MenuI2C
+bool selectGlobalI2CMenu(void);
+bool SwitchI2CGenMode(void);
+bool SwitchI2CMode(void);
+bool SelectI2CChan(void);
+bool selectI2CMenu(void);
+bool selectI2CDevice(void);
+bool selectI2COp(void);
+bool setI2CDevice(void);
+bool setI2COp(void);
+
 // Defined on setValues
 bool LoadPreset();
 // Defined on GrafUtil

@@ -59,8 +59,8 @@ uint8_t InputPortCfg::getName(char *name)
         if (textPort > 199)
         {
             uint8_t userindex = textPort - 200;
-            strcpy(name + pos, theApp.theGlobalCfg.UserNames[userindex]);
-            pos += strlen(theApp.theGlobalCfg.UserNames[userindex]);
+            strcpy(name + pos, GlobalCfg.UserNames[userindex]);
+            pos += strlen(GlobalCfg.UserNames[userindex]);
         }
         else
         {
@@ -335,9 +335,9 @@ void AnInputPortCfg::SetMIDIFunc(uint8_t Func)
 void DigPortCfg::SetMIDIFunc(uint8_t Func) { MIDIfunction = Func; }
 /*
 /// Return the global config minimum DAC value
-int16_t getInitMinDAC () { return theApp.theGlobalCfg.InitMinDAC; }
+int16_t getInitMinDAC () { return GlobalCfg.InitMinDAC; }
 /// Return the global config minimum DAC range
-int16_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
+int16_t getInitRangeDAC () { return GlobalCfg.InitRangeDAC; }
 */
 /**
  *  \brief Save Page  to EEPROM
@@ -346,7 +346,7 @@ int16_t getInitRangeDAC () { return theApp.theGlobalCfg.InitRangeDAC; }
  *
  *  \details 
  */
-int GlobalCfg::SetPage(int page)
+int globalCfg::SetPage(int page)
 {
     int MemPointer = 0; //addr;
     initPage = page;
@@ -368,7 +368,7 @@ int GlobalCfg::SetPage(int page)
  *
  *  \details Will save Global config
  */
-int GlobalCfg::SaveCfg(/*int addr*/)
+int globalCfg::SaveCfg(/*int addr*/)
 {
     int MemPointer = 0; //addr;
 
@@ -457,7 +457,7 @@ int GlobalCfg::SaveCfg(/*int addr*/)
  *
  *  \details Will load Global config
  */
-int GlobalCfg::LoadCfg(/*int addr*/)
+int globalCfg::LoadCfg(/*int addr*/)
 {
     int MemPointer = 0; //addr;
     uint16_t CfgDataCheck;

@@ -36,13 +36,13 @@
  */  
 
 
-void GlobalCfg::SaveCfgSysEx (uint8_t par)
+void globalCfg::SaveCfgSysEx (uint8_t par)
 {
     byte bType = (DUMPCHANNEL<<4);
     byte bSlot = 0; // No port (global config) 0= Dump full config
 
     //byte pSource[49];
-    uint16_t uLengthTotal = sizeof(GlobalCfg);
+    uint16_t uLengthTotal = sizeof(globalCfg);
     uint16_t uLengthUserNames = sizeof(UserNames);
     uint16_t uLengthSource = uLengthTotal-uLengthUserNames;
     if(uLengthSource>49)
@@ -70,7 +70,7 @@ void GlobalCfg::SaveCfgSysEx (uint8_t par)
     
 }
 
-bool GlobalCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen, uint8_t bPort)
+bool globalCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen, uint8_t bPort)
 {
     #ifdef PRINTDEBUG
     Serial.print("Received Global Config: ");
@@ -93,7 +93,7 @@ bool GlobalCfg::ReadCfgSysEx(byte* DecodedData,unsigned int  decLen, uint8_t bPo
             #endif
         }
     } else {
-        /* if( decLen!=sizeof(GlobalCfg))
+        /* if( decLen!=sizeof(globalCfg))
             return false; */
         memcpy(this, DecodedData, decLen);
     }

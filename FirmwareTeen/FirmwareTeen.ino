@@ -112,6 +112,9 @@ void loop () {
     #ifdef USEOSC
     theApp.OSCMerge.poll();
     #endif
+    #ifdef USEI2C
+    theApp.I2CMerge.poll();
+    #endif
 
     // Process event List
     for( NoteEvent*pEv= theApp.eventList.front(); pEv; ){

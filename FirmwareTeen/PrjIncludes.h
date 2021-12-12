@@ -76,7 +76,9 @@
 #define valueEncoder theApp.valueEnc
 #define EncButton theApp.getEncButton()
 #define durationButton myMenu.msDurationButton
+#define GlobalCfg theApp.theGlobalCfg
 #define GetPortCfg theApp.GetPortConfig
+#define BankCfg theApp.GetBank()->Config
 #define EncoderchangeValue myMenu.EncoderChangeLong
 #define EncChangeVal myMenu.EncoderChangeVal
 #define EncChangeValF myMenu.EncoderChangeValFloat
@@ -90,6 +92,16 @@
 #include "SLIPEncodedUSBSerial.h"
 #include <OSCMessage.h>
 #include "OSCMerge.h"
+#endif
+
+#ifdef USEI2C
+extern void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l);
+extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
+#include "src/i2c/ops/ops.h"
+#include "src/i2c/vcmcop.h"
+#include "src/i2c/I2CDevice.h"
+#include "src/i2c/I2CCore.h"
+#include "src/i2c/I2CMerge.h"
 #endif
 
 #include "MIDIChord.h"
@@ -107,7 +119,6 @@
 #include "VCMCApp.h"
 #include "MenuLists.h"
 #include "ParTypeMap.h"
-#include "I2CSendRec.h"
 #include "ParTypeMap.h"
 
 /** @} */

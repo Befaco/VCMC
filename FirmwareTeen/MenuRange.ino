@@ -36,7 +36,7 @@
  */
 
 // CV/Fader configuration menu. SOBRAN ULTIMAS OPCIONES??
-MenuItem AnagRangeList[] = {
+DEF_MENULIST (listAnagRange,   RANGES  , ListLines,
 	{"<-BACK", gotoMenuAnag, 1}, 
 	{"IN RANGE", InRange, 1}, 
 	{"OUT RANGE", SetRangeMenu, 1}, 
@@ -49,18 +49,16 @@ MenuItem AnagRangeList[] = {
 	{"Max. MIDI", SelectMax, 0}, 
 	{"DAC Range", SetRangeDAC, 0}, 
 	{"Min. DAC", SelectMinInput, 0}, 
-	{"Max. DAC", SelectMaxInput, 0}, 
-	{"  RANGES  ", NULL, 1}};
-MenuList listAnagRange(AnagRangeList, 13, ListLines);
+	{"Max. DAC", SelectMaxInput, 0}
+)
 
 // Input Range
-MenuItem InRangeList[] = {
+DEF_MENULIST (InRangeListMenu, INPUT RANGE, ListLines,
 	{"<-BACK", SelectAnagRange, 1}, 
 	{"0/+10V", SetRange10, 1}, 
 	{"0/+5V", SetRange5, 1}, 
-	{"-5/+5V", SetRangeBipolar, 1}, 
-	{"INPUT RANGE", NULL, 1}};
-MenuList InRangeListMenu(InRangeList, 4, ListLines);
+	{"-5/+5V", SetRangeBipolar, 1}
+)
 
 /*****************************
  ******************************

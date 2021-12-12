@@ -88,6 +88,9 @@ class InputControl {
     bool hasPort(InputPort *checkthis){
       return (checkthis==&CVPort)||(checkthis==&Slider)||(checkthis==&GateBut);
     }
+
+    void sendNoteOn(byte Note, byte Veloc, byte Chann); // Definition in I2CCommands.cpp
+    void sendNoteOff(byte Note, byte Veloc, byte Chann); // Definition in I2CCommands.cpp
 };
 
 /**@}*/

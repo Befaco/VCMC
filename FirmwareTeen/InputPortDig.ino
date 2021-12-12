@@ -36,8 +36,9 @@
  */
 
 
-bool DigitalPort::SetPort (byte PortN, byte Ledp) {
+bool DigitalPort::SetPort (byte PortN, byte Ledp, InputControl *pP) {
     // if( PortN < 0 || PortN > 32) return false;
+    pParent = pP;
 
     PortNumber = PortN;
     GateStatus = false;
@@ -183,6 +184,9 @@ void DigitalPort::SendMIDI (int MidiData, bool GateStat) {
             DP("Solo mode: Solo Digital Port selected");
     }
 
+    #ifdef USEI2C
+    if( pParent->Config.UseMIDII2C) SendI2C(MidiData, GateStat) ;
+    #endif
 
     switch (PortCfg.MIDIfunction) {
     case TRIGGER:

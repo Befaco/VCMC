@@ -167,7 +167,7 @@ uint8_t OLEDMenu::FillUserNameMenuList(bool fillEmpty)
     // Create User names Menu list items
     for (int i = 0; i < NUMUSERNAMES; i++)
     {
-        char *str = theApp.theGlobalCfg.UserNames[i];
+        char *str = GlobalCfg.UserNames[i];
         if(str[0]==0){
             if(!fillEmpty) continue;
             strncpy(CurrentMenuItems[posMenu].text, "<empty", SIZEPORTNAMES);
