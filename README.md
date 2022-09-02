@@ -1,4 +1,4 @@
-# VCMC v1.4 / CV Thing v1.4
+# VCMC v1.4.1 / CV Thing v1.4.1
 
 This code is made for Befaco's VCMC module. A voltage controlled MIDI controller.
 Find further information [here](https://www.befaco.org/vcmc-2/)
@@ -10,6 +10,11 @@ If you are updating version, it´s **MANDATORY**  to do a Factory callibration (
 
 
 ## Changelog/ Bug Fixes:
+
+### v1.4.1
+- Velocity selectable per note.
+- Several minor bug fixes
+KNOWN ISSUE: Solo mode not working.
 
 ### v1.4
 - Added Strum mode to Chords.
